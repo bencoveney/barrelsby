@@ -1,0 +1,24 @@
+{
+  "name": "barrelsby",
+  "version": "0.0.1",
+  "description": "Automatic TypeScript barrels for your entire code base",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bencoveney/barrelsby.git"
+  },
+  "keywords": [
+    "TypeScript",
+    "Barrel",
+    "Barrelsby"
+  ],
+  "author": "Ben Coveney",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bencoveney/barrelsby/issues"
+  },
+  "homepage": "https://github.com/bencoveney/barrelsby#readme"
+}
