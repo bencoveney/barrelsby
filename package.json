@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/bencoveney/barrelsby/issues"
   },
-  "homepage": "https://github.com/bencoveney/barrelsby#readme"
+  "homepage": "https://github.com/bencoveney/barrelsby#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.5",
+    "typescript": "^2.1.6"
+  },
+  "bin": {
+    "barrelsby": "bin/index.js"
+  }
 }

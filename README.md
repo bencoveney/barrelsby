@@ -12,3 +12,6 @@ Automatic TypeScript barrels for your entire code base
 * Barrel nesting options
   * Nested modules
   * Flattened modules
+* Delete any existing indexes
+* Name of barrel files
+* Path seperator
