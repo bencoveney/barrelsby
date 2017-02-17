@@ -6,17 +6,28 @@ import * as path from "path";
 import * as Yargs from "yargs";
 
 var argv = Yargs
-	.usage("Usage: barrelsby <command> [options]")
-	.command("count", "Count the lines in a file")
+	.usage("Usage: barrelsby [options]")
 	.example("barrelsby", "Run barrelsby")
+
+	.string("d")
 	.alias("d", "directory")
 	.nargs("d", 1)
 	.describe("d", "The directory to create barrels for.")
 	.default("d", "./")
+
+	.boolean("D")
+	.alias("D", "delete")
+	.describe("D", "Delete existing index files.")
+	.default("D", false)
+
 	.help("h")
 	.alias("h", "help")
+	.default("h", false)
+
 	.version()
 	.alias("v", "version")
+	.default("v", false)
+
 	.argv;
 
 const rootPath = path.resolve(argv.directory);
@@ -30,7 +41,7 @@ interface Directory extends Location {
 	files: Location[]
 };
 
-function processDirectory(directory: string): Directory {
+function buildTree(directory: string): Directory {
 	const names = fs.readdirSync(directory);
 	const result: Directory = {
 		path: directory,
@@ -41,7 +52,7 @@ function processDirectory(directory: string): Directory {
 	names.forEach((name: string) => {
 		const fullPath = path.join(directory, name);
 		if (fs.statSync(fullPath).isDirectory()) {
-			result.directories.push(processDirectory(fullPath));
+			result.directories.push(buildTree(fullPath));
 		} else {
 			result.files.push({
 				path: directory,
@@ -60,11 +71,21 @@ function walkTree(fileTree: Directory, callback: (fileTree: Directory) => void) 
 	}
 }
 
-function isTypeScriptFile(file: string) {
-	return ;
+const rootTree = buildTree(rootPath);
+
+if (argv.D) {
+	walkTree(rootTree, (fileTree: Directory) => {
+		fileTree.files
+			.filter((file: Location) => {
+				return file.name === "index.ts";
+			})
+			.forEach((file: Location) => {
+				fs.unlinkSync(path.resolve(file.path, file.name))
+			});
+	});
 }
 
-function getTypeScriptFiles(fileTree: Directory, localOnly: boolean = false) {
+function getModules(fileTree: Directory, localOnly: boolean = false) {
 	let files: Location[];
 	if (localOnly) {
 		files = fileTree.files;
@@ -74,13 +95,13 @@ function getTypeScriptFiles(fileTree: Directory, localOnly: boolean = false) {
 			files = files.concat(currentLocation.files);
 		});
 	}
-	return files.filter((file: Location) => file.name.match(/\.ts$/m));
+	return files.filter((file: Location) => file.name.match(/\.ts$/m) && file.name !== "index.ts");
 }
 
 function buildBarrel(fileTree: Directory) {
 	fs.writeFileSync(
 		path.resolve(fileTree.path, "index.ts"),
-		getTypeScriptFiles(fileTree).reduce(
+		getModules(fileTree).reduce(
 			(previous: string, current: Location) => {
 				const relativePath = path.relative(fileTree.path, current.path)
 				let location = `.${path.sep}${relativePath}`;
@@ -97,4 +118,4 @@ function buildBarrel(fileTree: Directory) {
 	);
 }
 
-buildBarrel(processDirectory(rootPath));
+buildBarrel(rootTree);

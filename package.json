@@ -4,7 +4,8 @@
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
-    "test": "node index"
+    "build": "tsc",
+    "test": "npm run build && barrelsby -d test"
   },
   "repository": {
     "type": "git",
@@ -13,6 +14,7 @@
   "keywords": [
     "TypeScript",
     "Barrel",
+    "Module",
     "Barrelsby"
   ],
   "author": "Ben Coveney",
