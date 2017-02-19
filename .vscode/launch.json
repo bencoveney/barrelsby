@@ -9,6 +9,12 @@
 			"request": "launch",
 			"name": "Launch Program",
 			"program": "${workspaceRoot}\\bin\\index.js",
+			"args": [
+				"-d",
+				"test",
+				"-m",
+				"all"
+			],
 			"cwd": "${workspaceRoot}",
 			"outFiles": []
 		},
