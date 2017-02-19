@@ -1,4 +1,4 @@
-![Barrelsby Logo](https://raw.githubusercontent.com/bencoveney/barrelsby/master/img/logo.png)
+![Barrelsby Logo](https://github.com/bencoveney/barrelsby/blob/master/img/logo.png?raw=true)
 
 # Barrelsby
 
