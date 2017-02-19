@@ -17,7 +17,11 @@
     "Module",
     "Barrelsby"
   ],
-  "author": "Ben Coveney",
+  "author": {
+    "name": "Ben Coveney",
+    "email": "bencoveney@gmail.com",
+    "url": "https://github.com/bencoveney"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bencoveney/barrelsby/issues"
@@ -27,7 +31,21 @@
     "@types/node": "^7.0.5",
     "typescript": "^2.1.6"
   },
+  "files": ["bin/index.js"],
   "bin": {
     "barrelsby": "bin/index.js"
-  }
+  },
+  "engine": {
+    "node": ">=0.10"
+  },
+  "dependencies": {
+    "yargs": "^6.6.0"
+  },
+  "contributors": [
+    {
+      "name": "Ben Coveney",
+      "email": "bencoveney@gmail.com",
+      "url": "https://github.com/bencoveney"
+    }
+  ]
 }
