@@ -63,6 +63,14 @@ Create a barrel in any directory that contains other directories:
 
 `barrelsby --mode branch`
 
+### Name
+
+Create barrel files with a specified name (e.g. `barrel.ts`):
+
+`barrelsby -n barrel`
+
+`barrelsby --name barrel`
+
 ### Version
 
 Display the barrelsby version number:
@@ -83,10 +91,7 @@ Display additional debug information:
 * Barrel nesting options
   * Nested modules
   * Flattened modules
-* Delete any existing indexes
-* Name of barrel files
-  * Any name
-  * Match directory name
+* Barrel names match directory names
 * Path seperator
 * Exclude regex
   * Modules

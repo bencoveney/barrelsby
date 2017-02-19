@@ -26,6 +26,11 @@ var argv = Yargs
 	.choices("m", ["top", "below", "all", "replace", "branch"])
 	.default("m", "top")
 
+	.string("n")
+	.alias("n", "name")
+	.describe("n", "The name to give barrel files")
+	.default("n", "index")
+
 	.help("h")
 	.alias("h", "help")
 	.default("h", false)
@@ -41,9 +46,14 @@ var argv = Yargs
 
 	.argv;
 
-const indexName: string = "index.ts";
 const rootPath: string = path.resolve(argv.directory);
 const logger: (message: string) => void = argv.verbose ? console.log : (message: string) => {};
+const isTypeScriptFile = /\.ts$/m;
+
+// Resolve index name.
+const nameArgument: string = argv.name;
+const indexName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
+logger(`Using name ${indexName}`);
 
 /** A location in the file tree. */
 interface Location {
@@ -176,7 +186,7 @@ function getModules(directory: Directory): Location[] {
 		files.push(...getModules(directory));
 	});
 	// Only return files that look like TypeScript modules.
-	return files.filter((file: Location) => file.name.match(/\.ts$/m));
+	return files.filter((file: Location) => file.name.match(isTypeScriptFile));
 }
 
 // Build a barrel for the specified directory.
