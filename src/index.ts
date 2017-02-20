@@ -24,11 +24,11 @@ var argv = Yargs
 	.describe("D", "Delete existing index files.")
 	.default("D", false)
 
-	.string("m")
-	.alias("m", "mode")
-	.describe("m", "The mode for creation of index files")
-	.choices("m", ["top", "below", "all", "replace", "branch"])
-	.default("m", "top")
+	.string("l")
+	.alias("l", "location")
+	.describe("l", "The mode for picking barrel file locations")
+	.choices("l", ["top", "below", "all", "replace", "branch"])
+	.default("l", "top")
 
 	.string("n")
 	.alias("n", "name")
@@ -119,7 +119,7 @@ const rootTree = buildTree(rootPath);
 
 // Work out which directories should have index files.
 let destinations: Directory[];
-switch(argv.mode) {
+switch(argv.location) {
 	case "top":
 	default:
 		destinations = [rootTree];

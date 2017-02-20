@@ -51,42 +51,45 @@ import * as Controls from "./src/controls/index";
 Barrelsby accepts a number of options to help refine how your barrels are created. These options
 can be configured from the command line or using a configuration file.
 
-### Config: `-c` or `--config`
+### `-c [path]` or `--config [path]`
 
 Specifies the location of the barrelsby configuration file. This file must be a `.json` file. You
 can include any of the configuration options using their long name.
 
-### Directory: `-d` or `--directory`
+### `-d [path]` or `--directory [path]`
 
-Specifies the root directory where barrels will be created from.
+Specifies the root directory where barrels will be created from. Uses the current directory by
+default.
 
-### Delete: `-D` or `--delete`
+### `-D` or `--delete`
 
-Delete any existing barrels encountered by barrelsby.
+Deletes any existing barrels encountered by barrelsby. Disabled by default.
 
-### Help: `-H` or `--help`
+### `-H` or `--help`
 
 Displays help information on the command line arguments that barrelsby accepts.
 
-### Mode: `-m` or `--mode`
+### `-l [mode]` or `--location [mode]`
 
-The location of created barrels is dictated by the "mode" barrelsby is run in:
+The mode that barrelsby should use to determine where which directories to create barrels in.
+Defaulted to *top*.
+
 - `top` only creates a barrel in the target directory.
 - `below` creates a barrel in every directory just below the target directory.
 - `all` creates a barrel in every directory below (and including) the target directory.
 - `replace` only creates barrels in directories where one already existed.
 - `branch` creates a barrel in every directory that contains other directories.
 
-### Name: `-n` or `--name`
+### `-n [name]` or `--name [name]`
 
 Specifies the name to use for creating new barrels (and identifying old ones). `.ts` wil be
-appended if not included in the name. Barrels will be named `index.ts` if not specified.
+appended if not included in the name. Barrels names will be defaulted to `index.ts`.
 
-### Version: `-v` or `--version`
+### `-v` or `--version`
 
 Display the barrelsby version number.
 
-### Verbose: `-V` or `--verbose`
+### `-V` or `--verbose`
 
 Display additional debug information.
 

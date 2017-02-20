@@ -1,6 +1,6 @@
 {
 	"directory": "test",
 	"delete": true,
-	"mode": "all",
+	"location": "all",
 	"name": "barrel"
 }
