@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && barrelsby -d test -m top -DV -n index"
+    "test": "npm run build && barrelsby -c barrelsby.json"
   },
   "repository": {
     "type": "git",

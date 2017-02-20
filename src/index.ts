@@ -9,6 +9,10 @@ var argv = Yargs
 	.usage("Usage: barrelsby [options]")
 	.example("barrelsby", "Run barrelsby")
 
+	.config("c")
+	.alias("c", "config")
+	.describe("c", "The location of the config file.")
+
 	.string("d")
 	.alias("d", "directory")
 	.nargs("d", 1)
@@ -66,12 +70,12 @@ interface Location {
 /** A directory in the file tree. */
 interface Directory extends Location {
 	/** The directories within the directory. */
-	directories: Directory[],
+	directories: Directory[];
 	/** The files within the directory. */
-	files: Location[]
+	files: Location[];
 	/** The index within the directory if one exists. */
 	index?: Location;
-};
+}
 
 /** Build directory information recursively. */
 function buildTree(directory: string): Directory {

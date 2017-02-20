@@ -46,91 +46,49 @@ import * as Controls from "./src/controls/index";
 * [Angular Glossary](https://angular.io/docs/ts/latest/glossary.html#!#B)
 * [TattooCoder Blog](http://tattoocoder.com/angular2-barrels/)
 
-## CLI Usage
+## Usage
 
-Run Barrelsby with default settings in the current directory:
+Barrelsby accepts a number of options to help refine how your barrels are created. These options
+can be configured from the command line or using a configuration file.
 
-`barrelsby`
+### Config: `-c` or `--config`
 
-### Directory
+Specifies the location of the barrelsby configuration file. This file must be a `.json` file. You
+can include any of the configuration options using their long name.
 
-Run barrelsby against the `src` directory:
+### Directory: `-d` or `--directory`
 
-`barrelsby -d src`
+Specifies the root directory where barrels will be created from.
 
-`barrelsby --directory src`
+### Delete: `-D` or `--delete`
 
-### Delete
+Delete any existing barrels encountered by barrelsby.
 
-Delete any existing barrels found while running barrelsby:
+### Help: `-H` or `--help`
 
-`barrelsby -D`
+Displays help information on the command line arguments that barrelsby accepts.
 
-`barrelsby --delete`
+### Mode: `-m` or `--mode`
 
-### Help
+The location of created barrels is dictated by the "mode" barrelsby is run in:
+- `top` only creates a barrel in the target directory.
+- `below` creates a barrel in every directory just below the target directory.
+- `all` creates a barrel in every directory below (and including) the target directory.
+- `replace` only creates barrels in directories where one already existed.
+- `branch` creates a barrel in every directory that contains other directories.
 
-Display help:
+### Name: `-n` or `--name`
 
-`barrelsby -h`
+Specifies the name to use for creating new barrels (and identifying old ones). `.ts` wil be
+appended if not included in the name. Barrels will be named `index.ts` if not specified.
 
-`barrelsby --help`
+### Version: `-v` or `--version`
 
-### Mode
+Display the barrelsby version number.
 
-Create a barrel in the top directory:
+### Verbose: `-V` or `--verbose`
 
-`barrelsby -m top`
-
-`barrelsby --mode top`
-
-Create a barrel in each directory below the top directory:
-
-`barrelsby -m below`
-
-`barrelsby --mode below`
-
-Create a barrel every directory:
-
-`barrelsby -m all`
-
-`barrelsby --mode all`
-
-Replace the content of existing barrels:
-
-`barrelsby -m replace`
-
-`barrelsby --mode replace`
-
-Create a barrel in any directory that contains other directories:
-
-`barrelsby -m branch`
-
-`barrelsby --mode branch`
-
-### Name
-
-Create barrel files with a specified name (e.g. `barrel.ts`):
-
-`barrelsby -n barrel`
-
-`barrelsby --name barrel`
-
-### Version
-
-Display the barrelsby version number:
-
-`barrelsby -v`
-
-`barrelsby --version`
-
-### Verbose
-
-Display additional debug information:
-
-`barrelsby -V`
-
-`barrelsby --verbose`
+Display additional debug information.
 
 ## TODO
 * Barrel nesting options
@@ -141,4 +99,3 @@ Display additional debug information:
 * Exclude regex
   * Modules
   * Directories
-* Config file

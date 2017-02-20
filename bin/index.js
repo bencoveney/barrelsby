@@ -6,6 +6,9 @@ var Yargs = require("yargs");
 var argv = Yargs
     .usage("Usage: barrelsby [options]")
     .example("barrelsby", "Run barrelsby")
+    .config("c")
+    .alias("c", "config")
+    .describe("c", "The location of the config file.")
     .string("d")
     .alias("d", "directory")
     .nargs("d", 1)
@@ -42,7 +45,6 @@ var isTypeScriptFile = /\.ts$/m;
 var nameArgument = argv.name;
 var indexName = nameArgument.match(isTypeScriptFile) ? nameArgument : nameArgument + ".ts";
 logger("Using name " + indexName);
-;
 /** Build directory information recursively. */
 function buildTree(directory) {
     logger("Building directory tree for " + directory);
