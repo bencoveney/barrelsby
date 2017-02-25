@@ -106,3 +106,4 @@ Display additional debug information.
   * Modules
   * Directories
 * Path seperator for inside barrels?
+*Watch mode
