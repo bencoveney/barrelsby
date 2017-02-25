@@ -18,18 +18,23 @@ var argv = Yargs
     .alias("D", "delete")
     .describe("D", "Delete existing index files.")
     .default("D", false)
-    .string("m")
-    .alias("m", "mode")
-    .describe("m", "The mode for creation of index files")
-    .choices("m", ["top", "below", "all", "replace", "branch"])
-    .default("m", "top")
+    .help("h")
+    .alias("h", "help")
+    .default("h", false)
+    .string("l")
+    .alias("l", "location")
+    .describe("l", "The mode for picking barrel file locations")
+    .choices("l", ["top", "below", "all", "replace", "branch"])
+    .default("l", "top")
     .string("n")
     .alias("n", "name")
     .describe("n", "The name to give barrel files")
     .default("n", "index")
-    .help("h")
-    .alias("h", "help")
-    .default("h", false)
+    .string("s")
+    .alias("s", "structure")
+    .describe("s", "The mode for structuring barrel file exports")
+    .choices("s", ["flat", "filesystem"])
+    .default("s", "flat")
     .version()
     .alias("v", "version")
     .default("v", false)
@@ -41,6 +46,8 @@ var argv = Yargs
 var rootPath = path.resolve(argv.directory);
 var logger = argv.verbose ? console.log : function (message) { };
 var isTypeScriptFile = /\.ts$/m;
+var nonAlphaNumeric = /\W+/g;
+var indentation = "  ";
 // Resolve index name.
 var nameArgument = argv.name;
 var indexName = nameArgument.match(isTypeScriptFile) ? nameArgument : nameArgument + ".ts";
@@ -86,7 +93,7 @@ function walkTree(directory, callback) {
 var rootTree = buildTree(rootPath);
 // Work out which directories should have index files.
 var destinations;
-switch (argv.mode) {
+switch (argv.location) {
     case "top":
     default:
         destinations = [rootTree];
@@ -155,25 +162,96 @@ function getModules(directory) {
     // Only return files that look like TypeScript modules.
     return files.filter(function (file) { return file.name.match(isTypeScriptFile); });
 }
+function buildImportPath(directory, target) {
+    // Get the route from the current directory to the module.
+    var relativePath = path.relative(directory.path, target.path);
+    // Get the route and ensure it's relative
+    var directoryPath = path.dirname(relativePath);
+    if (directoryPath !== ".") {
+        directoryPath = "." + path.sep + directoryPath;
+    }
+    // Strip off the .ts from the file name.
+    var fileName = path.basename(relativePath, ".ts");
+    // Build the final path string. Use posix-style seperators.
+    var location = "" + directoryPath + path.sep + fileName;
+    return location.replace(/\\+/g, "/");
+}
+function buildFlatBarrel(directory, modules) {
+    return modules.reduce(function (previous, current) {
+        var importPath = buildImportPath(directory, current);
+        logger("Including path " + importPath);
+        return previous += "export * from \"" + importPath + "\";\n";
+    }, "");
+}
+function buildStructureSubsection(structure, pathParts, name, reference) {
+    var pathPart = pathParts.shift();
+    var subsection = pathPart == "." ? structure : structure[pathPart];
+    if (!subsection) {
+        subsection = {};
+        structure[pathPart] = subsection;
+    }
+    if (pathParts.length === 0) {
+        subsection[name] = reference;
+    }
+    else {
+        buildStructureSubsection(subsection, pathParts, name, reference);
+    }
+}
+function stringify(structure, previousIndentation) {
+    var nextIndentation = previousIndentation + indentation;
+    var content = "";
+    for (var _i = 0, _a = Object.keys(structure).sort(); _i < _a.length; _i++) {
+        var key = _a[_i];
+        content += "\n" + nextIndentation + "\"" + key + "\": ";
+        var exported = structure[key];
+        if (typeof exported === "string") {
+            content += exported;
+        }
+        else {
+            content += stringify(exported, nextIndentation);
+        }
+        content += ",";
+    }
+    return "{" + content + "\n" + previousIndentation + "}";
+}
+function buildFileSystemBarrel(directory, modules) {
+    var structure = {};
+    var content = "";
+    modules.forEach(function (module) {
+        var relativePath = path.relative(directory.path, module.path);
+        var directoryPath = path.dirname(relativePath);
+        var parts = directoryPath.split(path.sep);
+        var alias = relativePath.replace(nonAlphaNumeric, "");
+        var importPath = buildImportPath(directory, module);
+        content += "import * as " + alias + " from \"" + importPath + "\";\n";
+        var fileName = path.basename(module.name, ".ts");
+        buildStructureSubsection(structure, parts, fileName, alias);
+    });
+    for (var _i = 0, _a = Object.keys(structure).sort(); _i < _a.length; _i++) {
+        var key = _a[_i];
+        var exported = structure[key];
+        if (typeof exported === "string") {
+            content += "export {" + exported + " as " + key + "};\n";
+        }
+        else {
+            content += "export const " + key + " = " + stringify(exported, "") + ";\n";
+        }
+    }
+    return content;
+}
+var barrelBuilder;
+switch (argv.structure) {
+    case "flat":
+        barrelBuilder = buildFlatBarrel;
+        break;
+    case "filesystem":
+        barrelBuilder = buildFileSystemBarrel;
+        break;
+}
 // Build a barrel for the specified directory.
 function buildBarrel(directory) {
     logger("Building barrel @ " + directory.path);
-    var barrelContent = getModules(directory).reduce(function (previous, current) {
-        // Get the route from the current directory to the module.
-        var relativePath = path.relative(directory.path, current.path);
-        // Get the route and ensure it's relative
-        var directoryPath = path.dirname(relativePath);
-        if (directoryPath !== ".") {
-            directoryPath = "." + path.sep + directoryPath;
-        }
-        // Strip off the .ts from the file name.
-        var fileName = path.basename(relativePath, ".ts");
-        // Build the final path string. Use posix-style seperators.
-        var location = "" + directoryPath + path.sep + fileName;
-        location = location.replace(/\\+/g, "/");
-        logger("Including path " + location);
-        return previous += "export * from \"" + location + "\";\n";
-    }, "");
+    var barrelContent = barrelBuilder(directory, getModules(directory));
     var indexPath = path.resolve(directory.path, indexName);
     fs.writeFileSync(indexPath, barrelContent);
     // Update the file tree model with the new index.

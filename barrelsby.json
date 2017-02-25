@@ -1,6 +1,7 @@
 {
 	"directory": "test",
 	"delete": true,
-	"location": "all",
-	"name": "barrel"
+	"location": "top",
+	"name": "barrel",
+	"structure": "filesystem"
 }

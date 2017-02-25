@@ -2,7 +2,6 @@
 
 import * as fs from "fs";
 import * as path from "path";
-
 import * as Yargs from "yargs";
 
 var argv = Yargs
@@ -24,6 +23,10 @@ var argv = Yargs
 	.describe("D", "Delete existing index files.")
 	.default("D", false)
 
+	.help("h")
+	.alias("h", "help")
+	.default("h", false)
+
 	.string("l")
 	.alias("l", "location")
 	.describe("l", "The mode for picking barrel file locations")
@@ -35,9 +38,11 @@ var argv = Yargs
 	.describe("n", "The name to give barrel files")
 	.default("n", "index")
 
-	.help("h")
-	.alias("h", "help")
-	.default("h", false)
+	.string("s")
+	.alias("s", "structure")
+	.describe("s", "The mode for structuring barrel file exports")
+	.choices("s", ["flat", "filesystem"])
+	.default("s", "flat")
 
 	.version()
 	.alias("v", "version")
@@ -53,6 +58,8 @@ var argv = Yargs
 const rootPath: string = path.resolve(argv.directory);
 const logger: (message: string) => void = argv.verbose ? console.log : (message: string) => {};
 const isTypeScriptFile = /\.ts$/m;
+const nonAlphaNumeric = /\W+/g;
+const indentation = "  ";
 
 // Resolve index name.
 const nameArgument: string = argv.name;
@@ -193,29 +200,110 @@ function getModules(directory: Directory): Location[] {
 	return files.filter((file: Location) => file.name.match(isTypeScriptFile));
 }
 
-// Build a barrel for the specified directory.
-function buildBarrel(directory: Directory) {
-	logger(`Building barrel @ ${directory.path}`);
-	const barrelContent = getModules(directory).reduce(
+function buildImportPath(directory: Directory, target: Location): string {
+	// Get the route from the current directory to the module.
+	const relativePath = path.relative(directory.path, target.path);
+	// Get the route and ensure it's relative
+	let directoryPath = path.dirname(relativePath);
+	if (directoryPath !== ".") {
+		directoryPath = `.${path.sep}${directoryPath}`;
+	}
+	// Strip off the .ts from the file name.
+	const fileName = path.basename(relativePath,".ts");
+	// Build the final path string. Use posix-style seperators.
+	let location = `${directoryPath}${path.sep}${fileName}`;
+	return location.replace(/\\+/g, "/");
+}
+
+function buildFlatBarrel(directory: Directory, modules: Location[]): string {
+	return modules.reduce(
 		(previous: string, current: Location) => {
-			// Get the route from the current directory to the module.
-			const relativePath = path.relative(directory.path, current.path);
-			// Get the route and ensure it's relative
-			let directoryPath = path.dirname(relativePath);
-			if (directoryPath !== ".") {
-				directoryPath = `.${path.sep}${directoryPath}`;
-			}
-			// Strip off the .ts from the file name.
-			const fileName = path.basename(relativePath,".ts");
-			// Build the final path string. Use posix-style seperators.
-			let location = `${directoryPath}${path.sep}${fileName}`;
-			location = location.replace(/\\+/g, "/");
-			logger(`Including path ${location}`);
-			return previous += `export * from "${location}";
+			const importPath = buildImportPath(directory, current);
+			logger(`Including path ${importPath}`);
+			return previous += `export * from "${importPath}";
 `;
 		},
 		""
 	);
+}
+
+type ExportStructure = {
+	[directoryName: string]: ExportStructure | string;
+};
+
+function buildStructureSubsection(structure: ExportStructure, pathParts: string[], name: string, reference: string) {
+	const pathPart = pathParts.shift();
+	let subsection: ExportStructure = pathPart == "." ? structure : structure[pathPart] as ExportStructure;
+	if (!subsection) {
+		subsection = {};
+		structure[pathPart] = subsection;
+	}
+	if (pathParts.length === 0) {
+		subsection[name] = reference;
+	} else {
+		buildStructureSubsection(subsection, pathParts, name, reference)
+	}
+}
+
+function stringify(structure: ExportStructure, previousIndentation: string): string {
+	let nextIndentation = previousIndentation + indentation;
+	let content = "";
+	for (const key of Object.keys(structure).sort()) {
+		content += `
+${nextIndentation}"${key}": `
+		const exported = structure[key];
+		if (typeof exported === "string") {
+			content += exported;
+		} else {
+			content += stringify(exported, nextIndentation);
+		}
+		content += ",";
+	}
+	return `{${content}
+${previousIndentation}}`;
+}
+
+function buildFileSystemBarrel(directory: Directory, modules: Location[]): string {
+	const structure: ExportStructure = {};
+	let content = "";
+	modules.forEach((module: Location) => {
+		const relativePath = path.relative(directory.path, module.path);
+		const directoryPath = path.dirname(relativePath);
+		const parts = directoryPath.split(path.sep);
+		const alias = relativePath.replace(nonAlphaNumeric, "");
+		const importPath = buildImportPath(directory, module);
+		content += `import * as ${alias} from "${importPath}";
+`;
+		const fileName = path.basename(module.name,".ts");
+		buildStructureSubsection(structure, parts, fileName, alias);
+	});
+	for (const key of Object.keys(structure).sort()) {
+		const exported = structure[key];
+		if (typeof exported === "string") {
+			content += `export {${exported} as ${key}};
+`;
+		} else {
+			content += `export const ${key} = ${stringify(exported, "")};
+`;
+		}
+	}
+	return content;
+}
+
+let barrelBuilder: (directory: Directory, modules: Location[]) => string;
+switch (argv.structure) {
+	case "flat":
+		barrelBuilder = buildFlatBarrel;
+		break;
+	case "filesystem":
+		barrelBuilder = buildFileSystemBarrel;
+		break;
+}
+
+// Build a barrel for the specified directory.
+function buildBarrel(directory: Directory) {
+	logger(`Building barrel @ ${directory.path}`);
+	const barrelContent = barrelBuilder(directory, getModules(directory));
 	const indexPath = path.resolve(directory.path, indexName)
 	fs.writeFileSync(indexPath, barrelContent);
 	// Update the file tree model with the new index.

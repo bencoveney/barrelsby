@@ -85,6 +85,13 @@ Defaulted to *top*.
 Specifies the name to use for creating new barrels (and identifying old ones). `.ts` wil be
 appended if not included in the name. Barrels names will be defaulted to `index.ts`.
 
+### `-s [mode]` or `--structure [mode]`
+
+The structure that barrelsby should create inside the barrels. Defaulted to *flat*.
+
+- `flat` exports modules without any nesting.
+- `filesystem` exports modules as a nested structure that matches the filesystem directories.
+
 ### `-v` or `--version`
 
 Display the barrelsby version number.
@@ -94,11 +101,8 @@ Display the barrelsby version number.
 Display additional debug information.
 
 ## TODO
-* Barrel nesting options
-  * Nested modules
-  * Flattened modules
 * Barrel names match directory names
-* Path seperator
 * Exclude regex
   * Modules
   * Directories
+* Path seperator for inside barrels?
