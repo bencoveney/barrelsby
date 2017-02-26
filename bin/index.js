@@ -43,8 +43,9 @@ var argv = Yargs
     .describe("V", "Display additional logging information")
     .default("D", false)
     .argv;
-var rootPath = path.resolve(argv.directory);
+// tslint:disable-next-line:no-empty
 var logger = argv.verbose ? console.log : function (message) { };
+var rootPath = path.resolve(argv.directory);
 var isTypeScriptFile = /\.ts$/m;
 var nonAlphaNumeric = /\W+/g;
 var indentation = "  ";
@@ -57,10 +58,10 @@ function buildTree(directory) {
     logger("Building directory tree for " + directory);
     var names = fs.readdirSync(directory);
     var result = {
-        path: directory,
-        name: path.basename(directory),
         directories: [],
-        files: []
+        files: [],
+        name: path.basename(directory),
+        path: directory,
     };
     names.forEach(function (name) {
         var fullPath = path.join(directory, name);
@@ -69,8 +70,8 @@ function buildTree(directory) {
         }
         else {
             var file = {
+                name: name,
                 path: fullPath,
-                name: name
             };
             result.files.push(file);
             if (file.name === indexName) {
@@ -155,9 +156,9 @@ function getModules(directory) {
         return [directory.index];
     }
     var files = [].concat(directory.files);
-    directory.directories.forEach(function (directory) {
+    directory.directories.forEach(function (childDirectory) {
         // Recurse.
-        files.push.apply(files, getModules(directory));
+        files.push.apply(files, getModules(childDirectory));
     });
     // Only return files that look like TypeScript modules.
     return files.filter(function (file) { return file.name.match(isTypeScriptFile); });
@@ -185,7 +186,7 @@ function buildFlatBarrel(directory, modules) {
 }
 function buildStructureSubsection(structure, pathParts, name, reference) {
     var pathPart = pathParts.shift();
-    var subsection = pathPart == "." ? structure : structure[pathPart];
+    var subsection = pathPart === "." ? structure : structure[pathPart];
     if (!subsection) {
         subsection = {};
         structure[pathPart] = subsection;
@@ -241,6 +242,7 @@ function buildFileSystemBarrel(directory, modules) {
 }
 var barrelBuilder;
 switch (argv.structure) {
+    default:
     case "flat":
         barrelBuilder = buildFlatBarrel;
         break;
@@ -257,8 +259,8 @@ function buildBarrel(directory) {
     // Update the file tree model with the new index.
     if (!directory.files.some(function (file) { return file.name === indexName; })) {
         var index = {
+            name: indexName,
             path: indexPath,
-            name: indexName
         };
         logger("Updating model index @ " + indexPath);
         directory.files.push(index);

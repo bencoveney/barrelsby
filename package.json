@@ -4,8 +4,9 @@
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
-    "test": "npm run build && barrelsby -c barrelsby.json"
+    "typescript_build": "tsc",
+    "typescript_lint": "tslint --project tsconfig.json -t stylish",
+    "test": "npm run typescript_build && npm run typescript_lint && barrelsby -c barrelsby.json"
   },
   "repository": {
     "type": "git",
@@ -29,9 +30,12 @@
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
     "@types/node": "^7.0.5",
+    "tslint": "^4.4.2",
     "typescript": "^2.1.6"
   },
-  "files": ["bin/index.js"],
+  "files": [
+    "./bin/index.js"
+  ],
   "bin": {
     "barrelsby": "bin/index.js"
   },

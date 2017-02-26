@@ -1,0 +1,10 @@
+{
+    "extends": [
+        "tslint:recommended"
+    ],
+    "rules": {
+        "interface-name": [
+            false
+        ]
+    }
+}
