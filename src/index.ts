@@ -23,9 +23,17 @@ const argv = Yargs
     .describe("D", "Delete existing index files.")
     .default("D", false)
 
+    .array("e")
+    .alias("e", "exclude")
+    .describe("e", "Excludes any files whose paths match any of the regular expressions.")
+
     .help("h")
     .alias("h", "help")
     .default("h", false)
+
+    .array("i")
+    .alias("i", "include")
+    .describe("i", "Only include files whose paths match any of the regular expressions.")
 
     .string("l")
     .alias("l", "location")
@@ -202,6 +210,42 @@ function getModules(directory: Directory): Location[] {
     return files.filter((file: Location) => file.name.match(isTypeScriptFile));
 }
 
+// Filter a set of modules down to those matching the include/exclude rules.
+function buildRegexList(patterns: string[]): RegExp[] | null {
+    if (!Array.isArray(patterns)) {
+        return null;
+    }
+    return patterns.map((pattern: string) => new RegExp(pattern));
+}
+const whitelistTests = buildRegexList(argv.include);
+const blacklistTests = buildRegexList(argv.exclude);
+function filterModules(locations: Location[]): Location[] {
+    let result = locations;
+    if (whitelistTests !== null) {
+        result = result.filter((location: Location) => {
+            return whitelistTests.some((test: RegExp) => {
+                const isMatch = !!location.path.match(test);
+                if (isMatch) {
+                    logger(`${location.path} is included by ${test}`);
+                }
+                return isMatch;
+            });
+        });
+    }
+    if (blacklistTests !== null) {
+        result = result.filter((location: Location) => {
+            return !blacklistTests.some((test: RegExp) => {
+                const isMatch = !!location.path.match(test);
+                if (isMatch) {
+                    logger(`${location.path} is excluded by ${test}`);
+                }
+                return isMatch;
+            });
+        });
+    }
+    return result;
+}
+
 function buildImportPath(directory: Directory, target: Location): string {
     // Get the route from the current directory to the module.
     const relativePath = path.relative(directory.path, target.path);
@@ -306,7 +350,7 @@ switch (argv.structure) {
 // Build a barrel for the specified directory.
 function buildBarrel(directory: Directory) {
     logger(`Building barrel @ ${directory.path}`);
-    const barrelContent = barrelBuilder(directory, getModules(directory));
+    const barrelContent = barrelBuilder(directory, filterModules(getModules(directory)));
     const indexPath = path.resolve(directory.path, indexName);
     fs.writeFileSync(indexPath, barrelContent);
     // Update the file tree model with the new index.

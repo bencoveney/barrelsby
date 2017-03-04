@@ -18,9 +18,15 @@ var argv = Yargs
     .alias("D", "delete")
     .describe("D", "Delete existing index files.")
     .default("D", false)
+    .array("e")
+    .alias("e", "exclude")
+    .describe("e", "Excludes any files whose paths match any of the regular expressions.")
     .help("h")
     .alias("h", "help")
     .default("h", false)
+    .array("i")
+    .alias("i", "include")
+    .describe("i", "Only include files whose paths match any of the regular expressions.")
     .string("l")
     .alias("l", "location")
     .describe("l", "The mode for picking barrel file locations")
@@ -163,6 +169,41 @@ function getModules(directory) {
     // Only return files that look like TypeScript modules.
     return files.filter(function (file) { return file.name.match(isTypeScriptFile); });
 }
+// Filter a set of modules down to those matching the include/exclude rules.
+function buildRegexList(patterns) {
+    if (!Array.isArray(patterns)) {
+        return null;
+    }
+    return patterns.map(function (pattern) { return new RegExp(pattern); });
+}
+var whitelistTests = buildRegexList(argv.include);
+var blacklistTests = buildRegexList(argv.exclude);
+function filterModules(locations) {
+    var result = locations;
+    if (whitelistTests !== null) {
+        result = result.filter(function (location) {
+            return whitelistTests.some(function (test) {
+                var isMatch = !!location.path.match(test);
+                if (isMatch) {
+                    logger(location.path + " is included by " + test);
+                }
+                return isMatch;
+            });
+        });
+    }
+    if (blacklistTests !== null) {
+        result = result.filter(function (location) {
+            return !blacklistTests.some(function (test) {
+                var isMatch = !!location.path.match(test);
+                if (isMatch) {
+                    logger(location.path + " is excluded by " + test);
+                }
+                return isMatch;
+            });
+        });
+    }
+    return result;
+}
 function buildImportPath(directory, target) {
     // Get the route from the current directory to the module.
     var relativePath = path.relative(directory.path, target.path);
@@ -253,7 +294,7 @@ switch (argv.structure) {
 // Build a barrel for the specified directory.
 function buildBarrel(directory) {
     logger("Building barrel @ " + directory.path);
-    var barrelContent = barrelBuilder(directory, getModules(directory));
+    var barrelContent = barrelBuilder(directory, filterModules(getModules(directory)));
     var indexPath = path.resolve(directory.path, indexName);
     fs.writeFileSync(indexPath, barrelContent);
     // Update the file tree model with the new index.

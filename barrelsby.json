@@ -3,5 +3,8 @@
 	"delete": true,
 	"location": "top",
 	"name": "barrel",
-	"structure": "filesystem"
+	"structure": "filesystem",
+	"verbose": true,
+	"include": ["a.ts$"],
+	"exclude": ["zeta.ts$"]
 }

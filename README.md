@@ -65,9 +65,17 @@ default.
 
 Deletes any existing barrels encountered by barrelsby. Disabled by default.
 
+### `-e [regex...]` or `--exclude [regex...]`
+
+Excludes any files whose paths match any of the specified regular expressions.
+
 ### `-H` or `--help`
 
 Displays help information on the command line arguments that barrelsby accepts.
+
+### `-i [regex...]` or `--include [regex...]`
+
+Only include files whose paths match any of the specified regular expressions.
 
 ### `-l [mode]` or `--location [mode]`
 
@@ -101,9 +109,7 @@ Display the barrelsby version number.
 Display additional debug information.
 
 ## TODO
-* Barrel names match directory names
-* Exclude regex
-  * Modules
-  * Directories
-* Path seperator for inside barrels?
 * Watch mode
+* Barrel names match directory names
+* Create barrel even if empty (no modules)
+* Path seperator for inside barrels?
