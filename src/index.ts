@@ -2,77 +2,19 @@
 
 import * as fs from "fs";
 import * as path from "path";
-import * as Yargs from "yargs";
 
-const argv = Yargs
-    .usage("Usage: barrelsby [options]")
-    .example("barrelsby", "Run barrelsby")
-
-    .config("c")
-    .alias("c", "config")
-    .describe("c", "The location of the config file.")
-
-    .string("d")
-    .alias("d", "directory")
-    .nargs("d", 1)
-    .describe("d", "The directory to create barrels for.")
-    .default("d", "./")
-
-    .boolean("D")
-    .alias("D", "delete")
-    .describe("D", "Delete existing index files.")
-    .default("D", false)
-
-    .array("e")
-    .alias("e", "exclude")
-    .describe("e", "Excludes any files whose paths match any of the regular expressions.")
-
-    .help("h")
-    .alias("h", "help")
-    .default("h", false)
-
-    .array("i")
-    .alias("i", "include")
-    .describe("i", "Only include files whose paths match any of the regular expressions.")
-
-    .string("l")
-    .alias("l", "location")
-    .describe("l", "The mode for picking barrel file locations")
-    .choices("l", ["top", "below", "all", "replace", "branch"])
-    .default("l", "top")
-
-    .string("n")
-    .alias("n", "name")
-    .describe("n", "The name to give barrel files")
-    .default("n", "index")
-
-    .string("s")
-    .alias("s", "structure")
-    .describe("s", "The mode for structuring barrel file exports")
-    .choices("s", ["flat", "filesystem"])
-    .default("s", "flat")
-
-    .version()
-    .alias("v", "version")
-    .default("v", false)
-
-    .boolean("V")
-    .alias("V", "verbose")
-    .describe("V", "Display additional logging information")
-    .default("D", false)
-
-    .argv;
+import {options} from "./options";
 
 // tslint:disable-next-line:no-empty
-const logger: (message: string) => void = argv.verbose ? console.log : (message: string) => {};
+const logger: (message: string) => void = options.verbose ? console.log : (message: string) => {};
 
-const rootPath: string = path.resolve(argv.directory);
+const rootPath: string = path.resolve(options.directory);
 const isTypeScriptFile = /\.ts$/m;
 const nonAlphaNumeric = /\W+/g;
 const indentation = "  ";
 
 // Resolve index name.
-const nameArgument: string = argv.name;
+const nameArgument: string = options.name;
 const indexName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
 logger(`Using name ${indexName}`);
 
@@ -136,7 +78,7 @@ const rootTree = buildTree(rootPath);
 
 // Work out which directories should have index files.
 let destinations: Directory[];
-switch (argv.location) {
+switch (options.location) {
     case "top":
     default:
         destinations = [rootTree];
@@ -177,7 +119,7 @@ logger("Destinations:");
 destinations.forEach((destination) => logger(destination.path));
 
 // Delete any existing indexes.
-if (argv.delete) {
+if (options.delete) {
     walkTree(rootTree, (directory: Directory) => {
         directory.files
             .filter((file: Location) => {
@@ -217,8 +159,8 @@ function buildRegexList(patterns: string[]): RegExp[] | null {
     }
     return patterns.map((pattern: string) => new RegExp(pattern));
 }
-const whitelistTests = buildRegexList(argv.include);
-const blacklistTests = buildRegexList(argv.exclude);
+const whitelistTests = buildRegexList(options.include);
+const blacklistTests = buildRegexList(options.exclude);
 function filterModules(locations: Location[]): Location[] {
     let result = locations;
     if (whitelistTests !== null) {
@@ -337,7 +279,7 @@ function buildFileSystemBarrel(directory: Directory, modules: Location[]): strin
 }
 
 let barrelBuilder: (directory: Directory, modules: Location[]) => string;
-switch (argv.structure) {
+switch (options.structure) {
     default:
     case "flat":
         barrelBuilder = buildFlatBarrel;
