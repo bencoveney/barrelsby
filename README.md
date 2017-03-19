@@ -7,7 +7,7 @@ Automatically create TypeScript barrels for your entire code base.
 Barrels are files that rollup exports from several modules into a single convenient module. They
 help simplify large blocks of import statements from the top of files.
 
-A barrel file that looks like this:
+A barrel file looks like this:
 
 ```TypeScript
 export * from "./DropDown";
@@ -17,7 +17,7 @@ export * from "./DateTimePicker";
 export * from "./Slider";
 ```
 
-Can help you go from this:
+It can help you go from messy imports like this:
 
 ```TypeScript
 import {DropDown} from "./src/controls/DropDown";
@@ -27,13 +27,13 @@ import {DateTimePicker} from "./src/controls/DateTimePicker";
 import {Slider} from "./src/controls/Slider";
 ```
 
-To this:
+...to something tidier like this:
 
 ```TypeScript
 import {DropDown, TextBox, CheckBox, DateTimePicker, Slider} from "./src/controls/index";
 ```
 
-Or this:
+...or even this:
 
 ```TypeScript
 import * as Controls from "./src/controls/index";
