@@ -1,6 +1,4 @@
-![Barrelsby Logo](https://github.com/bencoveney/barrelsby/blob/master/img/logo.png?raw=true)
-
-# Barrelsby
+# ![Barrelsby Logo](https://github.com/bencoveney/barrelsby/blob/master/img/logo.png?raw=true)
 
 Automatically create TypeScript barrels for your entire code base.
 
