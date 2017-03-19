@@ -109,7 +109,17 @@ Display the barrelsby version number.
 Display additional debug information.
 
 ## TODO
+
+### Before 1.0
+* Unit tests
+* Barrels should follow tslint rules
+
+### Nice-To-Have Features
 * Watch mode
 * Barrel names match directory names
 * Create barrel even if empty (no modules)
 * Path seperator for inside barrels?
+
+### Code Cleanup
+* Types to Interfaces?
+* Ensure all regexps are centralised.

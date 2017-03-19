@@ -1,10 +1,14 @@
+import * as path from "path";
 import * as Yargs from "yargs";
+
+import {isTypeScriptFile} from "./utilities";
 
 type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
 type StructureOption = "flat" | "filesystem";
 
-type Options = {
+// Options provided by yargs.
+type Arguments = {
     config?: string;
     directory?: string;
     delete?: boolean;
@@ -18,61 +22,86 @@ type Options = {
     verbose?: boolean;
 };
 
-export const options: Options = Yargs
-    .usage("Usage: barrelsby [options]")
-    .example("barrelsby", "Run barrelsby")
+// Calculated options.
+type CalculatedOptions = {
+    indexName: string;
+    logger: (message: string) => void;
+    rootPath: string;
+};
 
-    .config("c")
-    .alias("c", "config")
-    .describe("c", "The location of the config file.")
+export type Options = Arguments & CalculatedOptions;
 
-    .string("d")
-    .alias("d", "directory")
-    .nargs("d", 1)
-    .describe("d", "The directory to create barrels for.")
-    .default("d", "./")
+function setUpArguments(): { argv: any } {
+    return Yargs
+        .usage("Usage: barrelsby [options]")
+        .example("barrelsby", "Run barrelsby")
 
-    .boolean("D")
-    .alias("D", "delete")
-    .describe("D", "Delete existing index files.")
-    .default("D", false)
+        .config("c")
+        .alias("c", "config")
+        .describe("c", "The location of the config file.")
 
-    .array("e")
-    .alias("e", "exclude")
-    .describe("e", "Excludes any files whose paths match any of the regular expressions.")
+        .string("d")
+        .alias("d", "directory")
+        .nargs("d", 1)
+        .describe("d", "The directory to create barrels for.")
+        .default("d", "./")
 
-    .help("h")
-    .alias("h", "help")
-    .default("h", false)
+        .boolean("D")
+        .alias("D", "delete")
+        .describe("D", "Delete existing index files.")
+        .default("D", false)
 
-    .array("i")
-    .alias("i", "include")
-    .describe("i", "Only include files whose paths match any of the regular expressions.")
+        .array("e")
+        .alias("e", "exclude")
+        .describe("e", "Excludes any files whose paths match any of the regular expressions.")
 
-    .string("l")
-    .alias("l", "location")
-    .describe("l", "The mode for picking barrel file locations")
-    .choices("l", ["top", "below", "all", "replace", "branch"])
-    .default("l", "top")
+        .help("h")
+        .alias("h", "help")
+        .default("h", false)
 
-    .string("n")
-    .alias("n", "name")
-    .describe("n", "The name to give barrel files")
-    .default("n", "index")
+        .array("i")
+        .alias("i", "include")
+        .describe("i", "Only include files whose paths match any of the regular expressions.")
 
-    .string("s")
-    .alias("s", "structure")
-    .describe("s", "The mode for structuring barrel file exports")
-    .choices("s", ["flat", "filesystem"])
-    .default("s", "flat")
+        .string("l")
+        .alias("l", "location")
+        .describe("l", "The mode for picking barrel file locations")
+        .choices("l", ["top", "below", "all", "replace", "branch"])
+        .default("l", "top")
 
-    .version()
-    .alias("v", "version")
-    .default("v", false)
+        .string("n")
+        .alias("n", "name")
+        .describe("n", "The name to give barrel files")
+        .default("n", "index")
 
-    .boolean("V")
-    .alias("V", "verbose")
-    .describe("V", "Display additional logging information")
-    .default("D", false)
+        .string("s")
+        .alias("s", "structure")
+        .describe("s", "The mode for structuring barrel file exports")
+        .choices("s", ["flat", "filesystem"])
+        .default("s", "flat")
 
-    .argv;
+        .version()
+        .alias("v", "version")
+        .default("v", false)
+
+        .boolean("V")
+        .alias("V", "verbose")
+        .describe("V", "Display additional logging information")
+        .default("D", false);
+}
+
+export function getOptions(): Options {
+    const options = setUpArguments().argv;
+
+    // tslint:disable-next-line:no-empty
+    options.logger = options.verbose ? console.log : (message: string) => {};
+
+    options.rootPath = path.resolve(options.directory);
+
+    // Resolve index name.
+    const nameArgument: string = options.name;
+    options.indexName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
+    options.logger(`Using name ${options.indexName}`);
+
+    return options;
+}
