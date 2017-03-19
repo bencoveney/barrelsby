@@ -1,9 +1,9 @@
 "use strict";
 var fs = require("fs");
 var path = require("path");
-var modules_1 = require("../modules");
-var filesystem_1 = require("./filesystem");
+var fileSystem_1 = require("./fileSystem");
 var flat_1 = require("./flat");
+var modules_1 = require("./modules");
 function buildBarrels(destinations, options) {
     var builder;
     switch (options.structure) {
@@ -12,7 +12,7 @@ function buildBarrels(destinations, options) {
             builder = flat_1.buildFlatBarrel;
             break;
         case "filesystem":
-            builder = filesystem_1.buildFileSystemBarrel;
+            builder = fileSystem_1.buildFileSystemBarrel;
             break;
     }
     // Build the barrels.

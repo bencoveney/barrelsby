@@ -4,9 +4,13 @@
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
-    "typescript_build": "tsc",
-    "typescript_lint": "tslint --project tsconfig.json -t stylish",
-    "test": "npm run typescript_build && npm run typescript_lint && barrelsby -c barrelsby.json"
+    "build_tsc": "tsc",
+    "build_tslint": "tslint --project tsconfig.json -t stylish",
+    "build": "npm run build_tsc && npm run build_tslint",
+    "tests_integration": "barrelsby -c barrelsby.json",
+    "tests_unit": "mocha -c \"bin/**/*.test.js\"",
+    "tests": "npm run tests_unit && npm run tests_integration",
+    "test": "npm run build && npm run tests"
   },
   "repository": {
     "type": "git",
@@ -29,7 +33,9 @@
   },
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
+    "@types/mocha": "^2.2.40",
     "@types/node": "^7.0.5",
+    "mocha": "^3.2.0",
     "tslint": "^4.4.2",
     "typescript": "^2.1.6"
   },

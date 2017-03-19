@@ -4,7 +4,7 @@ import * as path from "path";
 import {Options} from "../options";
 import {Directory, Location} from "../utilities";
 
-import {buildFileSystemBarrel} from "./filesystem";
+import {buildFileSystemBarrel} from "./fileSystem";
 import {buildFlatBarrel} from "./flat";
 import {loadDirectoryModules} from "./modules";
 import {BarrelBuilder} from "./utilities";
