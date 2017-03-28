@@ -2,6 +2,10 @@
 
 Automatically create TypeScript barrels for your entire code base.
 
+[![npm version](https://badge.fury.io/js/barrelsby.svg)](https://badge.fury.io/js/barrelsby)
+[![CircleCI](https://circleci.com/gh/bencoveney/barrelsby.svg?style=svg)](https://circleci.com/gh/bencoveney/barrelsby)
+[![codecov](https://codecov.io/gh/bencoveney/barrelsby/branch/master/graph/badge.svg)](https://codecov.io/gh/bencoveney/barrelsby)
+
 ## About Barrels
 
 Barrels are files that rollup exports from several modules into a single convenient module. They
