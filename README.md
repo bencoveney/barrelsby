@@ -109,15 +109,17 @@ Display additional debug information.
 ## TODO
 
 ### Before 1.0
-* Unit tests
-* Barrels should follow tslint rules
+* Unit tests.
+* Barrels should follow tslint rules.
 
 ### Nice-To-Have Features
-* Watch mode
-* Barrel names match directory names
-* Create barrel even if empty (no modules)
+* Watch mode.
+* Barrel names match directory names.
+* Create barrel even if empty (no modules).
 * Path seperator for inside barrels?
+* Update "index" terminology to say "barrel" throughout codebase.
 
 ### Code Cleanup
 * Types to Interfaces?
 * Ensure all regexps are centralised.
+* Ignore non-typescript files earlier in the process.
