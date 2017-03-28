@@ -1,4 +1,4 @@
-import * as assert from "assert";
+import {assert} from "chai";
 import * as Mocha from "mocha";
 
 import * as Utilities from "./utilities";
