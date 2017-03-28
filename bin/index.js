@@ -16,3 +16,4 @@ var destinations = destinations_1.getDestinations(rootTree, options);
 purge_1.purge(rootTree, options);
 // Create the barrels.
 builder_1.buildBarrels(destinations, options);
+//# sourceMappingURL=index.js.map

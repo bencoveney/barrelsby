@@ -8,8 +8,9 @@
     "build_tslint": "tslint --project tsconfig.json -t stylish",
     "build": "npm run build_tsc && npm run build_tslint",
     "tests_integration": "barrelsby -c barrelsby.json",
-    "tests_unit": "istanbul cover --root \"./bin\" -x \"**/*.test.js\" _mocha \"bin/**/*.test.js\"",
-    "tests": "npm run tests_unit && npm run tests_integration",
+    "tests_unit": "istanbul cover --report json --root \"./bin\" -x \"**/*.test.js\" _mocha \"bin/**/*.test.js\"",
+    "remap_coverage_html": "remap-istanbul -i coverage/coverage-final.json -t lcovonly -o coverage/lcov.info",
+    "tests": "npm run tests_unit && npm run tests_integration && npm run remap_coverage_html",
     "test": "npm run build && npm run tests"
   },
   "repository": {
@@ -41,6 +42,7 @@
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mock-fs": "^4.2.0",
+    "remap-istanbul": "^0.9.5",
     "tslint": "^4.4.2",
     "typescript": "^2.1.6"
   },

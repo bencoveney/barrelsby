@@ -9,3 +9,4 @@ function buildFlatBarrel(directory, modules, options) {
     }, "");
 }
 exports.buildFlatBarrel = buildFlatBarrel;
+//# sourceMappingURL=flat.js.map

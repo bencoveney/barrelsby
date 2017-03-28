@@ -21,3 +21,4 @@ function purge(rootTree, options) {
     }
 }
 exports.purge = purge;
+//# sourceMappingURL=purge.js.map

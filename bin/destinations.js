@@ -44,3 +44,4 @@ function getDestinations(rootTree, options) {
     return destinations;
 }
 exports.getDestinations = getDestinations;
+//# sourceMappingURL=destinations.js.map

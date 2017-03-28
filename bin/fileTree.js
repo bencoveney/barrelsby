@@ -41,3 +41,4 @@ function walkTree(directory, callback) {
     }
 }
 exports.walkTree = walkTree;
+//# sourceMappingURL=fileTree.js.map

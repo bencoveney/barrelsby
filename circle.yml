@@ -1,6 +1,9 @@
 dependencies:
   post:
     - npm link
+test:
+  post:
+    - bash <(curl -s https://codecov.io/bash)
 general:
   artifacts:
     - ./coverage

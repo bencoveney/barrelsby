@@ -60,3 +60,4 @@ function buildFileSystemBarrel(directory, modules) {
     return content;
 }
 exports.buildFileSystemBarrel = buildFileSystemBarrel;
+//# sourceMappingURL=fileSystem.js.map

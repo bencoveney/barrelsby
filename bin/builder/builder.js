@@ -37,3 +37,4 @@ function buildBarrel(directory, builder, options) {
         directory.index = index;
     }
 }
+//# sourceMappingURL=builder.js.map
