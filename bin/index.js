@@ -1,5 +1,6 @@
 #! /usr/bin/env node
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var builder_1 = require("./builder/builder");
 var destinations_1 = require("./destinations");
 var fileTree_1 = require("./fileTree");

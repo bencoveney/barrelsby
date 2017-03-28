@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var utilities_1 = require("./utilities");
 function buildFlatBarrel(directory, modules, options) {
     return modules.reduce(function (previous, current) {
