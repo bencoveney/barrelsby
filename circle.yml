@@ -1,3 +1,6 @@
 dependencies:
   post:
     - npm link
+general:
+  artifacts:
+    - ./coverage
