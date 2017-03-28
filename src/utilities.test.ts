@@ -3,7 +3,7 @@ import * as Mocha from "mocha";
 
 import * as Utilities from "./utilities";
 
-describe("Utilities module has a", () => {
+describe("utilities module has a", () => {
     describe("isTypeScriptFile regular expression that", () => {
         it("should match a typescript file", () => {
             assert.notEqual("instructions.ts".search(Utilities.isTypeScriptFile), -1);

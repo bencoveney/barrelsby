@@ -5,7 +5,7 @@ import * as MockFs from "mock-fs";
 import * as FileTree from "./fileTree";
 import {Directory} from "./utilities";
 
-describe("FileTree module has a", () => {
+describe("fileTree module has a", () => {
     describe("buildTree function that", () => {
         let result: Directory;
         let logged: string[];

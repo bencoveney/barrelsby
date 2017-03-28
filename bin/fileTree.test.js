@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var MockFs = require("mock-fs");
 var FileTree = require("./fileTree");
-describe("FileTree module has a", function () {
+describe("fileTree module has a", function () {
     describe("buildTree function that", function () {
         var result;
         var logged;

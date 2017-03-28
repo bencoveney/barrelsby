@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var Utilities = require("./utilities");
-describe("Utilities module has a", function () {
+describe("utilities module has a", function () {
     describe("isTypeScriptFile regular expression that", function () {
         it("should match a typescript file", function () {
             chai_1.assert.notEqual("instructions.ts".search(Utilities.isTypeScriptFile), -1);

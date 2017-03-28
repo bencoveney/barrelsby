@@ -8,6 +8,6 @@
         "outDir": "./bin"
     },
     "include": [
-        "src/*.ts"
+        "src/**/*.ts"
     ]
 }
