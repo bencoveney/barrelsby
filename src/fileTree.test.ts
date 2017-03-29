@@ -2,6 +2,8 @@ import {assert} from "chai";
 import * as Mocha from "mocha";
 import * as MockFs from "mock-fs";
 
+import * as TestUtilities from "./test/utilities";
+
 import * as FileTree from "./fileTree";
 import {Directory} from "./utilities";
 
@@ -10,17 +12,7 @@ describe("fileTree module has a", () => {
         let result: Directory;
         let logged: string[];
         beforeEach(() => {
-            MockFs({
-                "code.ts": "export const code = 'Hello Saturn!'",
-                "directory1": {
-                    "barrel.ts": "export const code = 'Hello Graham!'",
-                    "directory2": {
-                        "script.ts": "export const code = 'Hello Detroit!'",
-                    },
-                    "ignore.txt": "export const code = 'Goodbye World!'",
-                    "index.ts": "export const code = 'Hello World!'",
-                },
-            });
+            MockFs(TestUtilities.mockFsConfiguration());
             logged = [];
             const logger = (message: string) => logged.push(message);
             result = FileTree.buildTree(
@@ -41,7 +33,7 @@ describe("fileTree module has a", () => {
             assert.equal(result.name, "directory1");
 
             // Check for a child.
-            assert.lengthOf(result.directories, 1);
+            assert.lengthOf(result.directories, 2);
             const subDirectory = result.directories[0];
 
             // Check the child directory.
@@ -70,46 +62,31 @@ describe("fileTree module has a", () => {
             assert.notEqual(result.files.indexOf(result.index), -1);
 
             // Check for a child.
-            assert.lengthOf(result.directories, 1);
+            assert.lengthOf(result.directories, 2);
             const subDirectory = result.directories[0];
 
             // Child shouldn't have an index.
             assert.isUndefined(subDirectory.index);
         });
         it("should log useful information to the logger", () => {
-            assert.lengthOf(logged, 3);
+            assert.lengthOf(logged, 5);
             assert.equal(logged[0], "Building directory tree for ./directory1");
             assert.equal(logged[1], "Found existing index @ directory1/barrel.ts");
             assert.equal(logged[2], "Building directory tree for directory1/directory2");
+            assert.equal(logged[3], "Building directory tree for directory1/directory2/directory4");
+            assert.equal(logged[4], "Building directory tree for directory1/directory3");
         });
     });
     describe("walkTree function that", () => {
         it("should should call the callback once for each directory in the tree", () => {
-            const fakeTree: Directory = {
-                directories: [
-                    {
-                        directories: [],
-                        files: [],
-                        name: "directory2",
-                        path: "directory1/directory2",
-                    },
-                    {
-                        directories: [],
-                        files: [],
-                        name: "directory3",
-                        path: "directory1/directory3",
-                    },
-                ],
-                files: [
-                    {
-                        name: "file1.ts",
-                        path: "directory1/file1.ts",
-                    },
-                ],
-                name: "directory1",
-                path: "./directory1",
-            };
-            const allDirectories: Directory[] = [fakeTree].concat(fakeTree.directories);
+            const fakeTree: Directory = TestUtilities.mockDirectoryTree();
+
+            // Build a collection all all directories.
+            let allDirectories: Directory[] = [fakeTree];
+            fakeTree.directories.forEach((directory) => {
+                // Child/grandchild directories.
+                allDirectories = allDirectories.concat([directory]).concat(directory.directories);
+            });
 
             const calledDirectories: Directory[] = [];
             const callback = (directory: Directory) => calledDirectories.push(directory);
