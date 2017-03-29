@@ -45,7 +45,7 @@ describe("purge module has a", () => {
             // Check FS has not been manipulated.
             assert.isOk(fs.existsSync("directory1/barrel.ts"));
         });
-        it("should log to console", () => {
+        it("should log useful information to the logger", () => {
             options.delete = true;
             Purge.purge(directory, options);
 

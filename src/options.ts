@@ -3,7 +3,7 @@ import * as Yargs from "yargs";
 
 import {isTypeScriptFile} from "./utilities";
 
-type LocationOption = "top" | "below" | "all" | "replace" | "branch";
+export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
 type StructureOption = "flat" | "filesystem";
 

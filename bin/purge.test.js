@@ -37,7 +37,7 @@ describe("purge module has a", function () {
             // Check FS has not been manipulated.
             chai_1.assert.isOk(fs.existsSync("directory1/barrel.ts"));
         });
-        it("should log to console", function () {
+        it("should log useful information to the logger", function () {
             options.delete = true;
             Purge.purge(directory, options);
             chai_1.assert.lengthOf(logged, 1);
