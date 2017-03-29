@@ -1,5 +1,7 @@
 # ![Barrelsby Logo](https://github.com/bencoveney/barrelsby/blob/master/img/logo.png?raw=true)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/bencoveney/barrelsby.svg)](https://greenkeeper.io/)
+
 Automatically create TypeScript barrels for your entire code base.
 
 [![npm version](https://badge.fury.io/js/barrelsby.svg)](https://badge.fury.io/js/barrelsby)
