@@ -124,6 +124,8 @@ Display additional debug information.
 * Create barrel even if empty (no modules).
 * Path seperator for inside barrels?
 * Update "index" terminology to say "barrel" throughout codebase.
+* Some `tsconfig.json` settings could potentially impact the module resolution (paths, baseUrl, rootDirs).
+* Look at `tsconfig.json` to determine which files to load.
 
 ### Code Cleanup
 * Types to Interfaces?
