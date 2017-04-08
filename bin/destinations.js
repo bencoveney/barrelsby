@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var fileTree_1 = require("./fileTree");
 /** Assess which directories in the tree should contain barrels. */
 function getDestinations(rootTree, options) {

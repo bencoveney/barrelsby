@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var Destinations = require("./destinations");
 var TestUtilities = require("./test/utilities");

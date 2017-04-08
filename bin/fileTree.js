@@ -1,16 +1,16 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var fs = require("fs");
 var path = require("path");
+var utilities_1 = require("./utilities");
 /** Build directory information recursively. */
 function buildTree(directory, options) {
-    options.logger("Building directory tree for " + directory);
+    options.logger("Building directory tree for " + utilities_1.convertPathSeparator(directory));
     var names = fs.readdirSync(directory);
     var result = {
         directories: [],
         files: [],
         name: path.basename(directory),
-        path: directory,
+        path: utilities_1.convertPathSeparator(directory),
     };
     names.forEach(function (name) {
         var fullPath = path.join(directory, name);
@@ -18,13 +18,14 @@ function buildTree(directory, options) {
             result.directories.push(buildTree(fullPath, options));
         }
         else {
+            var convertedPath = utilities_1.convertPathSeparator(fullPath);
             var file = {
                 name: name,
-                path: fullPath,
+                path: convertedPath,
             };
             result.files.push(file);
             if (file.name === options.indexName) {
-                options.logger("Found existing index @ " + fullPath);
+                options.logger("Found existing index @ " + convertedPath);
                 result.index = file;
             }
         }

@@ -1,5 +1,5 @@
 import {Options} from "../options";
-import {Directory} from "../utilities";
+import {Directory, Location} from "../utilities";
 
 export function mockFsConfiguration() {
     return {
@@ -84,4 +84,8 @@ export function mockOptions(loggerTarget: string[]): Options {
         logger: (message: string) => loggerTarget.push(message),
         rootPath: "some/path",
     };
+}
+
+export function getLocationByName(locations: Location[], name: string): Location {
+    return locations.filter((location) => location.name === name)[0];
 }
