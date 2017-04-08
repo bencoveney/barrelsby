@@ -16,6 +16,10 @@ export interface Directory extends Location {
     index?: Location;
 }
 
+export function convertPathSeparator(path: string): string {
+    return path.replace(/\\+/g, "/");
+}
+
 export const isTypeScriptFile = /\.ts$/m;
 export const nonAlphaNumeric = /\W+/g;
 export const indentation = "  ";

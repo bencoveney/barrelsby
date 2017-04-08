@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var Flat = require("./flat");
 describe("builder/flat module has a", function () {
     describe("buildFlatBarrel function that", function () {

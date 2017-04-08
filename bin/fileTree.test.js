@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var MockFs = require("mock-fs");
 var TestUtilities = require("./test/utilities");

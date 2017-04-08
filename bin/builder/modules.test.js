@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var Modules = require("./modules");
 describe("builder/modules module has a", function () {
     describe("loadDirectoryModules function that", function () {

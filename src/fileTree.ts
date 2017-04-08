@@ -2,30 +2,31 @@ import * as fs from "fs";
 import * as path from "path";
 
 import {Options} from "./options";
-import {Directory} from "./utilities";
+import {convertPathSeparator, Directory} from "./utilities";
 
 /** Build directory information recursively. */
 export function buildTree(directory: string, options: Options): Directory {
-    options.logger(`Building directory tree for ${directory}`);
+    options.logger(`Building directory tree for ${convertPathSeparator(directory)}`);
     const names = fs.readdirSync(directory);
     const result: Directory = {
         directories: [],
         files: [],
         name: path.basename(directory),
-        path: directory,
+        path: convertPathSeparator(directory),
     };
     names.forEach((name: string) => {
         const fullPath = path.join(directory, name);
         if (fs.statSync(fullPath).isDirectory()) {
             result.directories.push(buildTree(fullPath, options));
         } else {
+            const convertedPath = convertPathSeparator(fullPath);
             const file = {
                 name,
-                path: fullPath,
+                path: convertedPath,
             };
             result.files.push(file);
             if (file.name === options.indexName) {
-                options.logger(`Found existing index @ ${fullPath}`);
+                options.logger(`Found existing index @ ${convertedPath}`);
                 result.index = file;
             }
         }

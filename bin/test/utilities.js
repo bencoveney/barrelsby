@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 function mockFsConfiguration() {
     return {
         "code.ts": "export const code = 'Hello Saturn!'",
@@ -85,4 +84,8 @@ function mockOptions(loggerTarget) {
     };
 }
 exports.mockOptions = mockOptions;
+function getLocationByName(locations, name) {
+    return locations.filter(function (location) { return location.name === name; })[0];
+}
+exports.getLocationByName = getLocationByName;
 //# sourceMappingURL=utilities.js.map

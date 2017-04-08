@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
 var utilities_1 = require("../utilities");
 var utilities_2 = require("./utilities");

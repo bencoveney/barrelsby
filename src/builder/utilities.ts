@@ -1,7 +1,7 @@
 import * as path from "path";
 
 import {Options} from "../options";
-import {Directory, Location} from "../utilities";
+import {convertPathSeparator, Directory, Location} from "../utilities";
 
 export interface BarrelBuilder {
     (directory: Directory, modules: Location[], options: Options): string;
@@ -19,5 +19,5 @@ export function buildImportPath(directory: Directory, target: Location): string 
     const fileName = path.basename(relativePath, ".ts");
     // Build the final path string. Use posix-style seperators.
     let location = `${directoryPath}${path.sep}${fileName}`;
-    return location.replace(/\\+/g, "/");
+    return convertPathSeparator(location);
 }

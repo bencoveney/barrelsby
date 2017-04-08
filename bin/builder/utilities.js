@@ -1,6 +1,6 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var path = require("path");
+var utilities_1 = require("../utilities");
 function buildImportPath(directory, target) {
     // Get the route from the current directory to the module.
     var relativePath = path.relative(directory.path, target.path);
@@ -13,7 +13,7 @@ function buildImportPath(directory, target) {
     var fileName = path.basename(relativePath, ".ts");
     // Build the final path string. Use posix-style seperators.
     var location = "" + directoryPath + path.sep + fileName;
-    return location.replace(/\\+/g, "/");
+    return utilities_1.convertPathSeparator(location);
 }
 exports.buildImportPath = buildImportPath;
 //# sourceMappingURL=utilities.js.map

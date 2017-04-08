@@ -1,5 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var chai_1 = require("chai");
 var Utilities = require("./utilities");
 describe("utilities module has a", function () {
@@ -27,6 +26,12 @@ describe("utilities module has a", function () {
     describe("indentation constant that", function () {
         it("is only whitespace", function () {
             chai_1.assert.equal(Utilities.indentation.trim(), "");
+        });
+    });
+    describe("convertPathSeparator function that", function () {
+        it("should window path seperators with unix ones", function () {
+            var result = Utilities.convertPathSeparator("my\\long/path");
+            chai_1.assert.equal(result, "my/long/path");
         });
     });
 });

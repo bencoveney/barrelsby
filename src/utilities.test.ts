@@ -30,4 +30,10 @@ describe("utilities module has a", () => {
             assert.equal(Utilities.indentation.trim(), "");
         });
     });
+    describe("convertPathSeparator function that", () => {
+        it("should window path seperators with unix ones", () => {
+            const result = Utilities.convertPathSeparator("my\\long/path");
+            assert.equal(result, "my/long/path");
+        });
+    });
 });
