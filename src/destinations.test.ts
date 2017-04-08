@@ -14,7 +14,7 @@ describe("destinations module has a", () => {
         let destinations: Directory[];
         let options: Options;
         let logged: string[];
-        let testMode = (mode: LocationOption, getExpectedDestinations: () => Directory[], expectedLogs: string[]) => {
+        const testMode = (mode: LocationOption, getExpectedDestinations: () => Directory[], expectedLogs: string[]) => {
             describe(`when in '${mode}' mode`, () => {
                 beforeEach(() => {
                     options.location = mode;

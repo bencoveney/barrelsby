@@ -1,10 +1,10 @@
 import {Options} from "../options";
 import {Directory, isTypeScriptFile, Location} from "../utilities";
 
-type Filters = {
+interface Filters {
     blacklists: RegExp[] | null;
     whitelists: RegExp[] | null;
-};
+}
 
 // Get any typescript modules contained at any depth in the current directory.
 function getModules(directory: Directory, options: Options): Location[] {
@@ -14,7 +14,7 @@ function getModules(directory: Directory, options: Options): Location[] {
         options.logger(`Found existing index @ ${directory.index.path}`);
         return [directory.index];
     }
-    let files: Location[] = [].concat(directory.files);
+    const files: Location[] = [].concat(directory.files);
     directory.directories.forEach((childDirectory: Directory) => {
         // Recurse.
         files.push(...getModules(childDirectory, options));
