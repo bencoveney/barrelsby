@@ -8,7 +8,7 @@ export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 type StructureOption = "flat" | "filesystem";
 
 // Options provided by yargs.
-type Arguments = {
+interface Arguments {
     config?: string;
     directory?: string;
     delete?: boolean;
@@ -20,14 +20,14 @@ type Arguments = {
     structure?: StructureOption;
     version?: boolean;
     verbose?: boolean;
-};
+}
 
 // Calculated options.
-type CalculatedOptions = {
+interface CalculatedOptions {
     indexName: string;
     logger: (message: string) => void;
     rootPath: string;
-};
+}
 
 export type Options = Arguments & CalculatedOptions;
 
