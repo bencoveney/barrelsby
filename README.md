@@ -131,3 +131,4 @@ Display additional debug information.
 ### Code Cleanup
 * Ensure all regexps are centralised.
 * Ignore non-typescript files earlier in the process.
+* TypeScript strict null checks.

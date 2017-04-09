@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import {Options} from "../options";
-import {Directory, Location} from "../utilities";
+import {convertPathSeparator, Directory, Location} from "../utilities";
 
 import {buildFileSystemBarrel} from "./fileSystem";
 import {buildFlatBarrel} from "./flat";
@@ -28,15 +28,16 @@ export function buildBarrels(destinations: Directory[], options: Options): void 
 function buildBarrel(directory: Directory, builder: BarrelBuilder, options: Options) {
     options.logger(`Building barrel @ ${directory.path}`);
     const barrelContent = builder(directory, loadDirectoryModules(directory, options), options);
-    const indexPath = path.resolve(directory.path, options.indexName);
+    const indexPath = path.join(directory.path, options.indexName);
     fs.writeFileSync(indexPath, barrelContent);
     // Update the file tree model with the new index.
     if (!directory.files.some((file: Location) => file.name === options.indexName)) {
+        const convertedPath = convertPathSeparator(indexPath);
         const index = {
             name: options.indexName,
-            path: indexPath,
+            path: convertedPath,
         };
-        options.logger(`Updating model index @ ${indexPath}`);
+        options.logger(`Updating model index @ ${convertedPath}`);
         directory.files.push(index);
         directory.index = index;
     }

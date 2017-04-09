@@ -10,6 +10,7 @@ import {Directory} from "../utilities";
 import * as Builder from "./builder";
 import * as FileSystem from "./fileSystem";
 import * as Flat from "./flat";
+import * as Modules from "./modules";
 
 describe("builder/builder module has a", () => {
     describe("buildBarrels function that", () => {
@@ -33,6 +34,7 @@ describe("builder/builder module has a", () => {
             spySandbox = Sinon.sandbox.create();
             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
+            spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");
         });
         afterEach(() => {
             MockFs.restore();
@@ -71,11 +73,21 @@ describe("builder/builder module has a", () => {
         it("should update the directory structure with the new barrel", () => {
             runBuilder("flat");
             directory.directories.forEach((subDirectory: Directory) => {
-                assert.equal(subDirectory.index.name, "index.ts");
+                assert.equal(subDirectory.index.name, "barrel.ts");
             });
         });
         it("should log useful information to the logger", () => {
             runBuilder("flat");
+            const messages = [
+                "Building barrel @ directory1/directory2",
+                "Updating model index @ directory1/directory2/barrel.ts",
+                "Building barrel @ directory1/directory3",
+                "Updating model index @ directory1/directory3/barrel.ts",
+            ];
+            assert.equal(logger.callCount, messages.length);
+            messages.forEach((message: string, index: number) => {
+                assert.equal(logger.getCall(index).args[0], message);
+            });
         });
     });
 });

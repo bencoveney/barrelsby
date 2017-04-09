@@ -1,6 +1,7 @@
 "use strict";
 var fs = require("fs");
 var path = require("path");
+var utilities_1 = require("../utilities");
 var fileSystem_1 = require("./fileSystem");
 var flat_1 = require("./flat");
 var modules_1 = require("./modules");
@@ -23,15 +24,16 @@ exports.buildBarrels = buildBarrels;
 function buildBarrel(directory, builder, options) {
     options.logger("Building barrel @ " + directory.path);
     var barrelContent = builder(directory, modules_1.loadDirectoryModules(directory, options), options);
-    var indexPath = path.resolve(directory.path, options.indexName);
+    var indexPath = path.join(directory.path, options.indexName);
     fs.writeFileSync(indexPath, barrelContent);
     // Update the file tree model with the new index.
     if (!directory.files.some(function (file) { return file.name === options.indexName; })) {
+        var convertedPath = utilities_1.convertPathSeparator(indexPath);
         var index = {
             name: options.indexName,
-            path: indexPath,
+            path: convertedPath,
         };
-        options.logger("Updating model index @ " + indexPath);
+        options.logger("Updating model index @ " + convertedPath);
         directory.files.push(index);
         directory.index = index;
     }
