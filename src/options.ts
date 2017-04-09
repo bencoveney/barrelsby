@@ -5,7 +5,7 @@ import {isTypeScriptFile} from "./utilities";
 
 export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
-type StructureOption = "flat" | "filesystem";
+export type StructureOption = "flat" | "filesystem";
 
 // Options provided by yargs.
 type Arguments = {

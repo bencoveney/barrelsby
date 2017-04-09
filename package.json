@@ -38,12 +38,16 @@
     "@types/mocha": "^2.2.40",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^7.0.5",
+    "@types/sinon": "^2.1.2",
+    "@types/sinon-chai": "^2.7.27",
     "chai": "^3.5.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "mock-fs": "^4.2.0",
     "remap-istanbul": "^0.9.5",
-    "tslint": "^4.4.2",
+    "sinon": "^2.1.0",
+    "sinon-chai": "^2.9.0",
+    "tslint": "^5.0.0",
     "typescript": "^2.1.6"
   },
   "files": [

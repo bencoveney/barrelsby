@@ -20,7 +20,6 @@ export function buildBarrels(destinations: Directory[], options: Options): void 
             builder = buildFileSystemBarrel;
             break;
     }
-
     // Build the barrels.
     destinations.forEach((destination: Directory) => buildBarrel(destination, builder, options));
 }

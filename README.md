@@ -126,8 +126,8 @@ Display additional debug information.
 * Update "index" terminology to say "barrel" throughout codebase.
 * Some `tsconfig.json` settings could potentially impact the module resolution (paths, baseUrl, rootDirs).
 * Look at `tsconfig.json` to determine which files to load.
+* Allow people to specify their own barrel builder scripts.
 
 ### Code Cleanup
-* Types to Interfaces?
 * Ensure all regexps are centralised.
 * Ignore non-typescript files earlier in the process.
