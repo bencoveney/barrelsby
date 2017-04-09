@@ -43,6 +43,7 @@ describe("builder/builder module has a", () => {
         describe("uses the structure option and", () => {
             const testStructure = (structure: StructureOption, isFlat: boolean) => {
                 runBuilder(structure);
+                // TODO: Test arguments for barrel builder & loadDirectoryModules
                 if (isFlat) {
                     Sinon.assert.calledTwice(Flat.buildFlatBarrel as Sinon.SinonSpy);
                     Sinon.assert.notCalled(FileSystem.buildFileSystemBarrel as Sinon.SinonSpy);
