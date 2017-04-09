@@ -6,7 +6,7 @@ import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
 import {buildImportPath} from "./utilities";
 
 function stringify(structure: ExportStructure, previousIndentation: string): string {
-    let nextIndentation = previousIndentation + indentation;
+    const nextIndentation = previousIndentation + indentation;
     let content = "";
     for (const key of Object.keys(structure).sort()) {
         content += `
@@ -23,9 +23,9 @@ ${nextIndentation}"${key}": `;
 ${previousIndentation}}`;
 }
 
-type ExportStructure = {
+interface ExportStructure {
     [directoryName: string]: ExportStructure | string;
-};
+}
 
 function buildStructureSubsection(structure: ExportStructure, pathParts: string[], name: string, reference: string) {
     const pathPart = pathParts.shift();
