@@ -1,4 +1,5 @@
 "use strict";
+var chai_1 = require("chai");
 function mockFsConfiguration() {
     return {
         "code.ts": "export const code = 'Hello Saturn!'",
@@ -76,6 +77,7 @@ function mockDirectoryTree() {
     };
 }
 exports.mockDirectoryTree = mockDirectoryTree;
+// Gets a mock Options object.
 function mockOptions(loggerTarget) {
     return {
         indexName: "barrel.ts",
@@ -84,8 +86,19 @@ function mockOptions(loggerTarget) {
     };
 }
 exports.mockOptions = mockOptions;
+// Gets a location from a list by name.
 function getLocationByName(locations, name) {
     return locations.filter(function (location) { return location.name === name; })[0];
 }
 exports.getLocationByName = getLocationByName;
+// Multiline string assertion to give more useful output messages.
+function assertMultiLine(actual, expected) {
+    var actualParts = actual.split("\n");
+    var expectParts = expected.split("\n");
+    chai_1.assert.equal(actualParts.length, expectParts.length, "Different numbers of lines");
+    actualParts.forEach(function (actualPart, index) {
+        chai_1.assert.equal(actualPart, expectParts[index]);
+    });
+}
+exports.assertMultiLine = assertMultiLine;
 //# sourceMappingURL=utilities.js.map

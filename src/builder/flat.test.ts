@@ -30,7 +30,9 @@ describe("builder/flat module has a", () => {
             spySandbox.restore();
         });
         it("should produce the correct output", () => {
-            assert.equal(output, `export * from "./script";
+            TestUtilities.assertMultiLine(
+                output,
+                `export * from "./script";
 export * from "./directory4/deeplyNested";
 `);
         });

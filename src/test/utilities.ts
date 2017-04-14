@@ -1,3 +1,4 @@
+import {assert} from "chai";
 import {Options} from "../options";
 import {Directory, Location} from "../utilities";
 
@@ -78,6 +79,7 @@ export function mockDirectoryTree(): Directory {
     };
 }
 
+// Gets a mock Options object.
 export function mockOptions(loggerTarget: string[]): Options {
     return {
         indexName: "barrel.ts",
@@ -86,6 +88,17 @@ export function mockOptions(loggerTarget: string[]): Options {
     };
 }
 
+// Gets a location from a list by name.
 export function getLocationByName(locations: Location[], name: string): Location {
     return locations.filter((location) => location.name === name)[0];
+}
+
+// Multiline string assertion to give more useful output messages.
+export function assertMultiLine(actual: string, expected: string): void {
+    const actualParts = actual.split("\n");
+    const expectParts = expected.split("\n");
+    assert.equal(actualParts.length, expectParts.length, "Different numbers of lines");
+    actualParts.forEach((actualPart, index) => {
+        assert.equal(actualPart, expectParts[index]);
+    });
 }

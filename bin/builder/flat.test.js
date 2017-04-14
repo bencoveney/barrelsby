@@ -24,7 +24,7 @@ describe("builder/flat module has a", function () {
             spySandbox.restore();
         });
         it("should produce the correct output", function () {
-            chai_1.assert.equal(output, "export * from \"./script\";\nexport * from \"./directory4/deeplyNested\";\n");
+            TestUtilities.assertMultiLine(output, "export * from \"./script\";\nexport * from \"./directory4/deeplyNested\";\n");
         });
         it("should log useful information to the logger", function () {
             var messages = [
