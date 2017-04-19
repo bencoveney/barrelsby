@@ -10,7 +10,7 @@ function stringify(structure: ExportStructure, previousIndentation: string): str
     let content = "";
     for (const key of Object.keys(structure).sort()) {
         content += `
-${nextIndentation}"${key}": `;
+${nextIndentation}${key}: `;
         const exported = structure[key];
         if (typeof exported === "string") {
             content += exported;
@@ -44,6 +44,15 @@ function buildStructureSubsection(structure: ExportStructure, pathParts: string[
 export function buildFileSystemBarrel(directory: Directory, modules: Location[]): string {
     const structure: ExportStructure = {};
     let content = "";
+    modules.sort((a, b) => {
+        if (a.name < b.name) {
+            return -1;
+        }
+        if (a.name > b.name) {
+            return 1;
+        }
+        return 0;
+    });
     modules.forEach((module: Location) => {
         const relativePath = path.relative(directory.path, module.path);
         const directoryPath = path.dirname(relativePath);

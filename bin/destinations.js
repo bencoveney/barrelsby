@@ -1,8 +1,8 @@
 "use strict";
-var fileTree_1 = require("./fileTree");
+const fileTree_1 = require("./fileTree");
 /** Assess which directories in the tree should contain barrels. */
 function getDestinations(rootTree, options) {
-    var destinations;
+    let destinations;
     switch (options.location) {
         case "top":
         default:
@@ -13,21 +13,21 @@ function getDestinations(rootTree, options) {
             break;
         case "all":
             destinations = [];
-            fileTree_1.walkTree(rootTree, function (directory) {
+            fileTree_1.walkTree(rootTree, (directory) => {
                 destinations.push(directory);
             });
             break;
         case "replace":
             destinations = [];
-            fileTree_1.walkTree(rootTree, function (directory) {
-                if (directory.files.some(function (location) { return location.name === options.indexName; })) {
+            fileTree_1.walkTree(rootTree, (directory) => {
+                if (directory.files.some((location) => location.name === options.indexName)) {
                     destinations.push(directory);
                 }
             });
             break;
         case "branch":
             destinations = [];
-            fileTree_1.walkTree(rootTree, function (directory) {
+            fileTree_1.walkTree(rootTree, (directory) => {
                 if (directory.directories.length > 0) {
                     destinations.push(directory);
                 }
@@ -35,11 +35,11 @@ function getDestinations(rootTree, options) {
             break;
     }
     // Sort by length. This means barrels will be created deepest first.
-    destinations = destinations.sort(function (a, b) {
+    destinations = destinations.sort((a, b) => {
         return b.path.length - a.path.length;
     });
     options.logger("Destinations:");
-    destinations.forEach(function (destination) { return options.logger(destination.path); });
+    destinations.forEach((destination) => options.logger(destination.path));
     return destinations;
 }
 exports.getDestinations = getDestinations;

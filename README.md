@@ -113,10 +113,6 @@ Display additional debug information.
 
 ## TODO
 
-### Before 1.0
-* Unit tests.
-* Barrels should follow tslint rules.
-
 ### Nice-To-Have Features
 * Watch mode.
 * Barrel names match directory names.
@@ -128,6 +124,7 @@ Display additional debug information.
 * Allow people to specify their own barrel builder scripts.
 * Ability to include/exclude `.tsx` files.
 * Prefer globs to regular expressions in include/exclude?
+* 100% code coverage.
 
 ### Code Cleanup
 * Ensure all regexps are centralised.

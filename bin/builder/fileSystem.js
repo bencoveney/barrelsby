@@ -1,14 +1,14 @@
 "use strict";
-var path = require("path");
-var utilities_1 = require("../utilities");
-var utilities_2 = require("./utilities");
+const path = require("path");
+const utilities_1 = require("../utilities");
+const utilities_2 = require("./utilities");
 function stringify(structure, previousIndentation) {
-    var nextIndentation = previousIndentation + utilities_1.indentation;
-    var content = "";
-    for (var _i = 0, _a = Object.keys(structure).sort(); _i < _a.length; _i++) {
-        var key = _a[_i];
-        content += "\n" + nextIndentation + "\"" + key + "\": ";
-        var exported = structure[key];
+    const nextIndentation = previousIndentation + utilities_1.indentation;
+    let content = "";
+    for (const key of Object.keys(structure).sort()) {
+        content += `
+${nextIndentation}${key}: `;
+        const exported = structure[key];
         if (typeof exported === "string") {
             content += exported;
         }
@@ -17,11 +17,12 @@ function stringify(structure, previousIndentation) {
         }
         content += ",";
     }
-    return "{" + content + "\n" + previousIndentation + "}";
+    return `{${content}
+${previousIndentation}}`;
 }
 function buildStructureSubsection(structure, pathParts, name, reference) {
-    var pathPart = pathParts.shift();
-    var subsection = pathPart === "." ? structure : structure[pathPart];
+    const pathPart = pathParts.shift();
+    let subsection = pathPart === "." ? structure : structure[pathPart];
     if (!subsection) {
         subsection = {};
         structure[pathPart] = subsection;
@@ -34,26 +35,37 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
     }
 }
 function buildFileSystemBarrel(directory, modules) {
-    var structure = {};
-    var content = "";
-    modules.forEach(function (module) {
-        var relativePath = path.relative(directory.path, module.path);
-        var directoryPath = path.dirname(relativePath);
-        var parts = directoryPath.split(path.sep);
-        var alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
-        var importPath = utilities_2.buildImportPath(directory, module);
-        content += "import * as " + alias + " from \"" + importPath + "\";\n";
-        var fileName = path.basename(module.name, ".ts");
+    const structure = {};
+    let content = "";
+    modules.sort((a, b) => {
+        if (a.name < b.name) {
+            return -1;
+        }
+        if (a.name > b.name) {
+            return 1;
+        }
+        return 0;
+    });
+    modules.forEach((module) => {
+        const relativePath = path.relative(directory.path, module.path);
+        const directoryPath = path.dirname(relativePath);
+        const parts = directoryPath.split(path.sep);
+        const alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
+        const importPath = utilities_2.buildImportPath(directory, module);
+        content += `import * as ${alias} from "${importPath}";
+`;
+        const fileName = path.basename(module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);
     });
-    for (var _i = 0, _a = Object.keys(structure).sort(); _i < _a.length; _i++) {
-        var key = _a[_i];
-        var exported = structure[key];
+    for (const key of Object.keys(structure).sort()) {
+        const exported = structure[key];
         if (typeof exported === "string") {
-            content += "export {" + exported + " as " + key + "};\n";
+            content += `export {${exported} as ${key}};
+`;
         }
         else {
-            content += "export const " + key + " = " + stringify(exported, "") + ";\n";
+            content += `export const ${key} = ${stringify(exported, "")};
+`;
         }
     }
     return content;

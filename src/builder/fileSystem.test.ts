@@ -19,13 +19,16 @@ describe("builder/fileSystem module has a", () => {
         it("should produce the correct output", () => {
             TestUtilities.assertMultiLine(
                 output,
-                `import * as scriptts from "./script";
-import * as directory4deeplyNestedts from "./directory4/deeplyNested";
+                `import * as directory4deeplyNestedts from "./directory4/deeplyNested";
+import * as scriptts from "./script";
 export const directory4 = {
-  "deeplyNested": directory4deeplyNestedts,
+  deeplyNested: directory4deeplyNestedts,
 };
 export {scriptts as script};
 `);
+        });
+        it("should produce output compatible with the recommended tslint ruleset", () => {
+            TestUtilities.tslintFile(output);
         });
     });
 });

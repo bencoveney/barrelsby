@@ -46,5 +46,8 @@ export * from "./directory4/deeplyNested";
                 assert.equal(logger.getCall(index).args[0], message);
             });
         });
+        it("should produce output compatible with the recommended tslint ruleset", () => {
+            TestUtilities.tslintFile(output);
+        });
     });
 });

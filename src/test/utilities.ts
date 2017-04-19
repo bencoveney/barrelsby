@@ -1,4 +1,6 @@
 import {assert} from "chai";
+import {Configuration, Linter} from "tslint";
+
 import {Options} from "../options";
 import {Directory, Location} from "../utilities";
 
@@ -101,4 +103,15 @@ export function assertMultiLine(actual: string, expected: string): void {
     actualParts.forEach((actualPart, index) => {
         assert.equal(actualPart, expectParts[index]);
     });
+}
+
+// Runs tslint against the specified file and checks there are no errors.
+export function tslintFile(fileContents: string) {
+    const linter = new Linter({fix: false, formatter: "json"});
+    const configuration = Configuration.loadConfigurationFromPath("./tslint.json");
+    linter.lint("test_output.ts", fileContents, configuration);
+    const failures = linter.getResult().failures.map((failure) =>
+        `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`,
+    );
+    assert.deepEqual(failures, []);
 }
