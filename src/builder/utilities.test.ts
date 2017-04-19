@@ -1,5 +1,4 @@
 import {assert} from "chai";
-import * as Mocha from "mocha";
 
 import * as TestUtilities from "../test/utilities";
 import {Directory} from "../utilities";

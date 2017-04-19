@@ -1,6 +1,5 @@
 import * as path from "path";
 
-import {Options} from "../options";
 import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
 
 import {buildImportPath} from "./utilities";

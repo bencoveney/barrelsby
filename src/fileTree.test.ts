@@ -1,5 +1,4 @@
 import {assert} from "chai";
-import * as Mocha from "mocha";
 import * as MockFs from "mock-fs";
 
 import * as TestUtilities from "./test/utilities";

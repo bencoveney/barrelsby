@@ -1,5 +1,4 @@
 import {assert} from "chai";
-import * as Mocha from "mocha";
 
 import * as Destinations from "./destinations";
 import {LocationOption, Options} from "./options";

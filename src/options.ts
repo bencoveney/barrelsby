@@ -94,7 +94,7 @@ export function getOptions(): Options {
     const options = setUpArguments().argv;
 
     // tslint:disable-next-line:no-empty
-    options.logger = options.verbose ? console.log : (message: string) => {};
+    options.logger = options.verbose ? console.log : new Function("message");
 
     options.rootPath = path.resolve(options.directory);
 

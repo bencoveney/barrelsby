@@ -1,4 +1,4 @@
-import {buildTree, walkTree} from "./fileTree";
+import {walkTree} from "./fileTree";
 import {Options} from "./options";
 import {Directory, Location} from "./utilities";
 

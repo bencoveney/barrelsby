@@ -111,24 +111,23 @@ Display the barrelsby version number.
 
 Display additional debug information.
 
-## TODO
+## TODO List
 
-### Nice-To-Have Features
+* 100% test coverage.
 * Watch mode.
 * Barrel names match directory names.
 * Create barrel even if empty (no modules).
-* Path seperator for inside barrels?
-* Update "index" terminology to say "barrel" throughout codebase.
+* Configurable path seperator for inside barrels?
 * Some `tsconfig.json` settings could potentially impact the module resolution (paths, baseUrl, rootDirs).
-* Look at `tsconfig.json` to determine which files to load.
-* Allow people to specify their own barrel builder scripts.
+* Look at `tsconfig.json` to determine which files to load (`--project`).
+* Allow custom barrel builder scripts.
 * Ability to include/exclude `.tsx` files.
 * Prefer globs to regular expressions in include/exclude?
-* 100% code coverage.
+* Distribute @types.
 
 ### Code Cleanup
-* Ensure all regexps are centralised.
 * Ignore non-module files earlier in the process.
 * TypeScript strict null checks.
 * Some tests could benefit from TestUtilities.
 * Some tests could benefit from better assert usage.
+* Update "index" terminology to say "barrel" throughout codebase.

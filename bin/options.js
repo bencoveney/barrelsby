@@ -52,7 +52,7 @@ function setUpArguments() {
 function getOptions() {
     const options = setUpArguments().argv;
     // tslint:disable-next-line:no-empty
-    options.logger = options.verbose ? console.log : (message) => { };
+    options.logger = options.verbose ? console.log : new Function("message");
     options.rootPath = path.resolve(options.directory);
     // Resolve index name.
     const nameArgument = options.name;
