@@ -1,7 +1,8 @@
 "use strict";
-const path = require("path");
-const Yargs = require("yargs");
-const utilities_1 = require("./utilities");
+Object.defineProperty(exports, "__esModule", { value: true });
+var path = require("path");
+var Yargs = require("yargs");
+var utilities_1 = require("./utilities");
 function setUpArguments() {
     return Yargs
         .usage("Usage: barrelsby [options]")
@@ -50,14 +51,14 @@ function setUpArguments() {
         .default("D", false);
 }
 function getOptions() {
-    const options = setUpArguments().argv;
+    var options = setUpArguments().argv;
     // tslint:disable-next-line:no-empty
-    options.logger = options.verbose ? console.log : (message) => { };
+    options.logger = options.verbose ? console.log : function (message) { };
     options.rootPath = path.resolve(options.directory);
     // Resolve index name.
-    const nameArgument = options.name;
-    options.indexName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
-    options.logger(`Using name ${options.indexName}`);
+    var nameArgument = options.name;
+    options.indexName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : nameArgument + ".ts";
+    options.logger("Using name " + options.indexName);
     return options;
 }
 exports.getOptions = getOptions;

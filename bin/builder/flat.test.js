@@ -1,44 +1,43 @@
 "use strict";
-const chai_1 = require("chai");
-const Sinon = require("sinon");
-const TestUtilities = require("../test/utilities");
-const Flat = require("./flat");
-describe("builder/flat module has a", () => {
-    describe("buildFlatBarrel function that", () => {
-        let output;
-        let spySandbox;
-        let logger;
-        beforeEach(() => {
-            const directory = TestUtilities.mockDirectoryTree().directories[0];
-            const modules = directory.directories.reduce((previous, current) => previous.concat(current.files), directory.files);
+Object.defineProperty(exports, "__esModule", { value: true });
+var chai_1 = require("chai");
+var Sinon = require("sinon");
+var TestUtilities = require("../test/utilities");
+var Flat = require("./flat");
+describe("builder/flat module has a", function () {
+    describe("buildFlatBarrel function that", function () {
+        var output;
+        var spySandbox;
+        var logger;
+        beforeEach(function () {
+            var directory = TestUtilities.mockDirectoryTree().directories[0];
+            var modules = directory.directories.reduce(function (previous, current) { return previous.concat(current.files); }, directory.files);
             spySandbox = Sinon.sandbox.create();
             logger = spySandbox.spy();
-            const options = {
+            var options = {
                 indexName: "barrel.ts",
-                logger,
+                logger: logger,
                 rootPath: ".",
             };
             output = Flat.buildFlatBarrel(directory, modules, options);
         });
-        afterEach(() => {
+        afterEach(function () {
             spySandbox.restore();
         });
-        it("should produce the correct output", () => {
-            TestUtilities.assertMultiLine(output, `export * from "./script";
-export * from "./directory4/deeplyNested";
-`);
+        it("should produce the correct output", function () {
+            TestUtilities.assertMultiLine(output, "export * from \"./script\";\nexport * from \"./directory4/deeplyNested\";\n");
         });
-        it("should log useful information to the logger", () => {
-            const messages = [
+        it("should log useful information to the logger", function () {
+            var messages = [
                 "Including path ./script",
                 "Including path ./directory4/deeplyNested",
             ];
             chai_1.assert.equal(logger.callCount, messages.length);
-            messages.forEach((message, index) => {
+            messages.forEach(function (message, index) {
                 chai_1.assert.equal(logger.getCall(index).args[0], message);
             });
         });
-        it("should produce output compatible with the recommended tslint ruleset", () => {
+        it("should produce output compatible with the recommended tslint ruleset", function () {
             TestUtilities.tslintFile(output);
         });
     });

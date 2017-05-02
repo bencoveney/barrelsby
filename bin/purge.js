@@ -1,16 +1,17 @@
 "use strict";
-const fs = require("fs");
-const fileTree_1 = require("./fileTree");
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
+var fileTree_1 = require("./fileTree");
 function purge(rootTree, options) {
     // Delete any existing indexes.
     if (options.delete) {
-        fileTree_1.walkTree(rootTree, (directory) => {
+        fileTree_1.walkTree(rootTree, function (directory) {
             directory.files
-                .filter((file) => {
+                .filter(function (file) {
                 return file.name === options.indexName;
             })
-                .forEach((file) => {
-                options.logger(`Deleting existing index @ ${file.path}`);
+                .forEach(function (file) {
+                options.logger("Deleting existing index @ " + file.path);
                 // Delete barrel file and clean up tree model.
                 fs.unlinkSync(file.path);
                 directory.files.splice(directory.files.indexOf(file), 1);

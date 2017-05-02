@@ -1,12 +1,13 @@
 "use strict";
-const fs = require("fs");
-const path = require("path");
-const utilities_1 = require("../utilities");
-const fileSystem_1 = require("./fileSystem");
-const flat_1 = require("./flat");
-const modules_1 = require("./modules");
+Object.defineProperty(exports, "__esModule", { value: true });
+var fs = require("fs");
+var path = require("path");
+var utilities_1 = require("../utilities");
+var fileSystem_1 = require("./fileSystem");
+var flat_1 = require("./flat");
+var modules_1 = require("./modules");
 function buildBarrels(destinations, options) {
-    let builder;
+    var builder;
     switch (options.structure) {
         default:
         case "flat":
@@ -17,23 +18,23 @@ function buildBarrels(destinations, options) {
             break;
     }
     // Build the barrels.
-    destinations.forEach((destination) => buildBarrel(destination, builder, options));
+    destinations.forEach(function (destination) { return buildBarrel(destination, builder, options); });
 }
 exports.buildBarrels = buildBarrels;
 // Build a barrel for the specified directory.
 function buildBarrel(directory, builder, options) {
-    options.logger(`Building barrel @ ${directory.path}`);
-    const barrelContent = builder(directory, modules_1.loadDirectoryModules(directory, options), options);
-    const indexPath = path.join(directory.path, options.indexName);
+    options.logger("Building barrel @ " + directory.path);
+    var barrelContent = builder(directory, modules_1.loadDirectoryModules(directory, options), options);
+    var indexPath = path.join(directory.path, options.indexName);
     fs.writeFileSync(indexPath, barrelContent);
     // Update the file tree model with the new index.
-    if (!directory.files.some((file) => file.name === options.indexName)) {
-        const convertedPath = utilities_1.convertPathSeparator(indexPath);
-        const index = {
+    if (!directory.files.some(function (file) { return file.name === options.indexName; })) {
+        var convertedPath = utilities_1.convertPathSeparator(indexPath);
+        var index = {
             name: options.indexName,
             path: convertedPath,
         };
-        options.logger(`Updating model index @ ${convertedPath}`);
+        options.logger("Updating model index @ " + convertedPath);
         directory.files.push(index);
         directory.index = index;
     }
