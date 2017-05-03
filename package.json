@@ -60,7 +60,7 @@
     "node": ">=0.10"
   },
   "dependencies": {
-    "yargs": "^7.0.2"
+    "yargs": "^8.0.1"
   },
   "contributors": [
     {
