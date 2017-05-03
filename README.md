@@ -131,3 +131,7 @@ Display additional debug information.
 * Some tests could benefit from TestUtilities.
 * Some tests could benefit from better assert usage.
 * Update "index" terminology to say "barrel" throughout codebase.
+
+## Requirements
+
+Requires node v6.0.0 or greater.

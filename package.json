@@ -68,5 +68,8 @@
       "email": "bencoveney@gmail.com",
       "url": "https://github.com/bencoveney"
     }
-  ]
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  }
 }
