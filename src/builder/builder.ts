@@ -27,18 +27,18 @@ export function buildBarrels(destinations: Directory[], options: Options): void 
 // Build a barrel for the specified directory.
 function buildBarrel(directory: Directory, builder: BarrelBuilder, options: Options) {
     options.logger(`Building barrel @ ${directory.path}`);
-    const barrelContent = builder(directory, loadDirectoryModules(directory, options), options);
-    const indexPath = path.join(directory.path, options.indexName);
-    fs.writeFileSync(indexPath, barrelContent);
-    // Update the file tree model with the new index.
-    if (!directory.files.some((file: Location) => file.name === options.indexName)) {
-        const convertedPath = convertPathSeparator(indexPath);
-        const index = {
-            name: options.indexName,
+    const content = builder(directory, loadDirectoryModules(directory, options), options);
+    const destination = path.join(directory.path, options.barrelName);
+    fs.writeFileSync(destination, content);
+    // Update the file tree model with the new barrel.
+    if (!directory.files.some((file: Location) => file.name === options.barrelName)) {
+        const convertedPath = convertPathSeparator(destination);
+        const barrel = {
+            name: options.barrelName,
             path: convertedPath,
         };
-        options.logger(`Updating model index @ ${convertedPath}`);
-        directory.files.push(index);
-        directory.index = index;
+        options.logger(`Updating model barrel @ ${convertedPath}`);
+        directory.files.push(barrel);
+        directory.barrel = barrel;
     }
 }

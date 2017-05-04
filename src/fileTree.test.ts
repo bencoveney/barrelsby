@@ -17,7 +17,7 @@ describe("fileTree module has a", () => {
             result = FileTree.buildTree(
                 "./directory1",
                 {
-                    indexName: "barrel.ts",
+                    barrelName: "barrel.ts",
                     logger,
                     rootPath: "some/path",
                 },
@@ -52,29 +52,29 @@ describe("fileTree module has a", () => {
             testFile("barrel.ts");
             testFile("ignore.txt");
         });
-        it("should identify existing indexes in a directory", () => {
-            assert.isNotNull(result.index);
+        it("should identify existing barrels in a directory", () => {
+            assert.isNotNull(result.barrel);
 
-            const index = result.index as Location;
+            const barrel = result.barrel as Location;
 
-            // Test the index.
-            assert.equal(index.name, "barrel.ts");
-            assert.equal(index.path, "directory1/barrel.ts");
+            // Test the barrel.
+            assert.equal(barrel.name, "barrel.ts");
+            assert.equal(barrel.path, "directory1/barrel.ts");
 
             // Test it is in the files list.
-            assert.notEqual(result.files.indexOf(index), -1);
+            assert.notEqual(result.files.indexOf(barrel), -1);
 
             // Check for a child.
             assert.lengthOf(result.directories, 2);
             const subDirectory = result.directories[0];
 
-            // Child shouldn't have an index.
-            assert.isUndefined(subDirectory.index);
+            // Child shouldn't have a barrel.
+            assert.isUndefined(subDirectory.barrel);
         });
         it("should log useful information to the logger", () => {
             assert.lengthOf(logged, 5);
             assert.equal(logged[0], "Building directory tree for ./directory1");
-            assert.equal(logged[1], "Found existing index @ directory1/barrel.ts");
+            assert.equal(logged[1], "Found existing barrel @ directory1/barrel.ts");
             assert.equal(logged[2], "Building directory tree for directory1/directory2");
             assert.equal(logged[3], "Building directory tree for directory1/directory2/directory4");
             assert.equal(logged[4], "Building directory tree for directory1/directory3");

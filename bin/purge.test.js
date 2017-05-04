@@ -40,7 +40,7 @@ describe("purge module has a", () => {
             options.delete = true;
             Purge.purge(directory, options);
             chai_1.assert.lengthOf(logged, 1);
-            options.logger(`Deleting existing index @ directory1/barrel.ts`);
+            options.logger(`Deleting existing barrel @ directory1/barrel.ts`);
         });
     });
 });

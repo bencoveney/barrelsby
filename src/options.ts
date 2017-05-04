@@ -24,7 +24,7 @@ interface Arguments {
 
 // Calculated options.
 interface CalculatedOptions {
-    indexName: string;
+    barrelName: string;
     logger: (message: string) => void;
     rootPath: string;
 }
@@ -48,7 +48,7 @@ function setUpArguments(): { argv: any } {
 
         .boolean("D")
         .alias("D", "delete")
-        .describe("D", "Delete existing index files.")
+        .describe("D", "Delete existing barrel files.")
         .default("D", false)
 
         .array("e")
@@ -98,10 +98,10 @@ export function getOptions(): Options {
 
     options.rootPath = path.resolve(options.directory);
 
-    // Resolve index name.
+    // Resolve barrel name.
     const nameArgument: string = options.name;
-    options.indexName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
-    options.logger(`Using name ${options.indexName}`);
+    options.barrelName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
+    options.logger(`Using name ${options.barrelName}`);
 
     return options;
 }

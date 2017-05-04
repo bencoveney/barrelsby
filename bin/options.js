@@ -16,7 +16,7 @@ function setUpArguments() {
         .default("d", "./")
         .boolean("D")
         .alias("D", "delete")
-        .describe("D", "Delete existing index files.")
+        .describe("D", "Delete existing barrel files.")
         .default("D", false)
         .array("e")
         .alias("e", "exclude")
@@ -54,10 +54,10 @@ function getOptions() {
     // tslint:disable-next-line:no-empty
     options.logger = options.verbose ? console.log : new Function("message");
     options.rootPath = path.resolve(options.directory);
-    // Resolve index name.
+    // Resolve barrel name.
     const nameArgument = options.name;
-    options.indexName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
-    options.logger(`Using name ${options.indexName}`);
+    options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
+    options.logger(`Using name ${options.barrelName}`);
     return options;
 }
 exports.getOptions = getOptions;

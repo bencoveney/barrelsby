@@ -49,7 +49,7 @@ describe("purge module has a", () => {
             Purge.purge(directory, options);
 
             assert.lengthOf(logged, 1);
-            options.logger(`Deleting existing index @ directory1/barrel.ts`);
+            options.logger(`Deleting existing barrel @ directory1/barrel.ts`);
         });
     });
 });

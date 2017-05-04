@@ -22,7 +22,7 @@ export function getDestinations(rootTree: Directory, options: Options): Director
         case "replace":
             destinations = [];
             walkTree(rootTree, (directory: Directory) => {
-                if (directory.files.some((location: Location) => location.name === options.indexName)) {
+                if (directory.files.some((location: Location) => location.name === options.barrelName)) {
                     destinations.push(directory);
                 }
             });

@@ -21,7 +21,7 @@ describe("builder/builder module has a", () => {
             Builder.buildBarrels(
                 directory.directories,
                 {
-                    indexName: "barrel.ts",
+                    barrelName: "barrel.ts",
                     logger,
                     rootPath: ".",
                     structure,
@@ -73,20 +73,20 @@ describe("builder/builder module has a", () => {
         it("should update the directory structure with the new barrel", () => {
             runBuilder("flat");
             directory.directories.forEach((subDirectory: Directory) => {
-                assert.equal((subDirectory.index as Location).name, "barrel.ts");
+                assert.equal((subDirectory.barrel as Location).name, "barrel.ts");
             });
         });
         it("should log useful information to the logger", () => {
             runBuilder("flat");
             const messages = [
                 "Building barrel @ directory1/directory2",
-                "Updating model index @ directory1/directory2/barrel.ts",
+                "Updating model barrel @ directory1/directory2/barrel.ts",
                 "Building barrel @ directory1/directory3",
-                "Updating model index @ directory1/directory3/barrel.ts",
+                "Updating model barrel @ directory1/directory3/barrel.ts",
             ];
             assert.equal(logger.callCount, messages.length);
-            messages.forEach((message: string, index: number) => {
-                assert.equal(logger.getCall(index).args[0], message);
+            messages.forEach((message: string, barrel: number) => {
+                assert.equal(logger.getCall(barrel).args[0], message);
             });
         });
     });

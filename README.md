@@ -9,8 +9,9 @@ Automatically create TypeScript barrels for your entire code base.
 
 ## About Barrels
 
-Barrels are files that rollup exports from several modules into a single convenient module. They
-help simplify large blocks of import statements from the top of files.
+Barrels are files that rollup exports from several modules into a single convenient module
+typically named `index.ts`. They tend to help simplify large blocks of import statements at the top
+of files and help to group up related functionality.
 
 A barrel file looks like this:
 
@@ -130,7 +131,6 @@ Display additional debug information.
 * Ignore non-module files earlier in the process.
 * Some tests could benefit from TestUtilities.
 * Some tests could benefit from better assert usage.
-* Update "index" terminology to say "barrel" throughout codebase.
 
 ## Requirements
 

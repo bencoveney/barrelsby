@@ -20,7 +20,7 @@ function getDestinations(rootTree, options) {
         case "replace":
             destinations = [];
             fileTree_1.walkTree(rootTree, (directory) => {
-                if (directory.files.some((location) => location.name === options.indexName)) {
+                if (directory.files.some((location) => location.name === options.barrelName)) {
                     destinations.push(directory);
                 }
             });

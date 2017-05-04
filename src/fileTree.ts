@@ -25,9 +25,9 @@ export function buildTree(directory: string, options: Options): Directory {
                 path: convertedPath,
             };
             result.files.push(file);
-            if (file.name === options.indexName) {
-                options.logger(`Found existing index @ ${convertedPath}`);
-                result.index = file;
+            if (file.name === options.barrelName) {
+                options.logger(`Found existing barrel @ ${convertedPath}`);
+                result.barrel = file;
             }
         }
     });

@@ -81,7 +81,7 @@ exports.mockDirectoryTree = mockDirectoryTree;
 // Gets a mock Options object.
 function mockOptions(loggerTarget) {
     return {
-        indexName: "barrel.ts",
+        barrelName: "barrel.ts",
         logger: (message) => loggerTarget.push(message),
         rootPath: "some/path",
     };

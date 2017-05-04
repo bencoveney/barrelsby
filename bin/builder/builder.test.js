@@ -16,7 +16,7 @@ describe("builder/builder module has a", () => {
         const runBuilder = (structure) => {
             logger = spySandbox.spy();
             Builder.buildBarrels(directory.directories, {
-                indexName: "barrel.ts",
+                barrelName: "barrel.ts",
                 logger,
                 rootPath: ".",
                 structure,
@@ -69,20 +69,20 @@ describe("builder/builder module has a", () => {
         it("should update the directory structure with the new barrel", () => {
             runBuilder("flat");
             directory.directories.forEach((subDirectory) => {
-                chai_1.assert.equal(subDirectory.index.name, "barrel.ts");
+                chai_1.assert.equal(subDirectory.barrel.name, "barrel.ts");
             });
         });
         it("should log useful information to the logger", () => {
             runBuilder("flat");
             const messages = [
                 "Building barrel @ directory1/directory2",
-                "Updating model index @ directory1/directory2/barrel.ts",
+                "Updating model barrel @ directory1/directory2/barrel.ts",
                 "Building barrel @ directory1/directory3",
-                "Updating model index @ directory1/directory3/barrel.ts",
+                "Updating model barrel @ directory1/directory3/barrel.ts",
             ];
             chai_1.assert.equal(logger.callCount, messages.length);
-            messages.forEach((message, index) => {
-                chai_1.assert.equal(logger.getCall(index).args[0], message);
+            messages.forEach((message, barrel) => {
+                chai_1.assert.equal(logger.getCall(barrel).args[0], message);
             });
         });
     });

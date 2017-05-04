@@ -14,7 +14,7 @@ describe("builder/flat module has a", () => {
             spySandbox = Sinon.sandbox.create();
             logger = spySandbox.spy();
             const options = {
-                indexName: "barrel.ts",
+                barrelName: "barrel.ts",
                 logger,
                 rootPath: ".",
             };

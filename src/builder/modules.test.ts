@@ -36,7 +36,7 @@ describe("builder/modules module has a", () => {
         it("should identify directories that already contain a barrel", () => {
             // Set up a barrel.
             const targetDirectory = directory.directories[0];
-            targetDirectory.index = targetDirectory.files[0];
+            targetDirectory.barrel = targetDirectory.files[0];
 
             const result = Modules.loadDirectoryModules(directory.directories[0], options);
             assert.lengthOf(result, 1);
@@ -113,7 +113,7 @@ describe("builder/modules module has a", () => {
         it("should log useful information to the logger", () => {
             // Set up a barrel.
             const indexedDirectory = directory.directories[0];
-            indexedDirectory.index = indexedDirectory.files[0];
+            indexedDirectory.barrel = indexedDirectory.files[0];
 
             Modules.loadDirectoryModules(directory, options);
             assert.deepEqual(
@@ -121,7 +121,7 @@ describe("builder/modules module has a", () => {
                 [
                     "Getting modules @ ./directory1",
                     "Getting modules @ directory1/directory2",
-                    "Found existing index @ directory1/directory2/script.ts",
+                    "Found existing barrel @ directory1/directory2/script.ts",
                     "Getting modules @ directory1/directory3",
                 ],
             );

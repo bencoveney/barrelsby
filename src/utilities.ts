@@ -12,8 +12,8 @@ export interface Directory extends Location {
     directories: Directory[];
     /** The files within the directory. */
     files: Location[];
-    /** The index within the directory if one exists. */
-    index?: Location;
+    /** The barrel within the directory if one exists. */
+    barrel?: Location;
 }
 
 export function convertPathSeparator(path: string): string {

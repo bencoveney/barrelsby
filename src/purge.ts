@@ -5,19 +5,19 @@ import {Options} from "./options";
 import {Directory, Location} from "./utilities";
 
 export function purge(rootTree: Directory, options: Options) {
-    // Delete any existing indexes.
+    // Delete any existing barrels.
     if (options.delete) {
         walkTree(rootTree, (directory: Directory) => {
             directory.files
                 .filter((file: Location) => {
-                    return file.name === options.indexName;
+                    return file.name === options.barrelName;
                 })
                 .forEach((file: Location) => {
-                    options.logger(`Deleting existing index @ ${file.path}`);
+                    options.logger(`Deleting existing barrel @ ${file.path}`);
                     // Delete barrel file and clean up tree model.
                     fs.unlinkSync(file.path);
                     directory.files.splice(directory.files.indexOf(file), 1);
-                    directory.index = undefined;
+                    directory.barrel = undefined;
                 });
         });
     }

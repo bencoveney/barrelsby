@@ -12,7 +12,7 @@ describe("fileTree module has a", () => {
             logged = [];
             const logger = (message) => logged.push(message);
             result = FileTree.buildTree("./directory1", {
-                indexName: "barrel.ts",
+                barrelName: "barrel.ts",
                 logger,
                 rootPath: "some/path",
             });
@@ -44,24 +44,24 @@ describe("fileTree module has a", () => {
             testFile("barrel.ts");
             testFile("ignore.txt");
         });
-        it("should identify existing indexes in a directory", () => {
-            chai_1.assert.isNotNull(result.index);
-            const index = result.index;
-            // Test the index.
-            chai_1.assert.equal(index.name, "barrel.ts");
-            chai_1.assert.equal(index.path, "directory1/barrel.ts");
+        it("should identify existing barrels in a directory", () => {
+            chai_1.assert.isNotNull(result.barrel);
+            const barrel = result.barrel;
+            // Test the barrel.
+            chai_1.assert.equal(barrel.name, "barrel.ts");
+            chai_1.assert.equal(barrel.path, "directory1/barrel.ts");
             // Test it is in the files list.
-            chai_1.assert.notEqual(result.files.indexOf(index), -1);
+            chai_1.assert.notEqual(result.files.indexOf(barrel), -1);
             // Check for a child.
             chai_1.assert.lengthOf(result.directories, 2);
             const subDirectory = result.directories[0];
-            // Child shouldn't have an index.
-            chai_1.assert.isUndefined(subDirectory.index);
+            // Child shouldn't have a barrel.
+            chai_1.assert.isUndefined(subDirectory.barrel);
         });
         it("should log useful information to the logger", () => {
             chai_1.assert.lengthOf(logged, 5);
             chai_1.assert.equal(logged[0], "Building directory tree for ./directory1");
-            chai_1.assert.equal(logged[1], "Found existing index @ directory1/barrel.ts");
+            chai_1.assert.equal(logged[1], "Found existing barrel @ directory1/barrel.ts");
             chai_1.assert.equal(logged[2], "Building directory tree for directory1/directory2");
             chai_1.assert.equal(logged[3], "Building directory tree for directory1/directory2/directory4");
             chai_1.assert.equal(logged[4], "Building directory tree for directory1/directory3");
