@@ -5,7 +5,7 @@ import * as Sinon from "sinon";
 
 import {StructureOption} from "../options";
 import * as TestUtilities from "../test/utilities";
-import {Directory} from "../utilities";
+import {Directory, Location} from "../utilities";
 import * as Builder from "./builder";
 import * as FileSystem from "./fileSystem";
 import * as Flat from "./flat";
@@ -16,7 +16,7 @@ describe("builder/builder module has a", () => {
         let directory: Directory;
         let spySandbox: sinon.SinonSandbox;
         let logger: Sinon.SinonSpy;
-        const runBuilder = (structure: StructureOption) => {
+        const runBuilder = (structure: StructureOption | undefined) => {
             logger = spySandbox.spy();
             Builder.buildBarrels(
                 directory.directories,
@@ -40,7 +40,7 @@ describe("builder/builder module has a", () => {
             spySandbox.restore();
         });
         describe("uses the structure option and", () => {
-            const testStructure = (structure: StructureOption, isFlat: boolean) => {
+            const testStructure = (structure: StructureOption | undefined, isFlat: boolean) => {
                 runBuilder(structure);
                 // TODO: Test arguments for barrel builder & loadDirectoryModules
                 if (isFlat) {
@@ -58,7 +58,7 @@ describe("builder/builder module has a", () => {
                 testStructure("filesystem", false);
             });
             it("should use the flat builder if no mode is specified", () => {
-                testStructure(null, true);
+                testStructure(undefined, true);
             });
         });
         it("should write each barrel's content to disk", () => {
@@ -73,7 +73,7 @@ describe("builder/builder module has a", () => {
         it("should update the directory structure with the new barrel", () => {
             runBuilder("flat");
             directory.directories.forEach((subDirectory: Directory) => {
-                assert.equal(subDirectory.index.name, "barrel.ts");
+                assert.equal((subDirectory.index as Location).name, "barrel.ts");
             });
         });
         it("should log useful information to the logger", () => {

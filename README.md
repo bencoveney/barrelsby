@@ -126,12 +126,12 @@ Display additional debug information.
 * Distribute @types.
 
 ### Code Cleanup
+
 * Ignore non-module files earlier in the process.
-* TypeScript strict null checks.
 * Some tests could benefit from TestUtilities.
 * Some tests could benefit from better assert usage.
 * Update "index" terminology to say "barrel" throughout codebase.
 
 ## Requirements
 
-Requires node v6.0.0 or greater.
+Requires node v6.0.0 or greater for ES6 syntax.

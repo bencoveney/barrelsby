@@ -2,8 +2,8 @@ import {Options} from "../options";
 import {Directory, isTypeScriptFile, Location} from "../utilities";
 
 interface Filters {
-    blacklists: RegExp[] | null;
-    whitelists: RegExp[] | null;
+    blacklists: RegExp[];
+    whitelists: RegExp[];
 }
 
 // Get any typescript modules contained at any depth in the current directory.
@@ -14,7 +14,7 @@ function getModules(directory: Directory, options: Options): Location[] {
         options.logger(`Found existing index @ ${directory.index.path}`);
         return [directory.index];
     }
-    const files: Location[] = [].concat(directory.files);
+    const files: Location[] = ([] as Location[]).concat(directory.files);
     directory.directories.forEach((childDirectory: Directory) => {
         // Recurse.
         files.push(...getModules(childDirectory, options));
@@ -25,9 +25,9 @@ function getModules(directory: Directory, options: Options): Location[] {
 
 function buildFilters(options: Options): Filters {
     // Filter a set of modules down to those matching the include/exclude rules.
-    function buildRegexList(patterns: string[]): RegExp[] | null {
+    function buildRegexList(patterns: string[] | undefined): RegExp[] {
         if (!Array.isArray(patterns)) {
-            return null;
+            return [];
         }
         return patterns.map((pattern: string) => new RegExp(pattern));
     }
@@ -39,7 +39,7 @@ function buildFilters(options: Options): Filters {
 
 function filterModules(filters: Filters, locations: Location[], options: Options): Location[] {
     let result = locations;
-    if (filters.whitelists !== null) {
+    if (filters.whitelists.length > 0) {
         result = result.filter((location: Location) => {
             return filters.whitelists.some((test: RegExp) => {
                 const isMatch = !!location.path.match(test);
@@ -50,7 +50,7 @@ function filterModules(filters: Filters, locations: Location[], options: Options
             });
         });
     }
-    if (filters.blacklists !== null) {
+    if (filters.blacklists.length > 0) {
         result = result.filter((location: Location) => {
             return !filters.blacklists.some((test: RegExp) => {
                 const isMatch = !!location.path.match(test);

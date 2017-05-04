@@ -45,11 +45,13 @@ describe("fileTree module has a", () => {
             testFile("ignore.txt");
         });
         it("should identify existing indexes in a directory", () => {
+            chai_1.assert.isNotNull(result.index);
+            const index = result.index;
             // Test the index.
-            chai_1.assert.equal(result.index.name, "barrel.ts");
-            chai_1.assert.equal(result.index.path, "directory1/barrel.ts");
+            chai_1.assert.equal(index.name, "barrel.ts");
+            chai_1.assert.equal(index.path, "directory1/barrel.ts");
             // Test it is in the files list.
-            chai_1.assert.notEqual(result.files.indexOf(result.index), -1);
+            chai_1.assert.notEqual(result.files.indexOf(index), -1);
             // Check for a child.
             chai_1.assert.lengthOf(result.directories, 2);
             const subDirectory = result.directories[0];

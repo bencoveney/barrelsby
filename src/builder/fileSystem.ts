@@ -27,7 +27,7 @@ interface ExportStructure {
 }
 
 function buildStructureSubsection(structure: ExportStructure, pathParts: string[], name: string, reference: string) {
-    const pathPart = pathParts.shift();
+    const pathPart = pathParts.shift() as string;
     let subsection: ExportStructure = pathPart === "." ? structure : structure[pathPart] as ExportStructure;
     if (!subsection) {
         subsection = {};

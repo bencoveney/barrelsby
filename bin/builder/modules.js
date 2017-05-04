@@ -20,7 +20,7 @@ function buildFilters(options) {
     // Filter a set of modules down to those matching the include/exclude rules.
     function buildRegexList(patterns) {
         if (!Array.isArray(patterns)) {
-            return null;
+            return [];
         }
         return patterns.map((pattern) => new RegExp(pattern));
     }
@@ -31,7 +31,7 @@ function buildFilters(options) {
 }
 function filterModules(filters, locations, options) {
     let result = locations;
-    if (filters.whitelists !== null) {
+    if (filters.whitelists.length > 0) {
         result = result.filter((location) => {
             return filters.whitelists.some((test) => {
                 const isMatch = !!location.path.match(test);
@@ -42,7 +42,7 @@ function filterModules(filters, locations, options) {
             });
         });
     }
-    if (filters.blacklists !== null) {
+    if (filters.blacklists.length > 0) {
         result = result.filter((location) => {
             return !filters.blacklists.some((test) => {
                 const isMatch = !!location.path.match(test);

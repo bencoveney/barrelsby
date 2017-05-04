@@ -14,7 +14,8 @@
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": true
+        "noUnusedParameters": true,
+        "strictNullChecks": true
     },
     "include": [
         "src/**/*.ts"

@@ -54,7 +54,7 @@ describe("builder/builder module has a", () => {
                 testStructure("filesystem", false);
             });
             it("should use the flat builder if no mode is specified", () => {
-                testStructure(null, true);
+                testStructure(undefined, true);
             });
         });
         it("should write each barrel's content to disk", () => {

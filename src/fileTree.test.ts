@@ -4,7 +4,7 @@ import * as MockFs from "mock-fs";
 import * as TestUtilities from "./test/utilities";
 
 import * as FileTree from "./fileTree";
-import {Directory} from "./utilities";
+import {Directory, Location} from "./utilities";
 
 describe("fileTree module has a", () => {
     describe("buildTree function that", () => {
@@ -53,12 +53,16 @@ describe("fileTree module has a", () => {
             testFile("ignore.txt");
         });
         it("should identify existing indexes in a directory", () => {
+            assert.isNotNull(result.index);
+
+            const index = result.index as Location;
+
             // Test the index.
-            assert.equal(result.index.name, "barrel.ts");
-            assert.equal(result.index.path, "directory1/barrel.ts");
+            assert.equal(index.name, "barrel.ts");
+            assert.equal(index.path, "directory1/barrel.ts");
 
             // Test it is in the files list.
-            assert.notEqual(result.files.indexOf(result.index), -1);
+            assert.notEqual(result.files.indexOf(index), -1);
 
             // Check for a child.
             assert.lengthOf(result.directories, 2);
