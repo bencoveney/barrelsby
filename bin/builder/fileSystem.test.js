@@ -9,9 +9,6 @@ describe("builder/fileSystem module has a", () => {
             const getModules = (directory) => directory.directories.reduce((previous, current) => {
                 return previous.concat(getModules(current));
             }, directory.files);
-            const modules = getModules(rootDirectory);
-            // tslint:disable-next-line
-            console.log(modules);
             output = FileSystem.buildFileSystemBarrel(rootDirectory, getModules(rootDirectory));
         });
         it("should produce the correct output", () => {

@@ -34,14 +34,10 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
         buildStructureSubsection(subsection, pathParts, name, reference);
     }
 }
+// Comparator for alphabetically sorting imports by path.
+// Does not need to check for equality, will only be used on distinct paths.
 function compareImports(a, b) {
-    if (a.path < b.path) {
-        return -1;
-    }
-    if (a.path > b.path) {
-        return 1;
-    }
-    return 0;
+    return a.path < b.path ? -1 : 1;
 }
 function buildFileSystemBarrel(directory, modules) {
     const structure = {};

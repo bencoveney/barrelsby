@@ -2,7 +2,6 @@
 const chai_1 = require("chai");
 const Destinations = require("./destinations");
 const TestUtilities = require("./test/utilities");
-// tslint:disable:no-empty
 describe("destinations module has a", () => {
     describe("getDestinations function that", () => {
         let directory;

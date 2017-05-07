@@ -5,8 +5,6 @@ import {LocationOption, Options} from "./options";
 import * as TestUtilities from "./test/utilities";
 import {Directory} from "./utilities";
 
-// tslint:disable:no-empty
-
 describe("destinations module has a", () => {
     describe("getDestinations function that", () => {
         let directory: Directory;

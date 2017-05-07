@@ -45,14 +45,10 @@ interface Import {
     path: string;
 }
 
+// Comparator for alphabetically sorting imports by path.
+// Does not need to check for equality, will only be used on distinct paths.
 function compareImports(a: Import, b: Import): number {
-    if (a.path < b.path) {
-        return -1;
-    }
-    if (a.path > b.path) {
-        return 1;
-    }
-    return 0;
+    return a.path < b.path ? -1 : 1;
 }
 
 export function buildFileSystemBarrel(directory: Directory, modules: Location[]): string {
