@@ -2,7 +2,7 @@
 const chai_1 = require("chai");
 const fs = require("fs");
 const MockFs = require("mock-fs");
-const TestUtilities = require("./test/utilities");
+const TestUtilities = require("./testUtilities");
 const Purge = require("./purge");
 describe("purge module has a", () => {
     describe("purge function that", () => {

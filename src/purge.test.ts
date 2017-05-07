@@ -2,7 +2,7 @@ import {assert} from "chai";
 import * as fs from "fs";
 import * as MockFs from "mock-fs";
 
-import * as TestUtilities from "./test/utilities";
+import * as TestUtilities from "./testUtilities";
 
 import {Options} from "./options";
 import * as Purge from "./purge";

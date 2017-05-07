@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import {buildBarrels} from "./builder/builder";
+import {buildBarrels} from "./builder";
 import {getDestinations} from "./destinations";
 import {buildTree} from "./fileTree";
 import {getOptions} from "./options";

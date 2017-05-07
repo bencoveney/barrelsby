@@ -16,6 +16,7 @@ export interface Directory extends Location {
     barrel?: Location;
 }
 
+/** Convert path separator from windows to unix */
 export function convertPathSeparator(path: string): string {
     return path.replace(/\\+/g, "/");
 }

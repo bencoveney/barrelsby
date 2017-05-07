@@ -1,7 +1,7 @@
 "use strict";
 const chai_1 = require("chai");
 const Destinations = require("./destinations");
-const TestUtilities = require("./test/utilities");
+const TestUtilities = require("./testUtilities");
 describe("destinations module has a", () => {
     describe("getDestinations function that", () => {
         let directory;

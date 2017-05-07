@@ -19,7 +19,8 @@
 		{
 			"taskName": "test",
 			"args": ["run", "test"],
-			"isBuildCommand": true
+			"isBuildCommand": true,
+			"problemMatcher": "$tsc"
 		}
 	]
 }

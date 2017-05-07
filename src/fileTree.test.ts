@@ -1,7 +1,7 @@
 import {assert} from "chai";
 import * as MockFs from "mock-fs";
 
-import * as TestUtilities from "./test/utilities";
+import * as TestUtilities from "./testUtilities";
 
 import * as FileTree from "./fileTree";
 import {Directory, Location} from "./utilities";

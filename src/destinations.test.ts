@@ -2,7 +2,7 @@ import {assert} from "chai";
 
 import * as Destinations from "./destinations";
 import {LocationOption, Options} from "./options";
-import * as TestUtilities from "./test/utilities";
+import * as TestUtilities from "./testUtilities";
 import {Directory} from "./utilities";
 
 describe("destinations module has a", () => {

@@ -1,7 +1,7 @@
 "use strict";
 const chai_1 = require("chai");
 const MockFs = require("mock-fs");
-const TestUtilities = require("./test/utilities");
+const TestUtilities = require("./testUtilities");
 const FileTree = require("./fileTree");
 describe("fileTree module has a", () => {
     describe("buildTree function that", () => {

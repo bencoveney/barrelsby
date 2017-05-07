@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 "use strict";
-const builder_1 = require("./builder/builder");
+const builder_1 = require("./builder");
 const destinations_1 = require("./destinations");
 const fileTree_1 = require("./fileTree");
 const options_1 = require("./options");
