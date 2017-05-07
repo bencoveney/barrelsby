@@ -10,7 +10,7 @@
 
         `npm install`
 
-3. Make your changes
+3. Make your changes.
 
 4. Make sure the tests pass:
 
@@ -27,3 +27,10 @@ All new code should:
 * Include unit tests for any changed code.
 * Include relevant updates to `README.md`.
 * Be consistent with the existing coding style.
+
+## Issues
+
+It is a good idea (however not strictly required) to create an issue to
+discuss changes before making them.
+
+Anyone is welcome to work on any issue marked *help wanted*.
