@@ -22,7 +22,7 @@ describe("options module has a", () => {
                 "--verbose",
             ]);
             const options = Options.getOptions();
-            chai_1.assert.isFunction(options.logger);
+            chai_1.assert.equal(options.logger, console.log);
             chai_1.assert.match(options.rootPath, /test$/);
             chai_1.assert.equal(options.barrelName, "barrel.ts");
             // From yargs
@@ -35,6 +35,16 @@ describe("options module has a", () => {
             chai_1.assert.equal(options.name, "barrel");
             chai_1.assert.equal(options.structure, "filesystem");
             chai_1.assert.equal(options.verbose, true);
+        });
+        it("should not use the console if logging is disabled", () => {
+            Yargs([]);
+            const options = Options.getOptions();
+            chai_1.assert.notEqual(options.logger, console.log);
+        });
+        it("should not append .ts to the name option if already present", () => {
+            Yargs(["--name", "barrel.ts"]);
+            const options = Options.getOptions();
+            chai_1.assert.equal(options.barrelName, "barrel.ts");
         });
     });
 });

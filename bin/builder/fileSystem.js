@@ -34,27 +34,29 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
         buildStructureSubsection(subsection, pathParts, name, reference);
     }
 }
+function compareImports(a, b) {
+    if (a.path < b.path) {
+        return -1;
+    }
+    if (a.path > b.path) {
+        return 1;
+    }
+    return 0;
+}
 function buildFileSystemBarrel(directory, modules) {
     const structure = {};
     let content = "";
-    modules.sort((a, b) => {
-        if (a.name < b.name) {
-            return -1;
-        }
-        if (a.name > b.name) {
-            return 1;
-        }
-        return 0;
-    });
-    modules.forEach((module) => {
-        const relativePath = path.relative(directory.path, module.path);
+    modules
+        .map((module) => ({ module, path: utilities_2.buildImportPath(directory, module) }))
+        .sort(compareImports)
+        .forEach((imported) => {
+        const relativePath = path.relative(directory.path, imported.module.path);
         const directoryPath = path.dirname(relativePath);
         const parts = directoryPath.split(path.sep);
         const alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
-        const importPath = utilities_2.buildImportPath(directory, module);
-        content += `import * as ${alias} from "${importPath}";
+        content += `import * as ${alias} from "${imported.path}";
 `;
-        const fileName = path.basename(module.name, ".ts");
+        const fileName = path.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);
     });
     for (const key of Object.keys(structure).sort()) {

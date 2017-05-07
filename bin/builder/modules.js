@@ -58,12 +58,7 @@ function filterModules(filters, locations, options) {
 function loadDirectoryModules(directory, options) {
     const modules = getModules(directory, options);
     const filters = buildFilters(options);
-    if (filters.blacklists || filters.whitelists) {
-        return filterModules(filters, modules, options);
-    }
-    else {
-        return modules;
-    }
+    return filterModules(filters, modules, options);
 }
 exports.loadDirectoryModules = loadDirectoryModules;
 //# sourceMappingURL=modules.js.map

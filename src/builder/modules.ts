@@ -69,9 +69,5 @@ export function loadDirectoryModules(directory: Directory, options: Options): Lo
 
     const filters = buildFilters(options);
 
-    if (filters.blacklists || filters.whitelists) {
-        return filterModules(filters, modules, options);
-    } else {
-        return modules;
-    }
+    return filterModules(filters, modules, options);
 }

@@ -40,29 +40,37 @@ function buildStructureSubsection(structure: ExportStructure, pathParts: string[
     }
 }
 
+interface Import {
+    module: Location;
+    path: string;
+}
+
+function compareImports(a: Import, b: Import): number {
+    if (a.path < b.path) {
+        return -1;
+    }
+    if (a.path > b.path) {
+        return 1;
+    }
+    return 0;
+}
+
 export function buildFileSystemBarrel(directory: Directory, modules: Location[]): string {
     const structure: ExportStructure = {};
     let content = "";
-    modules.sort((a, b) => {
-        if (a.name < b.name) {
-            return -1;
-        }
-        if (a.name > b.name) {
-            return 1;
-        }
-        return 0;
-    });
-    modules.forEach((module: Location) => {
-        const relativePath = path.relative(directory.path, module.path);
-        const directoryPath = path.dirname(relativePath);
-        const parts = directoryPath.split(path.sep);
-        const alias = relativePath.replace(nonAlphaNumeric, "");
-        const importPath = buildImportPath(directory, module);
-        content += `import * as ${alias} from "${importPath}";
+    modules
+        .map((module: Location): Import => ({ module, path: buildImportPath(directory, module) }))
+        .sort(compareImports)
+        .forEach((imported: Import): void => {
+            const relativePath = path.relative(directory.path, imported.module.path);
+            const directoryPath = path.dirname(relativePath);
+            const parts = directoryPath.split(path.sep);
+            const alias = relativePath.replace(nonAlphaNumeric, "");
+            content += `import * as ${alias} from "${imported.path}";
 `;
-        const fileName = path.basename(module.name, ".ts");
-        buildStructureSubsection(structure, parts, fileName, alias);
-    });
+            const fileName = path.basename(imported.module.name, ".ts");
+            buildStructureSubsection(structure, parts, fileName, alias);
+        });
     for (const key of Object.keys(structure).sort()) {
         const exported = structure[key];
         if (typeof exported === "string") {
