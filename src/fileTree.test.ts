@@ -72,12 +72,16 @@ describe("fileTree module has a", () => {
             assert.isUndefined(subDirectory.barrel);
         });
         it("should log useful information to the logger", () => {
-            assert.lengthOf(logged, 5);
-            assert.equal(logged[0], "Building directory tree for ./directory1");
-            assert.equal(logged[1], "Found existing barrel @ directory1/barrel.ts");
-            assert.equal(logged[2], "Building directory tree for directory1/directory2");
-            assert.equal(logged[3], "Building directory tree for directory1/directory2/directory4");
-            assert.equal(logged[4], "Building directory tree for directory1/directory3");
+            assert.sameMembers(
+                logged,
+                [
+                    "Building directory tree for ./directory1",
+                    "Found existing barrel @ directory1/barrel.ts",
+                    "Building directory tree for directory1/directory2",
+                    "Building directory tree for directory1/directory2/directory4",
+                    "Building directory tree for directory1/directory3",
+                ],
+            );
         });
     });
     describe("walkTree function that", () => {

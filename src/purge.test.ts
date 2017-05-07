@@ -48,8 +48,7 @@ describe("purge module has a", () => {
             options.delete = true;
             Purge.purge(directory, options);
 
-            assert.lengthOf(logged, 1);
-            options.logger(`Deleting existing barrel @ directory1/barrel.ts`);
+            assert.sameMembers(logged, ["Deleting existing barrel @ directory1/barrel.ts"]);
         });
     });
 });

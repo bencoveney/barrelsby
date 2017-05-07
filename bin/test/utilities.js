@@ -87,11 +87,6 @@ function mockOptions(loggerTarget) {
     };
 }
 exports.mockOptions = mockOptions;
-// Gets a location from a list by name.
-function getLocationByName(locations, name) {
-    return locations.filter((location) => location.name === name)[0];
-}
-exports.getLocationByName = getLocationByName;
 // Multiline string assertion to give more useful output messages.
 function assertMultiLine(actual, expected) {
     const actualParts = actual.split("\n");
@@ -103,12 +98,12 @@ function assertMultiLine(actual, expected) {
 }
 exports.assertMultiLine = assertMultiLine;
 // Runs tslint against the specified file and checks there are no errors.
-function tslintFile(fileContents) {
+function tslint(content) {
     const linter = new tslint_1.Linter({ fix: false, formatter: "json" });
     const configuration = tslint_1.Configuration.loadConfigurationFromPath("./tslint.json");
-    linter.lint("test_output.ts", fileContents, configuration);
+    linter.lint("test_output.ts", content, configuration);
     const failures = linter.getResult().failures.map((failure) => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
     chai_1.assert.deepEqual(failures, []);
 }
-exports.tslintFile = tslintFile;
+exports.tslint = tslint;
 //# sourceMappingURL=utilities.js.map

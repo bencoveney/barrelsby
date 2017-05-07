@@ -2,7 +2,7 @@ import {assert} from "chai";
 import {Configuration, Linter} from "tslint";
 
 import {Options} from "../options";
-import {Directory, Location} from "../utilities";
+import {Directory} from "../utilities";
 
 export function mockFsConfiguration() {
     return {
@@ -90,11 +90,6 @@ export function mockOptions(loggerTarget: string[]): Options {
     };
 }
 
-// Gets a location from a list by name.
-export function getLocationByName(locations: Location[], name: string): Location {
-    return locations.filter((location) => location.name === name)[0];
-}
-
 // Multiline string assertion to give more useful output messages.
 export function assertMultiLine(actual: string, expected: string): void {
     const actualParts = actual.split("\n");
@@ -106,10 +101,10 @@ export function assertMultiLine(actual: string, expected: string): void {
 }
 
 // Runs tslint against the specified file and checks there are no errors.
-export function tslintFile(fileContents: string) {
+export function tslint(content: string) {
     const linter = new Linter({fix: false, formatter: "json"});
     const configuration = Configuration.loadConfigurationFromPath("./tslint.json");
-    linter.lint("test_output.ts", fileContents, configuration);
+    linter.lint("test_output.ts", content, configuration);
     const failures = linter.getResult().failures.map((failure) =>
         `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`,
     );

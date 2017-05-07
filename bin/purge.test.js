@@ -39,8 +39,7 @@ describe("purge module has a", () => {
         it("should log useful information to the logger", () => {
             options.delete = true;
             Purge.purge(directory, options);
-            chai_1.assert.lengthOf(logged, 1);
-            options.logger(`Deleting existing barrel @ directory1/barrel.ts`);
+            chai_1.assert.sameMembers(logged, ["Deleting existing barrel @ directory1/barrel.ts"]);
         });
     });
 });

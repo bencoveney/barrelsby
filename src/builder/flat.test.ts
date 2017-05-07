@@ -46,7 +46,7 @@ export * from "./directory4/deeplyNested";
             });
         });
         it("should produce output compatible with the recommended tslint ruleset", () => {
-            TestUtilities.tslintFile(output);
+            TestUtilities.tslint(output);
         });
     });
 });

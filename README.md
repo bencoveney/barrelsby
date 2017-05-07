@@ -125,12 +125,7 @@ Display additional debug information.
 * Ability to include/exclude `.tsx` files.
 * Prefer globs to regular expressions in include/exclude?
 * Distribute @types.
-
-### Code Cleanup
-
 * Ignore non-module files earlier in the process.
-* Some tests could benefit from TestUtilities.
-* Some tests could benefit from better assert usage.
 
 ## Requirements
 

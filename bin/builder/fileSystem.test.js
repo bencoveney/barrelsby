@@ -19,7 +19,7 @@ export {scriptts as script};
 `);
         });
         it("should produce output compatible with the recommended tslint ruleset", () => {
-            TestUtilities.tslintFile(output);
+            TestUtilities.tslint(output);
         });
     });
 });
