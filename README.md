@@ -36,7 +36,7 @@ import {Slider} from "./src/controls/Slider";
 ...to something tidier like this:
 
 ```TypeScript
-import {DropDown, TextBox, CheckBox, DateTimePicker, Slider} from "./src/controls/index";
+import {DropDown, TextBox, CheckBox, DateTimePicker, Slider} from "./src/controls";
 ```
 
 ...or even this:
@@ -111,21 +111,6 @@ Display the barrelsby version number.
 ### `-V` or `--verbose`
 
 Display additional debug information.
-
-## TODO List
-
-* 100% test coverage.
-* Watch mode.
-* Barrel names match directory names.
-* Create barrel even if empty (no modules).
-* Configurable path seperator for inside barrels?
-* Some `tsconfig.json` settings could potentially impact the module resolution (paths, baseUrl, rootDirs).
-* Look at `tsconfig.json` to determine which files to load (`--project`).
-* Allow custom barrel builder scripts.
-* Ability to include/exclude `.tsx` files.
-* Prefer globs to regular expressions in include/exclude?
-* Distribute @types.
-* Ignore non-module files earlier in the process.
 
 ## Requirements
 
