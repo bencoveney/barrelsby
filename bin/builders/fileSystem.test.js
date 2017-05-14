@@ -6,17 +6,13 @@ describe("builder/fileSystem module has a", () => {
         let output;
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
-            const getModules = (directory) => directory.directories.reduce((previous, current) => {
-                return previous.concat(getModules(current));
-            }, directory.files);
-            output = FileSystem.buildFileSystemBarrel(rootDirectory, getModules(rootDirectory));
+            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory));
         });
         it("should produce the correct output", () => {
             TestUtilities.assertMultiLine(output, `import * as barrelts from "./barrel";
 import * as directory2directory4deeplyNestedts from "./directory2/directory4/deeplyNested";
 import * as directory2scriptts from "./directory2/script";
 import * as directory3programts from "./directory3/program";
-import * as ignoretxt from "./ignore.txt";
 import * as indexts from "./index";
 export {barrelts as barrel};
 export const directory2 = {
@@ -28,7 +24,6 @@ export const directory2 = {
 export const directory3 = {
   program: directory3programts,
 };
-export {ignoretxt as ignore.txt};
 export {indexts as index};
 `);
         });

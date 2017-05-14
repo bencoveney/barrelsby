@@ -101,8 +101,40 @@ appended if not included in the name. Barrels names will be defaulted to `index.
 
 The structure that barrelsby should create inside the barrels. Defaulted to *flat*.
 
-- `flat` exports modules without any nesting.
-- `filesystem` exports modules as a nested structure that matches the filesystem directories.
+#### `flat`
+
+Exports modules without any nesting.
+
+```TypeScript
+export * from "./barrel";
+export * from "./index";
+export * from "./directory2/script";
+export * from "./directory2/directory4/deeplyNested";
+export * from "./directory3/program";
+```
+
+#### `filesystem`
+
+Exports modules as a nested structure that matches the file system directories.
+
+```TypeScript
+import * as barrelts from "./barrel";
+import * as directory2directory4deeplyNestedts from "./directory2/directory4/deeplyNested";
+import * as directory2scriptts from "./directory2/script";
+import * as directory3programts from "./directory3/program";
+import * as indexts from "./index";
+export {barrelts as barrel};
+export const directory2 = {
+  directory4: {
+    deeplyNested: directory2directory4deeplyNestedts,
+  },
+  script: directory2scriptts,
+};
+export const directory3 = {
+  program: directory3programts,
+};
+export {indexts as index};
+```
 
 ### `-v` or `--version`
 

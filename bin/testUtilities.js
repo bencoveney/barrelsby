@@ -78,6 +78,13 @@ function mockDirectoryTree() {
     };
 }
 exports.mockDirectoryTree = mockDirectoryTree;
+function mockModules(rootDirectory) {
+    const getModules = (directory) => directory.directories.reduce((previous, current) => {
+        return previous.concat(getModules(current));
+    }, directory.files);
+    return getModules(rootDirectory).filter((module) => module.name.indexOf(".ts") >= 0);
+}
+exports.mockModules = mockModules;
 // Gets a mock Options object.
 function mockOptions(loggerTarget) {
     return {

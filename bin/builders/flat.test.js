@@ -9,8 +9,7 @@ describe("builder/flat module has a", () => {
         let spySandbox;
         let logger;
         beforeEach(() => {
-            const directory = TestUtilities.mockDirectoryTree().directories[0];
-            const modules = directory.directories.reduce((previous, current) => previous.concat(current.files), directory.files);
+            const directory = TestUtilities.mockDirectoryTree();
             spySandbox = Sinon.sandbox.create();
             logger = spySandbox.spy();
             const options = {
@@ -18,20 +17,28 @@ describe("builder/flat module has a", () => {
                 logger,
                 rootPath: ".",
             };
-            output = Flat.buildFlatBarrel(directory, modules, options);
+            output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options);
         });
         afterEach(() => {
             spySandbox.restore();
         });
         it("should produce the correct output", () => {
-            TestUtilities.assertMultiLine(output, `export * from "./script";
-export * from "./directory4/deeplyNested";
+            // tslint:disable-next-line
+            console.log(output);
+            TestUtilities.assertMultiLine(output, `export * from "./barrel";
+export * from "./index";
+export * from "./directory2/script";
+export * from "./directory2/directory4/deeplyNested";
+export * from "./directory3/program";
 `);
         });
         it("should log useful information to the logger", () => {
             const messages = [
-                "Including path ./script",
-                "Including path ./directory4/deeplyNested",
+                "Including path ./barrel",
+                "Including path ./index",
+                "Including path ./directory2/script",
+                "Including path ./directory2/directory4/deeplyNested",
+                "Including path ./directory3/program",
             ];
             chai_1.assert.equal(logger.callCount, messages.length);
             messages.forEach((message, index) => {

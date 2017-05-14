@@ -2,7 +2,7 @@ import {assert} from "chai";
 import {Configuration, Linter} from "tslint";
 
 import {Options} from "./options";
-import {Directory} from "./utilities";
+import {Directory, Location} from "./utilities";
 
 export function mockFsConfiguration() {
     return {
@@ -79,6 +79,16 @@ export function mockDirectoryTree(): Directory {
         name: "directory1",
         path: "./directory1",
     };
+}
+
+export function mockModules(rootDirectory: Directory): Location[] {
+    const getModules = (directory: Directory): Location[] => directory.directories.reduce(
+        (previous: Location[], current: Directory) => {
+            return previous.concat(getModules(current));
+        },
+        directory.files,
+    );
+    return getModules(rootDirectory).filter((module) => module.name.indexOf(".ts") >= 0);
 }
 
 // Gets a mock Options object.
