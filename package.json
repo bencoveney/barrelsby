@@ -50,9 +50,6 @@
     "tslint": "^5.0.0",
     "typescript": "^2.1.6"
   },
-  "files": [
-    "./bin/index.js"
-  ],
   "bin": {
     "barrelsby": "bin/index.js"
   },
