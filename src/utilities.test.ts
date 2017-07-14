@@ -13,8 +13,11 @@ describe("utilities module has a", () => {
         it("should match a typescript definition file", () => {
             assert.notEqual("definitions.d.ts".search(Utilities.isTypeScriptFile), -1);
         });
+        it("should match a typescript jsx (.tsx) file", () => {
+            assert.notEqual("other.tsx".search(Utilities.isTypeScriptFile), -1);
+        });
         it("should not match a non-typescript file", () => {
-            assert.equal("other.tsx".search(Utilities.isTypeScriptFile), -1);
+            assert.equal("other.cs".search(Utilities.isTypeScriptFile), -1);
         });
     });
     describe("nonAlphaNumeric regular expression that", () => {
