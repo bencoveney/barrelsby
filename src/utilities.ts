@@ -21,6 +21,6 @@ export function convertPathSeparator(path: string): string {
     return path.replace(/\\+/g, "/");
 }
 
-export const isTypeScriptFile = /\.ts$/m;
+export const isTypeScriptFile = /\.tsx?$/m;
 export const nonAlphaNumeric = /\W+/g;
 export const indentation = "  ";

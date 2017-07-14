@@ -112,4 +112,21 @@ describe("builder/builder module has a", () => {
             assert.equal(result, "./directory2/script");
         });
     });
+    describe("getBasename function that", () => {
+        it("should correctly strip .ts from the filename", () => {
+            const fileName = "./random/path/file.ts";
+            const result = Builder.getBasename(fileName);
+            assert.equal(result, "file");
+        });
+        it("should correctly strip .tsx from the filename", () => {
+            const fileName = "./random/path/file.tsx";
+            const result = Builder.getBasename(fileName);
+            assert.equal(result, "file");
+        });
+        it("should not strip extensions from non-typescript filenames", () => {
+            const fileName = "./random/path/file.cs";
+            const result = Builder.getBasename(fileName);
+            assert.equal(result, "file.cs");
+        });
+    });
 });

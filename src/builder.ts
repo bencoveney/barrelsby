@@ -53,9 +53,18 @@ export function buildImportPath(directory: Directory, target: Location): string 
     if (directoryPath !== ".") {
         directoryPath = `.${path.sep}${directoryPath}`;
     }
-    // Strip off the .ts from the file name.
-    const fileName = path.basename(relativePath, ".ts");
+    // Strip off the .ts or .tsx from the file name.
+    const fileName = getBasename(relativePath);
     // Build the final path string. Use posix-style seperators.
     const location = `${directoryPath}${path.sep}${fileName}`;
     return convertPathSeparator(location);
+}
+
+/** Strips the .ts or .tsx file extension from a path and returns the base filename. */
+export function getBasename(relativePath: string) {
+     const strippedTsPath = path.basename(relativePath, ".ts");
+     const strippedTsxPath = path.basename(relativePath, ".tsx");
+
+     // Return whichever path is shorter. If they're the same length then nothing was stripped.
+     return strippedTsPath.length < strippedTsxPath.length ? strippedTsPath : strippedTsxPath;
 }
