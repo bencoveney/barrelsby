@@ -3,7 +3,7 @@ machine:
     version: 6.1.0
 dependencies:
   post:
-    - npm link
+    - npm install . -g
 test:
   post:
     - bash <(curl -s https://codecov.io/bash)

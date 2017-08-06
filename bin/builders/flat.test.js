@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const Sinon = require("sinon");
 const TestUtilities = require("../testUtilities");
@@ -23,8 +24,6 @@ describe("builder/flat module has a", () => {
             spySandbox.restore();
         });
         it("should produce the correct output", () => {
-            // tslint:disable-next-line
-            console.log(output);
             TestUtilities.assertMultiLine(output, `export * from "./barrel";
 export * from "./index";
 export * from "./directory2/script";

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const tslint_1 = require("tslint");
 function mockFsConfiguration() {

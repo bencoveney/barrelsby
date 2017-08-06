@@ -28,8 +28,6 @@ describe("builder/flat module has a", () => {
             spySandbox.restore();
         });
         it("should produce the correct output", () => {
-            // tslint:disable-next-line
-            console.log(output);
             TestUtilities.assertMultiLine(
                 output,
                 `export * from "./barrel";

@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const builder_1 = require("../builder");
 function buildFlatBarrel(directory, modules, options) {
     return modules.reduce((previous, current) => {

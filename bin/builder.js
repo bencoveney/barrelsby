@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const path = require("path");
 const utilities_1 = require("./utilities");
@@ -47,11 +48,19 @@ function buildImportPath(directory, target) {
     if (directoryPath !== ".") {
         directoryPath = `.${path.sep}${directoryPath}`;
     }
-    // Strip off the .ts from the file name.
-    const fileName = path.basename(relativePath, ".ts");
+    // Strip off the .ts or .tsx from the file name.
+    const fileName = getBasename(relativePath);
     // Build the final path string. Use posix-style seperators.
     const location = `${directoryPath}${path.sep}${fileName}`;
     return utilities_1.convertPathSeparator(location);
 }
 exports.buildImportPath = buildImportPath;
+/** Strips the .ts or .tsx file extension from a path and returns the base filename. */
+function getBasename(relativePath) {
+    const strippedTsPath = path.basename(relativePath, ".ts");
+    const strippedTsxPath = path.basename(relativePath, ".tsx");
+    // Return whichever path is shorter. If they're the same length then nothing was stripped.
+    return strippedTsPath.length < strippedTsxPath.length ? strippedTsPath : strippedTsxPath;
+}
+exports.getBasename = getBasename;
 //# sourceMappingURL=builder.js.map

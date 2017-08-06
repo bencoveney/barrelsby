@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("./utilities");
 // Get any typescript modules contained at any depth in the current directory.
 function getModules(directory, options) {

@@ -7,7 +7,7 @@
     "build_tsc": "tsc",
     "build_tslint": "tslint --project tsconfig.json -t stylish",
     "build": "npm run build_tsc && npm run build_tslint",
-    "tests_integration": "barrelsby -c barrelsby.json",
+    "tests_integration": "node bin/index.js -c barrelsby.json",
     "tests_unit": "istanbul cover --report json --root \"./bin\" -x \"**/*.test.js\" node_modules/mocha/bin/_mocha \"bin/**/*.test.js\"",
     "remap_coverage_html": "remap-istanbul -i coverage/coverage-final.json -t lcovonly -o coverage/lcov.info",
     "tests": "npm run tests_unit && npm run tests_integration && npm run remap_coverage_html",
@@ -34,21 +34,21 @@
   },
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
-    "@types/chai": "^3.4.35",
-    "@types/mocha": "^2.2.40",
+    "@types/chai": "^4.0.2",
+    "@types/mocha": "^2.2.41",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^8.0.0",
-    "@types/sinon": "^2.1.2",
-    "@types/sinon-chai": "^2.7.27",
-    "chai": "^3.5.0",
+    "@types/sinon": "^2.3.3",
+    "@types/sinon-chai": "^2.7.28",
+    "chai": "^4.1.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
-    "mock-fs": "^4.2.0",
+    "mocha": "^3.5.0",
+    "mock-fs": "^4.4.1",
     "remap-istanbul": "^0.9.5",
-    "sinon": "^2.1.0",
-    "sinon-chai": "^2.9.0",
-    "tslint": "^5.0.0",
-    "typescript": "^2.1.6"
+    "sinon": "^3.0.0",
+    "sinon-chai": "^2.12.0",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.2"
   },
   "bin": {
     "barrelsby": "bin/index.js"
@@ -57,7 +57,7 @@
     "node": ">=0.10"
   },
   "dependencies": {
-    "yargs": "^7.0.2"
+    "yargs": "^8.0.2"
   },
   "contributors": [
     {

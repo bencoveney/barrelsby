@@ -44,9 +44,9 @@ describe("fileTree module has a", () => {
             const testFile = (name: string) => {
                 const files = result.files.filter((file) => file.name === name);
                 assert.lengthOf(files, 1);
-                const file = files[0];
-                assert.equal(file.path, `directory1/${name}`);
-                assert.equal(file.name, name);
+                const firstFile = files[0];
+                assert.equal(firstFile.path, `directory1/${name}`);
+                assert.equal(firstFile.name, name);
             };
             testFile("index.ts");
             testFile("barrel.ts");

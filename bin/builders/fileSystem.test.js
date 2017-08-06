@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const TestUtilities = require("../testUtilities");
 const FileSystem = require("./fileSystem");
 describe("builder/fileSystem module has a", () => {

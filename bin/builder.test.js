@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const fs = require("fs");
 const MockFs = require("mock-fs");
@@ -105,6 +106,23 @@ describe("builder/builder module has a", () => {
             const target = getLocationByName(childDirectory.files, "script.ts");
             const result = Builder.buildImportPath(directory, target);
             chai_1.assert.equal(result, "./directory2/script");
+        });
+    });
+    describe("getBasename function that", () => {
+        it("should correctly strip .ts from the filename", () => {
+            const fileName = "./random/path/file.ts";
+            const result = Builder.getBasename(fileName);
+            chai_1.assert.equal(result, "file");
+        });
+        it("should correctly strip .tsx from the filename", () => {
+            const fileName = "./random/path/file.tsx";
+            const result = Builder.getBasename(fileName);
+            chai_1.assert.equal(result, "file");
+        });
+        it("should not strip extensions from non-typescript filenames", () => {
+            const fileName = "./random/path/file.cs";
+            const result = Builder.getBasename(fileName);
+            chai_1.assert.equal(result, "file.cs");
         });
     });
 });

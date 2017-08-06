@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const MockFs = require("mock-fs");
 const TestUtilities = require("./testUtilities");
@@ -36,9 +37,9 @@ describe("fileTree module has a", () => {
             const testFile = (name) => {
                 const files = result.files.filter((file) => file.name === name);
                 chai_1.assert.lengthOf(files, 1);
-                const file = files[0];
-                chai_1.assert.equal(file.path, `directory1/${name}`);
-                chai_1.assert.equal(file.name, name);
+                const firstFile = files[0];
+                chai_1.assert.equal(firstFile.path, `directory1/${name}`);
+                chai_1.assert.equal(firstFile.name, name);
             };
             testFile("index.ts");
             testFile("barrel.ts");

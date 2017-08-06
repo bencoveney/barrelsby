@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const Yargs = require("yargs");
 const utilities_1 = require("./utilities");

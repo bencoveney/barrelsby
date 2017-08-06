@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const fileTree_1 = require("./fileTree");
 function purge(rootTree, options) {

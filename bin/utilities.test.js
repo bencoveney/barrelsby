@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const Utilities = require("./utilities");
 describe("utilities module has a", () => {
@@ -12,8 +13,11 @@ describe("utilities module has a", () => {
         it("should match a typescript definition file", () => {
             chai_1.assert.notEqual("definitions.d.ts".search(Utilities.isTypeScriptFile), -1);
         });
+        it("should match a typescript jsx (.tsx) file", () => {
+            chai_1.assert.notEqual("other.tsx".search(Utilities.isTypeScriptFile), -1);
+        });
         it("should not match a non-typescript file", () => {
-            chai_1.assert.equal("other.tsx".search(Utilities.isTypeScriptFile), -1);
+            chai_1.assert.equal("other.cs".search(Utilities.isTypeScriptFile), -1);
         });
     });
     describe("nonAlphaNumeric regular expression that", () => {

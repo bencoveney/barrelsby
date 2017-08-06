@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const Yargs = require("yargs");
 const Options = require("./options");
@@ -29,8 +30,8 @@ describe("options module has a", () => {
             chai_1.assert.isUndefined(options.config);
             chai_1.assert.equal(options.delete, true);
             chai_1.assert.equal(options.directory, "./test");
-            chai_1.assert.equal(options.exclude, "zeta.ts$");
-            chai_1.assert.equal(options.include, "a.ts$");
+            chai_1.assert.sameMembers(options.exclude, ["zeta.ts$"]);
+            chai_1.assert.sameMembers(options.include, ["a.ts$"]);
             chai_1.assert.equal(options.location, "top");
             chai_1.assert.equal(options.name, "barrel");
             chai_1.assert.equal(options.structure, "filesystem");

@@ -29,8 +29,8 @@ describe("options module has a", () => {
             assert.isUndefined(options.config);
             assert.equal(options.delete, true);
             assert.equal(options.directory, "./test");
-            assert.equal(options.exclude, "zeta.ts$");
-            assert.equal(options.include, "a.ts$");
+            assert.sameMembers(options.exclude as string[], ["zeta.ts$"]);
+            assert.sameMembers(options.include as string[], ["a.ts$"]);
             assert.equal(options.location, "top");
             assert.equal(options.name, "barrel");
             assert.equal(options.structure, "filesystem");
