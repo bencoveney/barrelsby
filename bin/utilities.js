@@ -7,5 +7,6 @@ function convertPathSeparator(path) {
 exports.convertPathSeparator = convertPathSeparator;
 exports.isTypeScriptFile = /\.tsx?$/m;
 exports.nonAlphaNumeric = /\W+/g;
+exports.thisDirectory = /^\.[\\\/]/g;
 exports.indentation = "  ";
 //# sourceMappingURL=utilities.js.map

@@ -1,5 +1,5 @@
-import * as alphabetats from "./alpha/beta";
-import * as etats from "./eta";
+import * as alphabetats from "test/alpha/beta";
+import * as etats from "test/eta";
 export const alpha = {
   beta: alphabetats,
 };

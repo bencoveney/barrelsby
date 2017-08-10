@@ -40,11 +40,11 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
 function compareImports(a, b) {
     return a.path < b.path ? -1 : 1;
 }
-function buildFileSystemBarrel(directory, modules) {
+function buildFileSystemBarrel(directory, modules, options) {
     const structure = {};
     let content = "";
     modules
-        .map((module) => ({ module, path: builder_1.buildImportPath(directory, module) }))
+        .map((module) => ({ module, path: builder_1.buildImportPath(directory, module, options) }))
         .sort(compareImports)
         .forEach((imported) => {
         const relativePath = path.relative(directory.path, imported.module.path);

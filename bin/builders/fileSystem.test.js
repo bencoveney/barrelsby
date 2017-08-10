@@ -7,7 +7,7 @@ describe("builder/fileSystem module has a", () => {
         let output;
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
-            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory));
+            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), TestUtilities.mockOptions([]));
         });
         it("should produce the correct output", () => {
             TestUtilities.assertMultiLine(output, `import * as barrelts from "./barrel";

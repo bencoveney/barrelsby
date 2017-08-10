@@ -9,6 +9,7 @@ describe("builder/fileSystem module has a", () => {
             output = FileSystem.buildFileSystemBarrel(
                 rootDirectory,
                 TestUtilities.mockModules(rootDirectory),
+                TestUtilities.mockOptions([]),
             );
         });
         it("should produce the correct output", () => {

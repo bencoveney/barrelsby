@@ -1,5 +1,6 @@
 import * as path from "path";
 
+import {Options} from "../options";
 import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
 
 import {buildImportPath} from "../builder";
@@ -51,11 +52,11 @@ function compareImports(a: Import, b: Import): number {
     return a.path < b.path ? -1 : 1;
 }
 
-export function buildFileSystemBarrel(directory: Directory, modules: Location[]): string {
+export function buildFileSystemBarrel(directory: Directory, modules: Location[], options: Options): string {
     const structure: ExportStructure = {};
     let content = "";
     modules
-        .map((module: Location): Import => ({ module, path: buildImportPath(directory, module) }))
+        .map((module: Location): Import => ({ module, path: buildImportPath(directory, module, options) }))
         .sort(compareImports)
         .forEach((imported: Import): void => {
             const relativePath = path.relative(directory.path, imported.module.path);

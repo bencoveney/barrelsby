@@ -2,7 +2,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import {Options} from "./options";
-import {convertPathSeparator, Directory, Location} from "./utilities";
+import {convertPathSeparator, Directory, Location, thisDirectory} from "./utilities";
 
 import {buildFileSystemBarrel} from "./builders/fileSystem";
 import {buildFlatBarrel} from "./builders/flat";
@@ -45,9 +45,10 @@ function buildBarrel(directory: Directory, builder: BarrelBuilder, options: Opti
 export type BarrelBuilder = (directory: Directory, modules: Location[], options: Options) => string;
 
 /** Builds the TypeScript */
-export function buildImportPath(directory: Directory, target: Location): string {
-    // Get the route from the current directory to the module.
-    const relativePath = path.relative(directory.path, target.path);
+export function buildImportPath(directory: Directory, target: Location, options: Options): string {
+    // If the base URL option is set then imports should be relative to there.
+    const startLocation = options.combinedBaseUrl ? options.combinedBaseUrl : directory.path;
+    const relativePath = path.relative(startLocation, target.path);
     // Get the route and ensure it's relative
     let directoryPath = path.dirname(relativePath);
     if (directoryPath !== ".") {
@@ -57,7 +58,12 @@ export function buildImportPath(directory: Directory, target: Location): string 
     const fileName = getBasename(relativePath);
     // Build the final path string. Use posix-style seperators.
     const location = `${directoryPath}${path.sep}${fileName}`;
-    return convertPathSeparator(location);
+    const convertedLocation = convertPathSeparator(location);
+    return stripThisDirectory(convertedLocation, options);
+}
+
+function stripThisDirectory(location: string, options: Options) {
+    return options.combinedBaseUrl ? location.replace(thisDirectory, "") : location;
 }
 
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */

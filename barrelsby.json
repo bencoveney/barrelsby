@@ -1,4 +1,5 @@
 {
+	"baseUrl": "../",
 	"directory": "test",
 	"delete": true,
 	"location": "top",
