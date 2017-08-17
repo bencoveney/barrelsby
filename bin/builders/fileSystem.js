@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const utilities_1 = require("../utilities");
 const builder_1 = require("../builder");
-function stringify(structure, previousIndentation) {
-    const nextIndentation = previousIndentation + utilities_1.indentation;
+function stringify(structure, previousIndentation, options) {
+    const nextIndentation = previousIndentation + options.indentation;
     let content = "";
     for (const key of Object.keys(structure).sort()) {
         content += `
@@ -14,7 +14,7 @@ ${nextIndentation}${key}: `;
             content += exported;
         }
         else {
-            content += stringify(exported, nextIndentation);
+            content += stringify(exported, nextIndentation, options);
         }
         content += ",";
     }
@@ -63,7 +63,7 @@ function buildFileSystemBarrel(directory, modules, options) {
 `;
         }
         else {
-            content += `export const ${key} = ${stringify(exported, "")};
+            content += `export const ${key} = ${stringify(exported, "", options)};
 `;
         }
     }

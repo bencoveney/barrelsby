@@ -2,9 +2,10 @@
 	"baseUrl": "../",
 	"directory": "test",
 	"delete": true,
+	"indentation": "\t",
 	"location": "top",
 	"name": "barrel",
-	"structure": "filesystem",
+	"structure": "./docs/customBuilder.js",
 	"verbose": true,
 	"include": ["a.ts$"],
 	"exclude": ["zeta.ts$"]

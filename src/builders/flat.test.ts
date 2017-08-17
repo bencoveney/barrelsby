@@ -13,15 +13,23 @@ describe("builder/flat module has a", () => {
             const directory = TestUtilities.mockDirectoryTree();
             spySandbox = Sinon.sandbox.create();
             logger = spySandbox.spy();
-            const options = {
-                barrelName: "barrel.ts",
-                logger,
-                rootPath: ".",
-            };
             output = Flat.buildFlatBarrel(
                 directory,
                 TestUtilities.mockModules(directory),
-                options,
+                {
+                    barrelName: "barrel.ts",
+                    delete: false,
+                    directory: "",
+                    help: false,
+                    indentation: "  ",
+                    location: "top",
+                    logger,
+                    name: "index",
+                    rootPath: ".",
+                    structure: "flat",
+                    verbose: false,
+                    version: false,
+                },
             );
         });
         afterEach(() => {

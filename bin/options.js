@@ -9,14 +9,12 @@ function setUpArguments() {
         .example("barrelsby", "Run barrelsby")
         .string("b")
         .alias("b", "baseUrl")
-        .nargs("d", 1)
         .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
         .config("c")
         .alias("c", "config")
         .describe("c", "The location of the config file.")
         .string("d")
         .alias("d", "directory")
-        .nargs("d", 1)
         .describe("d", "The directory to create barrels for.")
         .default("d", "./")
         .boolean("D")
@@ -32,6 +30,10 @@ function setUpArguments() {
         .array("i")
         .alias("i", "include")
         .describe("i", "Only include files whose paths match any of the regular expressions.")
+        .string("I")
+        .alias("I", "indentation")
+        .describe("I", "The indentation to use for barrel code")
+        .default("I", "  ")
         .string("l")
         .alias("l", "location")
         .describe("l", "The mode for picking barrel file locations")
@@ -44,7 +46,6 @@ function setUpArguments() {
         .string("s")
         .alias("s", "structure")
         .describe("s", "The mode for structuring barrel file exports")
-        .choices("s", ["flat", "filesystem"])
         .default("s", "flat")
         .version()
         .alias("v", "version")
@@ -52,7 +53,7 @@ function setUpArguments() {
         .boolean("V")
         .alias("V", "verbose")
         .describe("V", "Display additional logging information")
-        .default("D", false);
+        .default("V", false);
 }
 function getOptions() {
     const options = setUpArguments().argv;

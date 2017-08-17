@@ -90,8 +90,17 @@ exports.mockModules = mockModules;
 function mockOptions(loggerTarget) {
     return {
         barrelName: "barrel.ts",
+        delete: false,
+        directory: "",
+        help: false,
+        indentation: "  ",
+        location: "top",
         logger: (message) => loggerTarget.push(message),
+        name: "index",
         rootPath: "some/path",
+        structure: "top",
+        verbose: false,
+        version: false,
     };
 }
 exports.mockOptions = mockOptions;

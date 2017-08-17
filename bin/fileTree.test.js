@@ -14,8 +14,17 @@ describe("fileTree module has a", () => {
             const logger = (message) => logged.push(message);
             result = FileTree.buildTree("./directory1", {
                 barrelName: "barrel.ts",
+                delete: false,
+                directory: "",
+                help: false,
+                indentation: "  ",
+                location: "top",
                 logger,
+                name: "index",
                 rootPath: "some/path",
+                structure: "top",
+                verbose: false,
+                version: false,
             });
         });
         afterEach(() => {

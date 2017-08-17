@@ -5,22 +5,23 @@ import {isTypeScriptFile} from "./utilities";
 
 export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
-export type StructureOption = "flat" | "filesystem";
+export type StructureOption = "flat" | "filesystem" | string;
 
 // Options provided by yargs.
 interface Arguments {
     baseUrl?: string;
     config?: string;
-    directory?: string;
-    delete?: boolean;
+    directory: string;
+    delete: boolean;
     exclude?: string[];
-    help?: boolean;
+    help: boolean;
     include?: string[];
-    location?: LocationOption;
-    name?: string;
-    structure?: StructureOption;
-    version?: boolean;
-    verbose?: boolean;
+    indentation: string;
+    location: LocationOption;
+    name: string;
+    structure: StructureOption;
+    version: boolean;
+    verbose: boolean;
 }
 
 // Calculated options.
@@ -40,7 +41,6 @@ function setUpArguments(): { argv: any } {
 
         .string("b")
         .alias("b", "baseUrl")
-        .nargs("d", 1)
         .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
 
         .config("c")
@@ -49,7 +49,6 @@ function setUpArguments(): { argv: any } {
 
         .string("d")
         .alias("d", "directory")
-        .nargs("d", 1)
         .describe("d", "The directory to create barrels for.")
         .default("d", "./")
 
@@ -70,6 +69,11 @@ function setUpArguments(): { argv: any } {
         .alias("i", "include")
         .describe("i", "Only include files whose paths match any of the regular expressions.")
 
+        .string("I")
+        .alias("I", "indentation")
+        .describe("I", "The indentation to use for barrel code")
+        .default("I", "  ")
+
         .string("l")
         .alias("l", "location")
         .describe("l", "The mode for picking barrel file locations")
@@ -84,7 +88,6 @@ function setUpArguments(): { argv: any } {
         .string("s")
         .alias("s", "structure")
         .describe("s", "The mode for structuring barrel file exports")
-        .choices("s", ["flat", "filesystem"])
         .default("s", "flat")
 
         .version()
@@ -94,7 +97,7 @@ function setUpArguments(): { argv: any } {
         .boolean("V")
         .alias("V", "verbose")
         .describe("V", "Display additional logging information")
-        .default("D", false);
+        .default("V", false);
 }
 
 export function getOptions(): Options {

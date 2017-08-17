@@ -95,8 +95,17 @@ export function mockModules(rootDirectory: Directory): Location[] {
 export function mockOptions(loggerTarget: string[]): Options {
     return {
         barrelName: "barrel.ts",
+        delete: false,
+        directory: "",
+        help: false,
+        indentation: "  ",
+        location: "top",
         logger: (message: string) => loggerTarget.push(message),
+        name: "index",
         rootPath: "some/path",
+        structure: "top",
+        verbose: false,
+        version: false,
     };
 }
 

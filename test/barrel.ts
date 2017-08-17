@@ -1,6 +1,6 @@
-import * as alphabetats from "test/alpha/beta";
-import * as etats from "test/eta";
-export const alpha = {
-  beta: alphabetats,
-};
-export {etats as eta};
+In directory:
+	G:/Code/barrelsby/test
+
+Using modules:
+	G:/Code/barrelsby/test/eta.ts
+	G:/Code/barrelsby/test/alpha/beta.ts

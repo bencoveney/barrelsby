@@ -22,9 +22,17 @@ describe("builder/builder module has a", () => {
             logger = spySandbox.spy();
             Builder.buildBarrels(directory.directories, {
                 barrelName: "barrel.ts",
+                delete: false,
+                directory: "",
+                help: false,
+                indentation: "  ",
+                location: "top",
                 logger,
+                name: "index",
                 rootPath: ".",
                 structure,
+                verbose: false,
+                version: false,
             });
         };
         beforeEach(() => {
@@ -58,9 +66,9 @@ describe("builder/builder module has a", () => {
             it("should use the filesystem builder if in filesystem mode", () => {
                 testStructure("filesystem", false);
             });
-            it("should use the flat builder if no mode is specified", () => {
-                testStructure(undefined, true);
-            });
+            // it("should use the flat builder if no mode is specified", () => {
+            //     testStructure("custom/customBuilder.js", true);
+            // });
         });
         it("should write each barrel's content to disk", () => {
             runBuilder("flat");

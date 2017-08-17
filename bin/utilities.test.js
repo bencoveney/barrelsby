@@ -27,11 +27,6 @@ describe("utilities module has a", () => {
             chai_1.assert.equal(output, "aA1bB2cC3dD4");
         });
     });
-    describe("indentation constant that", () => {
-        it("is only whitespace", () => {
-            chai_1.assert.equal(Utilities.indentation.trim(), "");
-        });
-    });
     describe("convertPathSeparator function that", () => {
         it("should window path seperators with unix ones", () => {
             const result = Utilities.convertPathSeparator("my\\long/path");

@@ -1,12 +1,12 @@
 import * as path from "path";
 
 import {Options} from "../options";
-import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
+import {Directory, Location, nonAlphaNumeric} from "../utilities";
 
 import {buildImportPath} from "../builder";
 
-function stringify(structure: ExportStructure, previousIndentation: string): string {
-    const nextIndentation = previousIndentation + indentation;
+function stringify(structure: ExportStructure, previousIndentation: string, options: Options): string {
+    const nextIndentation = previousIndentation + options.indentation;
     let content = "";
     for (const key of Object.keys(structure).sort()) {
         content += `
@@ -15,7 +15,7 @@ ${nextIndentation}${key}: `;
         if (typeof exported === "string") {
             content += exported;
         } else {
-            content += stringify(exported, nextIndentation);
+            content += stringify(exported, nextIndentation, options);
         }
         content += ",";
     }
@@ -74,7 +74,7 @@ export function buildFileSystemBarrel(directory: Directory, modules: Location[],
             content += `export {${exported} as ${key}};
 `;
         } else {
-            content += `export const ${key} = ${stringify(exported, "")};
+            content += `export const ${key} = ${stringify(exported, "", options)};
 `;
         }
     }
