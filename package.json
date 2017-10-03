@@ -42,7 +42,7 @@
     "@types/sinon-chai": "^2.7.28",
     "chai": "^4.1.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.5.0",
+    "mocha": "^4.0.0",
     "mock-fs": "^4.4.1",
     "remap-istanbul": "^0.9.5",
     "sinon": "^3.0.0",
