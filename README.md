@@ -136,6 +136,11 @@ export const directory3 = {
 export {indexts as index};
 ```
 
+### `-q` or `--singleQuotes`
+
+Use 'single quotes' in the generated barrel files instead of the default "double quotes".
+
+
 ### `-v` or `--version`
 
 Display the barrelsby version number.

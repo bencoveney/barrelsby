@@ -28,6 +28,7 @@ describe("builder/builder module has a", () => {
                 {
                     barrelName: "barrel.ts",
                     logger,
+                    quoteCharacter: "\"",
                     rootPath: ".",
                     structure,
                 });

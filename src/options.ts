@@ -7,6 +7,8 @@ export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
 export type StructureOption = "flat" | "filesystem";
 
+export type QuoteCharacter = "\"" | "'";
+
 // Options provided by yargs.
 interface Arguments {
     config?: string;
@@ -27,6 +29,7 @@ interface CalculatedOptions {
     barrelName: string;
     logger: (message: string) => void;
     rootPath: string;
+    quoteCharacter: QuoteCharacter;
 }
 
 export type Options = Arguments & CalculatedOptions;
@@ -80,6 +83,11 @@ function setUpArguments(): { argv: any } {
         .choices("s", ["flat", "filesystem"])
         .default("s", "flat")
 
+        .boolean("q")
+        .alias("q", "singleQuotes")
+        .describe("q", "Use single quotes for paths instead of the default double quotes")
+        .default("q", false)
+
         .version()
         .alias("v", "version")
         .default("v", false)
@@ -87,7 +95,7 @@ function setUpArguments(): { argv: any } {
         .boolean("V")
         .alias("V", "verbose")
         .describe("V", "Display additional logging information")
-        .default("D", false);
+        .default("V", false);
 }
 
 export function getOptions(): Options {
@@ -96,6 +104,8 @@ export function getOptions(): Options {
     options.logger = options.verbose ? console.log : new Function("return void(0);");
 
     options.rootPath = path.resolve(options.directory);
+
+    options.quoteCharacter = options.singleQuotes ? "'" : "\"";
 
     // Resolve barrel name.
     const nameArgument: string = options.name;
