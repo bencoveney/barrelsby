@@ -42,18 +42,23 @@ function setUpArguments() {
         .describe("s", "The mode for structuring barrel file exports")
         .choices("s", ["flat", "filesystem"])
         .default("s", "flat")
+        .boolean("q")
+        .alias("q", "singleQuotes")
+        .describe("q", "Use single quotes for paths instead of the default double quotes")
+        .default("q", false)
         .version()
         .alias("v", "version")
         .default("v", false)
         .boolean("V")
         .alias("V", "verbose")
         .describe("V", "Display additional logging information")
-        .default("D", false);
+        .default("V", false);
 }
 function getOptions() {
     const options = setUpArguments().argv;
     options.logger = options.verbose ? console.log : new Function("return void(0);");
     options.rootPath = path.resolve(options.directory);
+    options.quoteCharacter = options.singleQuotes ? "'" : "\"";
     // Resolve barrel name.
     const nameArgument = options.name;
     options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;

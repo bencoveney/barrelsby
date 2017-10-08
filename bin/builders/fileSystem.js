@@ -40,7 +40,7 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
 function compareImports(a, b) {
     return a.path < b.path ? -1 : 1;
 }
-function buildFileSystemBarrel(directory, modules) {
+function buildFileSystemBarrel(directory, modules, options) {
     const structure = {};
     let content = "";
     modules
@@ -51,7 +51,7 @@ function buildFileSystemBarrel(directory, modules) {
         const directoryPath = path.dirname(relativePath);
         const parts = directoryPath.split(path.sep);
         const alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
-        content += `import * as ${alias} from "${imported.path}";
+        content += `import * as ${alias} from ${options.quoteCharacter}${imported.path}${options.quoteCharacter};
 `;
         const fileName = path.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);
