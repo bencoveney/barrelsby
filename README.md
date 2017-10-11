@@ -52,6 +52,30 @@ import * as Controls from "./src/controls/index";
 
 ## Usage
 
+To install Barrelsby:
+
+```
+npm install --save-dev barrelsby
+```
+
+To run barrelsby first add a script to the `package.json` file:
+
+```json
+{
+  "scripts": [
+    "generate-barrels": "barrelsby --delete"
+  ]
+}
+```
+
+You can now generate barrels:
+
+```
+npm run generate-barrels
+```
+
+## Configuration Options
+
 Barrelsby accepts a number of options to help refine how your barrels are created. These options
 can be configured from the command line or using a configuration file.
 
