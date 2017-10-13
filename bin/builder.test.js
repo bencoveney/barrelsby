@@ -23,6 +23,7 @@ describe("builder/builder module has a", () => {
             Builder.buildBarrels(directory.directories, {
                 barrelName: "barrel.ts",
                 logger,
+                quoteCharacter: "\"",
                 rootPath: ".",
                 structure,
             });

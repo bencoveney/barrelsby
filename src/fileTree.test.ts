@@ -19,6 +19,7 @@ describe("fileTree module has a", () => {
                 {
                     barrelName: "barrel.ts",
                     logger,
+                    quoteCharacter: "\"",
                     rootPath: "some/path",
                 },
             );

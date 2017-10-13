@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const utilities_1 = require("../utilities");
 const builder_1 = require("../builder");
+const utilities_1 = require("../utilities");
 function stringify(structure, previousIndentation) {
     const nextIndentation = previousIndentation + utilities_1.indentation;
     let content = "";
@@ -51,7 +51,7 @@ function buildFileSystemBarrel(directory, modules, options) {
         const directoryPath = path.dirname(relativePath);
         const parts = directoryPath.split(path.sep);
         const alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
-        content += `import * as ${alias} from "${imported.path}";
+        content += `import * as ${alias} from ${options.quoteCharacter}${imported.path}${options.quoteCharacter};
 `;
         const fileName = path.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);

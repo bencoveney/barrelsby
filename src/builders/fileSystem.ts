@@ -1,9 +1,8 @@
 import * as path from "path";
 
+import {buildImportPath} from "../builder";
 import {Options} from "../options";
 import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
-
-import {buildImportPath} from "../builder";
 
 function stringify(structure: ExportStructure, previousIndentation: string): string {
     const nextIndentation = previousIndentation + indentation;
@@ -63,7 +62,7 @@ export function buildFileSystemBarrel(directory: Directory, modules: Location[],
             const directoryPath = path.dirname(relativePath);
             const parts = directoryPath.split(path.sep);
             const alias = relativePath.replace(nonAlphaNumeric, "");
-            content += `import * as ${alias} from "${imported.path}";
+            content += `import * as ${alias} from ${options.quoteCharacter}${imported.path}${options.quoteCharacter};
 `;
             const fileName = path.basename(imported.module.name, ".ts");
             buildStructureSubsection(structure, parts, fileName, alias);

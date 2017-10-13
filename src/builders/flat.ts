@@ -8,7 +8,7 @@ export function buildFlatBarrel(directory: Directory, modules: Location[], optio
         (previous: string, current: Location) => {
             const importPath = buildImportPath(directory, current, options);
             options.logger(`Including path ${importPath}`);
-            return previous += `export * from "${importPath}";
+            return previous += `export * from ${options.quoteCharacter}${importPath}${options.quoteCharacter};
 `;
         },
         "",
