@@ -79,6 +79,11 @@ npm run generate-barrels
 Barrelsby accepts a number of options to help refine how your barrels are created. These options
 can be configured from the command line or using a configuration file.
 
+### `-b [path]` or `--baseUrl [path]`
+
+The base url relative to `--directory` for non-relative imports (with tsconfig's
+[baseUrl](https://www.typescriptlang.org/docs/handbook/module-resolution.html#base-url)).
+
 ### `-c [path]` or `--config [path]`
 
 Specifies the location of the barrelsby configuration file. This file must be a `.json` file. You
@@ -182,7 +187,8 @@ Requires node v6.0.0 or greater for ES6 syntax.
 If you are interested in contributing to barrelsby there are plenty of tagged issues that can be
 picked up, or feel free to suggest your own feature in an issue.
 
-Most coding conventions are enforced by TSLint but in general:
-- Use small functions instead of classes.
+Most coding conventions are enforced by TSLint but in addition:
+- Prefer small functions to classes.
 - Avoid abreviated identifiers.
 - Write short simple test.
+- Update the README with relevant documentation.

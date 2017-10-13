@@ -43,7 +43,7 @@ function setUpArguments(): { argv: any } {
 
         .string("b")
         .alias("b", "baseUrl")
-        .nargs("d", 1)
+        .nargs("b", 1)
         .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
 
         .config("c")
