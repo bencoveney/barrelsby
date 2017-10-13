@@ -19,6 +19,11 @@
 		{
 			"taskName": "test",
 			"args": ["run", "test"],
+			"problemMatcher": "$tsc"
+		},
+		{
+			"taskName": "build",
+			"args": ["run", "build"],
 			"isBuildCommand": true,
 			"problemMatcher": "$tsc"
 		}

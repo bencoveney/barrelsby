@@ -1,9 +1,8 @@
 import * as path from "path";
 
-import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
-
 import {buildImportPath} from "../builder";
 import {Options} from "../options";
+import {Directory, indentation, Location, nonAlphaNumeric} from "../utilities";
 
 function stringify(structure: ExportStructure, previousIndentation: string): string {
     const nextIndentation = previousIndentation + indentation;
@@ -56,7 +55,7 @@ export function buildFileSystemBarrel(directory: Directory, modules: Location[],
     const structure: ExportStructure = {};
     let content = "";
     modules
-        .map((module: Location): Import => ({ module, path: buildImportPath(directory, module) }))
+        .map((module: Location): Import => ({ module, path: buildImportPath(directory, module, options) }))
         .sort(compareImports)
         .forEach((imported: Import): void => {
             const relativePath = path.relative(directory.path, imported.module.path);

@@ -11,6 +11,7 @@ export type QuoteCharacter = "\"" | "'";
 
 // Options provided by yargs.
 interface Arguments {
+    baseUrl?: string;
     config?: string;
     directory?: string;
     delete?: boolean;
@@ -30,6 +31,7 @@ interface CalculatedOptions {
     logger: (message: string) => void;
     rootPath: string;
     quoteCharacter: QuoteCharacter;
+    combinedBaseUrl?: string;
 }
 
 export type Options = Arguments & CalculatedOptions;
@@ -38,6 +40,11 @@ function setUpArguments(): { argv: any } {
     return Yargs
         .usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
+
+        .string("b")
+        .alias("b", "baseUrl")
+        .nargs("d", 1)
+        .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
 
         .config("c")
         .alias("c", "config")
@@ -111,6 +118,11 @@ export function getOptions(): Options {
     const nameArgument: string = options.name;
     options.barrelName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
     options.logger(`Using name ${options.barrelName}`);
+
+    // Resolve base url.
+    if (options.baseUrl) {
+        options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
+    }
 
     return options;
 }

@@ -40,9 +40,10 @@ function buildBarrel(directory, builder, options) {
     }
 }
 /** Builds the TypeScript */
-function buildImportPath(directory, target) {
-    // Get the route from the current directory to the module.
-    const relativePath = path.relative(directory.path, target.path);
+function buildImportPath(directory, target, options) {
+    // If the base URL option is set then imports should be relative to there.
+    const startLocation = options.combinedBaseUrl ? options.combinedBaseUrl : directory.path;
+    const relativePath = path.relative(startLocation, target.path);
     // Get the route and ensure it's relative
     let directoryPath = path.dirname(relativePath);
     if (directoryPath !== ".") {
@@ -52,9 +53,13 @@ function buildImportPath(directory, target) {
     const fileName = getBasename(relativePath);
     // Build the final path string. Use posix-style seperators.
     const location = `${directoryPath}${path.sep}${fileName}`;
-    return utilities_1.convertPathSeparator(location);
+    const convertedLocation = utilities_1.convertPathSeparator(location);
+    return stripThisDirectory(convertedLocation, options);
 }
 exports.buildImportPath = buildImportPath;
+function stripThisDirectory(location, options) {
+    return options.combinedBaseUrl ? location.replace(utilities_1.thisDirectory, "") : location;
+}
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */
 function getBasename(relativePath) {
     const strippedTsPath = path.basename(relativePath, ".ts");

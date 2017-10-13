@@ -7,6 +7,10 @@ function setUpArguments() {
     return Yargs
         .usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
+        .string("b")
+        .alias("b", "baseUrl")
+        .nargs("d", 1)
+        .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
         .config("c")
         .alias("c", "config")
         .describe("c", "The location of the config file.")
@@ -63,6 +67,10 @@ function getOptions() {
     const nameArgument = options.name;
     options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
     options.logger(`Using name ${options.barrelName}`);
+    // Resolve base url.
+    if (options.baseUrl) {
+        options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
+    }
     return options;
 }
 exports.getOptions = getOptions;

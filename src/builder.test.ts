@@ -103,13 +103,13 @@ describe("builder/builder module has a", () => {
         });
         it("should correctly build a path to a file in the same directory", () => {
             const target = getLocationByName(directory.files, "index.ts");
-            const result = Builder.buildImportPath(directory, target);
+            const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions([]));
             assert.equal(result, "./index");
         });
         it("should correctly build a path to a file in a child directory", () => {
             const childDirectory = getLocationByName(directory.directories, "directory2") as Directory;
             const target = getLocationByName(childDirectory.files, "script.ts");
-            const result = Builder.buildImportPath(directory, target);
+            const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions([]));
             assert.equal(result, "./directory2/script");
         });
     });

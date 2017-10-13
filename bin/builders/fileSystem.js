@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
-const utilities_1 = require("../utilities");
 const builder_1 = require("../builder");
+const utilities_1 = require("../utilities");
 function stringify(structure, previousIndentation) {
     const nextIndentation = previousIndentation + utilities_1.indentation;
     let content = "";
@@ -44,7 +44,7 @@ function buildFileSystemBarrel(directory, modules, options) {
     const structure = {};
     let content = "";
     modules
-        .map((module) => ({ module, path: builder_1.buildImportPath(directory, module) }))
+        .map((module) => ({ module, path: builder_1.buildImportPath(directory, module, options) }))
         .sort(compareImports)
         .forEach((imported) => {
         const relativePath = path.relative(directory.path, imported.module.path);
