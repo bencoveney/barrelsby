@@ -47,6 +47,11 @@ describe("options module has a", () => {
             const options = Options.getOptions();
             chai_1.assert.equal(options.barrelName, "barrel.ts");
         });
+        it("should resolve the baseUrl if specified", () => {
+            Yargs(["--baseUrl", "/base/url"]);
+            const options = Options.getOptions();
+            chai_1.assert.match(options.combinedBaseUrl, /base[\\/]url$/);
+        });
     });
 });
 //# sourceMappingURL=options.test.js.map

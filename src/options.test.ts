@@ -46,5 +46,10 @@ describe("options module has a", () => {
             const options = Options.getOptions();
             assert.equal(options.barrelName, "barrel.ts");
         });
+        it("should resolve the baseUrl if specified", () => {
+            Yargs(["--baseUrl", "/base/url"]);
+            const options = Options.getOptions();
+            assert.match(options.combinedBaseUrl as string, /base[\\/]url$/);
+        });
     });
 });
