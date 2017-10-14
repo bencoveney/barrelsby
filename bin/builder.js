@@ -2,11 +2,17 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs = require("fs");
 const path = require("path");
-const utilities_1 = require("./utilities");
 const fileSystem_1 = require("./builders/fileSystem");
 const flat_1 = require("./builders/flat");
 const modules_1 = require("./modules");
+const utilities_1 = require("./utilities");
+/**
+ * Builds barrels in the specified destinations.
+ * @param destinations The locations to build barrels in.
+ * @param options Barrelsby options.
+ */
 function buildBarrels(destinations, options) {
+    // Determine which builder to use.
     let builder;
     switch (options.structure) {
         default:
@@ -21,25 +27,40 @@ function buildBarrels(destinations, options) {
     destinations.forEach((destination) => buildBarrel(destination, builder, options));
 }
 exports.buildBarrels = buildBarrels;
-// Build a barrel for the specified directory.
+/**
+ * Builds a barrel in the specified directory.
+ * @param directory The directory to build a barrel for.
+ * @param builder The builder to use to create barrel content.
+ * @param options Barrelsby options.
+ */
 function buildBarrel(directory, builder, options) {
     options.logger(`Building barrel @ ${directory.path}`);
+    // Get barrel content.
     const content = builder(directory, modules_1.loadDirectoryModules(directory, options), options);
+    // Write the barrel to disk.
     const destination = path.join(directory.path, options.barrelName);
     fs.writeFileSync(destination, content);
-    // Update the file tree model with the new barrel.
+    // We might need to update the file tree model with the new barrel.
     if (!directory.files.some((file) => file.name === options.barrelName)) {
+        // Build the location model.
         const convertedPath = utilities_1.convertPathSeparator(destination);
         const barrel = {
             name: options.barrelName,
             path: convertedPath,
         };
+        // Insert it into the tree.
         options.logger(`Updating model barrel @ ${convertedPath}`);
         directory.files.push(barrel);
         directory.barrel = barrel;
     }
 }
-/** Builds the TypeScript */
+/**
+ * Creates the TypeScript import path from the barrel to the file.
+ * @param directory The directory the barrel is being created in.
+ * @param target The module being imported.
+ * @param options Barrelsby options.
+ * @returns The import path.
+ */
 function buildImportPath(directory, target, options) {
     // If the base URL option is set then imports should be relative to there.
     const startLocation = options.combinedBaseUrl ? options.combinedBaseUrl : directory.path;
@@ -57,15 +78,22 @@ function buildImportPath(directory, target, options) {
     return stripThisDirectory(convertedLocation, options);
 }
 exports.buildImportPath = buildImportPath;
+/**
+ * Gets the filename from a path without the .ts or .tsx extension.
+ * @param relativePath The path to the file.
+ * @returns The filename.
+ */
+function getBasename(relativePath) {
+    return path.basename(path.basename(relativePath, ".ts"), ".tsx");
+}
+exports.getBasename = getBasename;
+/**
+ * Removes leading dots from import paths.
+ * @param location The import path.
+ * @param options Barrelsby options.
+ * @returns The import path.
+ */
 function stripThisDirectory(location, options) {
     return options.combinedBaseUrl ? location.replace(utilities_1.thisDirectory, "") : location;
 }
-/** Strips the .ts or .tsx file extension from a path and returns the base filename. */
-function getBasename(relativePath) {
-    const strippedTsPath = path.basename(relativePath, ".ts");
-    const strippedTsxPath = path.basename(relativePath, ".tsx");
-    // Return whichever path is shorter. If they're the same length then nothing was stripped.
-    return strippedTsPath.length < strippedTsxPath.length ? strippedTsPath : strippedTsxPath;
-}
-exports.getBasename = getBasename;
 //# sourceMappingURL=builder.js.map

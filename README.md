@@ -192,3 +192,19 @@ Most coding conventions are enforced by TSLint but in addition:
 - Avoid abreviated identifiers.
 - Write short simple test.
 - Update the README with relevant documentation.
+- Use `options.logger` to add appropriate logging.
+- Document code using the following format (to support intellisense):
+```typescript
+/** Can be used to double numbers. */
+const doubler = 2;
+
+/**
+ * Doubles the specified number.
+ * @param value The number to double.
+ * @returns The doubled value.
+ */
+function double(value) {
+    // Compute the value.
+    return value * doubler;
+}
+```
