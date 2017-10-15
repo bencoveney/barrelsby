@@ -3,6 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const Yargs = require("yargs");
 const utilities_1 = require("./utilities");
+// tslint:disable-next-line
+console.log(__dirname);
 function setUpArguments() {
     return Yargs
         .usage("Usage: barrelsby [options]")

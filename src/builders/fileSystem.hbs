@@ -1,0 +1,21 @@
+{{!-- The recursive nested object literal. --}}
+{{#*inline "treeSection"}}{
+    {{#each content}}
+        {{~indent}}{{name}}: {{#if isModule}}{{identifier}}{{else}}{{> treeSection}}{{/if}},
+    {{/each~}}
+{{indent~}} }{{/inline~}}
+{{!-- Begin with the block of imports. --}}
+{{#each modules~}}
+    import * as {{identifier}} from {{{quotedPath}}};
+{{/each}}
+{{!-- Imports for the root level. --}}
+{{#with tree~}}
+    {{!-- Root level modules. --}}
+    {{#each modules~}}
+        export { {{identifier}} as {{name}} };
+    {{/each~}}
+    {{!-- Directories. --}}
+    {{#each directories~}}
+        export const {{name}} = {{> treeSection}};
+    {{/each~}}
+{{/with}}

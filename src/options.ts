@@ -36,6 +36,9 @@ interface CalculatedOptions {
 
 export type Options = Arguments & CalculatedOptions;
 
+// tslint:disable-next-line
+console.log(__dirname);
+
 function setUpArguments(): { argv: any } {
     return Yargs
         .usage("Usage: barrelsby [options]")

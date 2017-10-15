@@ -184,12 +184,12 @@ Requires node v6.0.0 or greater for ES6 syntax.
 
 ## Contributing
 
-If you are interested in contributing to barrelsby there are plenty of tagged issues that can be
-picked up, or feel free to suggest your own feature in an issue.
+Contributions are welcomed. There are plenty of "Help Wanted" issues that can be looked into, or
+feel free to suggest your own feature.
 
 Most coding conventions are enforced by TSLint but in addition:
 - Prefer small functions to classes.
-- Avoid abreviated identifiers.
+- Avoid abreviations in identifiers.
 - Write short simple test.
 - Update the README with relevant documentation.
 - Use `options.logger` to add appropriate logging.
