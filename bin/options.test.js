@@ -36,6 +36,7 @@ describe("options module has a", () => {
             chai_1.assert.equal(options.name, "barrel");
             chai_1.assert.equal(options.structure, "filesystem");
             chai_1.assert.equal(options.verbose, true);
+            chai_1.assert.equal(options.quoteCharacter, "\"");
         });
         it("should not use the console if logging is disabled", () => {
             Yargs([]);
@@ -51,6 +52,11 @@ describe("options module has a", () => {
             Yargs(["--baseUrl", "/base/url"]);
             const options = Options.getOptions();
             chai_1.assert.match(options.combinedBaseUrl, /base[\\/]url$/);
+        });
+        it("should optionally use single quotes", () => {
+            Yargs(["--singleQuotes"]);
+            const options = Options.getOptions();
+            chai_1.assert.equal(options.quoteCharacter, "'");
         });
     });
 });

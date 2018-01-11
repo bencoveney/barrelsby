@@ -35,6 +35,7 @@ describe("options module has a", () => {
             assert.equal(options.name, "barrel");
             assert.equal(options.structure, "filesystem");
             assert.equal(options.verbose, true);
+            assert.equal(options.quoteCharacter, "\"");
         });
         it("should not use the console if logging is disabled", () => {
             Yargs([]);
@@ -50,6 +51,11 @@ describe("options module has a", () => {
             Yargs(["--baseUrl", "/base/url"]);
             const options = Options.getOptions();
             assert.match(options.combinedBaseUrl as string, /base[\\/]url$/);
+        });
+        it("should optionally use single quotes", () => {
+            Yargs(["--singleQuotes"]);
+            const options = Options.getOptions();
+            assert.equal(options.quoteCharacter, "'");
         });
     });
 });
