@@ -44,6 +44,11 @@ function buildBarrel(directory, options) {
         directory.barrel = barrel;
     }
 }
+/**
+ * Loads the handlebars template with the specified name.
+ * @param name The name of the template to load.
+ * @returns The handlebars template.
+ */
 function loadTemplate(name) {
     // Will this break if running from different directories?
     return Handlebars.compile(fs.readFileSync(path.join(__dirname, `../src/builders/${name}.hbs`), "utf8"));
