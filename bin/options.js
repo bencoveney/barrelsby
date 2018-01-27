@@ -5,6 +5,7 @@ const Yargs = require("yargs");
 const utilities_1 = require("./utilities");
 // tslint:disable-next-line
 console.log(__dirname);
+// Sets up yargs configuration and gets the execution arguments.
 function setUpArguments() {
     return Yargs
         .usage("Usage: barrelsby [options]")
@@ -58,22 +59,22 @@ function setUpArguments() {
         .boolean("V")
         .alias("V", "verbose")
         .describe("V", "Display additional logging information")
-        .default("V", false);
+        .default("V", false)
+        .argv;
 }
 function getOptions() {
-    const options = setUpArguments().argv;
-    options.logger = options.verbose ? console.log : new Function("return void(0);");
-    options.rootPath = path.resolve(options.directory);
-    options.quoteCharacter = options.singleQuotes ? "'" : "\"";
-    // Resolve barrel name.
-    const nameArgument = options.name;
-    options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
-    options.logger(`Using name ${options.barrelName}`);
-    // Resolve base url.
-    if (options.baseUrl) {
-        options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
-    }
-    return options;
+    const args = setUpArguments();
+    const logger = args.verbose ? console.log : new Function("return void(0);");
+    const rootPath = path.resolve(args.directory);
+    const quoteCharacter = args.singleQuotes ? "'" : "\"";
+    const barrelName = args.name.match(utilities_1.isTypeScriptFile) ? args.name : `${args.name}.ts`;
+    logger(`Using name ${barrelName}`);
+    const combinedBaseUrl = args.baseUrl && path.join(rootPath, args.baseUrl);
+    return Object.assign({ barrelName,
+        combinedBaseUrl,
+        logger,
+        quoteCharacter,
+        rootPath }, args);
 }
 exports.getOptions = getOptions;
 //# sourceMappingURL=options.js.map

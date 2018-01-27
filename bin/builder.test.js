@@ -1,132 +1,100 @@
 "use strict";
-// import {assert} from "chai";
-// import * as fs from "fs";
-// import * as MockFs from "mock-fs";
-// import * as Sinon from "sinon";
-// import * as Builder from "./builder";
-// import * as FileSystem from "./builders/fileSystem";
-// import * as Flat from "./builders/flat";
-// import * as Modules from "./modules";
-// import {StructureOption} from "./options";
-// import * as TestUtilities from "./testUtilities";
-// import {Directory, Location} from "./utilities";
-// // Gets a location from a list by name.
-// function getLocationByName(locations: Location[], name: string): Location {
-//     return locations.filter((location) => location.name === name)[0];
-// }
-// describe("builder/builder module has a", () => {
-//     describe("buildBarrels function that", () => {
-//         let directory: Directory;
-//         let spySandbox: sinon.SinonSandbox;
-//         let logger: Sinon.SinonSpy;
-//         const runBuilder = (structure: StructureOption | undefined) => {
-//             logger = spySandbox.spy();
-//             Builder.buildBarrels(
-//                 directory.directories,
-//                 {
-//                     barrelName: "barrel.ts",
-//                     logger,
-//                     quoteCharacter: "\"",
-//                     rootPath: ".",
-//                     structure,
-//                 });
-//         };
-//         beforeEach(() => {
-//             MockFs(TestUtilities.mockFsConfiguration());
-//             directory = TestUtilities.mockDirectoryTree();
-//             spySandbox = Sinon.sandbox.create();
-//             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
-//             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
-//             spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");
-//         });
-//         afterEach(() => {
-//             MockFs.restore();
-//             spySandbox.restore();
-//         });
-//         describe("uses the structure option and", () => {
-//             const testStructure = (structure: StructureOption | undefined, isFlat: boolean) => {
-//                 runBuilder(structure);
-//                 // TODO: Test arguments for barrel builder & loadDirectoryModules
-//                 if (isFlat) {
-//                     Sinon.assert.calledTwice(Flat.buildFlatBarrel as Sinon.SinonSpy);
-//                     Sinon.assert.notCalled(FileSystem.buildFileSystemBarrel as Sinon.SinonSpy);
-//                 } else {
-//                     Sinon.assert.notCalled(Flat.buildFlatBarrel as Sinon.SinonSpy);
-//                     Sinon.assert.calledTwice(FileSystem.buildFileSystemBarrel as Sinon.SinonSpy);
-//                 }
-//             };
-//             it("should use the flat builder if in flat mode", () => {
-//                 testStructure("flat", true);
-//             });
-//             it("should use the filesystem builder if in filesystem mode", () => {
-//                 testStructure("filesystem", false);
-//             });
-//             it("should use the flat builder if no mode is specified", () => {
-//                 testStructure(undefined, true);
-//             });
-//         });
-//         it("should write each barrel's content to disk", () => {
-//             runBuilder("flat");
-//             const checkContent = (address: string) => {
-//                 const result = fs.readFileSync(address, "utf8");
-//                 assert.equal(result, "flatContent");
-//             };
-//             checkContent("directory1/directory2/barrel.ts");
-//             checkContent("directory1/directory3/barrel.ts");
-//         });
-//         it("should update the directory structure with the new barrel", () => {
-//             runBuilder("flat");
-//             directory.directories.forEach((subDirectory: Directory) => {
-//                 assert.equal((subDirectory.barrel as Location).name, "barrel.ts");
-//             });
-//         });
-//         it("should log useful information to the logger", () => {
-//             runBuilder("flat");
-//             const messages = [
-//                 "Building barrel @ directory1/directory2",
-//                 "Updating model barrel @ directory1/directory2/barrel.ts",
-//                 "Building barrel @ directory1/directory3",
-//                 "Updating model barrel @ directory1/directory3/barrel.ts",
-//             ];
-//             assert.equal(logger.callCount, messages.length);
-//             messages.forEach((message: string, barrel: number) => {
-//                 assert.equal(logger.getCall(barrel).args[0], message);
-//             });
-//         });
-//     });
-//     describe("buildImportPath function that", () => {
-//         let directory: Directory;
-//         beforeEach(() => {
-//             directory = TestUtilities.mockDirectoryTree();
-//         });
-//         it("should correctly build a path to a file in the same directory", () => {
-//             const target = getLocationByName(directory.files, "index.ts");
-//             const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions([]));
-//             assert.equal(result, "./index");
-//         });
-//         it("should correctly build a path to a file in a child directory", () => {
-//             const childDirectory = getLocationByName(directory.directories, "directory2") as Directory;
-//             const target = getLocationByName(childDirectory.files, "script.ts");
-//             const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions([]));
-//             assert.equal(result, "./directory2/script");
-//         });
-//     });
-//     describe("getBasename function that", () => {
-//         it("should correctly strip .ts from the filename", () => {
-//             const fileName = "./random/path/file.ts";
-//             const result = Builder.getBasename(fileName);
-//             assert.equal(result, "file");
-//         });
-//         it("should correctly strip .tsx from the filename", () => {
-//             const fileName = "./random/path/file.tsx";
-//             const result = Builder.getBasename(fileName);
-//             assert.equal(result, "file");
-//         });
-//         it("should not strip extensions from non-typescript filenames", () => {
-//             const fileName = "./random/path/file.cs";
-//             const result = Builder.getBasename(fileName);
-//             assert.equal(result, "file.cs");
-//         });
-//     });
-// });
+Object.defineProperty(exports, "__esModule", { value: true });
+const chai_1 = require("chai");
+const fs = require("fs");
+const Handlebars = require("handlebars");
+const MockFs = require("mock-fs");
+const path = require("path");
+const Sinon = require("sinon");
+const Builder = require("./builder");
+const BuilderInput = require("./builderInput");
+const Modules = require("./modules");
+const Utilities = require("./utilities");
+describe("builder module has a", () => {
+    describe("buildBarrels function that", () => {
+        let logger;
+        let template;
+        let directories;
+        let options;
+        let spySandbox;
+        beforeEach(() => {
+            spySandbox = Sinon.sandbox.create();
+            logger = spySandbox.spy();
+            options = {
+                barrelName: "files.ts",
+                logger,
+                structure: "testBuilder",
+            };
+            const existingBarrel = "existing barrel";
+            directories = [
+                {
+                    barrel: existingBarrel,
+                    directories: [],
+                    files: [existingBarrel],
+                    name: "with barrel",
+                    path: "windows\\style\\path",
+                },
+                {
+                    directories: [],
+                    files: [],
+                    name: "without barrel",
+                    path: "unix/style/path",
+                },
+            ];
+            // Intercept access to other modules.
+            spySandbox.stub(BuilderInput, "createBuilderInput").returns({
+                content: "built input",
+            });
+            spySandbox.stub(Modules, "loadDirectoryModules").returns("loaded modules");
+            spySandbox.stub(Utilities, "convertPathSeparator").returns("converted path");
+            template = spySandbox.spy();
+            spySandbox.stub(Handlebars, "compile").returns(template);
+            // Simulate a barrel on disk.
+            const files = {};
+            files[path.join(__dirname, "builders/testBuilder.hbs")] = "template text";
+            MockFs(files);
+        });
+        afterEach(() => {
+            MockFs.restore();
+            spySandbox.restore();
+        });
+        it("should create builder input using relevant modules", () => {
+            Builder.buildBarrels(directories, options);
+            directories.forEach((directory) => {
+                Sinon.assert.calledWith(Modules.loadDirectoryModules, directory, options);
+                Sinon.assert.calledWith(BuilderInput.createBuilderInput, directory, "loaded modules", options);
+            });
+        });
+        it("should load the template using the structure option", () => {
+            Builder.buildBarrels(directories, options);
+            Sinon.assert.calledWith(Handlebars.compile, "template text");
+        });
+        it("should write templated content to the correct location", () => {
+            Builder.buildBarrels(directories, options);
+            [
+                "windows/style/path/files.ts",
+                "unix/style/path/files.ts",
+            ].forEach((address) => {
+                chai_1.assert.equal(fs.readFileSync(address, "utf8"), "flatContent");
+            });
+        });
+        it("should update the directory tree model with the new barrel", () => {
+            directories.forEach((directory) => {
+                chai_1.assert.exists(directory.barrel);
+                chai_1.assert.includeMembers(directory.files, [directory.barrel]);
+                chai_1.assert.equal(directory.barrel && directory.barrel.name, "files.ts");
+                chai_1.assert.equal(directory.barrel && directory.barrel.path, "path");
+            });
+        });
+        it("should log useful information to the logger", () => {
+            [
+                "Building barrel @ windows\\style\\path",
+                "Building barrel @ unix/style/path",
+                "Updating model barrel @ ${convertedPath}",
+            ].forEach((message, index) => {
+                logger.getCall(index).calledWith(message);
+            });
+        });
+    });
+});
 //# sourceMappingURL=builder.test.js.map

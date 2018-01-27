@@ -9,26 +9,30 @@ export type StructureOption = "flat" | "filesystem";
 
 export type QuoteCharacter = "\"" | "'";
 
+type Logger = (message: string) => void;
+
 // Options provided by yargs.
+// Assume defaulted options will have a value.
 interface Arguments {
     baseUrl?: string;
     config?: string;
-    directory?: string;
-    delete?: boolean;
+    directory: string;
+    delete: boolean;
     exclude?: string[];
-    help?: boolean;
+    help: boolean;
     include?: string[];
-    location?: LocationOption;
-    name?: string;
-    structure?: StructureOption;
-    version?: boolean;
-    verbose?: boolean;
+    location: LocationOption;
+    name: string;
+    singleQuotes: boolean;
+    structure: StructureOption;
+    version: boolean;
+    verbose: boolean;
 }
 
 // Calculated options.
 interface CalculatedOptions {
     barrelName: string;
-    logger: (message: string) => void;
+    logger: Logger;
     rootPath: string;
     quoteCharacter: QuoteCharacter;
     combinedBaseUrl?: string;
@@ -39,7 +43,8 @@ export type Options = Arguments & CalculatedOptions;
 // tslint:disable-next-line
 console.log(__dirname);
 
-function setUpArguments(): { argv: any } {
+// Sets up yargs configuration and gets the execution arguments.
+function setUpArguments(): Arguments {
     return Yargs
         .usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
@@ -105,27 +110,30 @@ function setUpArguments(): { argv: any } {
         .boolean("V")
         .alias("V", "verbose")
         .describe("V", "Display additional logging information")
-        .default("V", false);
+        .default("V", false)
+        .argv as any as Arguments;
 }
 
 export function getOptions(): Options {
-    const options = setUpArguments().argv;
+    const args = setUpArguments() as Arguments;
 
-    options.logger = options.verbose ? console.log : new Function("return void(0);");
+    const logger = args.verbose ? console.log : new Function("return void(0);") as Logger;
 
-    options.rootPath = path.resolve(options.directory);
+    const rootPath = path.resolve(args.directory);
 
-    options.quoteCharacter = options.singleQuotes ? "'" : "\"";
+    const quoteCharacter = args.singleQuotes ? "'" : "\"";
 
-    // Resolve barrel name.
-    const nameArgument: string = options.name;
-    options.barrelName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
-    options.logger(`Using name ${options.barrelName}`);
+    const barrelName = args.name.match(isTypeScriptFile) ? args.name : `${args.name}.ts`;
+    logger(`Using name ${barrelName}`);
 
-    // Resolve base url.
-    if (options.baseUrl) {
-        options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
-    }
+    const combinedBaseUrl = args.baseUrl && path.join(rootPath, args.baseUrl);
 
-    return options;
+    return {
+        barrelName,
+        combinedBaseUrl,
+        logger,
+        quoteCharacter,
+        rootPath,
+        ...args,
+    };
 }

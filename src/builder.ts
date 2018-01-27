@@ -28,7 +28,8 @@ export function buildBarrels(destinations: Directory[], options: Options): void 
 function buildBarrel(directory: Directory, options: Options) {
     options.logger(`Building barrel @ ${directory.path}`);
 
-    const template = loadTemplate("fileSystem");
+    // TODO: Observe options
+    const template = loadTemplate(options.structure);
 
     const builderInput = createBuilderInput(
         directory,
@@ -63,12 +64,12 @@ function buildBarrel(directory: Directory, options: Options) {
  * @returns The handlebars template.
  */
 function loadTemplate(name: string) {
-    // Will this break if running from different directories?
+    // TODO: Will this break if running from different directories?
     return Handlebars.compile(
         fs.readFileSync(
             path.join(
                 __dirname,
-                `../src/builders/${name}.hbs`,
+                `builders/${name}.hbs`,
             ),
             "utf8",
         ),

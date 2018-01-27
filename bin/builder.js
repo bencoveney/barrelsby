@@ -24,7 +24,8 @@ exports.buildBarrels = buildBarrels;
  */
 function buildBarrel(directory, options) {
     options.logger(`Building barrel @ ${directory.path}`);
-    const template = loadTemplate("fileSystem");
+    // TODO: Observe options
+    const template = loadTemplate(options.structure);
     const builderInput = builderInput_1.createBuilderInput(directory, modules_1.loadDirectoryModules(directory, options), options);
     const content = template(builderInput);
     // Write the barrel to disk.
@@ -50,7 +51,7 @@ function buildBarrel(directory, options) {
  * @returns The handlebars template.
  */
 function loadTemplate(name) {
-    // Will this break if running from different directories?
-    return Handlebars.compile(fs.readFileSync(path.join(__dirname, `../src/builders/${name}.hbs`), "utf8"));
+    // TODO: Will this break if running from different directories?
+    return Handlebars.compile(fs.readFileSync(path.join(__dirname, `builders/${name}.hbs`), "utf8"));
 }
 //# sourceMappingURL=builder.js.map

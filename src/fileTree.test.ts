@@ -21,7 +21,7 @@ describe("fileTree module has a", () => {
                     logger,
                     quoteCharacter: "\"",
                     rootPath: "some/path",
-                },
+                } as any,
             );
         });
         afterEach(() => {

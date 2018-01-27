@@ -24,9 +24,11 @@
 
 All new code should:
 * Pass CI checks (tslint, unit tests).
-* Include unit tests for any changed code.
-* Include relevant updates to `README.md`.
 * Be consistent with the existing coding style.
+* Include:
+  * Unit tests for changes.
+  * Documentation in `README.md`.
+  * Logging using `options.logger`.
 
 ## Issues
 

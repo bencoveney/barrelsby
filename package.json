@@ -6,7 +6,8 @@
   "scripts": {
     "build_tsc": "tsc",
     "build_tslint": "tslint --project tsconfig.json -t stylish",
-    "build": "npm run build_tsc && npm run build_tslint",
+    "build_templates": "copyfiles -f src/**/*.hbs bin/builders",
+    "build": "npm run build_tsc && npm run build_tslint && npm run build_templates",
     "tests_integration": "node bin/index.js -c barrelsby.json",
     "tests_unit": "istanbul cover --report json --root \"./bin\" -x \"**/*.test.js\" node_modules/mocha/bin/_mocha \"bin/**/*.test.js\"",
     "remap_coverage_html": "remap-istanbul -i coverage/coverage-final.json -t lcovonly -o coverage/lcov.info",
@@ -42,6 +43,7 @@
     "@types/sinon": "^4.0.0",
     "@types/sinon-chai": "^2.7.28",
     "chai": "^4.1.1",
+    "copyfiles": "^1.2.0",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.0",
     "mock-fs": "^4.4.1",
@@ -58,6 +60,7 @@
     "node": ">=0.10"
   },
   "dependencies": {
+    "@types/yargs": "^10.0.1",
     "handlebars": "^4.0.10",
     "yargs": "^10.0.3"
   },

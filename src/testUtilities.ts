@@ -98,7 +98,7 @@ export function mockOptions(loggerTarget: string[]): Options {
         logger: (message: string) => loggerTarget.push(message),
         quoteCharacter: "\"",
         rootPath: "some/path",
-    };
+    } as any;
 }
 
 // Multiline string assertion to give more useful output messages.
