@@ -36,7 +36,7 @@ describe("builder/builder module has a", () => {
         beforeEach(() => {
             MockFs(TestUtilities.mockFsConfiguration());
             directory = TestUtilities.mockDirectoryTree();
-            spySandbox = Sinon.sandbox.create();
+            spySandbox = Sinon.createSandbox();
             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
             spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");

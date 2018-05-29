@@ -13,7 +13,7 @@ describe("builder/flat module has a", () => {
             let options: Options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
-                spySandbox = Sinon.sandbox.create();
+                spySandbox = Sinon.createSandbox();
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
@@ -65,7 +65,7 @@ export * from "./directory3/program";
             let options: Options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
-                spySandbox = Sinon.sandbox.create();
+                spySandbox = Sinon.createSandbox();
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
