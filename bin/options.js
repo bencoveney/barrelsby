@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const path = require("path");
 const Yargs = require("yargs");
+const filters_1 = require("./filters");
 const utilities_1 = require("./utilities");
 function setUpArguments() {
     return Yargs
@@ -71,6 +72,7 @@ function getOptions() {
     if (options.baseUrl) {
         options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
     }
+    options.locationTest = filters_1.createLocationTest(options.include, options.exclude, options.logger);
     return options;
 }
 exports.getOptions = getOptions;

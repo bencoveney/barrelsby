@@ -17,6 +17,7 @@ describe("builder/flat module has a", () => {
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
+                    locationTest: TestUtilities.mockLocationTest(),
                     logger,
                     quoteCharacter: "\"",
                     rootPath: ".",
@@ -47,8 +48,8 @@ export * from "./directory3/program";
                     chai_1.assert.equal(logger.getCall(index).args[0], message);
                 });
             });
-            it("should produce output compatible with the recommended tslint ruleset", () => {
-                TestUtilities.tslint(output, options);
+            it("should produce output compatible with the recommended tslint ruleset", function () {
+                TestUtilities.tslint.call(this, output, options);
             });
         });
         describe("when using single quotes", () => {
@@ -62,6 +63,7 @@ export * from "./directory3/program";
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
+                    locationTest: TestUtilities.mockLocationTest(),
                     logger,
                     quoteCharacter: "'",
                     rootPath: ".",
@@ -92,8 +94,8 @@ export * from './directory3/program';
                     chai_1.assert.equal(logger.getCall(index).args[0], message);
                 });
             });
-            it("should produce output compatible with the recommended tslint ruleset", () => {
-                TestUtilities.tslint(output, options);
+            it("should produce output compatible with the recommended tslint ruleset", function () {
+                TestUtilities.tslint.call(this, output, options);
             });
         });
     });

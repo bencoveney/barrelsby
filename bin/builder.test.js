@@ -22,6 +22,7 @@ describe("builder/builder module has a", () => {
             logger = spySandbox.spy();
             Builder.buildBarrels(directory.directories, {
                 barrelName: "barrel.ts",
+                locationTest: TestUtilities.mockLocationTest(),
                 logger,
                 quoteCharacter: "\"",
                 rootPath: ".",

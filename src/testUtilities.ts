@@ -1,6 +1,8 @@
 import {assert} from "chai";
+import {ITestCallbackContext} from "mocha";
 import {Configuration, Linter} from "tslint";
 
+import {LocationTest} from "./filters";
 import {Options} from "./options";
 import {Directory, Location} from "./utilities";
 
@@ -95,6 +97,7 @@ export function mockModules(rootDirectory: Directory): Location[] {
 export function mockOptions(loggerTarget: string[]): Options {
     return {
         barrelName: "barrel.ts",
+        locationTest: mockLocationTest(),
         logger: (message: string) => loggerTarget.push(message),
         quoteCharacter: "\"",
         rootPath: "some/path",
@@ -112,16 +115,21 @@ export function assertMultiLine(actual: string, expected: string): void {
 }
 
 // Runs tslint against the specified file and checks there are no errors.
-export function tslint(content: string, options: Options) {
+export function tslint(this: ITestCallbackContext, content: string, options: Options) {
+    // Give TSLint tests a little longer to load.
+    this.slow(500);
     const linter = new Linter({fix: false, formatter: "json"});
     const configuration = Configuration.loadConfigurationFromPath("./tslint.json");
     if (options.quoteCharacter === "'") {
         configuration.rules.set("quotemark", { ruleArguments: ["single", "avoid-escape"]});
     }
-    console.info(configuration.rules.get("quotemark")); //tslint:disable-line
     linter.lint("test_output.ts", content, configuration);
     const failures = linter.getResult().failures.map((failure) =>
         `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`,
     );
     assert.deepEqual(failures, []);
+}
+
+export function mockLocationTest(): LocationTest {
+   return () => true;
 }

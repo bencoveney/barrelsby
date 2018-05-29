@@ -18,6 +18,7 @@ describe("fileTree module has a", () => {
                 "./directory1",
                 {
                     barrelName: "barrel.ts",
+                    locationTest: TestUtilities.mockLocationTest(),
                     logger,
                     quoteCharacter: "\"",
                     rootPath: "some/path",

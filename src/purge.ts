@@ -12,6 +12,7 @@ export function purge(rootTree: Directory, options: Options) {
                 .filter((file: Location) => {
                     return file.name === options.barrelName;
                 })
+//                .filter(options.locationTest)
                 .forEach((file: Location) => {
                     options.logger(`Deleting existing barrel @ ${file.path}`);
                     // Delete barrel file and clean up tree model.

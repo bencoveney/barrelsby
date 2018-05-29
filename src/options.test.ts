@@ -1,10 +1,13 @@
 import {assert} from "chai";
+import {ITestCallbackContext} from "mocha";
 import * as Yargs from "yargs";
 import * as Options from "./options";
 
 describe("options module has a", () => {
     describe("getOptions function that", () => {
-        it("should load the configuration options", () => {
+        it("should load the configuration options", function(this: ITestCallbackContext) {
+            // Allow extra time for yargs.
+            this.slow(500);
             Yargs([
                 "--delete",
                 "--directory",

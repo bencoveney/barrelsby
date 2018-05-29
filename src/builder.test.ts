@@ -27,6 +27,7 @@ describe("builder/builder module has a", () => {
                 directory.directories,
                 {
                     barrelName: "barrel.ts",
+                    locationTest: TestUtilities.mockLocationTest(),
                     logger,
                     quoteCharacter: "\"",
                     rootPath: ".",

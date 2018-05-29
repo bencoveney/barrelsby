@@ -1,6 +1,7 @@
 import * as path from "path";
 import * as Yargs from "yargs";
 
+import {createLocationTest, LocationTest} from "./filters";
 import {isTypeScriptFile} from "./utilities";
 
 export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
@@ -8,6 +9,8 @@ export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 export type StructureOption = "flat" | "filesystem";
 
 export type QuoteCharacter = "\"" | "'";
+
+export type Logger = (message: string) => void;
 
 // Options provided by yargs.
 interface Arguments {
@@ -28,10 +31,11 @@ interface Arguments {
 // Calculated options.
 interface CalculatedOptions {
     barrelName: string;
-    logger: (message: string) => void;
+    logger: Logger;
     rootPath: string;
     quoteCharacter: QuoteCharacter;
     combinedBaseUrl?: string;
+    locationTest: LocationTest;
 }
 
 export type Options = Arguments & CalculatedOptions;
@@ -123,6 +127,8 @@ export function getOptions(): Options {
     if (options.baseUrl) {
         options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
     }
+
+    options.locationTest = createLocationTest(options.include, options.exclude, options.logger);
 
     return options;
 }

@@ -14,6 +14,7 @@ describe("fileTree module has a", () => {
             const logger = (message) => logged.push(message);
             result = FileTree.buildTree("./directory1", {
                 barrelName: "barrel.ts",
+                locationTest: TestUtilities.mockLocationTest(),
                 logger,
                 quoteCharacter: "\"",
                 rootPath: "some/path",

@@ -1,3 +1,4 @@
+import {ITestCallbackContext} from "mocha";
 import * as path from "path";
 import {Options} from "../options";
 import * as TestUtilities from "../testUtilities";
@@ -9,6 +10,7 @@ describe("builder/fileSystem module has a", () => {
             let output: string;
             const options: Options = {
                 barrelName: "index.ts",
+                locationTest: TestUtilities.mockLocationTest(),
                 logger: () => void 0,
                 quoteCharacter: "\"",
                 rootPath: path.resolve("./"),
@@ -42,9 +44,12 @@ export const directory3 = {
 export {indexts as index};
 `);
             });
-            it("should produce output compatible with the recommended tslint ruleset", () => {
-                TestUtilities.tslint(output, options);
-            });
+            it(
+                "should produce output compatible with the recommended tslint ruleset",
+                function(this: ITestCallbackContext) {
+                    TestUtilities.tslint.call(this, output, options);
+                },
+            );
         });
     });
 
@@ -52,6 +57,7 @@ export {indexts as index};
         let output: string;
         const options: Options = {
             barrelName: "index.ts",
+            locationTest: TestUtilities.mockLocationTest(),
             logger: () => void 0,
             quoteCharacter: "'",
             rootPath: path.resolve("./"),
@@ -85,8 +91,11 @@ export const directory3 = {
 export {indexts as index};
 `);
         });
-        it("should produce output compatible with the recommended tslint ruleset", () => {
-            TestUtilities.tslint(output, options);
-        });
+        it(
+            "should produce output compatible with the recommended tslint ruleset",
+            function(this: ITestCallbackContext) {
+                TestUtilities.tslint.call(this, output, options);
+            },
+        );
     });
 });

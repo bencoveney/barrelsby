@@ -5,7 +5,9 @@ const Yargs = require("yargs");
 const Options = require("./options");
 describe("options module has a", () => {
     describe("getOptions function that", () => {
-        it("should load the configuration options", () => {
+        it("should load the configuration options", function () {
+            // Allow extra time for yargs.
+            this.slow(500);
             Yargs([
                 "--delete",
                 "--directory",
