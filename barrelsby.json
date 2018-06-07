@@ -2,10 +2,10 @@
 	"baseUrl": "../",
 	"directory": "test",
 	"delete": true,
-	"location": "top",
+	"location": "all",
 	"name": "barrel",
 	"structure": "filesystem",
 	"verbose": true,
-	"include": ["a.ts$"],
+	"include": [".ts$"],
 	"exclude": ["zeta.ts$"]
 }
