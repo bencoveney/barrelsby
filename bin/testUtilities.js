@@ -113,7 +113,6 @@ function tslint(content, options) {
     if (options.quoteCharacter === "'") {
         configuration.rules.set("quotemark", { ruleArguments: ["single", "avoid-escape"] });
     }
-    console.info(configuration.rules.get("quotemark")); //tslint:disable-line
     linter.lint("test_output.ts", content, configuration);
     const failures = linter.getResult().failures.map((failure) => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
     chai_1.assert.deepEqual(failures, []);

@@ -92,6 +92,40 @@ describe("builder/builder module has a", () => {
             });
         });
     });
+    describe("buildBarrels function with empty barrel content that", () => {
+        let directory;
+        let spySandbox;
+        let logger;
+        const runBuilder = () => {
+            logger = spySandbox.spy();
+            Builder.buildBarrels(directory.directories, {
+                barrelName: "barrel.ts",
+                logger,
+                quoteCharacter: "\"",
+                rootPath: ".",
+                structure: "flat",
+            });
+        };
+        beforeEach(() => {
+            MockFs(TestUtilities.mockFsConfiguration());
+            directory = TestUtilities.mockDirectoryTree();
+            spySandbox = Sinon.createSandbox();
+            spySandbox.stub(Flat, "buildFlatBarrel").returns("");
+            spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");
+        });
+        afterEach(() => {
+            MockFs.restore();
+            spySandbox.restore();
+        });
+        it("does not create an empty barrel", () => {
+            runBuilder();
+            const checkDoesNotExist = (address) => {
+                chai_1.assert.isFalse(fs.existsSync(address));
+            };
+            checkDoesNotExist("directory1/directory2/barrel.ts");
+            checkDoesNotExist("directory1/directory3/barrel.ts");
+        });
+    });
     describe("buildImportPath function that", () => {
         let directory;
         beforeEach(() => {

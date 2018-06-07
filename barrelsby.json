@@ -2,7 +2,7 @@
 	"baseUrl": "../",
 	"directory": "test",
 	"delete": true,
-	"location": "all",
+	"location": "top",
 	"name": "barrel",
 	"structure": "filesystem",
 	"verbose": true,
