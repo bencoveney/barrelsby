@@ -26,6 +26,10 @@ function buildBarrel(directory, builder, options) {
     options.logger(`Building barrel @ ${directory.path}`);
     const content = builder(directory, modules_1.loadDirectoryModules(directory, options), options);
     const destination = path.join(directory.path, options.barrelName);
+    if (content.length === 0) {
+        // Skip empty barrels.
+        return;
+    }
     fs.writeFileSync(destination, content);
     // Update the file tree model with the new barrel.
     if (!directory.files.some((file) => file.name === options.barrelName)) {
