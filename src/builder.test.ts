@@ -96,7 +96,7 @@ describe("builder/builder module has a", () => {
             });
         });
     });
-    describe("than", () => {
+    describe("buildBarrels function with empty barrel content that", () => {
         let directory: Directory;
         let spySandbox: sinon.SinonSandbox;
         let logger: Sinon.SinonSpy;
