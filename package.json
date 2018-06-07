@@ -10,8 +10,9 @@
     "build": "npm run clean && npm run build_tsc && npm run build_tslint",
     "tests_integration": "node bin/index.js -c barrelsby.json",
     "tests_unit": "istanbul cover --report json --root \"./bin\" -x \"**/*.test.js\" node_modules/mocha/bin/_mocha \"bin/**/*.test.js\"",
-    "remap_coverage_html": "remap-istanbul -i coverage/coverage-final.json -t json -o coverage/coverage-final.json && rimraf coverage/coverage.json",
-    "tests": "npm run tests_unit && npm run tests_integration && npm run remap_coverage_html",
+    "remap_coverage": "remap-istanbul -i coverage/coverage-final.json -t json -o coverage/coverage-final.json && rimraf coverage/coverage.json",
+    "html_coverage": "istanbul report html",
+    "tests": "npm run tests_unit && npm run tests_integration && npm run remap_coverage",
     "test": "npm run build && npm run tests"
   },
   "repository": {
