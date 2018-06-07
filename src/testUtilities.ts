@@ -120,6 +120,7 @@ export function tslint(content: string, options: Options) {
     }
     linter.lint("test_output.ts", content, configuration);
     const failures = linter.getResult().failures.map((failure) =>
+        /* istanbul ignore next - Should not be hit during successful test execution. */
         `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`,
     );
     assert.deepEqual(failures, []);
