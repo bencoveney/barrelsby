@@ -22,6 +22,7 @@ describe("options module has a", () => {
                 "--verbose",
             ]);
             const options = Options.getOptions();
+            // tslint:disable-next-line:no-console
             assert.equal(options.logger, console.log);
             assert.match(options.rootPath, /test$/);
             assert.equal(options.barrelName, "barrel.ts");
@@ -39,6 +40,7 @@ describe("options module has a", () => {
         it("should not use the console if logging is disabled", () => {
             Yargs([]);
             const options = Options.getOptions();
+            // tslint:disable-next-line:no-console
             assert.notEqual(options.logger, console.log);
         });
         it("should not append .ts to the name option if already present", () => {
