@@ -37,21 +37,21 @@
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
     "@types/chai": "^4.1.4",
-    "@types/mocha": "^5.2.3",
+    "@types/mocha": "^5.2.5",
     "@types/mock-fs": "^3.6.30",
-    "@types/node": "^10.3.5",
-    "@types/sinon": "^5.0.1",
+    "@types/node": "^10.9.4",
+    "@types/sinon": "^5.0.2",
     "@types/sinon-chai": "^3.2.0",
     "chai": "^4.1.2",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "mock-fs": "^4.5.0",
+    "mock-fs": "^4.7.0",
     "remap-istanbul": "^0.12.0",
     "rimraf": "^2.6.2",
-    "sinon": "^6.0.0",
+    "sinon": "^6.3.3",
     "sinon-chai": "^3.2.0",
-    "tslint": "^5.10.0",
-    "typescript": "^2.9.2"
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
   },
   "bin": {
     "barrelsby": "bin/index.js"
@@ -60,7 +60,7 @@
     "node": ">=0.10"
   },
   "dependencies": {
-    "yargs": "^12.0.1"
+    "yargs": "^12.0.2"
   },
   "contributors": [
     {

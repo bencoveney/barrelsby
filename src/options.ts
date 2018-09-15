@@ -108,6 +108,7 @@ function setUpArguments(): { argv: any } {
 export function getOptions(): Options {
     const options = setUpArguments().argv;
 
+    // tslint:disable-next-line:no-console
     options.logger = options.verbose ? console.log : new Function("return void(0);");
 
     options.rootPath = path.resolve(options.directory);
