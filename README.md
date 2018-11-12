@@ -49,6 +49,7 @@ import * as Controls from "./src/controls/index";
 
 * [Angular Glossary](https://angular.io/docs/ts/latest/glossary.html#!#B)
 * [TattooCoder Blog](http://tattoocoder.com/angular2-barrels/)
+* [Rupesh Tiwari Blog](http://rupeshtiwari.com/create-barrel/)
 
 ## Usage
 
