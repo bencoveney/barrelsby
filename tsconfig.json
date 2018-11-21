@@ -1,24 +1,24 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "target": "es6",
-        "noImplicitAny": false,
-        "sourceMap": true,
-        "removeComments": false,
-        "outDir": "./bin",
-        "allowUnreachableCode": false,
-        "allowUnusedLabels": false,
-        "alwaysStrict": true,
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "strictNullChecks": true,
-        "newLine": "LF"
-    },
-    "include": [
-        "src/**/*.ts"
-    ]
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./bin",
+    "removeComments": false,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "allowUnusedLabels": false,
+    "forceConsistentCasingInFileNames": true,
+    "newLine": "LF",
+    "allowUnreachableCode": false
+  },
+  "include": [
+      "src/**/*.ts"
+  ]
 }

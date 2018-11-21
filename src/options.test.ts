@@ -1,5 +1,6 @@
 import {assert} from "chai";
-import * as Yargs from "yargs";
+import Yargs from "yargs";
+
 import * as Options from "./options";
 
 describe("options module has a", () => {

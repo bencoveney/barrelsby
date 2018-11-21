@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 
 import {Options} from "./options";
 import {convertPathSeparator, Directory, Location, thisDirectory} from "./utilities";

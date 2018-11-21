@@ -1,7 +1,6 @@
+import {buildImportPath} from "../builder";
 import {Options} from "../options";
 import {Directory, Location} from "../utilities";
-
-import {buildImportPath} from "../builder";
 
 export function buildFlatBarrel(directory: Directory, modules: Location[], options: Options): string {
     return modules.reduce(

@@ -1,7 +1,7 @@
 import {assert} from "chai";
-import * as fs from "fs";
-import * as MockFs from "mock-fs";
-import * as Sinon from "sinon";
+import fs from "fs";
+import MockFs from "mock-fs";
+import Sinon from "sinon";
 
 import * as Builder from "./builder";
 import * as FileSystem from "./builders/fileSystem";

@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as Yargs from "yargs";
+import path from "path";
+import Yargs from "yargs";
 
 import {isTypeScriptFile} from "./utilities";
 

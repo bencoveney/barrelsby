@@ -1,4 +1,5 @@
-import * as path from "path";
+import path from "path";
+
 import {Options} from "../options";
 import * as TestUtilities from "../testUtilities";
 import * as FileSystem from "./fileSystem";

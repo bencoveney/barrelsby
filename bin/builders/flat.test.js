@@ -1,9 +1,19 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
-const Sinon = require("sinon");
-const TestUtilities = require("../testUtilities");
-const Flat = require("./flat");
+const sinon_1 = __importDefault(require("sinon"));
+const TestUtilities = __importStar(require("../testUtilities"));
+const Flat = __importStar(require("./flat"));
 describe("builder/flat module has a", () => {
     describe("buildFlatBarrel function that", () => {
         describe("when using double quotes", () => {
@@ -13,7 +23,7 @@ describe("builder/flat module has a", () => {
             let options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
-                spySandbox = Sinon.createSandbox();
+                spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
@@ -58,7 +68,7 @@ export * from "./directory3/program";
             let options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
-                spySandbox = Sinon.createSandbox();
+                spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
