@@ -6,6 +6,7 @@ import * as Sinon from "sinon";
 import * as Builder from "./builder";
 import * as FileSystem from "./builders/fileSystem";
 import * as Flat from "./builders/flat";
+import * as Header from "./builders/header";
 import * as Modules from "./modules";
 import {StructureOption} from "./options";
 import * as TestUtilities from "./testUtilities";
@@ -40,6 +41,7 @@ describe("builder/builder module has a", () => {
             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
             spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
+            spySandbox.stub(Header, "addHeaderPrefix").callsFake((content: string) => `header: ${content}`);
         });
         afterEach(() => {
             MockFs.restore();
@@ -67,11 +69,11 @@ describe("builder/builder module has a", () => {
                 testStructure(undefined, true);
             });
         });
-        it("should write each barrel's content to disk", () => {
+        it("should write each barrel's header and content to disk", () => {
             runBuilder("flat");
             const checkContent = (address: string) => {
                 const result = fs.readFileSync(address, "utf8");
-                assert.equal(result, "flatContent");
+                assert.equal(result, "header: flatContent");
             };
             checkContent("directory1/directory2/barrel.ts");
             checkContent("directory1/directory3/barrel.ts");
