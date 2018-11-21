@@ -34,7 +34,7 @@ describe("builder/builder module has a", () => {
             spySandbox = Sinon.createSandbox();
             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
-            spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");
+            spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
         });
         afterEach(() => {
             MockFs.restore();
@@ -111,7 +111,7 @@ describe("builder/builder module has a", () => {
             directory = TestUtilities.mockDirectoryTree();
             spySandbox = Sinon.createSandbox();
             spySandbox.stub(Flat, "buildFlatBarrel").returns("");
-            spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");
+            spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
         });
         afterEach(() => {
             MockFs.restore();
