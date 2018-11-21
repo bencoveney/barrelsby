@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import * as MockFs from "mock-fs";
+import MockFs from "mock-fs";
 
 import * as TestUtilities from "./testUtilities";
 

@@ -1,5 +1,6 @@
 import {assert} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
+
 import {Options} from "../options";
 import * as TestUtilities from "../testUtilities";
 import * as Flat from "./flat";

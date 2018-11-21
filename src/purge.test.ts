@@ -1,11 +1,10 @@
 import {assert} from "chai";
-import * as fs from "fs";
-import * as MockFs from "mock-fs";
-
-import * as TestUtilities from "./testUtilities";
+import fs from "fs";
+import MockFs from "mock-fs";
 
 import {Options} from "./options";
 import * as Purge from "./purge";
+import * as TestUtilities from "./testUtilities";
 import {Directory} from "./utilities";
 
 describe("purge module has a", () => {

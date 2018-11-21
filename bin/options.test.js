@@ -1,12 +1,22 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
-const Yargs = require("yargs");
-const Options = require("./options");
+const yargs_1 = __importDefault(require("yargs"));
+const Options = __importStar(require("./options"));
 describe("options module has a", () => {
     describe("getOptions function that", () => {
         it("should load the configuration options", () => {
-            Yargs([
+            yargs_1.default([
                 "--delete",
                 "--directory",
                 "./test",
@@ -39,18 +49,18 @@ describe("options module has a", () => {
             chai_1.assert.equal(options.verbose, true);
         });
         it("should not use the console if logging is disabled", () => {
-            Yargs([]);
+            yargs_1.default([]);
             const options = Options.getOptions();
             // tslint:disable-next-line:no-console
             chai_1.assert.notEqual(options.logger, console.log);
         });
         it("should not append .ts to the name option if already present", () => {
-            Yargs(["--name", "barrel.ts"]);
+            yargs_1.default(["--name", "barrel.ts"]);
             const options = Options.getOptions();
             chai_1.assert.equal(options.barrelName, "barrel.ts");
         });
         it("should resolve the baseUrl if specified", () => {
-            Yargs(["--baseUrl", "/base/url"]);
+            yargs_1.default(["--baseUrl", "/base/url"]);
             const options = Options.getOptions();
             chai_1.assert.match(options.combinedBaseUrl, /base[\\/]url$/);
         });
