@@ -7,6 +7,7 @@ const Sinon = require("sinon");
 const Builder = require("./builder");
 const FileSystem = require("./builders/fileSystem");
 const Flat = require("./builders/flat");
+const Header = require("./builders/header");
 const Modules = require("./modules");
 const TestUtilities = require("./testUtilities");
 // Gets a location from a list by name.
@@ -35,6 +36,7 @@ describe("builder/builder module has a", () => {
             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
             spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
+            spySandbox.stub(Header, "addHeaderPrefix").callsFake((content) => `header: ${content}`);
         });
         afterEach(() => {
             MockFs.restore();
@@ -63,11 +65,11 @@ describe("builder/builder module has a", () => {
                 testStructure(undefined, true);
             });
         });
-        it("should write each barrel's content to disk", () => {
+        it("should write each barrel's header and content to disk", () => {
             runBuilder("flat");
             const checkContent = (address) => {
                 const result = fs.readFileSync(address, "utf8");
-                chai_1.assert.equal(result, "flatContent");
+                chai_1.assert.equal(result, "header: flatContent");
             };
             checkContent("directory1/directory2/barrel.ts");
             checkContent("directory1/directory3/barrel.ts");

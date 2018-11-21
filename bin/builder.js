@@ -5,6 +5,7 @@ const path = require("path");
 const utilities_1 = require("./utilities");
 const fileSystem_1 = require("./builders/fileSystem");
 const flat_1 = require("./builders/flat");
+const header_1 = require("./builders/header");
 const modules_1 = require("./modules");
 function buildBarrels(destinations, options) {
     let builder;
@@ -30,7 +31,9 @@ function buildBarrel(directory, builder, options) {
         // Skip empty barrels.
         return;
     }
-    fs.writeFileSync(destination, content);
+    // Add the header
+    const contentWithHeader = header_1.addHeaderPrefix(content);
+    fs.writeFileSync(destination, contentWithHeader);
     // Update the file tree model with the new barrel.
     if (!directory.files.some((file) => file.name === options.barrelName)) {
         const convertedPath = utilities_1.convertPathSeparator(destination);
