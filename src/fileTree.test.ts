@@ -1,5 +1,5 @@
 import {assert} from "chai";
-import * as MockFs from "mock-fs";
+import MockFs from "mock-fs";
 
 import * as TestUtilities from "./testUtilities";
 
@@ -25,11 +25,12 @@ describe("fileTree module has a", () => {
                     location: "top",
                     logger,
                     name: "index",
+                    quoteCharacter: "\"",
                     rootPath: "some/path",
                     structure: "top",
                     verbose: false,
                     version: false,
-                },
+                } as any,
             );
         });
         afterEach(() => {

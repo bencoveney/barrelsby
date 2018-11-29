@@ -1,11 +1,12 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 
 import {Options} from "./options";
 import {convertPathSeparator, Directory, Location} from "./utilities";
 
 import {buildFileSystemBarrel} from "./builders/fileSystem";
 import {buildFlatBarrel} from "./builders/flat";
+import {addHeaderPrefix} from "./builders/header";
 import {loadDirectoryModules} from "./modules";
 
 /**
@@ -39,7 +40,13 @@ function buildBarrel(directory: Directory, builder: BarrelBuilder, options: Opti
     const content = builder(directory, loadDirectoryModules(directory, options), options);
     // Write the barrel to disk.
     const destination = path.join(directory.path, options.barrelName);
-    fs.writeFileSync(destination, content);
+    if (content.length === 0) {
+        // Skip empty barrels.
+        return;
+    }
+    // Add the header
+    const contentWithHeader = addHeaderPrefix(content);
+    fs.writeFileSync(destination, contentWithHeader);
     // Update the file tree model with the new barrel.
     if (!directory.files.some((file: Location) => file.name === options.barrelName)) {
         const convertedPath = convertPathSeparator(destination);

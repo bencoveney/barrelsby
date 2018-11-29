@@ -50,7 +50,36 @@ import * as Controls from "./src/controls/index";
 * [Angular Glossary](https://angular.io/docs/ts/latest/glossary.html#!#B)
 * [TattooCoder Blog](http://tattoocoder.com/angular2-barrels/)
 
+### Barrelsby Articles
+
+* [Rupesh Tiwari Blog](http://rupeshtiwari.com/create-barrel/)
+* [Medium Article](https://medium.com/@klauskpm/do-a-barrel-export-aa5b79b76b05)
+
 ## Usage
+
+To install Barrelsby:
+
+```
+npm install --save-dev barrelsby
+```
+
+To run barrelsby first add a script to the `package.json` file:
+
+```json
+{
+  "scripts": [
+    "generate-barrels": "barrelsby --delete"
+  ]
+}
+```
+
+You can now generate barrels:
+
+```
+npm run generate-barrels
+```
+
+## Configuration Options
 
 Barrelsby accepts a number of options to help refine how your barrels are created. These options
 can be configured from the command line or using a configuration file.
@@ -136,6 +165,11 @@ export const directory3 = {
 export {indexts as index};
 ```
 
+### `-q` or `--singleQuotes`
+
+Use 'single quotes' in the generated barrel files instead of the default "double quotes".
+
+
 ### `-v` or `--version`
 
 Display the barrelsby version number.
@@ -147,3 +181,13 @@ Display additional debug information.
 ## Requirements
 
 Requires node v6.0.0 or greater for ES6 syntax.
+
+## Contributing
+
+If you are interested in contributing to barrelsby there are plenty of tagged issues that can be
+picked up, or feel free to suggest your own feature in an issue.
+
+Most coding conventions are enforced by TSLint but in general:
+- Use small functions instead of classes.
+- Avoid abreviated identifiers.
+- Write short simple test.

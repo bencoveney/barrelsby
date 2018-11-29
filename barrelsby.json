@@ -7,6 +7,6 @@
 	"name": "barrel",
 	"structure": "./docs/customBuilder.js",
 	"verbose": true,
-	"include": ["a.ts$"],
+	"include": [".ts$"],
 	"exclude": ["zeta.ts$"]
 }

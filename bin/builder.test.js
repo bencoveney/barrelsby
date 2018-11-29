@@ -1,14 +1,25 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
-const fs = require("fs");
-const MockFs = require("mock-fs");
-const Sinon = require("sinon");
-const Builder = require("./builder");
-const FileSystem = require("./builders/fileSystem");
-const Flat = require("./builders/flat");
-const Modules = require("./modules");
-const TestUtilities = require("./testUtilities");
+const fs_1 = __importDefault(require("fs"));
+const mock_fs_1 = __importDefault(require("mock-fs"));
+const sinon_1 = __importDefault(require("sinon"));
+const Builder = __importStar(require("./builder"));
+const FileSystem = __importStar(require("./builders/fileSystem"));
+const Flat = __importStar(require("./builders/flat"));
+const Header = __importStar(require("./builders/header"));
+const Modules = __importStar(require("./modules"));
+const TestUtilities = __importStar(require("./testUtilities"));
 // Gets a location from a list by name.
 function getLocationByName(locations, name) {
     return locations.filter((location) => location.name === name)[0];
@@ -29,6 +40,7 @@ describe("builder/builder module has a", () => {
                 location: "top",
                 logger,
                 name: "index",
+                quoteCharacter: "\"",
                 rootPath: ".",
                 structure,
                 verbose: false,
@@ -36,15 +48,16 @@ describe("builder/builder module has a", () => {
             });
         };
         beforeEach(() => {
-            MockFs(TestUtilities.mockFsConfiguration());
+            mock_fs_1.default(TestUtilities.mockFsConfiguration());
             directory = TestUtilities.mockDirectoryTree();
-            spySandbox = Sinon.sandbox.create();
+            spySandbox = sinon_1.default.createSandbox();
             spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
-            spySandbox.stub(Modules, "loadDirectoryModules").returns("loadedModules");
+            spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
+            spySandbox.stub(Header, "addHeaderPrefix").callsFake((content) => `header: ${content}`);
         });
         afterEach(() => {
-            MockFs.restore();
+            mock_fs_1.default.restore();
             spySandbox.restore();
         });
         describe("uses the structure option and", () => {
@@ -52,12 +65,12 @@ describe("builder/builder module has a", () => {
                 runBuilder(structure);
                 // TODO: Test arguments for barrel builder & loadDirectoryModules
                 if (isFlat) {
-                    Sinon.assert.calledTwice(Flat.buildFlatBarrel);
-                    Sinon.assert.notCalled(FileSystem.buildFileSystemBarrel);
+                    sinon_1.default.assert.calledTwice(Flat.buildFlatBarrel);
+                    sinon_1.default.assert.notCalled(FileSystem.buildFileSystemBarrel);
                 }
                 else {
-                    Sinon.assert.notCalled(Flat.buildFlatBarrel);
-                    Sinon.assert.calledTwice(FileSystem.buildFileSystemBarrel);
+                    sinon_1.default.assert.notCalled(Flat.buildFlatBarrel);
+                    sinon_1.default.assert.calledTwice(FileSystem.buildFileSystemBarrel);
                 }
             };
             it("should use the flat builder if in flat mode", () => {
@@ -70,11 +83,11 @@ describe("builder/builder module has a", () => {
             //     testStructure("custom/customBuilder.js", true);
             // });
         });
-        it("should write each barrel's content to disk", () => {
+        it("should write each barrel's header and content to disk", () => {
             runBuilder("flat");
             const checkContent = (address) => {
-                const result = fs.readFileSync(address, "utf8");
-                chai_1.assert.equal(result, "flatContent");
+                const result = fs_1.default.readFileSync(address, "utf8");
+                chai_1.assert.equal(result, "header: flatContent");
             };
             checkContent("directory1/directory2/barrel.ts");
             checkContent("directory1/directory3/barrel.ts");
@@ -97,6 +110,40 @@ describe("builder/builder module has a", () => {
             messages.forEach((message, barrel) => {
                 chai_1.assert.equal(logger.getCall(barrel).args[0], message);
             });
+        });
+    });
+    describe("buildBarrels function with empty barrel content that", () => {
+        let directory;
+        let spySandbox;
+        let logger;
+        const runBuilder = () => {
+            logger = spySandbox.spy();
+            Builder.buildBarrels(directory.directories, {
+                barrelName: "barrel.ts",
+                logger,
+                quoteCharacter: "\"",
+                rootPath: ".",
+                structure: "flat",
+            });
+        };
+        beforeEach(() => {
+            mock_fs_1.default(TestUtilities.mockFsConfiguration());
+            directory = TestUtilities.mockDirectoryTree();
+            spySandbox = sinon_1.default.createSandbox();
+            spySandbox.stub(Flat, "buildFlatBarrel").returns("");
+            spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
+        });
+        afterEach(() => {
+            mock_fs_1.default.restore();
+            spySandbox.restore();
+        });
+        it("does not create an empty barrel", () => {
+            runBuilder();
+            const checkDoesNotExist = (address) => {
+                chai_1.assert.isFalse(fs_1.default.existsSync(address));
+            };
+            checkDoesNotExist("directory1/directory2/barrel.ts");
+            checkDoesNotExist("directory1/directory3/barrel.ts");
         });
     });
     describe("buildImportPath function that", () => {

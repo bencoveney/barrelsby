@@ -97,6 +97,7 @@ function mockOptions(loggerTarget) {
         location: "top",
         logger: (message) => loggerTarget.push(message),
         name: "index",
+        quoteCharacter: "\"",
         rootPath: "some/path",
         structure: "top",
         verbose: false,
@@ -115,10 +116,14 @@ function assertMultiLine(actual, expected) {
 }
 exports.assertMultiLine = assertMultiLine;
 // Runs tslint against the specified file and checks there are no errors.
-function tslint(content) {
+function tslint(content, options) {
     const linter = new tslint_1.Linter({ fix: false, formatter: "json" });
     const configuration = tslint_1.Configuration.loadConfigurationFromPath("./tslint.json");
+    if (options.quoteCharacter === "'") {
+        configuration.rules.set("quotemark", { ruleArguments: ["single", "avoid-escape"] });
+    }
     linter.lint("test_output.ts", content, configuration);
+    /* istanbul ignore next: Should not be hit during successful test execution. */
     const failures = linter.getResult().failures.map((failure) => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
     chai_1.assert.deepEqual(failures, []);
 }

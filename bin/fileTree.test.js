@@ -1,15 +1,25 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
-const MockFs = require("mock-fs");
-const TestUtilities = require("./testUtilities");
-const FileTree = require("./fileTree");
+const mock_fs_1 = __importDefault(require("mock-fs"));
+const TestUtilities = __importStar(require("./testUtilities"));
+const FileTree = __importStar(require("./fileTree"));
 describe("fileTree module has a", () => {
     describe("buildTree function that", () => {
         let result;
         let logged;
         beforeEach(() => {
-            MockFs(TestUtilities.mockFsConfiguration());
+            mock_fs_1.default(TestUtilities.mockFsConfiguration());
             logged = [];
             const logger = (message) => logged.push(message);
             result = FileTree.buildTree("./directory1", {
@@ -21,6 +31,7 @@ describe("fileTree module has a", () => {
                 location: "top",
                 logger,
                 name: "index",
+                quoteCharacter: "\"",
                 rootPath: "some/path",
                 structure: "top",
                 verbose: false,
@@ -28,7 +39,7 @@ describe("fileTree module has a", () => {
             });
         });
         afterEach(() => {
-            MockFs.restore();
+            mock_fs_1.default.restore();
         });
         it("should build a tree structure matching the file system directories", () => {
             // Check the current directory.

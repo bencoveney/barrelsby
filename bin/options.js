@@ -1,10 +1,13 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
-const Yargs = require("yargs");
+const path_1 = __importDefault(require("path"));
+const yargs_1 = __importDefault(require("yargs"));
 const utilities_1 = require("./utilities");
 function setUpArguments() {
-    return Yargs
+    return yargs_1.default
         .usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
         .string("b")
@@ -47,6 +50,10 @@ function setUpArguments() {
         .alias("s", "structure")
         .describe("s", "The mode for structuring barrel file exports")
         .default("s", "flat")
+        .boolean("q")
+        .alias("q", "singleQuotes")
+        .describe("q", "Use single quotes for paths instead of the default double quotes")
+        .default("q", false)
         .version()
         .alias("v", "version")
         .default("v", false)
@@ -57,15 +64,17 @@ function setUpArguments() {
 }
 function getOptions() {
     const options = setUpArguments().argv;
+    // tslint:disable-next-line:no-console
     options.logger = options.verbose ? console.log : new Function("return void(0);");
-    options.rootPath = path.resolve(options.directory);
+    options.rootPath = path_1.default.resolve(options.directory);
+    options.quoteCharacter = options.singleQuotes ? "'" : "\"";
     // Resolve barrel name.
     const nameArgument = options.name;
     options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
     options.logger(`Using name ${options.barrelName}`);
     // Resolve base url.
     if (options.baseUrl) {
-        options.combinedBaseUrl = path.join(options.rootPath, options.baseUrl);
+        options.combinedBaseUrl = path_1.default.join(options.rootPath, options.baseUrl);
     }
     return options;
 }
