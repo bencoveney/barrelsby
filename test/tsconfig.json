@@ -1,0 +1,7 @@
+{
+    "extends": "../tsconfig.base.json",
+    "include": [
+        "./dir-compare.d.ts",
+        "./src.ts"
+    ]
+  }

@@ -1,2 +1,4 @@
 #! /usr/bin/env node
-export {};
+import { Arguments } from "./options";
+declare function main(args: Arguments): void;
+export = main;
