@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -11,58 +8,46 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
-const yargs_1 = __importDefault(require("yargs"));
 const Options = __importStar(require("./options"));
 describe("options module has a", () => {
     describe("getOptions function that", () => {
-        it("should load the configuration options", () => {
-            yargs_1.default([
-                "--delete",
-                "--directory",
-                "./test",
-                "--exclude",
-                "zeta.ts$",
-                "--include",
-                "a.ts$",
-                "--location",
-                "top",
-                "--name",
-                "barrel",
-                "--structure",
-                "filesystem",
-                "--verbose",
-            ]);
-            const options = Options.getOptions();
+        let defaultOptions;
+        beforeEach(() => {
+            // Options that we are certain we will get from Yargs.
+            // TODO: Enforce this using the type system - remove the anys.
+            defaultOptions = {
+                delete: false,
+                directory: "test",
+                location: "top",
+                name: "barrel.ts",
+                singleQuotes: false,
+                structure: "flat",
+                verbose: true,
+            };
+        });
+        it("should process the given configuration options", () => {
+            const options = Object.assign({}, defaultOptions, { verbose: true });
+            const processed = Options.getOptions(options);
             // tslint:disable-next-line:no-console
-            chai_1.assert.equal(options.logger, console.log);
-            chai_1.assert.match(options.rootPath, /test$/);
-            chai_1.assert.equal(options.barrelName, "barrel.ts");
-            // From yargs
-            chai_1.assert.isUndefined(options.config);
-            chai_1.assert.equal(options.delete, true);
-            chai_1.assert.equal(options.directory, "./test");
-            chai_1.assert.sameMembers(options.exclude, ["zeta.ts$"]);
-            chai_1.assert.sameMembers(options.include, ["a.ts$"]);
-            chai_1.assert.equal(options.location, "top");
-            chai_1.assert.equal(options.name, "barrel");
-            chai_1.assert.equal(options.structure, "filesystem");
-            chai_1.assert.equal(options.verbose, true);
+            chai_1.assert.equal(processed.logger, console.log);
+            chai_1.assert.match(processed.rootPath, /test$/);
+            chai_1.assert.equal(processed.barrelName, "barrel.ts");
         });
         it("should not use the console if logging is disabled", () => {
-            yargs_1.default([]);
-            const options = Options.getOptions();
+            const options = Object.assign({}, defaultOptions, { verbose: false });
+            const processed = Options.getOptions(options);
             // tslint:disable-next-line:no-console
-            chai_1.assert.notEqual(options.logger, console.log);
+            chai_1.assert.notEqual(processed.logger, console.log);
         });
         it("should not append .ts to the name option if already present", () => {
-            yargs_1.default(["--name", "barrel.ts"]);
-            const options = Options.getOptions();
-            chai_1.assert.equal(options.barrelName, "barrel.ts");
+            const options = Object.assign({}, defaultOptions, { name: "barrel" });
+            const processed = Options.getOptions(options);
+            chai_1.assert.equal(processed.barrelName, "barrel.ts");
         });
         it("should resolve the baseUrl if specified", () => {
-            yargs_1.default(["--baseUrl", "/base/url"]);
-            const options = Options.getOptions();
-            chai_1.assert.match(options.combinedBaseUrl, /base[\\/]url$/);
+            const options = Object.assign({}, defaultOptions, { baseUrl: "/base/url" });
+            const processed = Options.getOptions(options);
+            chai_1.assert.match(processed.combinedBaseUrl, /base[\\/]url$/);
         });
     });
 });

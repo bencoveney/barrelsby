@@ -169,7 +169,6 @@ export {indexts as index};
 
 Use 'single quotes' in the generated barrel files instead of the default "double quotes".
 
-
 ### `-v` or `--version`
 
 Display the barrelsby version number.
@@ -190,4 +189,5 @@ picked up, or feel free to suggest your own feature in an issue.
 Most coding conventions are enforced by TSLint but in general:
 - Use small functions instead of classes.
 - Avoid abreviated identifiers.
-- Write short simple test.
+- Write a unit test (`fileName.test.ts`) for code changes.
+- Write an integration test (`test/feature/`) for option changes.

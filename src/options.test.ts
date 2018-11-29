@@ -1,58 +1,54 @@
 import {assert} from "chai";
-import Yargs from "yargs";
 
 import * as Options from "./options";
 
 describe("options module has a", () => {
     describe("getOptions function that", () => {
-        it("should load the configuration options", () => {
-            Yargs([
-                "--delete",
-                "--directory",
-                "./test",
-                "--exclude",
-                "zeta.ts$",
-                "--include",
-                "a.ts$",
-                "--location",
-                "top",
-                "--name",
-                "barrel",
-                "--structure",
-                "filesystem",
-                "--verbose",
-            ]);
-            const options = Options.getOptions();
+        let defaultOptions: any;
+        beforeEach(() => {
+            // Options that we are certain we will get from Yargs.
+            // TODO: Enforce this using the type system - remove the anys.
+            defaultOptions = {
+                delete: false,
+                directory: "test",
+                location: "top",
+                name: "barrel.ts",
+                singleQuotes: false,
+                structure: "flat",
+                verbose: true,
+            };
+        });
+        it("should process the given configuration options", () => {
+            const options = {...defaultOptions, verbose: true};
+
+            const processed = Options.getOptions(options);
+
             // tslint:disable-next-line:no-console
-            assert.equal(options.logger, console.log);
-            assert.match(options.rootPath, /test$/);
-            assert.equal(options.barrelName, "barrel.ts");
-            // From yargs
-            assert.isUndefined(options.config);
-            assert.equal(options.delete, true);
-            assert.equal(options.directory, "./test");
-            assert.sameMembers(options.exclude as string[], ["zeta.ts$"]);
-            assert.sameMembers(options.include as string[], ["a.ts$"]);
-            assert.equal(options.location, "top");
-            assert.equal(options.name, "barrel");
-            assert.equal(options.structure, "filesystem");
-            assert.equal(options.verbose, true);
+            assert.equal(processed.logger, console.log);
+            assert.match(processed.rootPath, /test$/);
+            assert.equal(processed.barrelName, "barrel.ts");
         });
         it("should not use the console if logging is disabled", () => {
-            Yargs([]);
-            const options = Options.getOptions();
+            const options = {...defaultOptions, verbose: false};
+
+            const processed = Options.getOptions(options);
+
             // tslint:disable-next-line:no-console
-            assert.notEqual(options.logger, console.log);
+            assert.notEqual(processed.logger, console.log);
         });
         it("should not append .ts to the name option if already present", () => {
-            Yargs(["--name", "barrel.ts"]);
-            const options = Options.getOptions();
-            assert.equal(options.barrelName, "barrel.ts");
+            const options = {...defaultOptions, name: "barrel"};
+
+            const processed = Options.getOptions(options);
+
+            assert.equal(processed.barrelName, "barrel.ts");
         });
         it("should resolve the baseUrl if specified", () => {
-            Yargs(["--baseUrl", "/base/url"]);
-            const options = Options.getOptions();
-            assert.match(options.combinedBaseUrl as string, /base[\\/]url$/);
+            const options = {...defaultOptions, baseUrl: "/base/url"};
+
+            const processed = Options.getOptions(options);
+
+            assert.match(processed.combinedBaseUrl as string, /base[\\/]url$/);
         });
     });
 });

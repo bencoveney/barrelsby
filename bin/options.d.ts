@@ -1,7 +1,7 @@
 export declare type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 export declare type StructureOption = "flat" | "filesystem";
 export declare type QuoteCharacter = "\"" | "'";
-interface Arguments {
+export interface Arguments {
     baseUrl?: string;
     config?: string;
     directory?: string;
@@ -23,5 +23,5 @@ interface CalculatedOptions {
     combinedBaseUrl?: string;
 }
 export declare type Options = Arguments & CalculatedOptions;
-export declare function getOptions(): Options;
+export declare function getOptions(options: any): Options;
 export {};
