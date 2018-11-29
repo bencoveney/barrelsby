@@ -1,5 +1,6 @@
 import {ITestCallbackContext} from "mocha";
-import * as path from "path";
+import path from "path";
+
 import {Options} from "../options";
 import * as TestUtilities from "../testUtilities";
 import * as FileSystem from "./fileSystem";
@@ -14,7 +15,7 @@ describe("builder/fileSystem module has a", () => {
                 logger: () => void 0,
                 quoteCharacter: "\"",
                 rootPath: path.resolve("./"),
-            };
+            } as any;
             beforeEach(() => {
                 const rootDirectory = TestUtilities.mockDirectoryTree();
                 output = FileSystem.buildFileSystemBarrel(

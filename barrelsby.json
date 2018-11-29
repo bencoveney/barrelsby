@@ -6,6 +6,6 @@
 	"name": "barrel",
 	"structure": "filesystem",
 	"verbose": true,
-	"include": ["a.ts$"],
+	"include": [".ts$"],
 	"exclude": ["zeta.ts$"]
 }

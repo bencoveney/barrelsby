@@ -1,16 +1,18 @@
 {
   "name": "barrelsby",
-  "version": "0.0.8",
+  "version": "1.0.2",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf bin/",
     "build_tsc": "tsc",
     "build_tslint": "tslint --project tsconfig.json -t stylish",
-    "build": "npm run build_tsc && npm run build_tslint",
+    "build": "npm run clean && npm run build_tsc && npm run build_tslint",
     "tests_integration": "node bin/index.js -c barrelsby.json",
     "tests_unit": "istanbul cover --report json --root \"./bin\" -x \"**/*.test.js\" node_modules/mocha/bin/_mocha \"bin/**/*.test.js\"",
-    "remap_coverage_html": "remap-istanbul -i coverage/coverage-final.json -t lcovonly -o coverage/lcov.info",
-    "tests": "npm run tests_unit && npm run tests_integration && npm run remap_coverage_html",
+    "remap_coverage": "remap-istanbul -i coverage/coverage-final.json -t json -o coverage/coverage-final.json && rimraf coverage/coverage.json",
+    "html_coverage": "istanbul report html",
+    "tests": "npm run tests_unit && npm run tests_integration && npm run remap_coverage",
     "test": "npm run build && npm run tests"
   },
   "repository": {
@@ -34,21 +36,22 @@
   },
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
-    "@types/chai": "^4.0.2",
-    "@types/mocha": "^2.2.41",
+    "@types/chai": "^4.1.7",
+    "@types/mocha": "^5.2.5",
     "@types/mock-fs": "^3.6.30",
-    "@types/node": "^9.3.0",
-    "@types/sinon": "^4.0.0",
-    "@types/sinon-chai": "^2.7.28",
-    "chai": "^4.1.1",
+    "@types/node": "^10.12.10",
+    "@types/sinon": "^5.0.7",
+    "@types/sinon-chai": "^3.2.1",
+    "chai": "^4.2.0",
     "istanbul": "^0.4.5",
-    "mocha": "^4.0.0",
-    "mock-fs": "^4.4.1",
-    "remap-istanbul": "^0.10.0",
-    "sinon": "^4.0.0",
-    "sinon-chai": "^2.12.0",
-    "tslint": "^5.5.0",
-    "typescript": "^2.4.2"
+    "mocha": "^5.2.0",
+    "mock-fs": "^4.7.0",
+    "remap-istanbul": "^0.12.0",
+    "rimraf": "^2.6.2",
+    "sinon": "^7.1.1",
+    "sinon-chai": "^3.2.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
   },
   "bin": {
     "barrelsby": "bin/index.js"
@@ -57,7 +60,8 @@
     "node": ">=0.10"
   },
   "dependencies": {
-    "yargs": "^10.0.3"
+    "@types/yargs": "^12.0.1",
+    "yargs": "^12.0.5"
   },
   "contributors": [
     {

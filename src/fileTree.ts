@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 
 import {Options} from "./options";
 import {convertPathSeparator, Directory} from "./utilities";
@@ -37,7 +37,5 @@ export function buildTree(directory: string, options: Options): Directory {
 /** Walk an entire directory tree recursively. */
 export function walkTree(directory: Directory, callback: (directory: Directory) => void) {
     callback(directory);
-    for (const name of Object.keys(directory.directories)) {
-        walkTree(directory.directories[name], callback);
-    }
+    directory.directories.forEach((childDirectory) => walkTree(childDirectory, callback));
 }

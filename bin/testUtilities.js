@@ -117,6 +117,7 @@ function tslint(content, options) {
         configuration.rules.set("quotemark", { ruleArguments: ["single", "avoid-escape"] });
     }
     linter.lint("test_output.ts", content, configuration);
+    /* istanbul ignore next: Should not be hit during successful test execution. */
     const failures = linter.getResult().failures.map((failure) => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
     chai_1.assert.deepEqual(failures, []);
 }

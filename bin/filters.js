@@ -14,7 +14,7 @@ function buildFilters(include, exclude) {
     };
 }
 function testLocation(filters, locationToTest, logger) {
-    // let result = locations;
+    // return locations;
     // if (filters.whitelists.length > 0) {
     //     result = filters.whitelists.some((test: RegExp) => {
     //         const isMatch = !!location.path.match(test);
@@ -25,7 +25,7 @@ function testLocation(filters, locationToTest, logger) {
     //     });
     // }
     // if (filters.blacklists.length > 0) {
-    //     result =return !filters.blacklists.some((test: RegExp) => {
+    //     return !filters.blacklists.some((test: RegExp) => {
     //         const isMatch = !!location.path.match(test);
     //         if (isMatch) {
     //             logger(`${location.path} is excluded by ${test}`);

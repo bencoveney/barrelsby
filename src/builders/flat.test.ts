@@ -1,6 +1,7 @@
 import {assert} from "chai";
 import {ITestCallbackContext} from "mocha";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
+
 import {Options} from "../options";
 import * as TestUtilities from "../testUtilities";
 import * as Flat from "./flat";
@@ -14,7 +15,7 @@ describe("builder/flat module has a", () => {
             let options: Options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
-                spySandbox = Sinon.sandbox.create();
+                spySandbox = Sinon.createSandbox();
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",
@@ -22,7 +23,7 @@ describe("builder/flat module has a", () => {
                     logger,
                     quoteCharacter: "\"",
                     rootPath: ".",
-                };
+                } as any;
                 output = Flat.buildFlatBarrel(
                     directory,
                     TestUtilities.mockModules(directory),
@@ -70,7 +71,7 @@ export * from "./directory3/program";
             let options: Options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
-                spySandbox = Sinon.sandbox.create();
+                spySandbox = Sinon.createSandbox();
                 logger = spySandbox.spy();
                 options = {
                     barrelName: "barrel.ts",

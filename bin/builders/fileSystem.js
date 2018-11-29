@@ -1,6 +1,9 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-const path = require("path");
+const path_1 = __importDefault(require("path"));
 const builder_1 = require("../builder");
 const utilities_1 = require("../utilities");
 function stringify(structure, previousIndentation) {
@@ -47,13 +50,13 @@ function buildFileSystemBarrel(directory, modules, options) {
         .map((module) => ({ module, path: builder_1.buildImportPath(directory, module, options) }))
         .sort(compareImports)
         .forEach((imported) => {
-        const relativePath = path.relative(directory.path, imported.module.path);
-        const directoryPath = path.dirname(relativePath);
-        const parts = directoryPath.split(path.sep);
+        const relativePath = path_1.default.relative(directory.path, imported.module.path);
+        const directoryPath = path_1.default.dirname(relativePath);
+        const parts = directoryPath.split(path_1.default.sep);
         const alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
         content += `import * as ${alias} from ${options.quoteCharacter}${imported.path}${options.quoteCharacter};
 `;
-        const fileName = path.basename(imported.module.name, ".ts");
+        const fileName = path_1.default.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);
     });
     for (const key of Object.keys(structure).sort()) {
