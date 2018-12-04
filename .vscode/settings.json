@@ -2,7 +2,10 @@
 	"files.exclude": {
 		"node_modules": true
 	},
-	"editor.insertSpaces": true,
-	"editor.tabSize": 4,
-	"files.eol": "\n"
+	"editor.insertSpaces": false,
+	"editor.tabSize": 2,
+	"files.eol": "\n",
+	"[typescript]": {
+		"editor.formatOnSave": true
+	}
 }
