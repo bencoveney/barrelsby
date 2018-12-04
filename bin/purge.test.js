@@ -34,7 +34,7 @@ describe("purge module has a", () => {
             Purge.purge(directory, options);
             // Check directory has been manipulated.
             chai_1.assert.lengthOf(directory.files, 2);
-            chai_1.assert.lengthOf(directory.files.filter((file) => file.name === "barrel.ts"), 0);
+            chai_1.assert.lengthOf(directory.files.filter(file => file.name === "barrel.ts"), 0);
             // Check FS has been manipulated.
             chai_1.assert.isNotOk(fs_1.default.existsSync("directory1/barrel.ts"));
         });
@@ -43,14 +43,16 @@ describe("purge module has a", () => {
             Purge.purge(directory, options);
             // Check directory has not been manipulated.
             chai_1.assert.lengthOf(directory.files, 3);
-            chai_1.assert.lengthOf(directory.files.filter((file) => file.name === "barrel.ts"), 1);
+            chai_1.assert.lengthOf(directory.files.filter(file => file.name === "barrel.ts"), 1);
             // Check FS has not been manipulated.
             chai_1.assert.isOk(fs_1.default.existsSync("directory1/barrel.ts"));
         });
         it("should log useful information to the logger", () => {
             options.delete = true;
             Purge.purge(directory, options);
-            chai_1.assert.sameMembers(logged, ["Deleting existing barrel @ directory1/barrel.ts"]);
+            chai_1.assert.sameMembers(logged, [
+                "Deleting existing barrel @ directory1/barrel.ts"
+            ]);
         });
     });
 });

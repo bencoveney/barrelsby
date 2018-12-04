@@ -25,8 +25,8 @@ describe("fileTree module has a", () => {
             result = FileTree.buildTree("./directory1", {
                 barrelName: "barrel.ts",
                 logger,
-                quoteCharacter: "\"",
-                rootPath: "some/path",
+                quoteCharacter: '"',
+                rootPath: "some/path"
             });
         });
         afterEach(() => {
@@ -46,7 +46,7 @@ describe("fileTree module has a", () => {
         it("should enumerate each file in a directory", () => {
             chai_1.assert.lengthOf(result.files, 3);
             const testFile = (name) => {
-                const files = result.files.filter((file) => file.name === name);
+                const files = result.files.filter(file => file.name === name);
                 chai_1.assert.lengthOf(files, 1);
                 const firstFile = files[0];
                 chai_1.assert.equal(firstFile.path, `directory1/${name}`);
@@ -76,7 +76,7 @@ describe("fileTree module has a", () => {
                 "Found existing barrel @ directory1/barrel.ts",
                 "Building directory tree for directory1/directory2",
                 "Building directory tree for directory1/directory2/directory4",
-                "Building directory tree for directory1/directory3",
+                "Building directory tree for directory1/directory3"
             ]);
         });
     });
@@ -85,9 +85,11 @@ describe("fileTree module has a", () => {
             const fakeTree = TestUtilities.mockDirectoryTree();
             // Build a collection all all directories.
             let allDirectories = [fakeTree];
-            fakeTree.directories.forEach((directory) => {
+            fakeTree.directories.forEach(directory => {
                 // Child/grandchild directories.
-                allDirectories = allDirectories.concat([directory]).concat(directory.directories);
+                allDirectories = allDirectories
+                    .concat([directory])
+                    .concat(directory.directories);
             });
             const calledDirectories = [];
             const callback = (directory) => calledDirectories.push(directory);

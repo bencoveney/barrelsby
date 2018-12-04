@@ -8,13 +8,17 @@ const utilities_1 = require("./utilities");
 function getOptions(options) {
     // TODO: A lot of these options would be better passed only to the places they are needed, rather than as one
     // huge blob.
-    // tslint:disable-next-line:no-console
-    options.logger = options.verbose ? console.log : new Function("return void(0);");
+    options.logger = options.verbose
+        ? // tslint:disable-next-line:no-console
+            console.log
+        : new Function("return void(0);");
     options.rootPath = path_1.default.resolve(options.directory);
-    options.quoteCharacter = options.singleQuotes ? "'" : "\"";
+    options.quoteCharacter = options.singleQuotes ? "'" : '"';
     // Resolve barrel name.
     const nameArgument = options.name;
-    options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
+    options.barrelName = nameArgument.match(utilities_1.isTypeScriptFile)
+        ? nameArgument
+        : `${nameArgument}.ts`;
     options.logger(`Using name ${options.barrelName}`);
     // Resolve base url.
     if (options.baseUrl) {

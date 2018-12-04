@@ -27,7 +27,7 @@ function buildFilters(options) {
     }
     return {
         blacklists: buildRegexList(options.exclude),
-        whitelists: buildRegexList(options.include),
+        whitelists: buildRegexList(options.include)
     };
 }
 function filterModules(filters, locations, options) {

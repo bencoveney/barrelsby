@@ -40,7 +40,7 @@ function getDestinations(rootTree, options) {
         return b.path.length - a.path.length;
     });
     options.logger("Destinations:");
-    destinations.forEach((destination) => options.logger(destination.path));
+    destinations.forEach(destination => options.logger(destination.path));
     return destinations;
 }
 exports.getDestinations = getDestinations;

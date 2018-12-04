@@ -2,15 +2,15 @@ import { Options } from "./options";
 import { Directory, Location } from "./utilities";
 export declare function mockFsConfiguration(): {
     "code.ts": string;
-    "directory1": {
+    directory1: {
         "barrel.ts": string;
-        "directory2": {
-            "directory4": {
+        directory2: {
+            directory4: {
                 "deeplyNested.ts": string;
             };
             "script.ts": string;
         };
-        "directory3": {
+        directory3: {
             "program.ts": string;
         };
         "ignore.txt": string;

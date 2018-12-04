@@ -29,7 +29,7 @@ describe("utilities module has a", () => {
     });
     describe("nonAlphaNumeric regular expression that", () => {
         it("should match any non-alpha-numeric characters", () => {
-            const input = "aA1!bB2\"cC3£dD4$";
+            const input = 'aA1!bB2"cC3£dD4$';
             const output = input.replace(Utilities.nonAlphaNumeric, "");
             chai_1.assert.equal(output, "aA1bB2cC3dD4");
         });

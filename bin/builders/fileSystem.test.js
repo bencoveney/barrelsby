@@ -20,8 +20,8 @@ describe("builder/fileSystem module has a", () => {
             const options = {
                 barrelName: "index.ts",
                 logger: () => void 0,
-                quoteCharacter: "\"",
-                rootPath: path_1.default.resolve("./"),
+                quoteCharacter: '"',
+                rootPath: path_1.default.resolve("./")
             };
             beforeEach(() => {
                 const rootDirectory = TestUtilities.mockDirectoryTree();
@@ -57,7 +57,7 @@ export {indexts as index};
             barrelName: "index.ts",
             logger: () => void 0,
             quoteCharacter: "'",
-            rootPath: path_1.default.resolve("./"),
+            rootPath: path_1.default.resolve("./")
         };
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
