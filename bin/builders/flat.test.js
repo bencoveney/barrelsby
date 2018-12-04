@@ -28,8 +28,8 @@ describe("builder/flat module has a", () => {
                 options = {
                     barrelName: "barrel.ts",
                     logger,
-                    quoteCharacter: "\"",
-                    rootPath: ".",
+                    quoteCharacter: '"',
+                    rootPath: "."
                 };
                 output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options);
             });
@@ -50,7 +50,7 @@ export * from "./directory3/program";
                     "Including path ./index",
                     "Including path ./directory2/script",
                     "Including path ./directory2/directory4/deeplyNested",
-                    "Including path ./directory3/program",
+                    "Including path ./directory3/program"
                 ];
                 chai_1.assert.equal(logger.callCount, messages.length);
                 messages.forEach((message, index) => {
@@ -74,7 +74,7 @@ export * from "./directory3/program";
                     barrelName: "barrel.ts",
                     logger,
                     quoteCharacter: "'",
-                    rootPath: ".",
+                    rootPath: "."
                 };
                 output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options);
             });
@@ -95,7 +95,7 @@ export * from './directory3/program';
                     "Including path ./index",
                     "Including path ./directory2/script",
                     "Including path ./directory2/directory4/deeplyNested",
-                    "Including path ./directory3/program",
+                    "Including path ./directory3/program"
                 ];
                 chai_1.assert.equal(logger.callCount, messages.length);
                 messages.forEach((message, index) => {

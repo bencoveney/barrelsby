@@ -47,7 +47,10 @@ function buildFileSystemBarrel(directory, modules, options) {
     const structure = {};
     let content = "";
     modules
-        .map((module) => ({ module, path: builder_1.buildImportPath(directory, module, options) }))
+        .map((module) => ({
+        module,
+        path: builder_1.buildImportPath(directory, module, options)
+    }))
         .sort(compareImports)
         .forEach((imported) => {
         const relativePath = path_1.default.relative(directory.path, imported.module.path);

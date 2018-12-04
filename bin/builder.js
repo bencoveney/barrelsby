@@ -42,7 +42,7 @@ function buildBarrel(directory, builder, options) {
         const convertedPath = utilities_1.convertPathSeparator(destination);
         const barrel = {
             name: options.barrelName,
-            path: convertedPath,
+            path: convertedPath
         };
         options.logger(`Updating model barrel @ ${convertedPath}`);
         directory.files.push(barrel);
@@ -52,7 +52,9 @@ function buildBarrel(directory, builder, options) {
 /** Builds the TypeScript */
 function buildImportPath(directory, target, options) {
     // If the base URL option is set then imports should be relative to there.
-    const startLocation = options.combinedBaseUrl ? options.combinedBaseUrl : directory.path;
+    const startLocation = options.combinedBaseUrl
+        ? options.combinedBaseUrl
+        : directory.path;
     const relativePath = path_1.default.relative(startLocation, target.path);
     // Get the route and ensure it's relative
     let directoryPath = path_1.default.dirname(relativePath);
@@ -68,14 +70,18 @@ function buildImportPath(directory, target, options) {
 }
 exports.buildImportPath = buildImportPath;
 function stripThisDirectory(location, options) {
-    return options.combinedBaseUrl ? location.replace(utilities_1.thisDirectory, "") : location;
+    return options.combinedBaseUrl
+        ? location.replace(utilities_1.thisDirectory, "")
+        : location;
 }
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */
 function getBasename(relativePath) {
     const strippedTsPath = path_1.default.basename(relativePath, ".ts");
     const strippedTsxPath = path_1.default.basename(relativePath, ".tsx");
     // Return whichever path is shorter. If they're the same length then nothing was stripped.
-    return strippedTsPath.length < strippedTsxPath.length ? strippedTsPath : strippedTsxPath;
+    return strippedTsPath.length < strippedTsxPath.length
+        ? strippedTsPath
+        : strippedTsxPath;
 }
 exports.getBasename = getBasename;
 //# sourceMappingURL=builder.js.map

@@ -14,7 +14,7 @@ function buildTree(directory, options) {
         directories: [],
         files: [],
         name: path_1.default.basename(directory),
-        path: utilities_1.convertPathSeparator(directory),
+        path: utilities_1.convertPathSeparator(directory)
     };
     names.forEach((name) => {
         const fullPath = path_1.default.join(directory, name);
@@ -25,7 +25,7 @@ function buildTree(directory, options) {
             const convertedPath = utilities_1.convertPathSeparator(fullPath);
             const file = {
                 name,
-                path: convertedPath,
+                path: convertedPath
             };
             result.files.push(file);
             if (file.name === options.barrelName) {
@@ -40,7 +40,7 @@ exports.buildTree = buildTree;
 /** Walk an entire directory tree recursively. */
 function walkTree(directory, callback) {
     callback(directory);
-    directory.directories.forEach((childDirectory) => walkTree(childDirectory, callback));
+    directory.directories.forEach(childDirectory => walkTree(childDirectory, callback));
 }
 exports.walkTree = walkTree;
 //# sourceMappingURL=fileTree.js.map

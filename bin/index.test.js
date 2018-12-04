@@ -27,12 +27,21 @@ describe("main module", () => {
         spySandbox.restore();
     });
     it("should co-ordinate the main stages of the application", () => {
-        const processedOptions = { mock: "processedOptions", rootPath: "testRootPath" };
-        const getOptionsSpy = spySandbox.stub(Options, "getOptions").returns(processedOptions);
+        const processedOptions = {
+            mock: "processedOptions",
+            rootPath: "testRootPath"
+        };
+        const getOptionsSpy = spySandbox
+            .stub(Options, "getOptions")
+            .returns(processedOptions);
         const builtTree = { mock: "built tree" };
-        const buildTreeSpy = spySandbox.stub(FileTree, "buildTree").returns(builtTree);
+        const buildTreeSpy = spySandbox
+            .stub(FileTree, "buildTree")
+            .returns(builtTree);
         const destinations = { mock: "destinations" };
-        const getDestinationsSpy = spySandbox.stub(Destinations, "getDestinations").returns(destinations);
+        const getDestinationsSpy = spySandbox
+            .stub(Destinations, "getDestinations")
+            .returns(destinations);
         const purgeSpy = spySandbox.stub(Purge, "purge");
         const buildBarrelsSpy = spySandbox.stub(Builder, "buildBarrels");
         const options = { mock: "Options" };

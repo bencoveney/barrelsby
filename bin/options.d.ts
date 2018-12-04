@@ -1,6 +1,6 @@
 export declare type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 export declare type StructureOption = "flat" | "filesystem";
-export declare type QuoteCharacter = "\"" | "'";
+export declare type QuoteCharacter = '"' | "'";
 export interface Arguments {
     baseUrl?: string;
     config?: string;

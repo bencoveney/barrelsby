@@ -22,7 +22,7 @@ describe("options module has a", () => {
                 name: "barrel.ts",
                 singleQuotes: false,
                 structure: "flat",
-                verbose: true,
+                verbose: true
             };
         });
         it("should process the given configuration options", () => {
