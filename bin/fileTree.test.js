@@ -18,15 +18,15 @@ describe("fileTree module has a", () => {
     describe("buildTree function that", () => {
         let result;
         let logged;
+        const barrelName = "barrel.ts";
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
             logged = [];
             const logger = (message) => logged.push(message);
             result = FileTree.buildTree("./directory1", {
-                barrelName: "barrel.ts",
                 logger,
                 rootPath: "some/path"
-            });
+            }, barrelName);
         });
         afterEach(() => {
             mock_fs_1.default.restore();
@@ -52,14 +52,14 @@ describe("fileTree module has a", () => {
                 chai_1.assert.equal(firstFile.name, name);
             };
             testFile("index.ts");
-            testFile("barrel.ts");
             testFile("ignore.txt");
+            testFile(barrelName);
         });
         it("should identify existing barrels in a directory", () => {
             chai_1.assert.isNotNull(result.barrel);
             const barrel = result.barrel;
             // Test the barrel.
-            chai_1.assert.equal(barrel.name, "barrel.ts");
+            chai_1.assert.equal(barrel.name, barrelName);
             chai_1.assert.equal(barrel.path, "directory1/barrel.ts");
             // Test it is in the files list.
             chai_1.assert.notEqual(result.files.indexOf(barrel), -1);

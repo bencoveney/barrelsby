@@ -5,13 +5,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const fileTree_1 = require("./fileTree");
-function purge(rootTree, options) {
+function purge(rootTree, options, barrelName) {
     // Delete any existing barrels.
     if (options.delete) {
         fileTree_1.walkTree(rootTree, (directory) => {
             directory.files
                 .filter((file) => {
-                return file.name === options.barrelName;
+                return file.name === barrelName;
             })
                 .forEach((file) => {
                 options.logger(`Deleting existing barrel @ ${file.path}`);

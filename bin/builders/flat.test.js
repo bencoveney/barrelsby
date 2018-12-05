@@ -26,7 +26,6 @@ describe("builder/flat module has a", () => {
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
                 options = {
-                    barrelName: "barrel.ts",
                     logger,
                     rootPath: "."
                 };
@@ -70,7 +69,6 @@ export * from "./directory3/program";
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
                 options = {
-                    barrelName: "barrel.ts",
                     logger,
                     rootPath: "."
                 };

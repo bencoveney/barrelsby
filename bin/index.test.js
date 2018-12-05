@@ -16,6 +16,7 @@ const Builder = __importStar(require("./builder"));
 const Destinations = __importStar(require("./destinations"));
 const FileTree = __importStar(require("./fileTree"));
 const index_1 = __importDefault(require("./index"));
+const BarrelName = __importStar(require("./options/barrelName"));
 const Options = __importStar(require("./options/options"));
 const QuoteCharacter = __importStar(require("./options/quoteCharacter"));
 const Purge = __importStar(require("./purge"));
@@ -29,7 +30,9 @@ describe("main module", () => {
     });
     it("should co-ordinate the main stages of the application", () => {
         const processedOptions = {
+            logger: () => void 0,
             mock: "processedOptions",
+            name: "inputBarrelName",
             rootPath: "testRootPath"
         };
         const getOptionsSpy = spySandbox
@@ -49,16 +52,19 @@ describe("main module", () => {
         const getQuoteCharacterSpy = spySandbox
             .stub(QuoteCharacter, "getQuoteCharacter")
             .returns(quoteCharacter);
-        const options = { mock: "Options" };
+        const barrelName = "barrel.ts";
+        const getBarrelNameSpy = spySandbox
+            .stub(BarrelName, "getBarrelName")
+            .returns(barrelName);
+        const options = { mock: "Options", singleQuotes: true };
         index_1.default(options);
         chai_1.assert(getOptionsSpy.calledOnceWithExactly(options));
-        // tslint:disable-next-line
-        console.log(getQuoteCharacterSpy.args);
-        chai_1.assert(getQuoteCharacterSpy.calledOnceWithExactly(false));
-        chai_1.assert(buildTreeSpy.calledOnceWithExactly("testRootPath", processedOptions));
-        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, processedOptions));
-        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, processedOptions));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, processedOptions, quoteCharacter));
+        chai_1.assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
+        chai_1.assert(getBarrelNameSpy.calledOnceWithExactly(processedOptions.name, processedOptions.logger));
+        chai_1.assert(buildTreeSpy.calledOnceWithExactly("testRootPath", processedOptions, barrelName));
+        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, processedOptions, barrelName));
+        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, processedOptions, barrelName));
+        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, processedOptions, quoteCharacter, barrelName));
     });
 });
 //# sourceMappingURL=index.test.js.map

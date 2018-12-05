@@ -18,7 +18,8 @@ import { QuoteCharacter } from "./options/quoteCharacter";
 export function buildBarrels(
   destinations: Directory[],
   options: Options,
-  quoteCharacter: QuoteCharacter
+  quoteCharacter: QuoteCharacter,
+  barrelName: string
 ): void {
   let builder: BarrelBuilder;
   switch (options.structure) {
@@ -32,7 +33,7 @@ export function buildBarrels(
   }
   // Build the barrels.
   destinations.forEach((destination: Directory) =>
-    buildBarrel(destination, builder, options, quoteCharacter)
+    buildBarrel(destination, builder, options, quoteCharacter, barrelName)
   );
 }
 
@@ -41,16 +42,18 @@ function buildBarrel(
   directory: Directory,
   builder: BarrelBuilder,
   options: Options,
-  quoteCharacter: QuoteCharacter
+  quoteCharacter: QuoteCharacter,
+  barrelName: string
 ) {
   options.logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
     loadDirectoryModules(directory, options),
     options,
-    quoteCharacter
+    quoteCharacter,
+    barrelName
   );
-  const destination = path.join(directory.path, options.barrelName);
+  const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
     // Skip empty barrels.
     return;
@@ -59,12 +62,10 @@ function buildBarrel(
   const contentWithHeader = addHeaderPrefix(content);
   fs.writeFileSync(destination, contentWithHeader);
   // Update the file tree model with the new barrel.
-  if (
-    !directory.files.some((file: Location) => file.name === options.barrelName)
-  ) {
+  if (!directory.files.some((file: Location) => file.name === barrelName)) {
     const convertedPath = convertPathSeparator(destination);
     const barrel = {
-      name: options.barrelName,
+      name: barrelName,
       path: convertedPath
     };
     options.logger(`Updating model barrel @ ${convertedPath}`);
@@ -77,7 +78,8 @@ export type BarrelBuilder = (
   directory: Directory,
   modules: Location[],
   options: Options,
-  quoteCharacter: QuoteCharacter
+  quoteCharacter: QuoteCharacter,
+  barrelName: string
 ) => string;
 
 /** Builds the TypeScript */

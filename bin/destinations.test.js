@@ -16,11 +16,12 @@ describe("destinations module has a", () => {
         let destinations;
         let options;
         let logged;
+        const barrelName = "barrel.ts";
         const testMode = (mode, getExpectedDestinations, expectedLogs) => {
             describe(`when in '${mode}' mode`, () => {
                 beforeEach(() => {
                     options.location = mode;
-                    destinations = Destinations.getDestinations(directory, options);
+                    destinations = Destinations.getDestinations(directory, options, barrelName);
                 });
                 it("should select the correct destinations", () => {
                     chai_1.assert.deepEqual(destinations, getExpectedDestinations());

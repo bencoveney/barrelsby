@@ -95,7 +95,6 @@ export function mockModules(rootDirectory: Directory): Location[] {
 // Gets a mock Options object.
 export function mockOptions(loggerTarget: string[]): Options {
   return {
-    barrelName: "barrel.ts",
     logger: (message: string) => loggerTarget.push(message),
     rootPath: "some/path"
   };

@@ -89,7 +89,6 @@ exports.mockModules = mockModules;
 // Gets a mock Options object.
 function mockOptions(loggerTarget) {
     return {
-        barrelName: "barrel.ts",
         logger: (message) => loggerTarget.push(message),
         rootPath: "some/path"
     };

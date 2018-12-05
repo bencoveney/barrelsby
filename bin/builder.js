@@ -10,7 +10,7 @@ const fileSystem_1 = require("./builders/fileSystem");
 const flat_1 = require("./builders/flat");
 const header_1 = require("./builders/header");
 const modules_1 = require("./modules");
-function buildBarrels(destinations, options, quoteCharacter) {
+function buildBarrels(destinations, options, quoteCharacter, barrelName) {
     let builder;
     switch (options.structure) {
         default:
@@ -22,14 +22,14 @@ function buildBarrels(destinations, options, quoteCharacter) {
             break;
     }
     // Build the barrels.
-    destinations.forEach((destination) => buildBarrel(destination, builder, options, quoteCharacter));
+    destinations.forEach((destination) => buildBarrel(destination, builder, options, quoteCharacter, barrelName));
 }
 exports.buildBarrels = buildBarrels;
 // Build a barrel for the specified directory.
-function buildBarrel(directory, builder, options, quoteCharacter) {
+function buildBarrel(directory, builder, options, quoteCharacter, barrelName) {
     options.logger(`Building barrel @ ${directory.path}`);
-    const content = builder(directory, modules_1.loadDirectoryModules(directory, options), options, quoteCharacter);
-    const destination = path_1.default.join(directory.path, options.barrelName);
+    const content = builder(directory, modules_1.loadDirectoryModules(directory, options), options, quoteCharacter, barrelName);
+    const destination = path_1.default.join(directory.path, barrelName);
     if (content.length === 0) {
         // Skip empty barrels.
         return;
@@ -38,10 +38,10 @@ function buildBarrel(directory, builder, options, quoteCharacter) {
     const contentWithHeader = header_1.addHeaderPrefix(content);
     fs_1.default.writeFileSync(destination, contentWithHeader);
     // Update the file tree model with the new barrel.
-    if (!directory.files.some((file) => file.name === options.barrelName)) {
+    if (!directory.files.some((file) => file.name === barrelName)) {
         const convertedPath = utilities_1.convertPathSeparator(destination);
         const barrel = {
-            name: options.barrelName,
+            name: barrelName,
             path: convertedPath
         };
         options.logger(`Updating model barrel @ ${convertedPath}`);

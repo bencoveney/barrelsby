@@ -11,6 +11,7 @@ describe("destinations module has a", () => {
     let destinations: Directory[];
     let options: Options;
     let logged: string[];
+    const barrelName = "barrel.ts";
     const testMode = (
       mode: LocationOption,
       getExpectedDestinations: () => Directory[],
@@ -19,7 +20,11 @@ describe("destinations module has a", () => {
       describe(`when in '${mode}' mode`, () => {
         beforeEach(() => {
           options.location = mode;
-          destinations = Destinations.getDestinations(directory, options);
+          destinations = Destinations.getDestinations(
+            directory,
+            options,
+            barrelName
+          );
         });
         it("should select the correct destinations", () => {
           assert.deepEqual(destinations, getExpectedDestinations());

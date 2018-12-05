@@ -5,7 +5,11 @@ import { Options } from "./options/options";
 import { convertPathSeparator, Directory } from "./utilities";
 
 /** Build directory information recursively. */
-export function buildTree(directory: string, options: Options): Directory {
+export function buildTree(
+  directory: string,
+  options: Options,
+  barrelName: string
+): Directory {
   options.logger(
     `Building directory tree for ${convertPathSeparator(directory)}`
   );
@@ -19,7 +23,7 @@ export function buildTree(directory: string, options: Options): Directory {
   names.forEach((name: string) => {
     const fullPath = path.join(directory, name);
     if (fs.statSync(fullPath).isDirectory()) {
-      result.directories.push(buildTree(fullPath, options));
+      result.directories.push(buildTree(fullPath, options, barrelName));
     } else {
       const convertedPath = convertPathSeparator(fullPath);
       const file = {
@@ -27,7 +31,7 @@ export function buildTree(directory: string, options: Options): Directory {
         path: convertedPath
       };
       result.files.push(file);
-      if (file.name === options.barrelName) {
+      if (file.name === barrelName) {
         options.logger(`Found existing barrel @ ${convertedPath}`);
         result.barrel = file;
       }

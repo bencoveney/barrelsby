@@ -5,6 +5,7 @@ import * as Builder from "./builder";
 import * as Destinations from "./destinations";
 import * as FileTree from "./fileTree";
 import Main from "./index";
+import * as BarrelName from "./options/barrelName";
 import * as Options from "./options/options";
 import * as QuoteCharacter from "./options/quoteCharacter";
 import * as Purge from "./purge";
@@ -19,7 +20,9 @@ describe("main module", () => {
   });
   it("should co-ordinate the main stages of the application", () => {
     const processedOptions: any = {
+      logger: () => void 0,
       mock: "processedOptions",
+      name: "inputBarrelName",
       rootPath: "testRootPath"
     };
     const getOptionsSpy = spySandbox
@@ -45,25 +48,45 @@ describe("main module", () => {
       .stub(QuoteCharacter, "getQuoteCharacter")
       .returns(quoteCharacter);
 
-    const options: any = { mock: "Options" };
+    const barrelName = "barrel.ts";
+    const getBarrelNameSpy = spySandbox
+      .stub(BarrelName, "getBarrelName")
+      .returns(barrelName);
+
+    const options: any = { mock: "Options", singleQuotes: true };
     Main(options);
 
     assert(getOptionsSpy.calledOnceWithExactly(options));
-    // tslint:disable-next-line
-    console.log(getQuoteCharacterSpy.args);
-    assert(getQuoteCharacterSpy.calledOnceWithExactly(false));
+    assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
     assert(
-      buildTreeSpy.calledOnceWithExactly("testRootPath", processedOptions)
+      getBarrelNameSpy.calledOnceWithExactly(
+        processedOptions.name,
+        processedOptions.logger
+      )
     );
     assert(
-      getDestinationsSpy.calledOnceWithExactly(builtTree, processedOptions)
+      buildTreeSpy.calledOnceWithExactly(
+        "testRootPath",
+        processedOptions,
+        barrelName
+      )
     );
-    assert(purgeSpy.calledOnceWithExactly(builtTree, processedOptions));
+    assert(
+      getDestinationsSpy.calledOnceWithExactly(
+        builtTree,
+        processedOptions,
+        barrelName
+      )
+    );
+    assert(
+      purgeSpy.calledOnceWithExactly(builtTree, processedOptions, barrelName)
+    );
     assert(
       buildBarrelsSpy.calledOnceWithExactly(
         destinations,
         processedOptions,
-        quoteCharacter
+        quoteCharacter,
+        barrelName
       )
     );
   });

@@ -1,7 +1,5 @@
 import path from "path";
 
-import { isTypeScriptFile } from "../utilities";
-
 export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
 export type StructureOption = "flat" | "filesystem";
@@ -25,7 +23,6 @@ export interface Arguments {
 
 // Calculated options.
 interface CalculatedOptions {
-  barrelName: string;
   logger: (message: string) => void;
   rootPath: string;
   combinedBaseUrl?: string;
@@ -43,13 +40,6 @@ export function getOptions(options: any): Options {
     : new Function("return void(0);");
 
   options.rootPath = path.resolve(options.directory);
-
-  // Resolve barrel name.
-  const nameArgument: string = options.name;
-  options.barrelName = nameArgument.match(isTypeScriptFile)
-    ? nameArgument
-    : `${nameArgument}.ts`;
-  options.logger(`Using name ${options.barrelName}`);
 
   // Resolve base url.
   if (options.baseUrl) {

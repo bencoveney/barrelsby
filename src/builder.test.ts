@@ -27,12 +27,12 @@ describe("builder/builder module has a", () => {
       Builder.buildBarrels(
         directory.directories,
         {
-          barrelName: "barrel.ts",
           logger,
           rootPath: ".",
           structure
         },
-        '"'
+        '"',
+        "barrel.ts"
       );
     };
     beforeEach(() => {
@@ -119,12 +119,12 @@ describe("builder/builder module has a", () => {
       Builder.buildBarrels(
         directory.directories,
         {
-          barrelName: "barrel.ts",
           logger,
           rootPath: ".",
           structure: "flat"
         },
-        '"'
+        '"',
+        "barrel.ts"
       );
     };
     beforeEach(() => {

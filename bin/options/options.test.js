@@ -19,7 +19,6 @@ describe("options module has a", () => {
                 delete: false,
                 directory: "test",
                 location: "top",
-                name: "barrel.ts",
                 singleQuotes: false,
                 structure: "flat",
                 verbose: true
@@ -31,18 +30,12 @@ describe("options module has a", () => {
             // tslint:disable-next-line:no-console
             chai_1.assert.equal(processed.logger, console.log);
             chai_1.assert.match(processed.rootPath, /test$/);
-            chai_1.assert.equal(processed.barrelName, "barrel.ts");
         });
         it("should not use the console if logging is disabled", () => {
             const options = Object.assign({}, defaultOptions, { verbose: false });
             const processed = Options.getOptions(options);
             // tslint:disable-next-line:no-console
             chai_1.assert.notEqual(processed.logger, console.log);
-        });
-        it("should not append .ts to the name option if already present", () => {
-            const options = Object.assign({}, defaultOptions, { name: "barrel" });
-            const processed = Options.getOptions(options);
-            chai_1.assert.equal(processed.barrelName, "barrel.ts");
         });
         it("should resolve the baseUrl if specified", () => {
             const options = Object.assign({}, defaultOptions, { baseUrl: "/base/url" });

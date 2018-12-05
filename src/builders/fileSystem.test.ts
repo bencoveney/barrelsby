@@ -9,7 +9,6 @@ describe("builder/fileSystem module has a", () => {
     describe("when using double quotes", () => {
       let output: string;
       const options: Options = {
-        barrelName: "index.ts",
         logger: () => void 0,
         rootPath: path.resolve("./")
       };
@@ -53,7 +52,6 @@ export {indexts as index};
   describe("when using single quotes", () => {
     let output: string;
     const options: Options = {
-      barrelName: "index.ts",
       logger: () => void 0,
       rootPath: path.resolve("./")
     };

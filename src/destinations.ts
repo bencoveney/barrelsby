@@ -5,7 +5,8 @@ import { Directory, Location } from "./utilities";
 /** Assess which directories in the tree should contain barrels. */
 export function getDestinations(
   rootTree: Directory,
-  options: Options
+  options: Options,
+  barrelName: string
 ): Directory[] {
   let destinations: Directory[];
   switch (options.location) {
@@ -27,7 +28,7 @@ export function getDestinations(
       walkTree(rootTree, (directory: Directory) => {
         if (
           directory.files.some(
-            (location: Location) => location.name === options.barrelName
+            (location: Location) => location.name === barrelName
           )
         ) {
           destinations.push(directory);

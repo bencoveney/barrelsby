@@ -7,7 +7,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const utilities_1 = require("./utilities");
 /** Build directory information recursively. */
-function buildTree(directory, options) {
+function buildTree(directory, options, barrelName) {
     options.logger(`Building directory tree for ${utilities_1.convertPathSeparator(directory)}`);
     const names = fs_1.default.readdirSync(directory);
     const result = {
@@ -19,7 +19,7 @@ function buildTree(directory, options) {
     names.forEach((name) => {
         const fullPath = path_1.default.join(directory, name);
         if (fs_1.default.statSync(fullPath).isDirectory()) {
-            result.directories.push(buildTree(fullPath, options));
+            result.directories.push(buildTree(fullPath, options, barrelName));
         }
         else {
             const convertedPath = utilities_1.convertPathSeparator(fullPath);
@@ -28,7 +28,7 @@ function buildTree(directory, options) {
                 path: convertedPath
             };
             result.files.push(file);
-            if (file.name === options.barrelName) {
+            if (file.name === barrelName) {
                 options.logger(`Found existing barrel @ ${convertedPath}`);
                 result.barrel = file;
             }

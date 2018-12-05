@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fileTree_1 = require("./fileTree");
 /** Assess which directories in the tree should contain barrels. */
-function getDestinations(rootTree, options) {
+function getDestinations(rootTree, options, barrelName) {
     let destinations;
     switch (options.location) {
         case "top":
@@ -21,7 +21,7 @@ function getDestinations(rootTree, options) {
         case "replace":
             destinations = [];
             fileTree_1.walkTree(rootTree, (directory) => {
-                if (directory.files.some((location) => location.name === options.barrelName)) {
+                if (directory.files.some((location) => location.name === barrelName)) {
                     destinations.push(directory);
                 }
             });
