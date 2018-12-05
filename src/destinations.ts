@@ -1,5 +1,5 @@
 import { walkTree } from "./fileTree";
-import { Options } from "./options";
+import { Options } from "./options/options";
 import { Directory, Location } from "./utilities";
 
 /** Assess which directories in the tree should contain barrels. */

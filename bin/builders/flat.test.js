@@ -28,10 +28,9 @@ describe("builder/flat module has a", () => {
                 options = {
                     barrelName: "barrel.ts",
                     logger,
-                    quoteCharacter: '"',
                     rootPath: "."
                 };
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options, '"');
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -58,7 +57,7 @@ export * from "./directory3/program";
                 });
             });
             it("should produce output compatible with the recommended tslint ruleset", () => {
-                TestUtilities.tslint(output, options);
+                TestUtilities.tslint(output, '"');
             });
         });
         describe("when using single quotes", () => {
@@ -73,10 +72,9 @@ export * from "./directory3/program";
                 options = {
                     barrelName: "barrel.ts",
                     logger,
-                    quoteCharacter: "'",
                     rootPath: "."
                 };
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options, "'");
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -103,7 +101,7 @@ export * from './directory3/program';
                 });
             });
             it("should produce output compatible with the recommended tslint ruleset", () => {
-                TestUtilities.tslint(output, options);
+                TestUtilities.tslint(output, "'");
             });
         });
     });

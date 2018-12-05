@@ -1,4 +1,4 @@
-import { Options } from "./options";
+import { Options } from "./options/options";
 import { Directory } from "./utilities";
 /** Build directory information recursively. */
 export declare function buildTree(directory: string, options: Options): Directory;

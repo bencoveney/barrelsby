@@ -1,12 +1,10 @@
 import path from "path";
 
-import { isTypeScriptFile } from "./utilities";
+import { isTypeScriptFile } from "../utilities";
 
 export type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 
 export type StructureOption = "flat" | "filesystem";
-
-export type QuoteCharacter = '"' | "'";
 
 // Options provided by yargs.
 export interface Arguments {
@@ -19,6 +17,7 @@ export interface Arguments {
   include?: string[];
   location?: LocationOption;
   name?: string;
+  singleQuotes?: boolean;
   structure?: StructureOption;
   version?: boolean;
   verbose?: boolean;
@@ -29,7 +28,6 @@ interface CalculatedOptions {
   barrelName: string;
   logger: (message: string) => void;
   rootPath: string;
-  quoteCharacter: QuoteCharacter;
   combinedBaseUrl?: string;
 }
 
@@ -45,8 +43,6 @@ export function getOptions(options: any): Options {
     : new Function("return void(0);");
 
   options.rootPath = path.resolve(options.directory);
-
-  options.quoteCharacter = options.singleQuotes ? "'" : '"';
 
   // Resolve barrel name.
   const nameArgument: string = options.name;

@@ -1,7 +1,7 @@
 import { assert } from "chai";
 
 import * as Modules from "./modules";
-import { Options } from "./options";
+import { Options } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory } from "./utilities";
 

@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import Sinon from "sinon";
 
-import { Options } from "../options";
+import { Options } from "../options/options";
 import * as TestUtilities from "../testUtilities";
 import * as Flat from "./flat";
 
@@ -19,13 +19,13 @@ describe("builder/flat module has a", () => {
         options = {
           barrelName: "barrel.ts",
           logger,
-          quoteCharacter: '"',
           rootPath: "."
         };
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
-          options
+          options,
+          '"'
         );
       });
       afterEach(() => {
@@ -56,7 +56,7 @@ export * from "./directory3/program";
         });
       });
       it("should produce output compatible with the recommended tslint ruleset", () => {
-        TestUtilities.tslint(output, options);
+        TestUtilities.tslint(output, '"');
       });
     });
 
@@ -72,13 +72,13 @@ export * from "./directory3/program";
         options = {
           barrelName: "barrel.ts",
           logger,
-          quoteCharacter: "'",
           rootPath: "."
         };
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
-          options
+          options,
+          "'"
         );
       });
       afterEach(() => {
@@ -109,7 +109,7 @@ export * from './directory3/program';
         });
       });
       it("should produce output compatible with the recommended tslint ruleset", () => {
-        TestUtilities.tslint(output, options);
+        TestUtilities.tslint(output, "'");
       });
     });
   });

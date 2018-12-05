@@ -8,7 +8,7 @@ import * as FileSystem from "./builders/fileSystem";
 import * as Flat from "./builders/flat";
 import * as Header from "./builders/header";
 import * as Modules from "./modules";
-import { StructureOption } from "./options";
+import { StructureOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory, Location } from "./utilities";
 
@@ -24,13 +24,16 @@ describe("builder/builder module has a", () => {
     let logger: Sinon.SinonSpy;
     const runBuilder = (structure: StructureOption | undefined) => {
       logger = spySandbox.spy();
-      Builder.buildBarrels(directory.directories, {
-        barrelName: "barrel.ts",
-        logger,
-        quoteCharacter: '"',
-        rootPath: ".",
-        structure
-      });
+      Builder.buildBarrels(
+        directory.directories,
+        {
+          barrelName: "barrel.ts",
+          logger,
+          rootPath: ".",
+          structure
+        },
+        '"'
+      );
     };
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
@@ -113,13 +116,16 @@ describe("builder/builder module has a", () => {
     let logger: Sinon.SinonSpy;
     const runBuilder = () => {
       logger = spySandbox.spy();
-      Builder.buildBarrels(directory.directories, {
-        barrelName: "barrel.ts",
-        logger,
-        quoteCharacter: '"',
-        rootPath: ".",
-        structure: "flat"
-      });
+      Builder.buildBarrels(
+        directory.directories,
+        {
+          barrelName: "barrel.ts",
+          logger,
+          rootPath: ".",
+          structure: "flat"
+        },
+        '"'
+      );
     };
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());

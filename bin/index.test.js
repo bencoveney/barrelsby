@@ -16,7 +16,8 @@ const Builder = __importStar(require("./builder"));
 const Destinations = __importStar(require("./destinations"));
 const FileTree = __importStar(require("./fileTree"));
 const index_1 = __importDefault(require("./index"));
-const Options = __importStar(require("./options"));
+const Options = __importStar(require("./options/options"));
+const QuoteCharacter = __importStar(require("./options/quoteCharacter"));
 const Purge = __importStar(require("./purge"));
 describe("main module", () => {
     let spySandbox;
@@ -44,13 +45,20 @@ describe("main module", () => {
             .returns(destinations);
         const purgeSpy = spySandbox.stub(Purge, "purge");
         const buildBarrelsSpy = spySandbox.stub(Builder, "buildBarrels");
+        const quoteCharacter = "'";
+        const getQuoteCharacterSpy = spySandbox
+            .stub(QuoteCharacter, "getQuoteCharacter")
+            .returns(quoteCharacter);
         const options = { mock: "Options" };
         index_1.default(options);
         chai_1.assert(getOptionsSpy.calledOnceWithExactly(options));
+        // tslint:disable-next-line
+        console.log(getQuoteCharacterSpy.args);
+        chai_1.assert(getQuoteCharacterSpy.calledOnceWithExactly(false));
         chai_1.assert(buildTreeSpy.calledOnceWithExactly("testRootPath", processedOptions));
         chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, processedOptions));
         chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, processedOptions));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, processedOptions));
+        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, processedOptions, quoteCharacter));
     });
 });
 //# sourceMappingURL=index.test.js.map

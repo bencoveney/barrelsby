@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { Options } from "./options";
+import { Options } from "./options/options";
 import { convertPathSeparator, Directory } from "./utilities";
 
 /** Build directory information recursively. */

@@ -1,4 +1,4 @@
-import { Options } from "./options";
+import { Options } from "./options/options";
 import { Directory, isTypeScriptFile, Location } from "./utilities";
 
 interface Filters {

@@ -1,7 +1,8 @@
 import { assert } from "chai";
 import { Configuration, Linter } from "tslint";
 
-import { Options } from "./options";
+import { Options } from "./options/options";
+import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
 
 export function mockFsConfiguration() {
@@ -96,7 +97,6 @@ export function mockOptions(loggerTarget: string[]): Options {
   return {
     barrelName: "barrel.ts",
     logger: (message: string) => loggerTarget.push(message),
-    quoteCharacter: '"',
     rootPath: "some/path"
   };
 }
@@ -116,12 +116,12 @@ export function assertMultiLine(actual: string, expected: string): void {
 }
 
 // Runs tslint against the specified file and checks there are no errors.
-export function tslint(content: string, options: Options) {
+export function tslint(content: string, quoteCharacter: QuoteCharacter) {
   const linter = new Linter({ fix: false, formatter: "json" });
   const configuration = Configuration.loadConfigurationFromPath(
     "./tslint.json"
   );
-  if (options.quoteCharacter === "'") {
+  if (quoteCharacter === "'") {
     configuration.rules.set("quotemark", {
       ruleArguments: ["single", "avoid-escape"]
     });

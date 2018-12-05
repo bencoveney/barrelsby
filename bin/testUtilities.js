@@ -91,7 +91,6 @@ function mockOptions(loggerTarget) {
     return {
         barrelName: "barrel.ts",
         logger: (message) => loggerTarget.push(message),
-        quoteCharacter: '"',
         rootPath: "some/path"
     };
 }
@@ -107,10 +106,10 @@ function assertMultiLine(actual, expected) {
 }
 exports.assertMultiLine = assertMultiLine;
 // Runs tslint against the specified file and checks there are no errors.
-function tslint(content, options) {
+function tslint(content, quoteCharacter) {
     const linter = new tslint_1.Linter({ fix: false, formatter: "json" });
     const configuration = tslint_1.Configuration.loadConfigurationFromPath("./tslint.json");
-    if (options.quoteCharacter === "'") {
+    if (quoteCharacter === "'") {
         configuration.rules.set("quotemark", {
             ruleArguments: ["single", "avoid-escape"]
         });

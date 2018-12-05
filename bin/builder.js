@@ -10,7 +10,7 @@ const fileSystem_1 = require("./builders/fileSystem");
 const flat_1 = require("./builders/flat");
 const header_1 = require("./builders/header");
 const modules_1 = require("./modules");
-function buildBarrels(destinations, options) {
+function buildBarrels(destinations, options, quoteCharacter) {
     let builder;
     switch (options.structure) {
         default:
@@ -22,13 +22,13 @@ function buildBarrels(destinations, options) {
             break;
     }
     // Build the barrels.
-    destinations.forEach((destination) => buildBarrel(destination, builder, options));
+    destinations.forEach((destination) => buildBarrel(destination, builder, options, quoteCharacter));
 }
 exports.buildBarrels = buildBarrels;
 // Build a barrel for the specified directory.
-function buildBarrel(directory, builder, options) {
+function buildBarrel(directory, builder, options, quoteCharacter) {
     options.logger(`Building barrel @ ${directory.path}`);
-    const content = builder(directory, modules_1.loadDirectoryModules(directory, options), options);
+    const content = builder(directory, modules_1.loadDirectoryModules(directory, options), options, quoteCharacter);
     const destination = path_1.default.join(directory.path, options.barrelName);
     if (content.length === 0) {
         // Skip empty barrels.

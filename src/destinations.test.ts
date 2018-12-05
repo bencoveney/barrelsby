@@ -1,7 +1,7 @@
 import { assert } from "chai";
 
 import * as Destinations from "./destinations";
-import { LocationOption, Options } from "./options";
+import { LocationOption, Options } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory } from "./utilities";
 

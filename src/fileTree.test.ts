@@ -17,7 +17,6 @@ describe("fileTree module has a", () => {
       result = FileTree.buildTree("./directory1", {
         barrelName: "barrel.ts",
         logger,
-        quoteCharacter: '"',
         rootPath: "some/path"
       });
     });

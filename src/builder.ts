@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-import { Options } from "./options";
+import { Options } from "./options/options";
 import {
   convertPathSeparator,
   Directory,
@@ -13,10 +13,12 @@ import { buildFileSystemBarrel } from "./builders/fileSystem";
 import { buildFlatBarrel } from "./builders/flat";
 import { addHeaderPrefix } from "./builders/header";
 import { loadDirectoryModules } from "./modules";
+import { QuoteCharacter } from "./options/quoteCharacter";
 
 export function buildBarrels(
   destinations: Directory[],
-  options: Options
+  options: Options,
+  quoteCharacter: QuoteCharacter
 ): void {
   let builder: BarrelBuilder;
   switch (options.structure) {
@@ -30,7 +32,7 @@ export function buildBarrels(
   }
   // Build the barrels.
   destinations.forEach((destination: Directory) =>
-    buildBarrel(destination, builder, options)
+    buildBarrel(destination, builder, options, quoteCharacter)
   );
 }
 
@@ -38,13 +40,15 @@ export function buildBarrels(
 function buildBarrel(
   directory: Directory,
   builder: BarrelBuilder,
-  options: Options
+  options: Options,
+  quoteCharacter: QuoteCharacter
 ) {
   options.logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
     loadDirectoryModules(directory, options),
-    options
+    options,
+    quoteCharacter
   );
   const destination = path.join(directory.path, options.barrelName);
   if (content.length === 0) {
@@ -72,7 +76,8 @@ function buildBarrel(
 export type BarrelBuilder = (
   directory: Directory,
   modules: Location[],
-  options: Options
+  options: Options,
+  quoteCharacter: QuoteCharacter
 ) => string;
 
 /** Builds the TypeScript */

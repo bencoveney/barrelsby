@@ -5,7 +5,8 @@ import * as Builder from "./builder";
 import * as Destinations from "./destinations";
 import * as FileTree from "./fileTree";
 import Main from "./index";
-import * as Options from "./options";
+import * as Options from "./options/options";
+import * as QuoteCharacter from "./options/quoteCharacter";
 import * as Purge from "./purge";
 
 describe("main module", () => {
@@ -39,10 +40,18 @@ describe("main module", () => {
 
     const buildBarrelsSpy = spySandbox.stub(Builder, "buildBarrels");
 
+    const quoteCharacter = "'";
+    const getQuoteCharacterSpy = spySandbox
+      .stub(QuoteCharacter, "getQuoteCharacter")
+      .returns(quoteCharacter);
+
     const options: any = { mock: "Options" };
     Main(options);
 
     assert(getOptionsSpy.calledOnceWithExactly(options));
+    // tslint:disable-next-line
+    console.log(getQuoteCharacterSpy.args);
+    assert(getQuoteCharacterSpy.calledOnceWithExactly(false));
     assert(
       buildTreeSpy.calledOnceWithExactly("testRootPath", processedOptions)
     );
@@ -51,7 +60,11 @@ describe("main module", () => {
     );
     assert(purgeSpy.calledOnceWithExactly(builtTree, processedOptions));
     assert(
-      buildBarrelsSpy.calledOnceWithExactly(destinations, processedOptions)
+      buildBarrelsSpy.calledOnceWithExactly(
+        destinations,
+        processedOptions,
+        quoteCharacter
+      )
     );
   });
 });

@@ -1,7 +1,7 @@
 import fs from "fs";
 
 import { walkTree } from "./fileTree";
-import { Options } from "./options";
+import { Options } from "./options/options";
 import { Directory, Location } from "./utilities";
 
 export function purge(rootTree: Directory, options: Options) {

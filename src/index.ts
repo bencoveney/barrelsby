@@ -3,7 +3,8 @@
 import { buildBarrels } from "./builder";
 import { getDestinations } from "./destinations";
 import { buildTree } from "./fileTree";
-import { Arguments, getOptions } from "./options";
+import { Arguments, getOptions } from "./options/options";
+import { getQuoteCharacter } from "./options/quoteCharacter";
 import { purge } from "./purge";
 import { Directory } from "./utilities";
 
@@ -12,6 +13,8 @@ import { Directory } from "./utilities";
 function main(args: Arguments) {
   // Get the launch options/arguments.
   const options = getOptions(args);
+
+  const quoteCharacter = getQuoteCharacter(!!args.singleQuotes);
 
   // Build the directory tree.
   const rootTree = buildTree(options.rootPath, options);
@@ -23,7 +26,7 @@ function main(args: Arguments) {
   purge(rootTree, options);
 
   // Create the barrels.
-  buildBarrels(destinations, options);
+  buildBarrels(destinations, options, quoteCharacter);
 }
 
 export = main;
