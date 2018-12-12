@@ -16,7 +16,6 @@ export interface Arguments {
     verbose?: boolean;
 }
 interface CalculatedOptions {
-    logger: (message: string) => void;
     rootPath: string;
     combinedBaseUrl?: string;
 }

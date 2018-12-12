@@ -1,6 +1,7 @@
 import path from "path";
 
 import { buildImportPath } from "../builder";
+import { Logger } from "../options/logger";
 import { Options } from "../options/options";
 import { QuoteCharacter } from "../options/quoteCharacter";
 import {
@@ -70,7 +71,8 @@ export function buildFileSystemBarrel(
   directory: Directory,
   modules: Location[],
   options: Options,
-  quoteCharacter: QuoteCharacter
+  quoteCharacter: QuoteCharacter,
+  _: Logger // Not used
 ): string {
   const structure: ExportStructure = {};
   let content = "";

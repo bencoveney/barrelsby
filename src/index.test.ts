@@ -6,6 +6,7 @@ import * as Destinations from "./destinations";
 import * as FileTree from "./fileTree";
 import Main from "./index";
 import * as BarrelName from "./options/barrelName";
+import * as Logger from "./options/logger";
 import * as Options from "./options/options";
 import * as QuoteCharacter from "./options/quoteCharacter";
 import * as Purge from "./purge";
@@ -20,10 +21,10 @@ describe("main module", () => {
   });
   it("should co-ordinate the main stages of the application", () => {
     const processedOptions: any = {
-      logger: () => void 0,
       mock: "processedOptions",
       name: "inputBarrelName",
-      rootPath: "testRootPath"
+      rootPath: "testRootPath",
+      verbose: true
     };
     const getOptionsSpy = spySandbox
       .stub(Options, "getOptions")
@@ -48,6 +49,9 @@ describe("main module", () => {
       .stub(QuoteCharacter, "getQuoteCharacter")
       .returns(quoteCharacter);
 
+    const logger = spySandbox.spy();
+    const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(logger);
+
     const barrelName = "barrel.ts";
     const getBarrelNameSpy = spySandbox
       .stub(BarrelName, "getBarrelName")
@@ -58,35 +62,41 @@ describe("main module", () => {
 
     assert(getOptionsSpy.calledOnceWithExactly(options));
     assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
+    assert(getLoggerSpy.calledOnceWithExactly(true));
     assert(
-      getBarrelNameSpy.calledOnceWithExactly(
-        processedOptions.name,
-        processedOptions.logger
-      )
+      getBarrelNameSpy.calledOnceWithExactly(processedOptions.name, logger)
     );
     assert(
       buildTreeSpy.calledOnceWithExactly(
         "testRootPath",
         processedOptions,
-        barrelName
+        barrelName,
+        logger
       )
     );
     assert(
       getDestinationsSpy.calledOnceWithExactly(
         builtTree,
         processedOptions,
-        barrelName
+        barrelName,
+        logger
       )
     );
     assert(
-      purgeSpy.calledOnceWithExactly(builtTree, processedOptions, barrelName)
+      purgeSpy.calledOnceWithExactly(
+        builtTree,
+        processedOptions,
+        barrelName,
+        logger
+      )
     );
     assert(
       buildBarrelsSpy.calledOnceWithExactly(
         destinations,
         processedOptions,
         quoteCharacter,
-        barrelName
+        barrelName,
+        logger
       )
     );
   });

@@ -27,12 +27,12 @@ describe("builder/builder module has a", () => {
       Builder.buildBarrels(
         directory.directories,
         {
-          logger,
           rootPath: ".",
           structure
         },
         '"',
-        "barrel.ts"
+        "barrel.ts",
+        logger
       );
     };
     beforeEach(() => {
@@ -119,12 +119,12 @@ describe("builder/builder module has a", () => {
       Builder.buildBarrels(
         directory.directories,
         {
-          logger,
           rootPath: ".",
           structure: "flat"
         },
         '"',
-        "barrel.ts"
+        "barrel.ts",
+        logger
       );
     };
     beforeEach(() => {
@@ -157,7 +157,7 @@ describe("builder/builder module has a", () => {
       const result = Builder.buildImportPath(
         directory,
         target,
-        TestUtilities.mockOptions([])
+        TestUtilities.mockOptions()
       );
       assert.equal(result, "./index");
     });
@@ -170,7 +170,7 @@ describe("builder/builder module has a", () => {
       const result = Builder.buildImportPath(
         directory,
         target,
-        TestUtilities.mockOptions([])
+        TestUtilities.mockOptions()
       );
       assert.equal(result, "./directory2/script");
     });

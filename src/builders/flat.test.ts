@@ -17,14 +17,14 @@ describe("builder/flat module has a", () => {
         spySandbox = Sinon.createSandbox();
         logger = spySandbox.spy();
         options = {
-          logger,
           rootPath: "."
         };
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           options,
-          '"'
+          '"',
+          logger
         );
       });
       afterEach(() => {
@@ -69,14 +69,14 @@ export * from "./directory3/program";
         spySandbox = Sinon.createSandbox();
         logger = spySandbox.spy();
         options = {
-          logger,
           rootPath: "."
         };
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           options,
-          "'"
+          "'",
+          logger
         );
       });
       afterEach(() => {

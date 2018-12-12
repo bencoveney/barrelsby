@@ -1,6 +1,7 @@
 import { assert } from "chai";
 
 import * as Destinations from "./destinations";
+import { Logger } from "./options/logger";
 import { LocationOption, Options } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory } from "./utilities";
@@ -10,7 +11,6 @@ describe("destinations module has a", () => {
     let directory: Directory;
     let destinations: Directory[];
     let options: Options;
-    let logged: string[];
     const barrelName = "barrel.ts";
     const testMode = (
       mode: LocationOption,
@@ -18,12 +18,17 @@ describe("destinations module has a", () => {
       expectedLogs: string[]
     ) => {
       describe(`when in '${mode}' mode`, () => {
+        let logged: string[];
+        let logger: Logger = () => void 0;
         beforeEach(() => {
           options.location = mode;
+          logged = [];
+          logger = TestUtilities.mockLogger(logged);
           destinations = Destinations.getDestinations(
             directory,
             options,
-            barrelName
+            barrelName,
+            logger
           );
         });
         it("should select the correct destinations", () => {
@@ -36,8 +41,7 @@ describe("destinations module has a", () => {
     };
     beforeEach(() => {
       directory = TestUtilities.mockDirectoryTree();
-      logged = [];
-      options = TestUtilities.mockOptions(logged);
+      options = TestUtilities.mockOptions();
     });
     testMode("top", () => [directory], ["Destinations:", "./directory1"]);
     testMode("below", () => directory.directories, [

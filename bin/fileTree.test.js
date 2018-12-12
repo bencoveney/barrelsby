@@ -22,11 +22,10 @@ describe("fileTree module has a", () => {
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
             logged = [];
-            const logger = (message) => logged.push(message);
+            const logger = TestUtilities.mockLogger(logged);
             result = FileTree.buildTree("./directory1", {
-                logger,
                 rootPath: "some/path"
-            }, barrelName);
+            }, barrelName, logger);
         });
         afterEach(() => {
             mock_fs_1.default.restore();

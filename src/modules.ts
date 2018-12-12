@@ -1,3 +1,4 @@
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import { Directory, isTypeScriptFile, Location } from "./utilities";
 
@@ -7,17 +8,21 @@ interface Filters {
 }
 
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(directory: Directory, options: Options): Location[] {
-  options.logger(`Getting modules @ ${directory.path}`);
+function getModules(
+  directory: Directory,
+  options: Options,
+  logger: Logger
+): Location[] {
+  logger(`Getting modules @ ${directory.path}`);
   if (directory.barrel) {
     // If theres a barrel then use that as it *should* contain descendant modules.
-    options.logger(`Found existing barrel @ ${directory.barrel.path}`);
+    logger(`Found existing barrel @ ${directory.barrel.path}`);
     return [directory.barrel];
   }
   const files: Location[] = ([] as Location[]).concat(directory.files);
   directory.directories.forEach((childDirectory: Directory) => {
     // Recurse.
-    files.push(...getModules(childDirectory, options));
+    files.push(...getModules(childDirectory, options, logger));
   });
   // Only return files that look like TypeScript modules.
   return files.filter((file: Location) => file.name.match(isTypeScriptFile));
@@ -40,7 +45,7 @@ function buildFilters(options: Options): Filters {
 function filterModules(
   filters: Filters,
   locations: Location[],
-  options: Options
+  logger: Logger
 ): Location[] {
   let result = locations;
   if (filters.whitelists.length > 0) {
@@ -48,7 +53,7 @@ function filterModules(
       return filters.whitelists.some((test: RegExp) => {
         const isMatch = !!location.path.match(test);
         if (isMatch) {
-          options.logger(`${location.path} is included by ${test}`);
+          logger(`${location.path} is included by ${test}`);
         }
         return isMatch;
       });
@@ -59,7 +64,7 @@ function filterModules(
       return !filters.blacklists.some((test: RegExp) => {
         const isMatch = !!location.path.match(test);
         if (isMatch) {
-          options.logger(`${location.path} is excluded by ${test}`);
+          logger(`${location.path} is excluded by ${test}`);
         }
         return isMatch;
       });
@@ -70,11 +75,12 @@ function filterModules(
 
 export function loadDirectoryModules(
   directory: Directory,
-  options: Options
+  options: Options,
+  logger: Logger
 ): Location[] {
-  const modules = getModules(directory, options);
+  const modules = getModules(directory, options, logger);
 
   const filters = buildFilters(options);
 
-  return filterModules(filters, modules, options);
+  return filterModules(filters, modules, logger);
 }

@@ -87,13 +87,17 @@ function mockModules(rootDirectory) {
 }
 exports.mockModules = mockModules;
 // Gets a mock Options object.
-function mockOptions(loggerTarget) {
+function mockOptions() {
     return {
-        logger: (message) => loggerTarget.push(message),
         rootPath: "some/path"
     };
 }
 exports.mockOptions = mockOptions;
+// Gets a mock Options object.
+function mockLogger(loggerTarget) {
+    return (message) => loggerTarget.push(message);
+}
+exports.mockLogger = mockLogger;
 // Multiline string assertion to give more useful output messages.
 function assertMultiLine(actual, expected) {
     const actualParts = actual.split("\n");

@@ -4,6 +4,7 @@ import { buildBarrels } from "./builder";
 import { getDestinations } from "./destinations";
 import { buildTree } from "./fileTree";
 import { getBarrelName } from "./options/barrelName";
+import { getLogger } from "./options/logger";
 import { Arguments, getOptions } from "./options/options";
 import { getQuoteCharacter } from "./options/quoteCharacter";
 import { purge } from "./purge";
@@ -15,24 +16,26 @@ function main(args: Arguments) {
   // Get the launch options/arguments.
   // TODO: These casts could be fixed if all the options weren't ?optional.
   const options = getOptions(args);
-  const barrelName = getBarrelName(options.name as string, options.logger);
+  const logger = getLogger(options.verbose as boolean);
+  const barrelName = getBarrelName(options.name as string, logger);
 
   // Build the directory tree.
-  const rootTree = buildTree(options.rootPath, options, barrelName);
+  const rootTree = buildTree(options.rootPath, options, barrelName, logger);
 
   // Work out which directories should have barrels.
   const destinations: Directory[] = getDestinations(
     rootTree,
     options,
-    barrelName
+    barrelName,
+    logger
   );
 
   // Potentially there are some existing barrels that need removing.
-  purge(rootTree, options, barrelName);
+  purge(rootTree, options, barrelName, logger);
 
   // Create the barrels.
   const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
-  buildBarrels(destinations, options, quoteCharacter, barrelName);
+  buildBarrels(destinations, options, quoteCharacter, barrelName, logger);
 }
 
 export = main;

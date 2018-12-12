@@ -1,3 +1,4 @@
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
@@ -20,6 +21,7 @@ export declare function mockFsConfiguration(): {
 };
 export declare function mockDirectoryTree(): Directory;
 export declare function mockModules(rootDirectory: Directory): Location[];
-export declare function mockOptions(loggerTarget: string[]): Options;
+export declare function mockOptions(): Options;
+export declare function mockLogger(loggerTarget: string[]): Logger;
 export declare function assertMultiLine(actual: string, expected: string): void;
 export declare function tslint(content: string, quoteCharacter: QuoteCharacter): void;

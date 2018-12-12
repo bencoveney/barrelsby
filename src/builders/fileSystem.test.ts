@@ -9,16 +9,17 @@ describe("builder/fileSystem module has a", () => {
     describe("when using double quotes", () => {
       let output: string;
       const options: Options = {
-        logger: () => void 0,
         rootPath: path.resolve("./")
       };
+      const logger = () => void 0;
       beforeEach(() => {
         const rootDirectory = TestUtilities.mockDirectoryTree();
         output = FileSystem.buildFileSystemBarrel(
           rootDirectory,
           TestUtilities.mockModules(rootDirectory),
           options,
-          '"'
+          '"',
+          logger
         );
       });
       it("should produce the correct output", () => {
@@ -52,16 +53,17 @@ export {indexts as index};
   describe("when using single quotes", () => {
     let output: string;
     const options: Options = {
-      logger: () => void 0,
       rootPath: path.resolve("./")
     };
+    const logger = () => void 0;
     beforeEach(() => {
       const rootDirectory = TestUtilities.mockDirectoryTree();
       output = FileSystem.buildFileSystemBarrel(
         rootDirectory,
         TestUtilities.mockModules(rootDirectory),
         options,
-        "'"
+        "'",
+        logger
       );
     });
     it("should produce the correct output", () => {

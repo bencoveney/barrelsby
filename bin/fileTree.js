@@ -7,8 +7,8 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const utilities_1 = require("./utilities");
 /** Build directory information recursively. */
-function buildTree(directory, options, barrelName) {
-    options.logger(`Building directory tree for ${utilities_1.convertPathSeparator(directory)}`);
+function buildTree(directory, options, barrelName, logger) {
+    logger(`Building directory tree for ${utilities_1.convertPathSeparator(directory)}`);
     const names = fs_1.default.readdirSync(directory);
     const result = {
         directories: [],
@@ -19,7 +19,7 @@ function buildTree(directory, options, barrelName) {
     names.forEach((name) => {
         const fullPath = path_1.default.join(directory, name);
         if (fs_1.default.statSync(fullPath).isDirectory()) {
-            result.directories.push(buildTree(fullPath, options, barrelName));
+            result.directories.push(buildTree(fullPath, options, barrelName, logger));
         }
         else {
             const convertedPath = utilities_1.convertPathSeparator(fullPath);
@@ -29,7 +29,7 @@ function buildTree(directory, options, barrelName) {
             };
             result.files.push(file);
             if (file.name === barrelName) {
-                options.logger(`Found existing barrel @ ${convertedPath}`);
+                logger(`Found existing barrel @ ${convertedPath}`);
                 result.barrel = file;
             }
         }

@@ -27,15 +27,7 @@ describe("options module has a", () => {
         it("should process the given configuration options", () => {
             const options = Object.assign({}, defaultOptions, { verbose: true });
             const processed = Options.getOptions(options);
-            // tslint:disable-next-line:no-console
-            chai_1.assert.equal(processed.logger, console.log);
             chai_1.assert.match(processed.rootPath, /test$/);
-        });
-        it("should not use the console if logging is disabled", () => {
-            const options = Object.assign({}, defaultOptions, { verbose: false });
-            const processed = Options.getOptions(options);
-            // tslint:disable-next-line:no-console
-            chai_1.assert.notEqual(processed.logger, console.log);
         });
         it("should resolve the baseUrl if specified", () => {
             const options = Object.assign({}, defaultOptions, { baseUrl: "/base/url" });

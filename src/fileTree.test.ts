@@ -14,14 +14,14 @@ describe("fileTree module has a", () => {
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
       logged = [];
-      const logger = (message: string) => logged.push(message);
+      const logger = TestUtilities.mockLogger(logged);
       result = FileTree.buildTree(
         "./directory1",
         {
-          logger,
           rootPath: "some/path"
         },
-        barrelName
+        barrelName,
+        logger
       );
     });
     afterEach(() => {

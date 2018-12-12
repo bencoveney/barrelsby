@@ -7,10 +7,6 @@ const path_1 = __importDefault(require("path"));
 function getOptions(options) {
     // TODO: A lot of these options would be better passed only to the places they are needed, rather than as one
     // huge blob.
-    options.logger = options.verbose
-        ? // tslint:disable-next-line:no-console
-            console.log
-        : new Function("return void(0);");
     options.rootPath = path_1.default.resolve(options.directory);
     // Resolve base url.
     if (options.baseUrl) {

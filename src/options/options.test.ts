@@ -22,17 +22,7 @@ describe("options module has a", () => {
 
       const processed = Options.getOptions(options);
 
-      // tslint:disable-next-line:no-console
-      assert.equal(processed.logger, console.log);
       assert.match(processed.rootPath, /test$/);
-    });
-    it("should not use the console if logging is disabled", () => {
-      const options = { ...defaultOptions, verbose: false };
-
-      const processed = Options.getOptions(options);
-
-      // tslint:disable-next-line:no-console
-      assert.notEqual(processed.logger, console.log);
     });
     it("should resolve the baseUrl if specified", () => {
       const options = { ...defaultOptions, baseUrl: "/base/url" };

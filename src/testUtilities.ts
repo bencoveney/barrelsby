@@ -1,6 +1,7 @@
 import { assert } from "chai";
 import { Configuration, Linter } from "tslint";
 
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
@@ -93,11 +94,15 @@ export function mockModules(rootDirectory: Directory): Location[] {
 }
 
 // Gets a mock Options object.
-export function mockOptions(loggerTarget: string[]): Options {
+export function mockOptions(): Options {
   return {
-    logger: (message: string) => loggerTarget.push(message),
     rootPath: "some/path"
   };
+}
+
+// Gets a mock Options object.
+export function mockLogger(loggerTarget: string[]): Logger {
+  return (message: string) => loggerTarget.push(message);
 }
 
 // Multiline string assertion to give more useful output messages.

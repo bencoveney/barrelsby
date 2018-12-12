@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import {
   convertPathSeparator,
@@ -19,7 +20,8 @@ export function buildBarrels(
   destinations: Directory[],
   options: Options,
   quoteCharacter: QuoteCharacter,
-  barrelName: string
+  barrelName: string,
+  logger: Logger
 ): void {
   let builder: BarrelBuilder;
   switch (options.structure) {
@@ -33,7 +35,14 @@ export function buildBarrels(
   }
   // Build the barrels.
   destinations.forEach((destination: Directory) =>
-    buildBarrel(destination, builder, options, quoteCharacter, barrelName)
+    buildBarrel(
+      destination,
+      builder,
+      options,
+      quoteCharacter,
+      barrelName,
+      logger
+    )
   );
 }
 
@@ -43,15 +52,16 @@ function buildBarrel(
   builder: BarrelBuilder,
   options: Options,
   quoteCharacter: QuoteCharacter,
-  barrelName: string
+  barrelName: string,
+  logger: Logger
 ) {
-  options.logger(`Building barrel @ ${directory.path}`);
+  logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
-    loadDirectoryModules(directory, options),
+    loadDirectoryModules(directory, options, logger),
     options,
     quoteCharacter,
-    barrelName
+    logger
   );
   const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
@@ -68,7 +78,7 @@ function buildBarrel(
       name: barrelName,
       path: convertedPath
     };
-    options.logger(`Updating model barrel @ ${convertedPath}`);
+    logger(`Updating model barrel @ ${convertedPath}`);
     directory.files.push(barrel);
     directory.barrel = barrel;
   }
@@ -79,7 +89,7 @@ export type BarrelBuilder = (
   modules: Location[],
   options: Options,
   quoteCharacter: QuoteCharacter,
-  barrelName: string
+  logger: Logger
 ) => string;
 
 /** Builds the TypeScript */

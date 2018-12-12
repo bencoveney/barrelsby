@@ -1,13 +1,15 @@
 import fs from "fs";
 
 import { walkTree } from "./fileTree";
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import { Directory, Location } from "./utilities";
 
 export function purge(
   rootTree: Directory,
   options: Options,
-  barrelName: string
+  barrelName: string,
+  logger: Logger
 ) {
   // Delete any existing barrels.
   if (options.delete) {
@@ -17,7 +19,7 @@ export function purge(
           return file.name === barrelName;
         })
         .forEach((file: Location) => {
-          options.logger(`Deleting existing barrel @ ${file.path}`);
+          logger(`Deleting existing barrel @ ${file.path}`);
           // Delete barrel file and clean up tree model.
           fs.unlinkSync(file.path);
           directory.files.splice(directory.files.indexOf(file), 1);

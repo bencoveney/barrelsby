@@ -1,4 +1,5 @@
 import { walkTree } from "./fileTree";
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import { Directory, Location } from "./utilities";
 
@@ -6,7 +7,8 @@ import { Directory, Location } from "./utilities";
 export function getDestinations(
   rootTree: Directory,
   options: Options,
-  barrelName: string
+  barrelName: string,
+  logger: Logger
 ): Directory[] {
   let destinations: Directory[];
   switch (options.location) {
@@ -50,8 +52,8 @@ export function getDestinations(
     return b.path.length - a.path.length;
   });
 
-  options.logger("Destinations:");
-  destinations.forEach(destination => options.logger(destination.path));
+  logger("Destinations:");
+  destinations.forEach(destination => logger(destination.path));
 
   return destinations;
 }

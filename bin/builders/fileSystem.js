@@ -43,7 +43,8 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
 function compareImports(a, b) {
     return a.path < b.path ? -1 : 1;
 }
-function buildFileSystemBarrel(directory, modules, options, quoteCharacter) {
+function buildFileSystemBarrel(directory, modules, options, quoteCharacter, _ // Not used
+) {
     const structure = {};
     let content = "";
     modules

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 
+import { Logger } from "./options/logger";
 import { Options } from "./options/options";
 import { convertPathSeparator, Directory } from "./utilities";
 
@@ -8,11 +9,10 @@ import { convertPathSeparator, Directory } from "./utilities";
 export function buildTree(
   directory: string,
   options: Options,
-  barrelName: string
+  barrelName: string,
+  logger: Logger
 ): Directory {
-  options.logger(
-    `Building directory tree for ${convertPathSeparator(directory)}`
-  );
+  logger(`Building directory tree for ${convertPathSeparator(directory)}`);
   const names = fs.readdirSync(directory);
   const result: Directory = {
     directories: [],
@@ -23,7 +23,7 @@ export function buildTree(
   names.forEach((name: string) => {
     const fullPath = path.join(directory, name);
     if (fs.statSync(fullPath).isDirectory()) {
-      result.directories.push(buildTree(fullPath, options, barrelName));
+      result.directories.push(buildTree(fullPath, options, barrelName, logger));
     } else {
       const convertedPath = convertPathSeparator(fullPath);
       const file = {
@@ -32,7 +32,7 @@ export function buildTree(
       };
       result.files.push(file);
       if (file.name === barrelName) {
-        options.logger(`Found existing barrel @ ${convertedPath}`);
+        logger(`Found existing barrel @ ${convertedPath}`);
         result.barrel = file;
       }
     }

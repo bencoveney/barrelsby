@@ -23,7 +23,6 @@ export interface Arguments {
 
 // Calculated options.
 interface CalculatedOptions {
-  logger: (message: string) => void;
   rootPath: string;
   combinedBaseUrl?: string;
 }
@@ -33,11 +32,6 @@ export type Options = Arguments & CalculatedOptions;
 export function getOptions(options: any): Options {
   // TODO: A lot of these options would be better passed only to the places they are needed, rather than as one
   // huge blob.
-
-  options.logger = options.verbose
-    ? // tslint:disable-next-line:no-console
-      console.log
-    : new Function("return void(0);");
 
   options.rootPath = path.resolve(options.directory);
 
