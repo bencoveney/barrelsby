@@ -6,9 +6,10 @@ import * as Destinations from "./destinations";
 import * as FileTree from "./fileTree";
 import Main from "./index";
 import * as BarrelName from "./options/barrelName";
+import * as BaseUrl from "./options/baseUrl";
 import * as Logger from "./options/logger";
-import * as Options from "./options/options";
 import * as QuoteCharacter from "./options/quoteCharacter";
+import * as RootPath from "./options/rootPath";
 import * as Purge from "./purge";
 
 describe("main module", () => {
@@ -20,15 +21,13 @@ describe("main module", () => {
     spySandbox.restore();
   });
   it("should co-ordinate the main stages of the application", () => {
-    const processedOptions: any = {
-      mock: "processedOptions",
+    const args: any = {
+      baseUrl: "https://base-url.com",
+      directory: "testRootPath",
       name: "inputBarrelName",
-      rootPath: "testRootPath",
+      singleQuotes: true,
       verbose: true
     };
-    const getOptionsSpy = spySandbox
-      .stub(Options, "getOptions")
-      .returns(processedOptions);
 
     const builtTree: any = { mock: "built tree" };
     const buildTreeSpy = spySandbox
@@ -57,46 +56,43 @@ describe("main module", () => {
       .stub(BarrelName, "getBarrelName")
       .returns(barrelName);
 
-    const options: any = { mock: "Options", singleQuotes: true };
-    Main(options);
+    const rootPath = "./directory";
+    const resolveRootPathSpy = spySandbox
+      .stub(RootPath, "resolveRootPath")
+      .returns(rootPath);
 
-    assert(getOptionsSpy.calledOnceWithExactly(options));
+    const baseUrl = "https://base-url.com/src/directory";
+    const getCombinedBaseUrlSpy = spySandbox
+      .stub(BaseUrl, "getCombinedBaseUrl")
+      .returns(baseUrl);
+
+    Main(args);
+
     assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
     assert(getLoggerSpy.calledOnceWithExactly(true));
+    assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
+    assert(resolveRootPathSpy.calledWithExactly(args.directory));
+    assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
     assert(
-      getBarrelNameSpy.calledOnceWithExactly(processedOptions.name, logger)
-    );
-    assert(
-      buildTreeSpy.calledOnceWithExactly(
-        "testRootPath",
-        processedOptions,
-        barrelName,
-        logger
-      )
+      buildTreeSpy.calledOnceWithExactly(rootPath, args, barrelName, logger)
     );
     assert(
       getDestinationsSpy.calledOnceWithExactly(
         builtTree,
-        processedOptions,
+        args,
         barrelName,
         logger
       )
     );
-    assert(
-      purgeSpy.calledOnceWithExactly(
-        builtTree,
-        processedOptions,
-        barrelName,
-        logger
-      )
-    );
+    assert(purgeSpy.calledOnceWithExactly(builtTree, args, barrelName, logger));
     assert(
       buildBarrelsSpy.calledOnceWithExactly(
         destinations,
-        processedOptions,
+        args,
         quoteCharacter,
         barrelName,
-        logger
+        logger,
+        baseUrl
       )
     );
   });

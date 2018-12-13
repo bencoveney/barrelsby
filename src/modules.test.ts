@@ -15,7 +15,7 @@ describe("builder/modules module has a", () => {
     beforeEach(() => {
       directory = TestUtilities.mockDirectoryTree();
       logged = [];
-      options = TestUtilities.mockOptions();
+      options = {};
       logger = TestUtilities.mockLogger(logged);
     });
     it("should identify modules from directories recursively", () => {

@@ -15,10 +15,4 @@ export interface Arguments {
     version?: boolean;
     verbose?: boolean;
 }
-interface CalculatedOptions {
-    rootPath: string;
-    combinedBaseUrl?: string;
-}
-export declare type Options = Arguments & CalculatedOptions;
-export declare function getOptions(options: any): Options;
-export {};
+export declare type Options = Arguments;

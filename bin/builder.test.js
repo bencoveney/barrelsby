@@ -32,9 +32,8 @@ describe("builder/builder module has a", () => {
         const runBuilder = (structure) => {
             logger = spySandbox.spy();
             Builder.buildBarrels(directory.directories, {
-                rootPath: ".",
                 structure
-            }, '"', "barrel.ts", logger);
+            }, '"', "barrel.ts", logger, undefined);
         };
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
@@ -112,9 +111,8 @@ describe("builder/builder module has a", () => {
         const runBuilder = () => {
             logger = spySandbox.spy();
             Builder.buildBarrels(directory.directories, {
-                rootPath: ".",
                 structure: "flat"
-            }, '"', "barrel.ts", logger);
+            }, '"', "barrel.ts", logger, undefined);
         };
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
@@ -143,13 +141,13 @@ describe("builder/builder module has a", () => {
         });
         it("should correctly build a path to a file in the same directory", () => {
             const target = getLocationByName(directory.files, "index.ts");
-            const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions());
+            const result = Builder.buildImportPath(directory, target, undefined);
             chai_1.assert.equal(result, "./index");
         });
         it("should correctly build a path to a file in a child directory", () => {
             const childDirectory = getLocationByName(directory.directories, "directory2");
             const target = getLocationByName(childDirectory.files, "script.ts");
-            const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions());
+            const result = Builder.buildImportPath(directory, target, undefined);
             chai_1.assert.equal(result, "./directory2/script");
         });
     });

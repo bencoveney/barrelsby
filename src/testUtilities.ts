@@ -2,7 +2,6 @@ import { assert } from "chai";
 import { Configuration, Linter } from "tslint";
 
 import { Logger } from "./options/logger";
-import { Options } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
 
@@ -91,13 +90,6 @@ export function mockModules(rootDirectory: Directory): Location[] {
   return getModules(rootDirectory).filter(
     module => module.name.indexOf(".ts") >= 0
   );
-}
-
-// Gets a mock Options object.
-export function mockOptions(): Options {
-  return {
-    rootPath: "some/path"
-  };
 }
 
 // Gets a mock Options object.

@@ -36,7 +36,7 @@ describe("destinations module has a", () => {
         };
         beforeEach(() => {
             directory = TestUtilities.mockDirectoryTree();
-            options = TestUtilities.mockOptions();
+            options = {};
         });
         testMode("top", () => [directory], ["Destinations:", "./directory1"]);
         testMode("below", () => directory.directories, [

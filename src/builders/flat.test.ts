@@ -1,7 +1,6 @@
 import { assert } from "chai";
 import Sinon from "sinon";
 
-import { Options } from "../options/options";
 import * as TestUtilities from "../testUtilities";
 import * as Flat from "./flat";
 
@@ -11,20 +10,16 @@ describe("builder/flat module has a", () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
       let logger: Sinon.SinonSpy;
-      let options: Options;
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
         logger = spySandbox.spy();
-        options = {
-          rootPath: "."
-        };
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
-          options,
           '"',
-          logger
+          logger,
+          undefined
         );
       });
       afterEach(() => {
@@ -63,20 +58,16 @@ export * from "./directory3/program";
       let output: string;
       let spySandbox: sinon.SinonSandbox;
       let logger: Sinon.SinonSpy;
-      let options: Options;
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
         logger = spySandbox.spy();
-        options = {
-          rootPath: "."
-        };
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
-          options,
           "'",
-          logger
+          logger,
+          undefined
         );
       });
       afterEach(() => {

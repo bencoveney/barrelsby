@@ -87,13 +87,6 @@ function mockModules(rootDirectory) {
 }
 exports.mockModules = mockModules;
 // Gets a mock Options object.
-function mockOptions() {
-    return {
-        rootPath: "some/path"
-    };
-}
-exports.mockOptions = mockOptions;
-// Gets a mock Options object.
 function mockLogger(loggerTarget) {
     return (message) => loggerTarget.push(message);
 }

@@ -1,7 +1,4 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -10,20 +7,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const path_1 = __importDefault(require("path"));
 const TestUtilities = __importStar(require("../testUtilities"));
 const FileSystem = __importStar(require("./fileSystem"));
 describe("builder/fileSystem module has a", () => {
     describe("buildFileSystemBarrel function that", () => {
         describe("when using double quotes", () => {
             let output;
-            const options = {
-                rootPath: path_1.default.resolve("./")
-            };
             const logger = () => void 0;
             beforeEach(() => {
                 const rootDirectory = TestUtilities.mockDirectoryTree();
-                output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), options, '"', logger);
+                output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', logger, undefined);
             });
             it("should produce the correct output", () => {
                 TestUtilities.assertMultiLine(output, `import * as barrelts from "./barrel";
@@ -51,13 +44,10 @@ export {indexts as index};
     });
     describe("when using single quotes", () => {
         let output;
-        const options = {
-            rootPath: path_1.default.resolve("./")
-        };
         const logger = () => void 0;
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
-            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), options, "'", logger);
+            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), "'", logger, undefined);
         });
         it("should produce the correct output", () => {
             TestUtilities.assertMultiLine(output, `import * as barrelts from './barrel';

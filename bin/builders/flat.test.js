@@ -20,15 +20,11 @@ describe("builder/flat module has a", () => {
             let output;
             let spySandbox;
             let logger;
-            let options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                options = {
-                    rootPath: "."
-                };
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options, '"', logger);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', logger, undefined);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -62,15 +58,11 @@ export * from "./directory3/program";
             let output;
             let spySandbox;
             let logger;
-            let options;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                options = {
-                    rootPath: "."
-                };
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), options, "'", logger);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", logger, undefined);
             });
             afterEach(() => {
                 spySandbox.restore();

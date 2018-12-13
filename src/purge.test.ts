@@ -19,7 +19,7 @@ describe("purge module has a", () => {
       MockFs(TestUtilities.mockFsConfiguration());
       directory = TestUtilities.mockDirectoryTree();
       logged = [];
-      options = TestUtilities.mockOptions();
+      options = {};
       logger = TestUtilities.mockLogger(logged);
     });
     afterEach(() => {

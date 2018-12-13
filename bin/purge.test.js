@@ -26,7 +26,7 @@ describe("purge module has a", () => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
             directory = TestUtilities.mockDirectoryTree();
             logged = [];
-            options = TestUtilities.mockOptions();
+            options = {};
             logger = TestUtilities.mockLogger(logged);
         });
         afterEach(() => {

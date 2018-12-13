@@ -43,14 +43,14 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
 function compareImports(a, b) {
     return a.path < b.path ? -1 : 1;
 }
-function buildFileSystemBarrel(directory, modules, options, quoteCharacter, _ // Not used
-) {
+function buildFileSystemBarrel(directory, modules, quoteCharacter, _, // Not used
+baseUrl) {
     const structure = {};
     let content = "";
     modules
         .map((module) => ({
         module,
-        path: builder_1.buildImportPath(directory, module, options)
+        path: builder_1.buildImportPath(directory, module, baseUrl)
     }))
         .sort(compareImports)
         .forEach((imported) => {

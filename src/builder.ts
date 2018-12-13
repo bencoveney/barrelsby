@@ -1,8 +1,14 @@
 import fs from "fs";
 import path from "path";
 
+import { buildFileSystemBarrel } from "./builders/fileSystem";
+import { buildFlatBarrel } from "./builders/flat";
+import { addHeaderPrefix } from "./builders/header";
+import { loadDirectoryModules } from "./modules";
+import { BaseUrl } from "./options/baseUrl";
 import { Logger } from "./options/logger";
 import { Options } from "./options/options";
+import { QuoteCharacter } from "./options/quoteCharacter";
 import {
   convertPathSeparator,
   Directory,
@@ -10,18 +16,13 @@ import {
   thisDirectory
 } from "./utilities";
 
-import { buildFileSystemBarrel } from "./builders/fileSystem";
-import { buildFlatBarrel } from "./builders/flat";
-import { addHeaderPrefix } from "./builders/header";
-import { loadDirectoryModules } from "./modules";
-import { QuoteCharacter } from "./options/quoteCharacter";
-
 export function buildBarrels(
   destinations: Directory[],
   options: Options,
   quoteCharacter: QuoteCharacter,
   barrelName: string,
-  logger: Logger
+  logger: Logger,
+  baseUrl: BaseUrl
 ): void {
   let builder: BarrelBuilder;
   switch (options.structure) {
@@ -41,7 +42,8 @@ export function buildBarrels(
       options,
       quoteCharacter,
       barrelName,
-      logger
+      logger,
+      baseUrl
     )
   );
 }
@@ -53,15 +55,16 @@ function buildBarrel(
   options: Options,
   quoteCharacter: QuoteCharacter,
   barrelName: string,
-  logger: Logger
+  logger: Logger,
+  baseUrl: BaseUrl
 ) {
   logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
     loadDirectoryModules(directory, options, logger),
-    options,
     quoteCharacter,
-    logger
+    logger,
+    baseUrl
   );
   const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
@@ -87,21 +90,19 @@ function buildBarrel(
 export type BarrelBuilder = (
   directory: Directory,
   modules: Location[],
-  options: Options,
   quoteCharacter: QuoteCharacter,
-  logger: Logger
+  logger: Logger,
+  baseUrl: BaseUrl
 ) => string;
 
 /** Builds the TypeScript */
 export function buildImportPath(
   directory: Directory,
   target: Location,
-  options: Options
+  baseUrl: BaseUrl
 ): string {
   // If the base URL option is set then imports should be relative to there.
-  const startLocation = options.combinedBaseUrl
-    ? options.combinedBaseUrl
-    : directory.path;
+  const startLocation = baseUrl ? baseUrl : directory.path;
   const relativePath = path.relative(startLocation, target.path);
   // Get the route and ensure it's relative
   let directoryPath = path.dirname(relativePath);
@@ -113,13 +114,11 @@ export function buildImportPath(
   // Build the final path string. Use posix-style seperators.
   const location = `${directoryPath}${path.sep}${fileName}`;
   const convertedLocation = convertPathSeparator(location);
-  return stripThisDirectory(convertedLocation, options);
+  return stripThisDirectory(convertedLocation, baseUrl);
 }
 
-function stripThisDirectory(location: string, options: Options) {
-  return options.combinedBaseUrl
-    ? location.replace(thisDirectory, "")
-    : location;
+function stripThisDirectory(location: string, baseUrl: BaseUrl) {
+  return baseUrl ? location.replace(thisDirectory, "") : location;
 }
 
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */
