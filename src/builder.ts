@@ -7,7 +7,7 @@ import { addHeaderPrefix } from "./builders/header";
 import { loadDirectoryModules } from "./modules";
 import { BaseUrl } from "./options/baseUrl";
 import { Logger } from "./options/logger";
-import { Options } from "./options/options";
+import { StructureOption } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import {
   convertPathSeparator,
@@ -18,14 +18,16 @@ import {
 
 export function buildBarrels(
   destinations: Directory[],
-  options: Options,
   quoteCharacter: QuoteCharacter,
   barrelName: string,
   logger: Logger,
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  structure: StructureOption | undefined,
+  include: string[],
+  exclude: string[]
 ): void {
   let builder: BarrelBuilder;
-  switch (options.structure) {
+  switch (structure) {
     default:
     case "flat":
       builder = buildFlatBarrel;
@@ -39,11 +41,12 @@ export function buildBarrels(
     buildBarrel(
       destination,
       builder,
-      options,
       quoteCharacter,
       barrelName,
       logger,
-      baseUrl
+      baseUrl,
+      include,
+      exclude
     )
   );
 }
@@ -52,16 +55,17 @@ export function buildBarrels(
 function buildBarrel(
   directory: Directory,
   builder: BarrelBuilder,
-  options: Options,
   quoteCharacter: QuoteCharacter,
   barrelName: string,
   logger: Logger,
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  include: string[],
+  exclude: string[]
 ) {
   logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
-    loadDirectoryModules(directory, options, logger),
+    loadDirectoryModules(directory, logger, include, exclude),
     quoteCharacter,
     logger,
     baseUrl

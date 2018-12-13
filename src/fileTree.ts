@@ -2,13 +2,11 @@ import fs from "fs";
 import path from "path";
 
 import { Logger } from "./options/logger";
-import { Options } from "./options/options";
 import { convertPathSeparator, Directory } from "./utilities";
 
 /** Build directory information recursively. */
 export function buildTree(
   directory: string,
-  options: Options,
   barrelName: string,
   logger: Logger
 ): Directory {
@@ -23,7 +21,7 @@ export function buildTree(
   names.forEach((name: string) => {
     const fullPath = path.join(directory, name);
     if (fs.statSync(fullPath).isDirectory()) {
-      result.directories.push(buildTree(fullPath, options, barrelName, logger));
+      result.directories.push(buildTree(fullPath, barrelName, logger));
     } else {
       const convertedPath = convertPathSeparator(fullPath);
       const file = {

@@ -8,7 +8,7 @@ describe("options/quoteCharacter module has a", () => {
             chai_1.assert.equal(quoteCharacter_1.getQuoteCharacter(true), "'");
         });
         it("should correctly return the doublequote", () => {
-            chai_1.assert.equal(quoteCharacter_1.getQuoteCharacter(true), "'");
+            chai_1.assert.equal(quoteCharacter_1.getQuoteCharacter(false), '"');
         });
     });
 });

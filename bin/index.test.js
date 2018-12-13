@@ -33,9 +33,14 @@ describe("main module", () => {
     it("should co-ordinate the main stages of the application", () => {
         const args = {
             baseUrl: "https://base-url.com",
+            delete: true,
             directory: "testRootPath",
+            exclude: ["directory4"],
+            include: ["directory2"],
+            location: "top",
             name: "inputBarrelName",
             singleQuotes: true,
+            structure: "flat",
             verbose: true
         };
         const builtTree = { mock: "built tree" };
@@ -72,10 +77,10 @@ describe("main module", () => {
         chai_1.assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
         chai_1.assert(resolveRootPathSpy.calledWithExactly(args.directory));
         chai_1.assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
-        chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, args, barrelName, logger));
-        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args, barrelName, logger));
-        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args, barrelName, logger));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, args, quoteCharacter, barrelName, logger, baseUrl));
+        chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
+        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
+        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
+        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, barrelName, logger, baseUrl, args.structure, args.include, args.exclude));
     });
 });
 //# sourceMappingURL=index.test.js.map

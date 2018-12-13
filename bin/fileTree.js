@@ -7,7 +7,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const utilities_1 = require("./utilities");
 /** Build directory information recursively. */
-function buildTree(directory, options, barrelName, logger) {
+function buildTree(directory, barrelName, logger) {
     logger(`Building directory tree for ${utilities_1.convertPathSeparator(directory)}`);
     const names = fs_1.default.readdirSync(directory);
     const result = {
@@ -19,7 +19,7 @@ function buildTree(directory, options, barrelName, logger) {
     names.forEach((name) => {
         const fullPath = path_1.default.join(directory, name);
         if (fs_1.default.statSync(fullPath).isDirectory()) {
-            result.directories.push(buildTree(fullPath, options, barrelName, logger));
+            result.directories.push(buildTree(fullPath, barrelName, logger));
         }
         else {
             const convertedPath = utilities_1.convertPathSeparator(fullPath);

@@ -1,5 +1,4 @@
 import { Logger } from "./options/logger";
-import { Options } from "./options/options";
 import { Directory, isTypeScriptFile, Location } from "./utilities";
 
 interface Filters {
@@ -8,11 +7,7 @@ interface Filters {
 }
 
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(
-  directory: Directory,
-  options: Options,
-  logger: Logger
-): Location[] {
+function getModules(directory: Directory, logger: Logger): Location[] {
   logger(`Getting modules @ ${directory.path}`);
   if (directory.barrel) {
     // If theres a barrel then use that as it *should* contain descendant modules.
@@ -22,23 +17,20 @@ function getModules(
   const files: Location[] = ([] as Location[]).concat(directory.files);
   directory.directories.forEach((childDirectory: Directory) => {
     // Recurse.
-    files.push(...getModules(childDirectory, options, logger));
+    files.push(...getModules(childDirectory, logger));
   });
   // Only return files that look like TypeScript modules.
   return files.filter((file: Location) => file.name.match(isTypeScriptFile));
 }
 
-function buildFilters(options: Options): Filters {
+function buildFilters(include: string[], exclude: string[]): Filters {
   // Filter a set of modules down to those matching the include/exclude rules.
-  function buildRegexList(patterns: string[] | undefined): RegExp[] {
-    if (!Array.isArray(patterns)) {
-      return [];
-    }
+  function buildRegexList(patterns: string[]): RegExp[] {
     return patterns.map((pattern: string) => new RegExp(pattern));
   }
   return {
-    blacklists: buildRegexList(options.exclude),
-    whitelists: buildRegexList(options.include)
+    blacklists: buildRegexList(exclude),
+    whitelists: buildRegexList(include)
   };
 }
 
@@ -75,12 +67,13 @@ function filterModules(
 
 export function loadDirectoryModules(
   directory: Directory,
-  options: Options,
-  logger: Logger
+  logger: Logger,
+  include: string[],
+  exclude: string[]
 ): Location[] {
-  const modules = getModules(directory, options, logger);
+  const modules = getModules(directory, logger);
 
-  const filters = buildFilters(options);
+  const filters = buildFilters(include, exclude);
 
   return filterModules(filters, modules, logger);
 }

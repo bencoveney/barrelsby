@@ -14,16 +14,14 @@ describe("builder/modules module has a", () => {
     describe("loadDirectoryModules function that", () => {
         let directory;
         let logged;
-        let options;
         let logger;
         beforeEach(() => {
             directory = TestUtilities.mockDirectoryTree();
             logged = [];
-            options = {};
             logger = TestUtilities.mockLogger(logged);
         });
         it("should identify modules from directories recursively", () => {
-            const result = Modules.loadDirectoryModules(directory.directories[0], options, logger);
+            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], []);
             chai_1.assert.lengthOf(result, 2);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -38,7 +36,7 @@ describe("builder/modules module has a", () => {
             // Set up a barrel.
             const targetDirectory = directory.directories[0];
             targetDirectory.barrel = targetDirectory.files[0];
-            const result = Modules.loadDirectoryModules(directory.directories[0], options, logger);
+            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], []);
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -46,12 +44,11 @@ describe("builder/modules module has a", () => {
             });
         });
         it("should only include TypeScript files", () => {
-            const result = Modules.loadDirectoryModules(directory, options, logger);
+            const result = Modules.loadDirectoryModules(directory, logger, [], []);
             result.forEach(location => chai_1.assert.notEqual(location.name, "ignore.txt"));
         });
         it("should only include files matching a whitelist option when specified", () => {
-            options.include = ["directory2"];
-            const result = Modules.loadDirectoryModules(directory, options, logger);
+            const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], []);
             chai_1.assert.lengthOf(result, 2);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -63,8 +60,7 @@ describe("builder/modules module has a", () => {
             });
         });
         it("should exclude files matching a blacklist option when specified", () => {
-            options.exclude = ["directory2"];
-            const result = Modules.loadDirectoryModules(directory, options, logger);
+            const result = Modules.loadDirectoryModules(directory, logger, [], ["directory2"]);
             chai_1.assert.lengthOf(result, 3);
             chai_1.assert.deepEqual(result[0], {
                 name: "barrel.ts",
@@ -80,9 +76,7 @@ describe("builder/modules module has a", () => {
             });
         });
         it("should correctly handle both whitelist and blacklist options being set", () => {
-            options.include = ["directory2"];
-            options.exclude = ["directory4"];
-            const result = Modules.loadDirectoryModules(directory, options, logger);
+            const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], ["directory4"]);
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -93,7 +87,7 @@ describe("builder/modules module has a", () => {
             // Set up a barrel.
             const indexedDirectory = directory.directories[0];
             indexedDirectory.barrel = indexedDirectory.files[0];
-            Modules.loadDirectoryModules(directory, options, logger);
+            Modules.loadDirectoryModules(directory, logger, [], []);
             chai_1.assert.deepEqual(logged, [
                 "Getting modules @ ./directory1",
                 "Getting modules @ directory1/directory2",

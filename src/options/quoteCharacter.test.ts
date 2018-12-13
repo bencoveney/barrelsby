@@ -8,7 +8,7 @@ describe("options/quoteCharacter module has a", () => {
       assert.equal(getQuoteCharacter(true), "'");
     });
     it("should correctly return the doublequote", () => {
-      assert.equal(getQuoteCharacter(true), "'");
+      assert.equal(getQuoteCharacter(false), '"');
     });
   });
 });

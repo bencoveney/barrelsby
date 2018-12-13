@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("./utilities");
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(directory, options, logger) {
+function getModules(directory, logger) {
     logger(`Getting modules @ ${directory.path}`);
     if (directory.barrel) {
         // If theres a barrel then use that as it *should* contain descendant modules.
@@ -12,22 +12,19 @@ function getModules(directory, options, logger) {
     const files = [].concat(directory.files);
     directory.directories.forEach((childDirectory) => {
         // Recurse.
-        files.push(...getModules(childDirectory, options, logger));
+        files.push(...getModules(childDirectory, logger));
     });
     // Only return files that look like TypeScript modules.
     return files.filter((file) => file.name.match(utilities_1.isTypeScriptFile));
 }
-function buildFilters(options) {
+function buildFilters(include, exclude) {
     // Filter a set of modules down to those matching the include/exclude rules.
     function buildRegexList(patterns) {
-        if (!Array.isArray(patterns)) {
-            return [];
-        }
         return patterns.map((pattern) => new RegExp(pattern));
     }
     return {
-        blacklists: buildRegexList(options.exclude),
-        whitelists: buildRegexList(options.include)
+        blacklists: buildRegexList(exclude),
+        whitelists: buildRegexList(include)
     };
 }
 function filterModules(filters, locations, logger) {
@@ -56,9 +53,9 @@ function filterModules(filters, locations, logger) {
     }
     return result;
 }
-function loadDirectoryModules(directory, options, logger) {
-    const modules = getModules(directory, options, logger);
-    const filters = buildFilters(options);
+function loadDirectoryModules(directory, logger, include, exclude) {
+    const modules = getModules(directory, logger);
+    const filters = buildFilters(include, exclude);
     return filterModules(filters, modules, logger);
 }
 exports.loadDirectoryModules = loadDirectoryModules;

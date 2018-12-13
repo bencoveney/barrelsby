@@ -1,17 +1,17 @@
 import { walkTree } from "./fileTree";
 import { Logger } from "./options/logger";
-import { Options } from "./options/options";
+import { LocationOption } from "./options/options";
 import { Directory, Location } from "./utilities";
 
 /** Assess which directories in the tree should contain barrels. */
 export function getDestinations(
   rootTree: Directory,
-  options: Options,
+  locationOption: LocationOption,
   barrelName: string,
   logger: Logger
 ): Directory[] {
   let destinations: Directory[];
-  switch (options.location) {
+  switch (locationOption) {
     case "top":
     default:
       destinations = [rootTree];

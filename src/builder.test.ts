@@ -26,13 +26,13 @@ describe("builder/builder module has a", () => {
       logger = spySandbox.spy();
       Builder.buildBarrels(
         directory.directories,
-        {
-          structure
-        },
         '"',
         "barrel.ts",
         logger,
-        undefined
+        undefined,
+        structure,
+        [],
+        []
       );
     };
     beforeEach(() => {
@@ -118,13 +118,13 @@ describe("builder/builder module has a", () => {
       logger = spySandbox.spy();
       Builder.buildBarrels(
         directory.directories,
-        {
-          structure: "flat"
-        },
         '"',
         "barrel.ts",
         logger,
-        undefined
+        undefined,
+        "flat",
+        [],
+        []
       );
     };
     beforeEach(() => {

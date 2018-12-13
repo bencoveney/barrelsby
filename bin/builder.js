@@ -10,9 +10,9 @@ const flat_1 = require("./builders/flat");
 const header_1 = require("./builders/header");
 const modules_1 = require("./modules");
 const utilities_1 = require("./utilities");
-function buildBarrels(destinations, options, quoteCharacter, barrelName, logger, baseUrl) {
+function buildBarrels(destinations, quoteCharacter, barrelName, logger, baseUrl, structure, include, exclude) {
     let builder;
-    switch (options.structure) {
+    switch (structure) {
         default:
         case "flat":
             builder = flat_1.buildFlatBarrel;
@@ -22,13 +22,13 @@ function buildBarrels(destinations, options, quoteCharacter, barrelName, logger,
             break;
     }
     // Build the barrels.
-    destinations.forEach((destination) => buildBarrel(destination, builder, options, quoteCharacter, barrelName, logger, baseUrl));
+    destinations.forEach((destination) => buildBarrel(destination, builder, quoteCharacter, barrelName, logger, baseUrl, include, exclude));
 }
 exports.buildBarrels = buildBarrels;
 // Build a barrel for the specified directory.
-function buildBarrel(directory, builder, options, quoteCharacter, barrelName, logger, baseUrl) {
+function buildBarrel(directory, builder, quoteCharacter, barrelName, logger, baseUrl, include, exclude) {
     logger(`Building barrel @ ${directory.path}`);
-    const content = builder(directory, modules_1.loadDirectoryModules(directory, options, logger), quoteCharacter, logger, baseUrl);
+    const content = builder(directory, modules_1.loadDirectoryModules(directory, logger, include, exclude), quoteCharacter, logger, baseUrl);
     const destination = path_1.default.join(directory.path, barrelName);
     if (content.length === 0) {
         // Skip empty barrels.

@@ -2,7 +2,7 @@ import { assert } from "chai";
 
 import * as Destinations from "./destinations";
 import { Logger } from "./options/logger";
-import { LocationOption, Options } from "./options/options";
+import { LocationOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory } from "./utilities";
 
@@ -10,7 +10,6 @@ describe("destinations module has a", () => {
   describe("getDestinations function that", () => {
     let directory: Directory;
     let destinations: Directory[];
-    let options: Options;
     const barrelName = "barrel.ts";
     const testMode = (
       mode: LocationOption,
@@ -21,12 +20,11 @@ describe("destinations module has a", () => {
         let logged: string[];
         let logger: Logger = () => void 0;
         beforeEach(() => {
-          options.location = mode;
           logged = [];
           logger = TestUtilities.mockLogger(logged);
           destinations = Destinations.getDestinations(
             directory,
-            options,
+            mode,
             barrelName,
             logger
           );
@@ -41,7 +39,6 @@ describe("destinations module has a", () => {
     };
     beforeEach(() => {
       directory = TestUtilities.mockDirectoryTree();
-      options = {};
     });
     testMode("top", () => [directory], ["Destinations:", "./directory1"]);
     testMode("below", () => directory.directories, [

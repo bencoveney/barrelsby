@@ -2,17 +2,16 @@ import fs from "fs";
 
 import { walkTree } from "./fileTree";
 import { Logger } from "./options/logger";
-import { Options } from "./options/options";
 import { Directory, Location } from "./utilities";
 
 export function purge(
   rootTree: Directory,
-  options: Options,
+  shouldPurge: boolean,
   barrelName: string,
   logger: Logger
 ) {
   // Delete any existing barrels.
-  if (options.delete) {
+  if (shouldPurge) {
     walkTree(rootTree, (directory: Directory) => {
       directory.files
         .filter((file: Location) => {

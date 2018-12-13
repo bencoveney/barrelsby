@@ -23,9 +23,14 @@ describe("main module", () => {
   it("should co-ordinate the main stages of the application", () => {
     const args: any = {
       baseUrl: "https://base-url.com",
+      delete: true,
       directory: "testRootPath",
+      exclude: ["directory4"],
+      include: ["directory2"],
+      location: "top",
       name: "inputBarrelName",
       singleQuotes: true,
+      structure: "flat",
       verbose: true
     };
 
@@ -73,26 +78,28 @@ describe("main module", () => {
     assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
     assert(resolveRootPathSpy.calledWithExactly(args.directory));
     assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
-    assert(
-      buildTreeSpy.calledOnceWithExactly(rootPath, args, barrelName, logger)
-    );
+    assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
     assert(
       getDestinationsSpy.calledOnceWithExactly(
         builtTree,
-        args,
+        args.location,
         barrelName,
         logger
       )
     );
-    assert(purgeSpy.calledOnceWithExactly(builtTree, args, barrelName, logger));
+    assert(
+      purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)
+    );
     assert(
       buildBarrelsSpy.calledOnceWithExactly(
         destinations,
-        args,
         quoteCharacter,
         barrelName,
         logger,
-        baseUrl
+        baseUrl,
+        args.structure,
+        args.include,
+        args.exclude
       )
     );
   });

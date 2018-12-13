@@ -14,20 +14,19 @@ const purge_1 = require("./purge");
 function main(args) {
     // Get the launch options/arguments.
     // TODO: These casts could be fixed if all the options weren't ?optional.
-    const options = args;
-    const logger = logger_1.getLogger(options.verbose);
-    const barrelName = barrelName_1.getBarrelName(options.name, logger);
-    const rootPath = rootPath_1.resolveRootPath(options.directory);
-    const baseUrl = baseUrl_1.getCombinedBaseUrl(rootPath, options.baseUrl);
+    const logger = logger_1.getLogger(args.verbose);
+    const barrelName = barrelName_1.getBarrelName(args.name, logger);
+    const rootPath = rootPath_1.resolveRootPath(args.directory);
+    const baseUrl = baseUrl_1.getCombinedBaseUrl(rootPath, args.baseUrl);
     // Build the directory tree.
-    const rootTree = fileTree_1.buildTree(rootPath, options, barrelName, logger);
+    const rootTree = fileTree_1.buildTree(rootPath, barrelName, logger);
     // Work out which directories should have barrels.
-    const destinations = destinations_1.getDestinations(rootTree, options, barrelName, logger);
+    const destinations = destinations_1.getDestinations(rootTree, args.location, barrelName, logger);
     // Potentially there are some existing barrels that need removing.
-    purge_1.purge(rootTree, options, barrelName, logger);
+    purge_1.purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
     // Create the barrels.
     const quoteCharacter = quoteCharacter_1.getQuoteCharacter(args.singleQuotes);
-    builder_1.buildBarrels(destinations, options, quoteCharacter, barrelName, logger, baseUrl);
+    builder_1.buildBarrels(destinations, quoteCharacter, barrelName, logger, baseUrl, args.structure, [].concat(args.include || []), [].concat(args.exclude || []));
 }
 module.exports = main;
 //# sourceMappingURL=index.js.map

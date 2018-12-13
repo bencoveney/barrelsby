@@ -12,8 +12,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const mock_fs_1 = __importDefault(require("mock-fs"));
-const TestUtilities = __importStar(require("./testUtilities"));
 const FileTree = __importStar(require("./fileTree"));
+const TestUtilities = __importStar(require("./testUtilities"));
 describe("fileTree module has a", () => {
     describe("buildTree function that", () => {
         let result;
@@ -23,7 +23,7 @@ describe("fileTree module has a", () => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
             logged = [];
             const logger = TestUtilities.mockLogger(logged);
-            result = FileTree.buildTree("./directory1", {}, barrelName, logger);
+            result = FileTree.buildTree("./directory1", barrelName, logger);
         });
         afterEach(() => {
             mock_fs_1.default.restore();

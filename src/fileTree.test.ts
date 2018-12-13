@@ -1,9 +1,8 @@
 import { assert } from "chai";
 import MockFs from "mock-fs";
 
-import * as TestUtilities from "./testUtilities";
-
 import * as FileTree from "./fileTree";
+import * as TestUtilities from "./testUtilities";
 import { Directory, Location } from "./utilities";
 
 describe("fileTree module has a", () => {
@@ -15,7 +14,7 @@ describe("fileTree module has a", () => {
       MockFs(TestUtilities.mockFsConfiguration());
       logged = [];
       const logger = TestUtilities.mockLogger(logged);
-      result = FileTree.buildTree("./directory1", {}, barrelName, logger);
+      result = FileTree.buildTree("./directory1", barrelName, logger);
     });
     afterEach(() => {
       MockFs.restore();
