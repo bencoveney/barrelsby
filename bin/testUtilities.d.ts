@@ -1,6 +1,7 @@
+import { Directory } from "./fileTree/directory";
+import { Location } from "./fileTree/location";
 import { Logger } from "./options/logger";
 import { QuoteCharacter } from "./options/quoteCharacter";
-import { Directory, Location } from "./utilities";
 export declare function mockFsConfiguration(): {
     "code.ts": string;
     directory1: {

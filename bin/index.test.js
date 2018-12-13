@@ -12,16 +12,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
 const sinon_1 = __importDefault(require("sinon"));
-const Builder = __importStar(require("./builder"));
-const Destinations = __importStar(require("./destinations"));
-const FileTree = __importStar(require("./fileTree"));
+const Builder = __importStar(require("./build/builder"));
+const Destinations = __importStar(require("./destinations/destinations"));
+const BuildTree = __importStar(require("./fileTree/buildTree"));
 const index_1 = __importDefault(require("./index"));
 const BarrelName = __importStar(require("./options/barrelName"));
 const BaseUrl = __importStar(require("./options/baseUrl"));
 const Logger = __importStar(require("./options/logger"));
 const QuoteCharacter = __importStar(require("./options/quoteCharacter"));
 const RootPath = __importStar(require("./options/rootPath"));
-const Purge = __importStar(require("./purge"));
+const Purge = __importStar(require("./purge/purge"));
 describe("main module", () => {
     let spySandbox;
     beforeEach(() => {
@@ -45,7 +45,7 @@ describe("main module", () => {
         };
         const builtTree = { mock: "built tree" };
         const buildTreeSpy = spySandbox
-            .stub(FileTree, "buildTree")
+            .stub(BuildTree, "buildTree")
             .returns(builtTree);
         const destinations = { mock: "destinations" };
         const getDestinationsSpy = spySandbox

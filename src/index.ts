@@ -1,16 +1,14 @@
-#! /usr/bin/env node
-
-import { buildBarrels } from "./builder";
-import { getDestinations } from "./destinations";
-import { buildTree } from "./fileTree";
+import { buildBarrels } from "./build/builder";
+import { getDestinations } from "./destinations/destinations";
+import { buildTree } from "./fileTree/buildTree";
+import { Directory } from "./fileTree/directory";
 import { getBarrelName } from "./options/barrelName";
 import { getCombinedBaseUrl } from "./options/baseUrl";
 import { getLogger } from "./options/logger";
 import { Arguments, LocationOption } from "./options/options";
 import { getQuoteCharacter } from "./options/quoteCharacter";
 import { resolveRootPath } from "./options/rootPath";
-import { purge } from "./purge";
-import { Directory } from "./utilities";
+import { purge } from "./purge/purge";
 
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.

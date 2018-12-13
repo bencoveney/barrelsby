@@ -1,9 +1,10 @@
 import { assert } from "chai";
 import { Configuration, Linter } from "tslint";
 
+import { Directory } from "./fileTree/directory";
+import { Location } from "./fileTree/location";
 import { Logger } from "./options/logger";
 import { QuoteCharacter } from "./options/quoteCharacter";
-import { Directory, Location } from "./utilities";
 
 export function mockFsConfiguration() {
   return {

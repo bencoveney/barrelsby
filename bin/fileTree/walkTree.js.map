@@ -1,0 +1,1 @@
+{"version":3,"file":"walkTree.js","sourceRoot":"","sources":["../../src/fileTree/walkTree.ts"],"names":[],"mappings":";;AAEA,iDAAiD;AACjD,SAAgB,QAAQ,CACtB,SAAoB,EACpB,QAAwC;IAExC,QAAQ,CAAC,SAAS,CAAC,CAAC;IACpB,SAAS,CAAC,WAAW,CAAC,OAAO,CAAC,cAAc,CAAC,EAAE,CAC7C,QAAQ,CAAC,cAAc,EAAE,QAAQ,CAAC,CACnC,CAAC;AACJ,CAAC;AARD,4BAQC"}

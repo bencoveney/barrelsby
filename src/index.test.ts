@@ -1,16 +1,16 @@
 import { assert } from "chai";
 import Sinon from "sinon";
 
-import * as Builder from "./builder";
-import * as Destinations from "./destinations";
-import * as FileTree from "./fileTree";
+import * as Builder from "./build/builder";
+import * as Destinations from "./destinations/destinations";
+import * as BuildTree from "./fileTree/buildTree";
 import Main from "./index";
 import * as BarrelName from "./options/barrelName";
 import * as BaseUrl from "./options/baseUrl";
 import * as Logger from "./options/logger";
 import * as QuoteCharacter from "./options/quoteCharacter";
 import * as RootPath from "./options/rootPath";
-import * as Purge from "./purge";
+import * as Purge from "./purge/purge";
 
 describe("main module", () => {
   let spySandbox: Sinon.SinonSandbox;
@@ -36,7 +36,7 @@ describe("main module", () => {
 
     const builtTree: any = { mock: "built tree" };
     const buildTreeSpy = spySandbox
-      .stub(FileTree, "buildTree")
+      .stub(BuildTree, "buildTree")
       .returns(builtTree);
 
     const destinations: any = { mock: "destinations" };
