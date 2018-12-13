@@ -18,5 +18,3 @@ export interface Arguments {
   version?: boolean;
   verbose?: boolean;
 }
-
-export type Options = Arguments;
