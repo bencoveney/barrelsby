@@ -87,15 +87,10 @@ function mockModules(rootDirectory) {
 }
 exports.mockModules = mockModules;
 // Gets a mock Options object.
-function mockOptions(loggerTarget) {
-    return {
-        barrelName: "barrel.ts",
-        logger: (message) => loggerTarget.push(message),
-        quoteCharacter: '"',
-        rootPath: "some/path"
-    };
+function mockLogger(loggerTarget) {
+    return (message) => loggerTarget.push(message);
 }
-exports.mockOptions = mockOptions;
+exports.mockLogger = mockLogger;
 // Multiline string assertion to give more useful output messages.
 function assertMultiLine(actual, expected) {
     const actualParts = actual.split("\n");
@@ -107,10 +102,10 @@ function assertMultiLine(actual, expected) {
 }
 exports.assertMultiLine = assertMultiLine;
 // Runs tslint against the specified file and checks there are no errors.
-function tslint(content, options) {
+function tslint(content, quoteCharacter) {
     const linter = new tslint_1.Linter({ fix: false, formatter: "json" });
     const configuration = tslint_1.Configuration.loadConfigurationFromPath("./tslint.json");
-    if (options.quoteCharacter === "'") {
+    if (quoteCharacter === "'") {
         configuration.rules.set("quotemark", {
             ruleArguments: ["single", "avoid-escape"]
         });

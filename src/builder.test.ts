@@ -8,7 +8,7 @@ import * as FileSystem from "./builders/fileSystem";
 import * as Flat from "./builders/flat";
 import * as Header from "./builders/header";
 import * as Modules from "./modules";
-import { StructureOption } from "./options";
+import { StructureOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory, Location } from "./utilities";
 
@@ -24,13 +24,16 @@ describe("builder/builder module has a", () => {
     let logger: Sinon.SinonSpy;
     const runBuilder = (structure: StructureOption | undefined) => {
       logger = spySandbox.spy();
-      Builder.buildBarrels(directory.directories, {
-        barrelName: "barrel.ts",
+      Builder.buildBarrels(
+        directory.directories,
+        '"',
+        "barrel.ts",
         logger,
-        quoteCharacter: '"',
-        rootPath: ".",
-        structure
-      });
+        undefined,
+        structure,
+        [],
+        []
+      );
     };
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
@@ -113,13 +116,16 @@ describe("builder/builder module has a", () => {
     let logger: Sinon.SinonSpy;
     const runBuilder = () => {
       logger = spySandbox.spy();
-      Builder.buildBarrels(directory.directories, {
-        barrelName: "barrel.ts",
+      Builder.buildBarrels(
+        directory.directories,
+        '"',
+        "barrel.ts",
         logger,
-        quoteCharacter: '"',
-        rootPath: ".",
-        structure: "flat"
-      });
+        undefined,
+        "flat",
+        [],
+        []
+      );
     };
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
@@ -148,11 +154,7 @@ describe("builder/builder module has a", () => {
     });
     it("should correctly build a path to a file in the same directory", () => {
       const target = getLocationByName(directory.files, "index.ts");
-      const result = Builder.buildImportPath(
-        directory,
-        target,
-        TestUtilities.mockOptions([])
-      );
+      const result = Builder.buildImportPath(directory, target, undefined);
       assert.equal(result, "./index");
     });
     it("should correctly build a path to a file in a child directory", () => {
@@ -161,11 +163,7 @@ describe("builder/builder module has a", () => {
         "directory2"
       ) as Directory;
       const target = getLocationByName(childDirectory.files, "script.ts");
-      const result = Builder.buildImportPath(
-        directory,
-        target,
-        TestUtilities.mockOptions([])
-      );
+      const result = Builder.buildImportPath(directory, target, undefined);
       assert.equal(result, "./directory2/script");
     });
   });

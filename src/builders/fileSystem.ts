@@ -1,7 +1,9 @@
 import path from "path";
 
 import { buildImportPath } from "../builder";
-import { Options } from "../options";
+import { BaseUrl } from "../options/baseUrl";
+import { Logger } from "../options/logger";
+import { QuoteCharacter } from "../options/quoteCharacter";
 import {
   Directory,
   indentation,
@@ -68,7 +70,9 @@ function compareImports(a: Import, b: Import): number {
 export function buildFileSystemBarrel(
   directory: Directory,
   modules: Location[],
-  options: Options
+  quoteCharacter: QuoteCharacter,
+  _: Logger, // Not used
+  baseUrl: BaseUrl
 ): string {
   const structure: ExportStructure = {};
   let content = "";
@@ -76,7 +80,7 @@ export function buildFileSystemBarrel(
     .map(
       (module: Location): Import => ({
         module,
-        path: buildImportPath(directory, module, options)
+        path: buildImportPath(directory, module, baseUrl)
       })
     )
     .sort(compareImports)
@@ -89,9 +93,9 @@ export function buildFileSystemBarrel(
         const directoryPath = path.dirname(relativePath);
         const parts = directoryPath.split(path.sep);
         const alias = relativePath.replace(nonAlphaNumeric, "");
-        content += `import * as ${alias} from ${options.quoteCharacter}${
+        content += `import * as ${alias} from ${quoteCharacter}${
           imported.path
-        }${options.quoteCharacter};
+        }${quoteCharacter};
 `;
         const fileName = path.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);

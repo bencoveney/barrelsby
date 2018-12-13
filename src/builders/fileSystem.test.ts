@@ -1,6 +1,3 @@
-import path from "path";
-
-import { Options } from "../options";
 import * as TestUtilities from "../testUtilities";
 import * as FileSystem from "./fileSystem";
 
@@ -8,18 +5,15 @@ describe("builder/fileSystem module has a", () => {
   describe("buildFileSystemBarrel function that", () => {
     describe("when using double quotes", () => {
       let output: string;
-      const options: Options = {
-        barrelName: "index.ts",
-        logger: () => void 0,
-        quoteCharacter: '"',
-        rootPath: path.resolve("./")
-      };
+      const logger = () => void 0;
       beforeEach(() => {
         const rootDirectory = TestUtilities.mockDirectoryTree();
         output = FileSystem.buildFileSystemBarrel(
           rootDirectory,
           TestUtilities.mockModules(rootDirectory),
-          options
+          '"',
+          logger,
+          undefined
         );
       });
       it("should produce the correct output", () => {
@@ -45,25 +39,22 @@ export {indexts as index};
         );
       });
       it("should produce output compatible with the recommended tslint ruleset", () => {
-        TestUtilities.tslint(output, options);
+        TestUtilities.tslint(output, '"');
       });
     });
   });
 
   describe("when using single quotes", () => {
     let output: string;
-    const options: Options = {
-      barrelName: "index.ts",
-      logger: () => void 0,
-      quoteCharacter: "'",
-      rootPath: path.resolve("./")
-    };
+    const logger = () => void 0;
     beforeEach(() => {
       const rootDirectory = TestUtilities.mockDirectoryTree();
       output = FileSystem.buildFileSystemBarrel(
         rootDirectory,
         TestUtilities.mockModules(rootDirectory),
-        options
+        "'",
+        logger,
+        undefined
       );
     });
     it("should produce the correct output", () => {
@@ -89,7 +80,7 @@ export {indexts as index};
       );
     });
     it("should produce output compatible with the recommended tslint ruleset", () => {
-      TestUtilities.tslint(output, options);
+      TestUtilities.tslint(output, "'");
     });
   });
 });

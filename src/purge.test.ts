@@ -2,7 +2,7 @@ import { assert } from "chai";
 import fs from "fs";
 import MockFs from "mock-fs";
 
-import { Options } from "./options";
+import { Logger } from "./options/logger";
 import * as Purge from "./purge";
 import * as TestUtilities from "./testUtilities";
 import { Directory } from "./utilities";
@@ -10,20 +10,20 @@ import { Directory } from "./utilities";
 describe("purge module has a", () => {
   describe("purge function that", () => {
     let directory: Directory;
-    let options: Options;
     let logged: string[];
+    let logger: Logger;
+    const barrelName = "barrel.ts";
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
       directory = TestUtilities.mockDirectoryTree();
       logged = [];
-      options = TestUtilities.mockOptions(logged);
+      logger = TestUtilities.mockLogger(logged);
     });
     afterEach(() => {
       MockFs.restore();
     });
     it("should delete existing barrels if the delete flag is enabled", () => {
-      options.delete = true;
-      Purge.purge(directory, options);
+      Purge.purge(directory, true, barrelName, logger);
 
       // Check directory has been manipulated.
       assert.lengthOf(directory.files, 2);
@@ -36,8 +36,7 @@ describe("purge module has a", () => {
       assert.isNotOk(fs.existsSync("directory1/barrel.ts"));
     });
     it("should do nothing if the delete flag is disabled", () => {
-      options.delete = false;
-      Purge.purge(directory, options);
+      Purge.purge(directory, false, barrelName, logger);
 
       // Check directory has not been manipulated.
       assert.lengthOf(directory.files, 3);
@@ -50,8 +49,7 @@ describe("purge module has a", () => {
       assert.isOk(fs.existsSync("directory1/barrel.ts"));
     });
     it("should log useful information to the logger", () => {
-      options.delete = true;
-      Purge.purge(directory, options);
+      Purge.purge(directory, true, barrelName, logger);
 
       assert.sameMembers(logged, [
         "Deleting existing barrel @ directory1/barrel.ts"

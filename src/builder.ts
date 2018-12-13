@@ -1,7 +1,14 @@
 import fs from "fs";
 import path from "path";
 
-import { Options } from "./options";
+import { buildFileSystemBarrel } from "./builders/fileSystem";
+import { buildFlatBarrel } from "./builders/flat";
+import { addHeaderPrefix } from "./builders/header";
+import { loadDirectoryModules } from "./modules";
+import { BaseUrl } from "./options/baseUrl";
+import { Logger } from "./options/logger";
+import { StructureOption } from "./options/options";
+import { QuoteCharacter } from "./options/quoteCharacter";
 import {
   convertPathSeparator,
   Directory,
@@ -9,17 +16,18 @@ import {
   thisDirectory
 } from "./utilities";
 
-import { buildFileSystemBarrel } from "./builders/fileSystem";
-import { buildFlatBarrel } from "./builders/flat";
-import { addHeaderPrefix } from "./builders/header";
-import { loadDirectoryModules } from "./modules";
-
 export function buildBarrels(
   destinations: Directory[],
-  options: Options
+  quoteCharacter: QuoteCharacter,
+  barrelName: string,
+  logger: Logger,
+  baseUrl: BaseUrl,
+  structure: StructureOption | undefined,
+  include: string[],
+  exclude: string[]
 ): void {
   let builder: BarrelBuilder;
-  switch (options.structure) {
+  switch (structure) {
     default:
     case "flat":
       builder = buildFlatBarrel;
@@ -30,7 +38,16 @@ export function buildBarrels(
   }
   // Build the barrels.
   destinations.forEach((destination: Directory) =>
-    buildBarrel(destination, builder, options)
+    buildBarrel(
+      destination,
+      builder,
+      quoteCharacter,
+      barrelName,
+      logger,
+      baseUrl,
+      include,
+      exclude
+    )
   );
 }
 
@@ -38,15 +55,22 @@ export function buildBarrels(
 function buildBarrel(
   directory: Directory,
   builder: BarrelBuilder,
-  options: Options
+  quoteCharacter: QuoteCharacter,
+  barrelName: string,
+  logger: Logger,
+  baseUrl: BaseUrl,
+  include: string[],
+  exclude: string[]
 ) {
-  options.logger(`Building barrel @ ${directory.path}`);
+  logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
-    loadDirectoryModules(directory, options),
-    options
+    loadDirectoryModules(directory, logger, include, exclude),
+    quoteCharacter,
+    logger,
+    baseUrl
   );
-  const destination = path.join(directory.path, options.barrelName);
+  const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
     // Skip empty barrels.
     return;
@@ -55,15 +79,13 @@ function buildBarrel(
   const contentWithHeader = addHeaderPrefix(content);
   fs.writeFileSync(destination, contentWithHeader);
   // Update the file tree model with the new barrel.
-  if (
-    !directory.files.some((file: Location) => file.name === options.barrelName)
-  ) {
+  if (!directory.files.some((file: Location) => file.name === barrelName)) {
     const convertedPath = convertPathSeparator(destination);
     const barrel = {
-      name: options.barrelName,
+      name: barrelName,
       path: convertedPath
     };
-    options.logger(`Updating model barrel @ ${convertedPath}`);
+    logger(`Updating model barrel @ ${convertedPath}`);
     directory.files.push(barrel);
     directory.barrel = barrel;
   }
@@ -72,19 +94,19 @@ function buildBarrel(
 export type BarrelBuilder = (
   directory: Directory,
   modules: Location[],
-  options: Options
+  quoteCharacter: QuoteCharacter,
+  logger: Logger,
+  baseUrl: BaseUrl
 ) => string;
 
 /** Builds the TypeScript */
 export function buildImportPath(
   directory: Directory,
   target: Location,
-  options: Options
+  baseUrl: BaseUrl
 ): string {
   // If the base URL option is set then imports should be relative to there.
-  const startLocation = options.combinedBaseUrl
-    ? options.combinedBaseUrl
-    : directory.path;
+  const startLocation = baseUrl ? baseUrl : directory.path;
   const relativePath = path.relative(startLocation, target.path);
   // Get the route and ensure it's relative
   let directoryPath = path.dirname(relativePath);
@@ -96,13 +118,11 @@ export function buildImportPath(
   // Build the final path string. Use posix-style seperators.
   const location = `${directoryPath}${path.sep}${fileName}`;
   const convertedLocation = convertPathSeparator(location);
-  return stripThisDirectory(convertedLocation, options);
+  return stripThisDirectory(convertedLocation, baseUrl);
 }
 
-function stripThisDirectory(location: string, options: Options) {
-  return options.combinedBaseUrl
-    ? location.replace(thisDirectory, "")
-    : location;
+function stripThisDirectory(location: string, baseUrl: BaseUrl) {
+  return baseUrl ? location.replace(thisDirectory, "") : location;
 }
 
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */

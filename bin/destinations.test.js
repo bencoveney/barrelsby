@@ -14,13 +14,15 @@ describe("destinations module has a", () => {
     describe("getDestinations function that", () => {
         let directory;
         let destinations;
-        let options;
-        let logged;
+        const barrelName = "barrel.ts";
         const testMode = (mode, getExpectedDestinations, expectedLogs) => {
             describe(`when in '${mode}' mode`, () => {
+                let logged;
+                let logger = () => void 0;
                 beforeEach(() => {
-                    options.location = mode;
-                    destinations = Destinations.getDestinations(directory, options);
+                    logged = [];
+                    logger = TestUtilities.mockLogger(logged);
+                    destinations = Destinations.getDestinations(directory, mode, barrelName, logger);
                 });
                 it("should select the correct destinations", () => {
                     chai_1.assert.deepEqual(destinations, getExpectedDestinations());
@@ -32,8 +34,6 @@ describe("destinations module has a", () => {
         };
         beforeEach(() => {
             directory = TestUtilities.mockDirectoryTree();
-            logged = [];
-            options = TestUtilities.mockOptions(logged);
         });
         testMode("top", () => [directory], ["Destinations:", "./directory1"]);
         testMode("below", () => directory.directories, [

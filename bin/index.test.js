@@ -16,7 +16,11 @@ const Builder = __importStar(require("./builder"));
 const Destinations = __importStar(require("./destinations"));
 const FileTree = __importStar(require("./fileTree"));
 const index_1 = __importDefault(require("./index"));
-const Options = __importStar(require("./options"));
+const BarrelName = __importStar(require("./options/barrelName"));
+const BaseUrl = __importStar(require("./options/baseUrl"));
+const Logger = __importStar(require("./options/logger"));
+const QuoteCharacter = __importStar(require("./options/quoteCharacter"));
+const RootPath = __importStar(require("./options/rootPath"));
 const Purge = __importStar(require("./purge"));
 describe("main module", () => {
     let spySandbox;
@@ -27,13 +31,18 @@ describe("main module", () => {
         spySandbox.restore();
     });
     it("should co-ordinate the main stages of the application", () => {
-        const processedOptions = {
-            mock: "processedOptions",
-            rootPath: "testRootPath"
+        const args = {
+            baseUrl: "https://base-url.com",
+            delete: true,
+            directory: "testRootPath",
+            exclude: ["directory4"],
+            include: ["directory2"],
+            location: "top",
+            name: "inputBarrelName",
+            singleQuotes: true,
+            structure: "flat",
+            verbose: true
         };
-        const getOptionsSpy = spySandbox
-            .stub(Options, "getOptions")
-            .returns(processedOptions);
         const builtTree = { mock: "built tree" };
         const buildTreeSpy = spySandbox
             .stub(FileTree, "buildTree")
@@ -44,13 +53,34 @@ describe("main module", () => {
             .returns(destinations);
         const purgeSpy = spySandbox.stub(Purge, "purge");
         const buildBarrelsSpy = spySandbox.stub(Builder, "buildBarrels");
-        const options = { mock: "Options" };
-        index_1.default(options);
-        chai_1.assert(getOptionsSpy.calledOnceWithExactly(options));
-        chai_1.assert(buildTreeSpy.calledOnceWithExactly("testRootPath", processedOptions));
-        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, processedOptions));
-        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, processedOptions));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, processedOptions));
+        const quoteCharacter = "'";
+        const getQuoteCharacterSpy = spySandbox
+            .stub(QuoteCharacter, "getQuoteCharacter")
+            .returns(quoteCharacter);
+        const logger = spySandbox.spy();
+        const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(logger);
+        const barrelName = "barrel.ts";
+        const getBarrelNameSpy = spySandbox
+            .stub(BarrelName, "getBarrelName")
+            .returns(barrelName);
+        const rootPath = "./directory";
+        const resolveRootPathSpy = spySandbox
+            .stub(RootPath, "resolveRootPath")
+            .returns(rootPath);
+        const baseUrl = "https://base-url.com/src/directory";
+        const getCombinedBaseUrlSpy = spySandbox
+            .stub(BaseUrl, "getCombinedBaseUrl")
+            .returns(baseUrl);
+        index_1.default(args);
+        chai_1.assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
+        chai_1.assert(getLoggerSpy.calledOnceWithExactly(true));
+        chai_1.assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
+        chai_1.assert(resolveRootPathSpy.calledWithExactly(args.directory));
+        chai_1.assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
+        chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
+        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
+        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
+        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, barrelName, logger, baseUrl, args.structure, args.include, args.exclude));
     });
 });
 //# sourceMappingURL=index.test.js.map
