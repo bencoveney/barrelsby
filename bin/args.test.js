@@ -24,7 +24,7 @@ describe("args module", () => {
             "barrel",
             "--structure",
             "filesystem",
-            "--verbose",
+            "--verbose"
         ]);
         chai_1.assert.isUndefined(args.config);
         chai_1.assert.equal(args.delete, true);

@@ -1,14 +1,16 @@
 import Yargs from "yargs";
 
 export function getArgs(): Yargs.Argv {
-  return Yargs
-    .usage("Usage: barrelsby [options]")
+  return Yargs.usage("Usage: barrelsby [options]")
     .example("barrelsby", "Run barrelsby")
 
     .string("b")
     .alias("b", "baseUrl")
     .nargs("d", 1)
-    .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
+    .describe(
+      "b",
+      "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl)."
+    )
 
     .config("c")
     .alias("c", "config")
@@ -27,7 +29,10 @@ export function getArgs(): Yargs.Argv {
 
     .array("e")
     .alias("e", "exclude")
-    .describe("e", "Excludes any files whose paths match any of the regular expressions.")
+    .describe(
+      "e",
+      "Excludes any files whose paths match any of the regular expressions."
+    )
 
     .help("h")
     .alias("h", "help")
@@ -35,7 +40,10 @@ export function getArgs(): Yargs.Argv {
 
     .array("i")
     .alias("i", "include")
-    .describe("i", "Only include files whose paths match any of the regular expressions.")
+    .describe(
+      "i",
+      "Only include files whose paths match any of the regular expressions."
+    )
 
     .string("l")
     .alias("l", "location")
@@ -56,7 +64,10 @@ export function getArgs(): Yargs.Argv {
 
     .boolean("q")
     .alias("q", "singleQuotes")
-    .describe("q", "Use single quotes for paths instead of the default double quotes")
+    .describe(
+      "q",
+      "Use single quotes for paths instead of the default double quotes"
+    )
     .default("q", false)
 
     .version()

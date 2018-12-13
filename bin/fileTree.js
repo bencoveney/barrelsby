@@ -7,29 +7,29 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const utilities_1 = require("./utilities");
 /** Build directory information recursively. */
-function buildTree(directory, options) {
-    options.logger(`Building directory tree for ${utilities_1.convertPathSeparator(directory)}`);
+function buildTree(directory, barrelName, logger) {
+    logger(`Building directory tree for ${utilities_1.convertPathSeparator(directory)}`);
     const names = fs_1.default.readdirSync(directory);
     const result = {
         directories: [],
         files: [],
         name: path_1.default.basename(directory),
-        path: utilities_1.convertPathSeparator(directory),
+        path: utilities_1.convertPathSeparator(directory)
     };
     names.forEach((name) => {
         const fullPath = path_1.default.join(directory, name);
         if (fs_1.default.statSync(fullPath).isDirectory()) {
-            result.directories.push(buildTree(fullPath, options));
+            result.directories.push(buildTree(fullPath, barrelName, logger));
         }
         else {
             const convertedPath = utilities_1.convertPathSeparator(fullPath);
             const file = {
                 name,
-                path: convertedPath,
+                path: convertedPath
             };
             result.files.push(file);
-            if (file.name === options.barrelName) {
-                options.logger(`Found existing barrel @ ${convertedPath}`);
+            if (file.name === barrelName) {
+                logger(`Found existing barrel @ ${convertedPath}`);
                 result.barrel = file;
             }
         }
@@ -40,7 +40,7 @@ exports.buildTree = buildTree;
 /** Walk an entire directory tree recursively. */
 function walkTree(directory, callback) {
     callback(directory);
-    directory.directories.forEach((childDirectory) => walkTree(childDirectory, callback));
+    directory.directories.forEach(childDirectory => walkTree(childDirectory, callback));
 }
 exports.walkTree = walkTree;
 //# sourceMappingURL=fileTree.js.map

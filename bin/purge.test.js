@@ -18,39 +18,39 @@ const TestUtilities = __importStar(require("./testUtilities"));
 describe("purge module has a", () => {
     describe("purge function that", () => {
         let directory;
-        let options;
         let logged;
+        let logger;
+        const barrelName = "barrel.ts";
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
             directory = TestUtilities.mockDirectoryTree();
             logged = [];
-            options = TestUtilities.mockOptions(logged);
+            logger = TestUtilities.mockLogger(logged);
         });
         afterEach(() => {
             mock_fs_1.default.restore();
         });
         it("should delete existing barrels if the delete flag is enabled", () => {
-            options.delete = true;
-            Purge.purge(directory, options);
+            Purge.purge(directory, true, barrelName, logger);
             // Check directory has been manipulated.
             chai_1.assert.lengthOf(directory.files, 2);
-            chai_1.assert.lengthOf(directory.files.filter((file) => file.name === "barrel.ts"), 0);
+            chai_1.assert.lengthOf(directory.files.filter(file => file.name === "barrel.ts"), 0);
             // Check FS has been manipulated.
             chai_1.assert.isNotOk(fs_1.default.existsSync("directory1/barrel.ts"));
         });
         it("should do nothing if the delete flag is disabled", () => {
-            options.delete = false;
-            Purge.purge(directory, options);
+            Purge.purge(directory, false, barrelName, logger);
             // Check directory has not been manipulated.
             chai_1.assert.lengthOf(directory.files, 3);
-            chai_1.assert.lengthOf(directory.files.filter((file) => file.name === "barrel.ts"), 1);
+            chai_1.assert.lengthOf(directory.files.filter(file => file.name === "barrel.ts"), 1);
             // Check FS has not been manipulated.
             chai_1.assert.isOk(fs_1.default.existsSync("directory1/barrel.ts"));
         });
         it("should log useful information to the logger", () => {
-            options.delete = true;
-            Purge.purge(directory, options);
-            chai_1.assert.sameMembers(logged, ["Deleting existing barrel @ directory1/barrel.ts"]);
+            Purge.purge(directory, true, barrelName, logger);
+            chai_1.assert.sameMembers(logged, [
+                "Deleting existing barrel @ directory1/barrel.ts"
+            ]);
         });
     });
 });

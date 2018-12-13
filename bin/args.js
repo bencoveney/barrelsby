@@ -5,8 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const yargs_1 = __importDefault(require("yargs"));
 function getArgs() {
-    return yargs_1.default
-        .usage("Usage: barrelsby [options]")
+    return yargs_1.default.usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
         .string("b")
         .alias("b", "baseUrl")

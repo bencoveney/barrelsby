@@ -1,31 +1,25 @@
-import path from "path";
-
-import {Options} from "../options";
 import * as TestUtilities from "../testUtilities";
 import * as FileSystem from "./fileSystem";
 
 describe("builder/fileSystem module has a", () => {
-    describe("buildFileSystemBarrel function that", () => {
-        describe("when using double quotes", () => {
-            let output: string;
-            const options: Options = {
-                barrelName: "index.ts",
-                logger: () => void 0,
-                quoteCharacter: "\"",
-                rootPath: path.resolve("./"),
-            };
-            beforeEach(() => {
-                const rootDirectory = TestUtilities.mockDirectoryTree();
-                output = FileSystem.buildFileSystemBarrel(
-                    rootDirectory,
-                    TestUtilities.mockModules(rootDirectory),
-                    options,
-                );
-            });
-            it("should produce the correct output", () => {
-                TestUtilities.assertMultiLine(
-                    output,
-                    `import * as barrelts from "./barrel";
+  describe("buildFileSystemBarrel function that", () => {
+    describe("when using double quotes", () => {
+      let output: string;
+      const logger = () => void 0;
+      beforeEach(() => {
+        const rootDirectory = TestUtilities.mockDirectoryTree();
+        output = FileSystem.buildFileSystemBarrel(
+          rootDirectory,
+          TestUtilities.mockModules(rootDirectory),
+          '"',
+          logger,
+          undefined
+        );
+      });
+      it("should produce the correct output", () => {
+        TestUtilities.assertMultiLine(
+          output,
+          `import * as barrelts from "./barrel";
 import * as directory2directory4deeplyNestedts from "./directory2/directory4/deeplyNested";
 import * as directory2scriptts from "./directory2/script";
 import * as directory3programts from "./directory3/program";
@@ -41,34 +35,32 @@ export const directory3 = {
   program: directory3programts,
 };
 export {indexts as index};
-`);
-            });
-            it("should produce output compatible with the recommended tslint ruleset", () => {
-                TestUtilities.tslint(output, options);
-            });
-        });
+`
+        );
+      });
+      it("should produce output compatible with the recommended tslint ruleset", () => {
+        TestUtilities.tslint(output, '"');
+      });
     });
+  });
 
-    describe("when using single quotes", () => {
-        let output: string;
-        const options: Options = {
-            barrelName: "index.ts",
-            logger: () => void 0,
-            quoteCharacter: "'",
-            rootPath: path.resolve("./"),
-        };
-        beforeEach(() => {
-            const rootDirectory = TestUtilities.mockDirectoryTree();
-            output = FileSystem.buildFileSystemBarrel(
-                rootDirectory,
-                TestUtilities.mockModules(rootDirectory),
-                options,
-            );
-        });
-        it("should produce the correct output", () => {
-            TestUtilities.assertMultiLine(
-                output,
-                `import * as barrelts from './barrel';
+  describe("when using single quotes", () => {
+    let output: string;
+    const logger = () => void 0;
+    beforeEach(() => {
+      const rootDirectory = TestUtilities.mockDirectoryTree();
+      output = FileSystem.buildFileSystemBarrel(
+        rootDirectory,
+        TestUtilities.mockModules(rootDirectory),
+        "'",
+        logger,
+        undefined
+      );
+    });
+    it("should produce the correct output", () => {
+      TestUtilities.assertMultiLine(
+        output,
+        `import * as barrelts from './barrel';
 import * as directory2directory4deeplyNestedts from './directory2/directory4/deeplyNested';
 import * as directory2scriptts from './directory2/script';
 import * as directory3programts from './directory3/program';
@@ -84,10 +76,11 @@ export const directory3 = {
   program: directory3programts,
 };
 export {indexts as index};
-`);
-        });
-        it("should produce output compatible with the recommended tslint ruleset", () => {
-            TestUtilities.tslint(output, options);
-        });
+`
+      );
     });
+    it("should produce output compatible with the recommended tslint ruleset", () => {
+      TestUtilities.tslint(output, "'");
+    });
+  });
 });

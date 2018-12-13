@@ -1,16 +1,17 @@
-import { Options } from "./options";
+import { Logger } from "./options/logger";
+import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
 export declare function mockFsConfiguration(): {
     "code.ts": string;
-    "directory1": {
+    directory1: {
         "barrel.ts": string;
-        "directory2": {
-            "directory4": {
+        directory2: {
+            directory4: {
                 "deeplyNested.ts": string;
             };
             "script.ts": string;
         };
-        "directory3": {
+        directory3: {
             "program.ts": string;
         };
         "ignore.txt": string;
@@ -19,6 +20,6 @@ export declare function mockFsConfiguration(): {
 };
 export declare function mockDirectoryTree(): Directory;
 export declare function mockModules(rootDirectory: Directory): Location[];
-export declare function mockOptions(loggerTarget: string[]): Options;
+export declare function mockLogger(loggerTarget: string[]): Logger;
 export declare function assertMultiLine(actual: string, expected: string): void;
-export declare function tslint(content: string, options: Options): void;
+export declare function tslint(content: string, quoteCharacter: QuoteCharacter): void;

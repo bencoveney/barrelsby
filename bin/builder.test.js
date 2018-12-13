@@ -22,7 +22,7 @@ const Modules = __importStar(require("./modules"));
 const TestUtilities = __importStar(require("./testUtilities"));
 // Gets a location from a list by name.
 function getLocationByName(locations, name) {
-    return locations.filter((location) => location.name === name)[0];
+    return locations.filter(location => location.name === name)[0];
 }
 describe("builder/builder module has a", () => {
     describe("buildBarrels function that", () => {
@@ -31,22 +31,20 @@ describe("builder/builder module has a", () => {
         let logger;
         const runBuilder = (structure) => {
             logger = spySandbox.spy();
-            Builder.buildBarrels(directory.directories, {
-                barrelName: "barrel.ts",
-                logger,
-                quoteCharacter: "\"",
-                rootPath: ".",
-                structure,
-            });
+            Builder.buildBarrels(directory.directories, '"', "barrel.ts", logger, undefined, structure, [], []);
         };
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
             directory = TestUtilities.mockDirectoryTree();
             spySandbox = sinon_1.default.createSandbox();
-            spySandbox.stub(FileSystem, "buildFileSystemBarrel").returns("fileSystemContent");
+            spySandbox
+                .stub(FileSystem, "buildFileSystemBarrel")
+                .returns("fileSystemContent");
             spySandbox.stub(Flat, "buildFlatBarrel").returns("flatContent");
             spySandbox.stub(Modules, "loadDirectoryModules").returns([]);
-            spySandbox.stub(Header, "addHeaderPrefix").callsFake((content) => `header: ${content}`);
+            spySandbox
+                .stub(Header, "addHeaderPrefix")
+                .callsFake((content) => `header: ${content}`);
         });
         afterEach(() => {
             mock_fs_1.default.restore();
@@ -96,7 +94,7 @@ describe("builder/builder module has a", () => {
                 "Building barrel @ directory1/directory2",
                 "Updating model barrel @ directory1/directory2/barrel.ts",
                 "Building barrel @ directory1/directory3",
-                "Updating model barrel @ directory1/directory3/barrel.ts",
+                "Updating model barrel @ directory1/directory3/barrel.ts"
             ];
             chai_1.assert.equal(logger.callCount, messages.length);
             messages.forEach((message, barrel) => {
@@ -110,13 +108,7 @@ describe("builder/builder module has a", () => {
         let logger;
         const runBuilder = () => {
             logger = spySandbox.spy();
-            Builder.buildBarrels(directory.directories, {
-                barrelName: "barrel.ts",
-                logger,
-                quoteCharacter: "\"",
-                rootPath: ".",
-                structure: "flat",
-            });
+            Builder.buildBarrels(directory.directories, '"', "barrel.ts", logger, undefined, "flat", [], []);
         };
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
@@ -145,13 +137,13 @@ describe("builder/builder module has a", () => {
         });
         it("should correctly build a path to a file in the same directory", () => {
             const target = getLocationByName(directory.files, "index.ts");
-            const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions([]));
+            const result = Builder.buildImportPath(directory, target, undefined);
             chai_1.assert.equal(result, "./index");
         });
         it("should correctly build a path to a file in a child directory", () => {
             const childDirectory = getLocationByName(directory.directories, "directory2");
             const target = getLocationByName(childDirectory.files, "script.ts");
-            const result = Builder.buildImportPath(directory, target, TestUtilities.mockOptions([]));
+            const result = Builder.buildImportPath(directory, target, undefined);
             chai_1.assert.equal(result, "./directory2/script");
         });
     });

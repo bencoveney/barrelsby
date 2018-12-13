@@ -5,14 +5,15 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf bin/ && rimraf specs/*/output/**",
-    "build-typescript": "tsc",
+    "typescript-build": "tsc",
+    "typescript-format": "prettier --write \"src/**/*.ts\"",
+    "typescript-lint": "tslint --project tsconfig.json -t stylish",
     "unit-test_run": "istanbul cover --report json --root \"./bin\" -x \"**/*.test.js\" node_modules/mocha/bin/_mocha \"bin/**/*.test.js\"",
     "unit-test_remap-coverage": "remap-istanbul -i coverage/coverage-final.json -t json -o coverage/coverage-final.json && rimraf coverage/coverage.json",
     "unit-test_html_coverage": "istanbul report html",
     "integration-test_tsc": "tsc --project test/",
     "integration-test_run": "node test/src.js",
-    "lint-typescript": "tslint --project tsconfig.json -t stylish",
-    "test": "run-s clean build-typescript unit-test_run unit-test_remap-coverage unit-test_html_coverage integration-test_tsc integration-test_run lint-typescript"
+    "test": "run-s clean typescript-format typescript-build unit-test_run unit-test_remap-coverage unit-test_html_coverage integration-test_tsc integration-test_run typescript-lint"
   },
   "repository": {
     "type": "git",
@@ -40,7 +41,7 @@
     "@types/mocha": "^5.2.5",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^10.12.10",
-    "@types/sinon": "^5.0.7",
+    "@types/sinon": "^7.0.0",
     "@types/sinon-chai": "^3.2.1",
     "chai": "^4.2.0",
     "dir-compare": "^1.4.0",
@@ -49,11 +50,13 @@
     "mocha": "^5.2.0",
     "mock-fs": "^4.7.0",
     "npm-run-all": "^4.1.4",
+    "prettier": "^1.15.3",
     "remap-istanbul": "^0.12.0",
     "rimraf": "^2.6.2",
     "sinon": "^7.1.1",
     "sinon-chai": "^3.2.0",
     "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
     "typescript": "^3.1.6"
   },
   "bin": {
