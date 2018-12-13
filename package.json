@@ -41,7 +41,7 @@
     "@types/mocha": "^5.2.5",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^10.12.10",
-    "@types/sinon": "^5.0.7",
+    "@types/sinon": "^7.0.0",
     "@types/sinon-chai": "^3.2.1",
     "chai": "^4.2.0",
     "dir-compare": "^1.4.0",
