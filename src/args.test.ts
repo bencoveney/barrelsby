@@ -28,8 +28,8 @@ describe("args module", () => {
     assert.isUndefined(args.config);
     assert.equal(args.delete, true);
     assert.equal(args.directory, "./test");
-    assert.sameMembers(args.include, ["a.ts$"]);
-    assert.sameMembers(args.exclude, ["zeta.ts$"]);
+    assert.sameMembers(args.include as string[], ["a.ts$"]);
+    assert.sameMembers(args.exclude as string[], ["zeta.ts$"]);
     assert.equal(args.location, "top");
     assert.equal(args.name, "barrel");
     assert.equal(args.structure, "filesystem");
