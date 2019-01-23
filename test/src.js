@@ -14,9 +14,9 @@ const args_1 = require("../bin/args");
 args_1.getArgs();
 const location = path_1.join(__dirname, "./");
 Promise.all(fs_1.readdirSync(location)
-    .map((name) => path_1.join(location, name))
-    .filter((path) => fs_1.lstatSync(path).isDirectory())
-    .map((directory) => {
+    .map(name => path_1.join(location, name))
+    .filter(path => fs_1.lstatSync(path).isDirectory())
+    .map(directory => {
     const args = yargs_1.default.parse(["--config", path_1.join(directory, "barrelsby.json")]);
     args.directory = path_1.join(directory, args.directory);
     return fs_extra_1.copy(path_1.join(directory, "input"), path_1.join(directory, "output")).then(() => {
@@ -24,12 +24,14 @@ Promise.all(fs_1.readdirSync(location)
         console.log(`Running integration test in directory ${directory}`);
         const comparison = dir_compare_1.default.compareSync(path_1.join(directory, "output"), path_1.join(directory, "expected"));
         if (comparison.differences && comparison.diffSet) {
-            comparison.diffSet.filter((diff) => diff.state !== "equal").map((diff) => {
+            comparison.diffSet
+                .filter(diff => diff.state !== "equal")
+                .map(diff => {
                 const state = {
                     distinct: "<>",
                     equal: "==",
                     left: "->",
-                    right: "<-",
+                    right: "<-"
                 }[diff.state];
                 const name1 = diff.name1 ? diff.name1 : "";
                 const name2 = diff.name2 ? diff.name2 : "";
@@ -45,4 +47,4 @@ Promise.all(fs_1.readdirSync(location)
         console.log();
         return comparison.differences;
     });
-})).then((differences) => process.exit(differences.filter((differenceCount) => differenceCount > 0).length));
+})).then(differences => process.exit(differences.filter(differenceCount => differenceCount > 0).length));
