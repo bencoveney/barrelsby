@@ -70,6 +70,14 @@ export function getArgs(): Yargs.Argv {
     )
     .default("q", false)
 
+    .boolean("S")
+    .alias("S", "noSemicolon")
+    .describe(
+      "S",
+      "Omit semicolons from the end of lines in the generated barrel files."
+    )
+    .default("S", false)
+
     .version()
     .alias("v", "version")
     .default("v", false)

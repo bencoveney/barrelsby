@@ -6,6 +6,7 @@ import { buildTree } from "./fileTree";
 import { getBarrelName } from "./options/barrelName";
 import { getCombinedBaseUrl } from "./options/baseUrl";
 import { getLogger } from "./options/logger";
+import { getSemicolonCharacter } from "./options/noSemicolon";
 import { Arguments, LocationOption } from "./options/options";
 import { getQuoteCharacter } from "./options/quoteCharacter";
 import { resolveRootPath } from "./options/rootPath";
@@ -38,9 +39,11 @@ function main(args: Arguments) {
 
   // Create the barrels.
   const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
+  const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
   buildBarrels(
     destinations,
     quoteCharacter,
+    semicolonCharacter,
     barrelName,
     logger,
     baseUrl,

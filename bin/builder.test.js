@@ -31,7 +31,7 @@ describe("builder/builder module has a", () => {
         let logger;
         const runBuilder = (structure) => {
             logger = spySandbox.spy();
-            Builder.buildBarrels(directory.directories, '"', "barrel.ts", logger, undefined, structure, [], []);
+            Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, structure, [], []);
         };
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());
@@ -108,7 +108,7 @@ describe("builder/builder module has a", () => {
         let logger;
         const runBuilder = () => {
             logger = spySandbox.spy();
-            Builder.buildBarrels(directory.directories, '"', "barrel.ts", logger, undefined, "flat", [], []);
+            Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, "flat", [], []);
         };
         beforeEach(() => {
             mock_fs_1.default(TestUtilities.mockFsConfiguration());

@@ -22,7 +22,13 @@ Promise.all(fs_1.readdirSync(location)
     return fs_extra_1.copy(path_1.join(directory, "input"), path_1.join(directory, "output")).then(() => {
         bin_1.default(args);
         console.log(`Running integration test in directory ${directory}`);
-        const comparison = dir_compare_1.default.compareSync(path_1.join(directory, "output"), path_1.join(directory, "expected"));
+        const outputDirectory = path_1.join(directory, "output");
+        const expectedDirectory = path_1.join(directory, "expected");
+        console.log("Output directory:", outputDirectory);
+        console.log("Expected directory:", expectedDirectory);
+        const comparison = dir_compare_1.default.compareSync(outputDirectory, expectedDirectory, {
+            compareContent: true
+        });
         if (comparison.differences && comparison.diffSet) {
             comparison.diffSet
                 .filter(diff => diff.state !== "equal")
@@ -42,7 +48,7 @@ Promise.all(fs_1.readdirSync(location)
             console.error(`Error: ${comparison.differences} differences found!`);
         }
         else {
-            console.info(`No differences found`);
+            console.info(`No differences found in ${comparison.equalFiles}`);
         }
         console.log();
         return comparison.differences;

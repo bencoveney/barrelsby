@@ -6,6 +6,7 @@ const fileTree_1 = require("./fileTree");
 const barrelName_1 = require("./options/barrelName");
 const baseUrl_1 = require("./options/baseUrl");
 const logger_1 = require("./options/logger");
+const noSemicolon_1 = require("./options/noSemicolon");
 const quoteCharacter_1 = require("./options/quoteCharacter");
 const rootPath_1 = require("./options/rootPath");
 const purge_1 = require("./purge");
@@ -26,7 +27,8 @@ function main(args) {
     purge_1.purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
     // Create the barrels.
     const quoteCharacter = quoteCharacter_1.getQuoteCharacter(args.singleQuotes);
-    builder_1.buildBarrels(destinations, quoteCharacter, barrelName, logger, baseUrl, args.structure, [].concat(args.include || []), [].concat(args.exclude || []));
+    const semicolonCharacter = noSemicolon_1.getSemicolonCharacter(args.noSemicolon);
+    builder_1.buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.structure, [].concat(args.include || []), [].concat(args.exclude || []));
 }
 module.exports = main;
 //# sourceMappingURL=index.js.map

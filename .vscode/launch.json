@@ -25,6 +25,16 @@
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen",
             "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "IntegrationTests",
+            "program": "${workspaceRoot}/test/src.js",
+            "args": [],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "sourceMaps": true
         }
     ]
 }

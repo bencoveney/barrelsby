@@ -13,6 +13,7 @@ export interface Arguments {
   include?: string[];
   location?: LocationOption;
   name?: string;
+  noSemicolon?: boolean;
   singleQuotes?: boolean;
   structure?: StructureOption;
   version?: boolean;

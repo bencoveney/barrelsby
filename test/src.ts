@@ -22,9 +22,16 @@ Promise.all(
         () => {
           Barrelsby(args as any);
           console.log(`Running integration test in directory ${directory}`);
+          const outputDirectory = join(directory, "output");
+          const expectedDirectory = join(directory, "expected");
+          console.log("Output directory:", outputDirectory);
+          console.log("Expected directory:", expectedDirectory);
           const comparison = dirCompare.compareSync(
-            join(directory, "output"),
-            join(directory, "expected")
+            outputDirectory,
+            expectedDirectory,
+            {
+              compareContent: true
+            }
           );
           if (comparison.differences && comparison.diffSet) {
             comparison.diffSet
@@ -48,7 +55,7 @@ Promise.all(
               `Error: ${comparison.differences} differences found!`
             );
           } else {
-            console.info(`No differences found`);
+            console.info(`No differences found in ${comparison.equalFiles}`);
           }
           console.log();
           return comparison.differences;

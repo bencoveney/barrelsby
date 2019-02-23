@@ -43,7 +43,7 @@ function buildStructureSubsection(structure, pathParts, name, reference) {
 function compareImports(a, b) {
     return a.path < b.path ? -1 : 1;
 }
-function buildFileSystemBarrel(directory, modules, quoteCharacter, _, // Not used
+function buildFileSystemBarrel(directory, modules, quoteCharacter, semicolonCharacter, _, // Not used
 baseUrl) {
     const structure = {};
     let content = "";
@@ -58,7 +58,7 @@ baseUrl) {
         const directoryPath = path_1.default.dirname(relativePath);
         const parts = directoryPath.split(path_1.default.sep);
         const alias = relativePath.replace(utilities_1.nonAlphaNumeric, "");
-        content += `import * as ${alias} from ${quoteCharacter}${imported.path}${quoteCharacter};
+        content += `import * as ${alias} from ${quoteCharacter}${imported.path}${quoteCharacter}${semicolonCharacter}
 `;
         const fileName = path_1.default.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);
@@ -66,11 +66,11 @@ baseUrl) {
     for (const key of Object.keys(structure).sort()) {
         const exported = structure[key];
         if (typeof exported === "string") {
-            content += `export {${exported} as ${key}};
+            content += `export {${exported} as ${key}}${semicolonCharacter}
 `;
         }
         else {
-            content += `export const ${key} = ${stringify(exported, "")};
+            content += `export const ${key} = ${stringify(exported, "")}${semicolonCharacter}
 `;
         }
     }
