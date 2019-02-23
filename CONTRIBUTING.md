@@ -20,17 +20,16 @@
 
 [pullrequest]: https://github.com/bencoveney/barrelsby/compare/
 
+If you are developing on windows you may need to convert line endings to unix-style. You can do
+this in git bash by running `find . -type f -exec dos2unix {} \;`.
+
 ## Requirements
 
-All new code should:
-* Pass CI checks (tslint, unit tests).
-* Include unit tests for any changed code.
-* Include relevant updates to `README.md`.
-* Be consistent with the existing coding style.
+If you are interested in contributing to barrelsby there are plenty of tagged issues that can be
+picked up, or feel free to suggest your own feature in an issue.
 
-## Issues
-
-It is a good idea (however not strictly required) to create an issue to
-discuss changes before making them.
-
-Anyone is welcome to work on any issue marked *help wanted*.
+Most coding conventions are enforced by TSLint but in general:
+- Use small functions instead of classes.
+- Avoid abreviated identifiers.
+- Write a unit test (`fileName.test.ts`) for code changes.
+- Write an integration test (`test/feature/`) for option changes.

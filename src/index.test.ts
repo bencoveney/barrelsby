@@ -8,6 +8,7 @@ import Main from "./index";
 import * as BarrelName from "./options/barrelName";
 import * as BaseUrl from "./options/baseUrl";
 import * as Logger from "./options/logger";
+import * as NoSemicolon from "./options/noSemicolon";
 import * as QuoteCharacter from "./options/quoteCharacter";
 import * as RootPath from "./options/rootPath";
 import * as Purge from "./purge";
@@ -29,6 +30,7 @@ describe("main module", () => {
       include: ["directory2"],
       location: "top",
       name: "inputBarrelName",
+      noSemicolon: true,
       singleQuotes: true,
       structure: "flat",
       verbose: true
@@ -53,6 +55,11 @@ describe("main module", () => {
       .stub(QuoteCharacter, "getQuoteCharacter")
       .returns(quoteCharacter);
 
+    const semicolonCharacter = ";";
+    const getSemicolonCharacterSpy = spySandbox
+      .stub(NoSemicolon, "getSemicolonCharacter")
+      .returns(semicolonCharacter);
+
     const logger = spySandbox.spy();
     const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(logger);
 
@@ -74,6 +81,7 @@ describe("main module", () => {
     Main(args);
 
     assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
+    assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
     assert(getLoggerSpy.calledOnceWithExactly(true));
     assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
     assert(resolveRootPathSpy.calledWithExactly(args.directory));
@@ -94,6 +102,7 @@ describe("main module", () => {
       buildBarrelsSpy.calledOnceWithExactly(
         destinations,
         quoteCharacter,
+        semicolonCharacter,
         barrelName,
         logger,
         baseUrl,

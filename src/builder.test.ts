@@ -27,6 +27,7 @@ describe("builder/builder module has a", () => {
       Builder.buildBarrels(
         directory.directories,
         '"',
+        ";",
         "barrel.ts",
         logger,
         undefined,
@@ -119,6 +120,7 @@ describe("builder/builder module has a", () => {
       Builder.buildBarrels(
         directory.directories,
         '"',
+        ";",
         "barrel.ts",
         logger,
         undefined,

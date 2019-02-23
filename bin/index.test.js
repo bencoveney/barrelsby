@@ -19,6 +19,7 @@ const index_1 = __importDefault(require("./index"));
 const BarrelName = __importStar(require("./options/barrelName"));
 const BaseUrl = __importStar(require("./options/baseUrl"));
 const Logger = __importStar(require("./options/logger"));
+const NoSemicolon = __importStar(require("./options/noSemicolon"));
 const QuoteCharacter = __importStar(require("./options/quoteCharacter"));
 const RootPath = __importStar(require("./options/rootPath"));
 const Purge = __importStar(require("./purge"));
@@ -39,6 +40,7 @@ describe("main module", () => {
             include: ["directory2"],
             location: "top",
             name: "inputBarrelName",
+            noSemicolon: true,
             singleQuotes: true,
             structure: "flat",
             verbose: true
@@ -57,6 +59,10 @@ describe("main module", () => {
         const getQuoteCharacterSpy = spySandbox
             .stub(QuoteCharacter, "getQuoteCharacter")
             .returns(quoteCharacter);
+        const semicolonCharacter = ";";
+        const getSemicolonCharacterSpy = spySandbox
+            .stub(NoSemicolon, "getSemicolonCharacter")
+            .returns(semicolonCharacter);
         const logger = spySandbox.spy();
         const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(logger);
         const barrelName = "barrel.ts";
@@ -73,6 +79,7 @@ describe("main module", () => {
             .returns(baseUrl);
         index_1.default(args);
         chai_1.assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
+        chai_1.assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
         chai_1.assert(getLoggerSpy.calledOnceWithExactly(true));
         chai_1.assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
         chai_1.assert(resolveRootPathSpy.calledWithExactly(args.directory));
@@ -80,7 +87,7 @@ describe("main module", () => {
         chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
         chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
         chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, barrelName, logger, baseUrl, args.structure, args.include, args.exclude));
+        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.structure, args.include, args.exclude));
     });
 });
 //# sourceMappingURL=index.test.js.map

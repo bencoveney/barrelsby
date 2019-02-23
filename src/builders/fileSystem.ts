@@ -3,6 +3,7 @@ import path from "path";
 import { buildImportPath } from "../builder";
 import { BaseUrl } from "../options/baseUrl";
 import { Logger } from "../options/logger";
+import { SemicolonCharacter } from "../options/noSemicolon";
 import { QuoteCharacter } from "../options/quoteCharacter";
 import {
   Directory,
@@ -71,6 +72,7 @@ export function buildFileSystemBarrel(
   directory: Directory,
   modules: Location[],
   quoteCharacter: QuoteCharacter,
+  semicolonCharacter: SemicolonCharacter,
   _: Logger, // Not used
   baseUrl: BaseUrl
 ): string {
@@ -95,7 +97,7 @@ export function buildFileSystemBarrel(
         const alias = relativePath.replace(nonAlphaNumeric, "");
         content += `import * as ${alias} from ${quoteCharacter}${
           imported.path
-        }${quoteCharacter};
+        }${quoteCharacter}${semicolonCharacter}
 `;
         const fileName = path.basename(imported.module.name, ".ts");
         buildStructureSubsection(structure, parts, fileName, alias);
@@ -104,10 +106,13 @@ export function buildFileSystemBarrel(
   for (const key of Object.keys(structure).sort()) {
     const exported = structure[key];
     if (typeof exported === "string") {
-      content += `export {${exported} as ${key}};
+      content += `export {${exported} as ${key}}${semicolonCharacter}
 `;
     } else {
-      content += `export const ${key} = ${stringify(exported, "")};
+      content += `export const ${key} = ${stringify(
+        exported,
+        ""
+      )}${semicolonCharacter}
 `;
     }
   }
