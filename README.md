@@ -55,6 +55,11 @@ import * as Controls from "./src/controls/index";
 * [Rupesh Tiwari Blog](http://rupeshtiwari.com/create-barrel/)
 * [Medium Article](https://medium.com/@klauskpm/do-a-barrel-export-aa5b79b76b05)
 
+### Alternatives
+
+* [Barrelbot](https://github.com/sw-yx/barrelbot)
+* [creeate-index](https://github.com/gajus/create-index)
+
 ## Usage
 
 To install Barrelsby:
