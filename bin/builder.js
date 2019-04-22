@@ -72,12 +72,16 @@ function stripThisDirectory(location, baseUrl) {
 }
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */
 function getBasename(relativePath) {
-    const strippedTsPath = path_1.default.basename(relativePath, ".ts");
-    const strippedTsxPath = path_1.default.basename(relativePath, ".tsx");
+    const mayBeSuffix = [".ts", ".tsx", ".d.ts"];
+    let mayBePath = relativePath;
+    mayBeSuffix.map(suffix => {
+        let tmpPath = path_1.default.basename(relativePath, suffix);
+        if (tmpPath.length < mayBePath.length) {
+            mayBePath = tmpPath;
+        }
+    });
     // Return whichever path is shorter. If they're the same length then nothing was stripped.
-    return strippedTsPath.length < strippedTsxPath.length
-        ? strippedTsPath
-        : strippedTsxPath;
+    return mayBePath;
 }
 exports.getBasename = getBasename;
 //# sourceMappingURL=builder.js.map
