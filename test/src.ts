@@ -7,6 +7,9 @@ import Yargs from "yargs";
 import Barrelsby from "../bin";
 import { getArgs } from "../bin/args";
 
+// tslint:disable-next-line:no-var-requires
+const console = require("better-console");
+
 // tslint:disable:no-console
 
 getArgs();
@@ -30,7 +33,13 @@ Promise.all(
             outputDirectory,
             expectedDirectory,
             {
-              compareContent: true
+              compareContent: true,
+              compareFileAsync:
+                dirCompare.fileCompareHandlers.lineBasedFileCompare
+                  .compareAsync,
+              compareFileSync:
+                dirCompare.fileCompareHandlers.lineBasedFileCompare.compareSync,
+              ignoreLineEnding: true
             }
           );
           if (comparison.differences && comparison.diffSet) {

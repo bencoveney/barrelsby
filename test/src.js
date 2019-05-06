@@ -10,6 +10,8 @@ const path_1 = require("path");
 const yargs_1 = __importDefault(require("yargs"));
 const bin_1 = __importDefault(require("../bin"));
 const args_1 = require("../bin/args");
+// tslint:disable-next-line:no-var-requires
+const console = require("better-console");
 // tslint:disable:no-console
 args_1.getArgs();
 const location = path_1.join(__dirname, "./");
@@ -27,7 +29,11 @@ Promise.all(fs_1.readdirSync(location)
         console.log("Output directory:", outputDirectory);
         console.log("Expected directory:", expectedDirectory);
         const comparison = dir_compare_1.default.compareSync(outputDirectory, expectedDirectory, {
-            compareContent: true
+            compareContent: true,
+            compareFileAsync: dir_compare_1.default.fileCompareHandlers.lineBasedFileCompare
+                .compareAsync,
+            compareFileSync: dir_compare_1.default.fileCompareHandlers.lineBasedFileCompare.compareSync,
+            ignoreLineEnding: true
         });
         if (comparison.differences && comparison.diffSet) {
             comparison.diffSet

@@ -75,7 +75,7 @@ function getBasename(relativePath) {
     const mayBeSuffix = [".ts", ".tsx", ".d.ts"];
     let mayBePath = relativePath;
     mayBeSuffix.map(suffix => {
-        let tmpPath = path_1.default.basename(relativePath, suffix);
+        const tmpPath = path_1.default.basename(relativePath, suffix);
         if (tmpPath.length < mayBePath.length) {
             mayBePath = tmpPath;
         }

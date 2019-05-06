@@ -136,7 +136,7 @@ export function getBasename(relativePath: string) {
   const mayBeSuffix = [".ts", ".tsx", ".d.ts"];
   let mayBePath = relativePath;
   mayBeSuffix.map(suffix => {
-    let tmpPath = path.basename(relativePath, suffix);
+    const tmpPath = path.basename(relativePath, suffix);
     if (tmpPath.length < mayBePath.length) {
       mayBePath = tmpPath;
     }
