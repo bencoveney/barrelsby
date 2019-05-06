@@ -175,6 +175,11 @@ describe("builder/builder module has a", () => {
       const result = Builder.getBasename(fileName);
       assert.equal(result, "file");
     });
+    it("should correctly strip .d.ts from the filename", () => {
+      const fileName = "./random/path/file.d.ts";
+      const result = Builder.getBasename(fileName);
+      assert.equal(result, "file");
+    });
     it("should correctly strip .tsx from the filename", () => {
       const fileName = "./random/path/file.tsx";
       const result = Builder.getBasename(fileName);

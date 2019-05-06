@@ -133,11 +133,14 @@ function stripThisDirectory(location: string, baseUrl: BaseUrl) {
 
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */
 export function getBasename(relativePath: string) {
-  const strippedTsPath = path.basename(relativePath, ".ts");
-  const strippedTsxPath = path.basename(relativePath, ".tsx");
-
+  const mayBeSuffix = [".ts", ".tsx", ".d.ts"];
+  let mayBePath = relativePath;
+  mayBeSuffix.map(suffix => {
+    let tmpPath = path.basename(relativePath, suffix);
+    if (tmpPath.length < mayBePath.length) {
+      mayBePath = tmpPath;
+    }
+  });
   // Return whichever path is shorter. If they're the same length then nothing was stripped.
-  return strippedTsPath.length < strippedTsxPath.length
-    ? strippedTsPath
-    : strippedTsxPath;
+  return mayBePath;
 }
