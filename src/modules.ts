@@ -7,7 +7,11 @@ interface Filters {
 }
 
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(directory: Directory, logger: Logger): Location[] {
+function getModules(
+  directory: Directory,
+  logger: Logger,
+  local: boolean
+): Location[] {
   logger(`Getting modules @ ${directory.path}`);
   if (directory.barrel) {
     // If theres a barrel then use that as it *should* contain descendant modules.
@@ -15,10 +19,12 @@ function getModules(directory: Directory, logger: Logger): Location[] {
     return [directory.barrel];
   }
   const files: Location[] = ([] as Location[]).concat(directory.files);
-  directory.directories.forEach((childDirectory: Directory) => {
-    // Recurse.
-    files.push(...getModules(childDirectory, logger));
-  });
+  if (!local) {
+    directory.directories.forEach((childDirectory: Directory) => {
+      // Recurse.
+      files.push(...getModules(childDirectory, logger, local));
+    });
+  }
   // Only return files that look like TypeScript modules.
   return files.filter((file: Location) => file.name.match(isTypeScriptFile));
 }
@@ -69,9 +75,10 @@ export function loadDirectoryModules(
   directory: Directory,
   logger: Logger,
   include: string[],
-  exclude: string[]
+  exclude: string[],
+  local: boolean
 ): Location[] {
-  const modules = getModules(directory, logger);
+  const modules = getModules(directory, logger, local);
 
   const filters = buildFilters(include, exclude);
 

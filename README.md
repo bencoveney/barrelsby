@@ -126,6 +126,11 @@ Defaulted to *top*.
 - `replace` only creates barrels in directories where one already existed.
 - `branch` creates a barrel in every directory that contains other directories.
 
+### `-L` or `--local`
+
+Enable this to prevent barrels including modules that exist in the same directory, rather
+than recursively searching child directories.
+
 ### `-n [name]` or `--name [name]`
 
 Specifies the name to use for creating new barrels (and identifying old ones). `.ts` wil be

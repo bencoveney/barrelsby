@@ -18,6 +18,7 @@ describe("args module", () => {
       "a.ts$",
       "--location",
       "top",
+      "--local",
       "--name",
       "barrel",
       "--structure",
@@ -31,6 +32,7 @@ describe("args module", () => {
     assert.sameMembers(args.include as string[], ["a.ts$"]);
     assert.sameMembers(args.exclude as string[], ["zeta.ts$"]);
     assert.equal(args.location, "top");
+    assert.equal(args.local, true);
     assert.equal(args.name, "barrel");
     assert.equal(args.structure, "filesystem");
     assert.equal(args.verbose, true);

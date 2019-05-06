@@ -11,6 +11,7 @@ export interface Arguments {
   exclude?: string[];
   help?: boolean;
   include?: string[];
+  local?: boolean;
   location?: LocationOption;
   name?: string;
   noSemicolon?: boolean;

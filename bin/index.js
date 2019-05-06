@@ -28,7 +28,7 @@ function main(args) {
     // Create the barrels.
     const quoteCharacter = quoteCharacter_1.getQuoteCharacter(args.singleQuotes);
     const semicolonCharacter = noSemicolon_1.getSemicolonCharacter(args.noSemicolon);
-    builder_1.buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.structure, [].concat(args.include || []), [].concat(args.exclude || []));
+    builder_1.buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.structure, !!args.local, [].concat(args.include || []), [].concat(args.exclude || []));
 }
 module.exports = main;
 //# sourceMappingURL=index.js.map

@@ -20,7 +20,8 @@ describe("builder/modules module has a", () => {
         directory.directories[0],
         logger,
         [],
-        []
+        [],
+        false
       );
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], {
@@ -32,6 +33,20 @@ describe("builder/modules module has a", () => {
         path: "directory1/directory2/directory4/deeplyNested.ts"
       });
     });
+    it("should not identify modules recursively if the local flag is set", () => {
+      const result = Modules.loadDirectoryModules(
+        directory.directories[0],
+        logger,
+        [],
+        [],
+        true
+      );
+      assert.lengthOf(result, 1);
+      assert.deepEqual(result[0], {
+        name: "script.ts",
+        path: "directory1/directory2/script.ts"
+      });
+    });
     it("should identify directories that already contain a barrel", () => {
       // Set up a barrel.
       const targetDirectory = directory.directories[0];
@@ -41,7 +56,8 @@ describe("builder/modules module has a", () => {
         directory.directories[0],
         logger,
         [],
-        []
+        [],
+        false
       );
       assert.lengthOf(result, 1);
       assert.deepEqual(result[0], {
@@ -50,7 +66,13 @@ describe("builder/modules module has a", () => {
       });
     });
     it("should only include TypeScript files", () => {
-      const result = Modules.loadDirectoryModules(directory, logger, [], []);
+      const result = Modules.loadDirectoryModules(
+        directory,
+        logger,
+        [],
+        [],
+        false
+      );
       result.forEach(location => assert.notEqual(location.name, "ignore.txt"));
     });
     it("should only include files matching a whitelist option when specified", () => {
@@ -58,7 +80,8 @@ describe("builder/modules module has a", () => {
         directory,
         logger,
         ["directory2"],
-        []
+        [],
+        false
       );
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], {
@@ -75,7 +98,8 @@ describe("builder/modules module has a", () => {
         directory,
         logger,
         [],
-        ["directory2"]
+        ["directory2"],
+        false
       );
       assert.lengthOf(result, 3);
       assert.deepEqual(result[0], {
@@ -96,7 +120,8 @@ describe("builder/modules module has a", () => {
         directory,
         logger,
         ["directory2"],
-        ["directory4"]
+        ["directory4"],
+        false
       );
       assert.lengthOf(result, 1);
       assert.deepEqual(result[0], {
@@ -109,7 +134,7 @@ describe("builder/modules module has a", () => {
       const indexedDirectory = directory.directories[0];
       indexedDirectory.barrel = indexedDirectory.files[0];
 
-      Modules.loadDirectoryModules(directory, logger, [], []);
+      Modules.loadDirectoryModules(directory, logger, [], [], false);
       assert.deepEqual(logged, [
         "Getting modules @ ./directory1",
         "Getting modules @ directory1/directory2",

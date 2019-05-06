@@ -32,6 +32,7 @@ describe("builder/builder module has a", () => {
         logger,
         undefined,
         structure,
+        false,
         [],
         []
       );
@@ -125,6 +126,7 @@ describe("builder/builder module has a", () => {
         logger,
         undefined,
         "flat",
+        false,
         [],
         []
       );

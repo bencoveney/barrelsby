@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const utilities_1 = require("./utilities");
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(directory, logger) {
+function getModules(directory, logger, local) {
     logger(`Getting modules @ ${directory.path}`);
     if (directory.barrel) {
         // If theres a barrel then use that as it *should* contain descendant modules.
@@ -10,10 +10,12 @@ function getModules(directory, logger) {
         return [directory.barrel];
     }
     const files = [].concat(directory.files);
-    directory.directories.forEach((childDirectory) => {
-        // Recurse.
-        files.push(...getModules(childDirectory, logger));
-    });
+    if (!local) {
+        directory.directories.forEach((childDirectory) => {
+            // Recurse.
+            files.push(...getModules(childDirectory, logger, local));
+        });
+    }
     // Only return files that look like TypeScript modules.
     return files.filter((file) => file.name.match(utilities_1.isTypeScriptFile));
 }
@@ -53,8 +55,8 @@ function filterModules(filters, locations, logger) {
     }
     return result;
 }
-function loadDirectoryModules(directory, logger, include, exclude) {
-    const modules = getModules(directory, logger);
+function loadDirectoryModules(directory, logger, include, exclude, local) {
+    const modules = getModules(directory, logger, local);
     const filters = buildFilters(include, exclude);
     return filterModules(filters, modules, logger);
 }

@@ -48,6 +48,7 @@ function main(args: Arguments) {
     logger,
     baseUrl,
     args.structure,
+    !!args.local,
     ([] as string[]).concat(args.include || []),
     ([] as string[]).concat(args.exclude || [])
   );
