@@ -20,6 +20,7 @@ describe("args module", () => {
             "a.ts$",
             "--location",
             "top",
+            "--local",
             "--name",
             "barrel",
             "--structure",
@@ -32,6 +33,7 @@ describe("args module", () => {
         chai_1.assert.sameMembers(args.include, ["a.ts$"]);
         chai_1.assert.sameMembers(args.exclude, ["zeta.ts$"]);
         chai_1.assert.equal(args.location, "top");
+        chai_1.assert.equal(args.local, true);
         chai_1.assert.equal(args.name, "barrel");
         chai_1.assert.equal(args.structure, "filesystem");
         chai_1.assert.equal(args.verbose, true);

@@ -51,6 +51,11 @@ export function getArgs(): Yargs.Argv {
     .choices("l", ["top", "below", "all", "replace", "branch"])
     .default("l", "top")
 
+    .boolean("L")
+    .alias("L", "local")
+    .describe("L", "Barrels only include files from same directory.")
+    .default("L", false)
+
     .string("n")
     .alias("n", "name")
     .describe("n", "The name to give barrel files")

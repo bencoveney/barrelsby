@@ -21,7 +21,7 @@ describe("builder/modules module has a", () => {
             logger = TestUtilities.mockLogger(logged);
         });
         it("should identify modules from directories recursively", () => {
-            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], []);
+            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], [], false);
             chai_1.assert.lengthOf(result, 2);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -32,11 +32,19 @@ describe("builder/modules module has a", () => {
                 path: "directory1/directory2/directory4/deeplyNested.ts"
             });
         });
+        it("should not identify modules recursively if the local flag is set", () => {
+            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], [], true);
+            chai_1.assert.lengthOf(result, 1);
+            chai_1.assert.deepEqual(result[0], {
+                name: "script.ts",
+                path: "directory1/directory2/script.ts"
+            });
+        });
         it("should identify directories that already contain a barrel", () => {
             // Set up a barrel.
             const targetDirectory = directory.directories[0];
             targetDirectory.barrel = targetDirectory.files[0];
-            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], []);
+            const result = Modules.loadDirectoryModules(directory.directories[0], logger, [], [], false);
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -44,11 +52,11 @@ describe("builder/modules module has a", () => {
             });
         });
         it("should only include TypeScript files", () => {
-            const result = Modules.loadDirectoryModules(directory, logger, [], []);
+            const result = Modules.loadDirectoryModules(directory, logger, [], [], false);
             result.forEach(location => chai_1.assert.notEqual(location.name, "ignore.txt"));
         });
         it("should only include files matching a whitelist option when specified", () => {
-            const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], []);
+            const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], [], false);
             chai_1.assert.lengthOf(result, 2);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -60,7 +68,7 @@ describe("builder/modules module has a", () => {
             });
         });
         it("should exclude files matching a blacklist option when specified", () => {
-            const result = Modules.loadDirectoryModules(directory, logger, [], ["directory2"]);
+            const result = Modules.loadDirectoryModules(directory, logger, [], ["directory2"], false);
             chai_1.assert.lengthOf(result, 3);
             chai_1.assert.deepEqual(result[0], {
                 name: "barrel.ts",
@@ -76,7 +84,7 @@ describe("builder/modules module has a", () => {
             });
         });
         it("should correctly handle both whitelist and blacklist options being set", () => {
-            const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], ["directory4"]);
+            const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], ["directory4"], false);
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
@@ -87,7 +95,7 @@ describe("builder/modules module has a", () => {
             // Set up a barrel.
             const indexedDirectory = directory.directories[0];
             indexedDirectory.barrel = indexedDirectory.files[0];
-            Modules.loadDirectoryModules(directory, logger, [], []);
+            Modules.loadDirectoryModules(directory, logger, [], [], false);
             chai_1.assert.deepEqual(logged, [
                 "Getting modules @ ./directory1",
                 "Getting modules @ directory1/directory2",

@@ -25,6 +25,7 @@ export function buildBarrels(
   logger: Logger,
   baseUrl: BaseUrl,
   structure: StructureOption | undefined,
+  local: boolean,
   include: string[],
   exclude: string[]
 ): void {
@@ -48,6 +49,7 @@ export function buildBarrels(
       barrelName,
       logger,
       baseUrl,
+      local,
       include,
       exclude
     )
@@ -63,13 +65,14 @@ function buildBarrel(
   barrelName: string,
   logger: Logger,
   baseUrl: BaseUrl,
+  local: boolean,
   include: string[],
   exclude: string[]
 ) {
   logger(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
-    loadDirectoryModules(directory, logger, include, exclude),
+    loadDirectoryModules(directory, logger, include, exclude, local),
     quoteCharacter,
     semicolonCharacter,
     logger,
