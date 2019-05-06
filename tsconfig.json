@@ -3,7 +3,8 @@
   "compilerOptions": {
     "declaration": true,
     "sourceMap": true,
-    "outDir": "./bin"
+    "outDir": "./bin",
+    "newLine": "LF"
   },
   "include": [
       "src/**/*.ts"
