@@ -6,6 +6,7 @@ export interface Arguments {
     directory?: string;
     delete?: boolean;
     exclude?: string[];
+    exportDefault?: boolean;
     help?: boolean;
     include?: string[];
     local?: boolean;

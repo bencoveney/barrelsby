@@ -24,7 +24,7 @@ describe("builder/flat module has a", () => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -62,7 +62,7 @@ export * from "./directory3/program";
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", ";", logger, undefined);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", ";", logger, undefined, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -100,7 +100,7 @@ export * from './directory3/program';
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', "", logger, undefined);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', "", logger, undefined, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -125,6 +125,36 @@ export * from "./directory3/program"
                 messages.forEach((message, index) => {
                     chai_1.assert.equal(logger.getCall(index).args[0], message);
                 });
+            });
+        });
+        describe("when using the exportDefault setting", () => {
+            let output;
+            let spySandbox;
+            let logger;
+            beforeEach(() => {
+                const directory = TestUtilities.mockDirectoryTree();
+                spySandbox = sinon_1.default.createSandbox();
+                logger = spySandbox.spy();
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, true);
+            });
+            afterEach(() => {
+                spySandbox.restore();
+            });
+            it("should produce the correct output", () => {
+                TestUtilities.assertMultiLine(output, `export { default as barrel } from "./barrel";
+export * from "./barrel";
+export { default as index } from "./index";
+export * from "./index";
+export { default as script } from "./directory2/script";
+export * from "./directory2/script";
+export { default as deeplyNested } from "./directory2/directory4/deeplyNested";
+export * from "./directory2/directory4/deeplyNested";
+export { default as program } from "./directory3/program";
+export * from "./directory3/program";
+`);
+            });
+            it("should produce output compatible with the recommended tslint ruleset", () => {
+                TestUtilities.tslint(output, '"');
             });
         });
     });

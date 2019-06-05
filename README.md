@@ -183,6 +183,15 @@ Use 'single quotes' in the generated barrel files instead of the default "double
 
 Omit semicolons from the end of lines in the generated barrel files.
 
+### `--exportDefault`
+
+Also export the default export of the file. Currently works only with the `flat` mode.
+
+```TypeScript
+export * from "./barrel";
+export { default as barrel } from "./barrel";
+```
+
 ### `-v` or `--version`
 
 Display the barrelsby version number.

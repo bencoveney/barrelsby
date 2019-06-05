@@ -37,6 +37,7 @@ describe("main module", () => {
             delete: true,
             directory: "testRootPath",
             exclude: ["directory4"],
+            exportDefault: false,
             include: ["directory2"],
             local: true,
             location: "top",
@@ -88,7 +89,7 @@ describe("main module", () => {
         chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
         chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
         chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.structure, args.local, args.include, args.exclude));
+        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, args.exclude));
     });
 });
 //# sourceMappingURL=index.test.js.map
