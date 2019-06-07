@@ -47,7 +47,6 @@ import * as Controls from "./src/controls/index";
 
 ### More Reading
 
-* [Angular Glossary](https://angular.io/docs/ts/latest/glossary.html#!#B)
 * [TattooCoder Blog](http://tattoocoder.com/angular2-barrels/)
 
 ### Barrelsby Articles
