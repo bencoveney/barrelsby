@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@types/yargs": "^13.0.0",
-    "yargs": "^13.2.2"
+    "yargs": "^14.0.0"
   },
   "contributors": [
     {
