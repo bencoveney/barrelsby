@@ -1,6 +1,7 @@
 import Yargs from "yargs";
 
 export function getArgs(): Yargs.Argv {
+  // @ts-ignore Work around deep types.
   return Yargs.usage("Usage: barrelsby [options]")
     .example("barrelsby", "Run barrelsby")
 
@@ -32,6 +33,13 @@ export function getArgs(): Yargs.Argv {
     .describe(
       "e",
       "Excludes any files whose paths match any of the regular expressions."
+    )
+
+    .array("E")
+    .alias("E", "exportDefault")
+    .describe(
+      "E",
+      "Also export the default export of the file. Currently works only with the `flat` mode."
     )
 
     .help("h")

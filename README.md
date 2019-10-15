@@ -106,6 +106,15 @@ Deletes any existing barrels encountered by barrelsby. Disabled by default.
 
 Excludes any files whose paths match any of the specified regular expressions.
 
+### `-E` or `--exportDefault`
+
+Also export the default export of the file. Currently works only with the `flat` mode.
+
+```TypeScript
+export * from "./barrel";
+export { default as barrel } from "./barrel";
+```
+
 ### `-H` or `--help`
 
 Displays help information on the command line arguments that barrelsby accepts.
@@ -181,15 +190,6 @@ Use 'single quotes' in the generated barrel files instead of the default "double
 ### `-S` or `--noSemicolon`
 
 Omit semicolons from the end of lines in the generated barrel files.
-
-### `--exportDefault`
-
-Also export the default export of the file. Currently works only with the `flat` mode.
-
-```TypeScript
-export * from "./barrel";
-export { default as barrel } from "./barrel";
-```
 
 ### `-v` or `--version`
 

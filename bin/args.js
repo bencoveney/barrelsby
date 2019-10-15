@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const yargs_1 = __importDefault(require("yargs"));
 function getArgs() {
+    // @ts-ignore Work around deep types.
     return yargs_1.default.usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
         .string("b")
@@ -26,6 +27,9 @@ function getArgs() {
         .array("e")
         .alias("e", "exclude")
         .describe("e", "Excludes any files whose paths match any of the regular expressions.")
+        .array("E")
+        .alias("E", "exportDefault")
+        .describe("E", "Also export the default export of the file. Currently works only with the `flat` mode.")
         .help("h")
         .alias("h", "help")
         .default("h", false)

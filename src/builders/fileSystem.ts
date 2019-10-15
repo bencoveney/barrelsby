@@ -86,23 +86,16 @@ export function buildFileSystemBarrel(
       })
     )
     .sort(compareImports)
-    .forEach(
-      (imported: Import): void => {
-        const relativePath = path.relative(
-          directory.path,
-          imported.module.path
-        );
-        const directoryPath = path.dirname(relativePath);
-        const parts = directoryPath.split(path.sep);
-        const alias = relativePath.replace(nonAlphaNumeric, "");
-        content += `import * as ${alias} from ${quoteCharacter}${
-          imported.path
-        }${quoteCharacter}${semicolonCharacter}
+    .forEach((imported: Import): void => {
+      const relativePath = path.relative(directory.path, imported.module.path);
+      const directoryPath = path.dirname(relativePath);
+      const parts = directoryPath.split(path.sep);
+      const alias = relativePath.replace(nonAlphaNumeric, "");
+      content += `import * as ${alias} from ${quoteCharacter}${imported.path}${quoteCharacter}${semicolonCharacter}
 `;
-        const fileName = path.basename(imported.module.name, ".ts");
-        buildStructureSubsection(structure, parts, fileName, alias);
-      }
-    );
+      const fileName = path.basename(imported.module.name, ".ts");
+      buildStructureSubsection(structure, parts, fileName, alias);
+    });
   for (const key of Object.keys(structure).sort()) {
     const exported = structure[key];
     if (typeof exported === "string") {
