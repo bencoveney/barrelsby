@@ -1,6 +1,6 @@
 {
   "name": "barrelsby",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
