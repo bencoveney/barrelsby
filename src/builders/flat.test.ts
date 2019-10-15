@@ -20,7 +20,8 @@ describe("builder/flat module has a", () => {
           '"',
           ";",
           logger,
-          undefined
+          undefined,
+          false
         );
       });
       afterEach(() => {
@@ -69,7 +70,8 @@ export * from "./directory3/program";
           "'",
           ";",
           logger,
-          undefined
+          undefined,
+          false
         );
       });
       afterEach(() => {
@@ -118,7 +120,8 @@ export * from './directory3/program';
           '"',
           "",
           logger,
-          undefined
+          undefined,
+          false
         );
       });
       afterEach(() => {
@@ -147,6 +150,48 @@ export * from "./directory3/program"
         messages.forEach((message: string, index: number) => {
           assert.equal(logger.getCall(index).args[0], message);
         });
+      });
+    });
+
+    describe("when using the exportDefault setting", () => {
+      let output: string;
+      let spySandbox: sinon.SinonSandbox;
+      let logger: Sinon.SinonSpy;
+      beforeEach(() => {
+        const directory = TestUtilities.mockDirectoryTree();
+        spySandbox = Sinon.createSandbox();
+        logger = spySandbox.spy();
+        output = Flat.buildFlatBarrel(
+          directory,
+          TestUtilities.mockModules(directory),
+          '"',
+          ";",
+          logger,
+          undefined,
+          true
+        );
+      });
+      afterEach(() => {
+        spySandbox.restore();
+      });
+      it("should produce the correct output", () => {
+        TestUtilities.assertMultiLine(
+          output,
+          `export { default as barrel } from "./barrel";
+export * from "./barrel";
+export { default as index } from "./index";
+export * from "./index";
+export { default as script } from "./directory2/script";
+export * from "./directory2/script";
+export { default as deeplyNested } from "./directory2/directory4/deeplyNested";
+export * from "./directory2/directory4/deeplyNested";
+export { default as program } from "./directory3/program";
+export * from "./directory3/program";
+`
+        );
+      });
+      it("should produce output compatible with the recommended tslint ruleset", () => {
+        TestUtilities.tslint(output, '"');
       });
     });
   });

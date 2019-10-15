@@ -24,6 +24,7 @@ export function buildBarrels(
   barrelName: string,
   logger: Logger,
   baseUrl: BaseUrl,
+  exportDefault: boolean,
   structure: StructureOption | undefined,
   local: boolean,
   include: string[],
@@ -49,6 +50,7 @@ export function buildBarrels(
       barrelName,
       logger,
       baseUrl,
+      exportDefault,
       local,
       include,
       exclude
@@ -65,6 +67,7 @@ function buildBarrel(
   barrelName: string,
   logger: Logger,
   baseUrl: BaseUrl,
+  exportDefault: boolean,
   local: boolean,
   include: string[],
   exclude: string[]
@@ -76,7 +79,8 @@ function buildBarrel(
     quoteCharacter,
     semicolonCharacter,
     logger,
-    baseUrl
+    baseUrl,
+    exportDefault
   );
   const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
@@ -105,7 +109,8 @@ export type BarrelBuilder = (
   quoteCharacter: QuoteCharacter,
   semicolonCharacter: SemicolonCharacter,
   logger: Logger,
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  exportDefault: boolean
 ) => string;
 
 /** Builds the TypeScript */

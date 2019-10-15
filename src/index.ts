@@ -47,6 +47,7 @@ function main(args: Arguments) {
     barrelName,
     logger,
     baseUrl,
+    !!args.exportDefault,
     args.structure,
     !!args.local,
     ([] as string[]).concat(args.include || []),
