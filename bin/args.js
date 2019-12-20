@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const yargs_1 = __importDefault(require("yargs"));
 function getArgs() {
     // @ts-ignore Work around deep types.
-    return yargs_1.default.usage("Usage: barrelsby [options]")
+    return yargs_1.default.env("BARRELSBY")
+        .usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
         .string("b")
         .alias("b", "baseUrl")

@@ -7,6 +7,24 @@ const chai_1 = require("chai");
 const yargs_1 = __importDefault(require("yargs"));
 const args_1 = require("./args");
 describe("args module", () => {
+    let oldEnvVarVal;
+    let hadEnvVarBefore;
+    beforeEach(() => {
+        if (process.env.BARRELSBYCONFIG != null) {
+            hadEnvVarBefore = true;
+            // we have backup to environment variable because process.env is not mockable
+            oldEnvVarVal = process.env.BARRELSBYCONFIG;
+            delete process.env.BARRELSBYCONFIG;
+        }
+    });
+    afterEach(() => {
+        if (hadEnvVarBefore) {
+            process.env.BARRELSBYCONFIG = oldEnvVarVal;
+        }
+        else if (process.env.BARRELSBYCONFIG != null) {
+            delete process.env.BARRELSBYCONFIG;
+        }
+    });
     it("should load the get the configuration options from yargs", () => {
         // Set up yargs.
         args_1.getArgs();
