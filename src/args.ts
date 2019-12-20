@@ -2,7 +2,8 @@ import Yargs from "yargs";
 
 export function getArgs(): Yargs.Argv {
   // @ts-ignore Work around deep types.
-  return Yargs.usage("Usage: barrelsby [options]")
+  return Yargs.env("BARRELSBY")
+    .usage("Usage: barrelsby [options]")
     .example("barrelsby", "Run barrelsby")
 
     .string("b")
