@@ -45,7 +45,7 @@
     "@types/sinon-chai": "^3.2.3",
     "better-console": "^1.0.1",
     "chai": "^4.2.0",
-    "dir-compare": "^1.7.3",
+    "dir-compare": "^2.0.0",
     "fs-extra": "^8.1.0",
     "istanbul": "^0.4.5",
     "mocha": "^6.2.1",
