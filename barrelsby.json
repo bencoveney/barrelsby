@@ -1,6 +1,6 @@
 {
 	"baseUrl": "../",
-	"directory": "test",
+	"directory": ["test"],
 	"delete": true,
 	"location": "top",
 	"name": "barrel",

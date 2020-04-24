@@ -3,7 +3,7 @@ export declare type StructureOption = "flat" | "filesystem";
 export interface Arguments {
     baseUrl?: string;
     config?: string;
-    directory?: string;
+    directory?: string[];
     delete?: boolean;
     exclude?: string[];
     exportDefault?: boolean;

@@ -3,23 +3,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const fs_1 = __importDefault(require("fs"));
 const yargs_1 = __importDefault(require("yargs"));
+const configParser = (configPath) => {
+    const config = JSON.parse(fs_1.default.readFileSync(configPath, "utf-8"));
+    // Backwards compatibility for directory string, as opposed to an array
+    if (config.directory && typeof config.directory === "string") {
+        config.directory = [config.directory];
+    }
+    return config;
+};
 function getArgs() {
     // @ts-ignore Work around deep types.
     return yargs_1.default.usage("Usage: barrelsby [options]")
         .example("barrelsby", "Run barrelsby")
         .string("b")
         .alias("b", "baseUrl")
-        .nargs("d", 1)
+        .nargs("b", 1)
         .describe("b", "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).")
-        .config("c")
+        .config("c", configParser)
         .alias("c", "config")
         .describe("c", "The location of the config file.")
-        .string("d")
+        .array("d")
         .alias("d", "directory")
-        .nargs("d", 1)
-        .describe("d", "The directory to create barrels for.")
-        .default("d", "./")
+        .describe("d", "A list of directories to create barrels for.")
+        .default("d", ["./"])
         .boolean("D")
         .alias("D", "delete")
         .describe("D", "Delete existing barrel files.")
