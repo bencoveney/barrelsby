@@ -1,4 +1,4 @@
 {
-	"directory": "./output",
+	"directory": ["./output"],
 	"baseUrl": "./"
 }

@@ -28,7 +28,7 @@ describe("args module", () => {
 
     assert.isUndefined(args.config);
     assert.equal(args.delete, true);
-    assert.equal(args.directory, "./test");
+    assert.sameMembers(args.directory as string[], ["./test"]);
     assert.sameMembers(args.include as string[], ["a.ts$"]);
     assert.sameMembers(args.exclude as string[], ["zeta.ts$"]);
     assert.equal(args.location, "top");
@@ -38,4 +38,19 @@ describe("args module", () => {
     assert.equal(args.verbose, true);
   });
   // TODO: Check things are defaulted correctly.
+});
+
+describe("args module", () => {
+  it("should handle legacy directory configuration options from yargs", () => {
+    // Set up yargs.
+    getArgs();
+
+    const args = Yargs.parse([
+      "--config",
+      "./barrelsby-legacy-directory.json"
+    ]);
+
+    assert.isDefined(args.config);
+    assert.deepEqual(args.directory, ["test"]);
+  });
 });

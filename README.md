@@ -93,10 +93,23 @@ can be configured from the command line or using a configuration file.
 Specifies the location of the barrelsby configuration file. This file must be a `.json` file. You
 can include any of the configuration options using their long name.
 
-### `-d [path]` or `--directory [path]`
+### `-d [path...]` or `--directory [path...]`
 
-Specifies the root directory where barrels will be created from. Uses the current directory by
-default.
+Specifies a list of root directories where barrels will be created from. Uses the current directory
+by default.
+
+**Note**: This is backwards compatible with previous versions. Existing configuration files will be
+parsed correctly. The following two json files will behave identically.
+
+```json
+{
+  "directory": "./src"
+}
+
+{
+  "directory": ["./src"]
+}
+```
 
 ### `-D` or `--delete`
 
