@@ -37,7 +37,7 @@
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
     "@types/chai": "^4.2.3",
-    "@types/fs-extra": "^8.0.0",
+    "@types/fs-extra": "^9.0.0",
     "@types/mocha": "^5.2.7",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^12.7.12",
