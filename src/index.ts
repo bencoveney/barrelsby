@@ -20,52 +20,39 @@ function main(args: Arguments) {
   // TODO: These casts could be fixed if all the options weren't ?optional.
   const logger = getLogger(args.verbose as boolean);
   const barrelName = getBarrelName(args.name as string, logger);
-  const directories = args.directory || ["./"];
-  // tslint:disable-next-line:no-console
-  console.log("Directory: %s", directories.join(", "));
+  const rootPath = resolveRootPath(args.directory as string);
+  const baseUrl = getCombinedBaseUrl(rootPath, args.baseUrl);
 
-  directories.forEach(directory => {
-    const rootPath = resolveRootPath(directory);
-    const baseUrl = getCombinedBaseUrl(rootPath, args.baseUrl);
+  // Build the directory tree.
+  const rootTree = buildTree(rootPath, barrelName, logger);
 
-    // Build the directory tree.
-    const rootTree = buildTree(rootPath, barrelName, logger);
+  // Work out which directories should have barrels.
+  const destinations: Directory[] = getDestinations(
+    rootTree,
+    args.location as LocationOption,
+    barrelName,
+    logger
+  );
 
-    // Work out which directories should have barrels.
-    const destinations: Directory[] = getDestinations(
-      rootTree,
-      args.location as LocationOption,
-      barrelName,
-      logger
-    );
+  // Potentially there are some existing barrels that need removing.
+  purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
 
-    // Potentially there are some existing barrels that need removing.
-    purge(
-      rootTree,
-      args.delete !== undefined && args.delete,
-      barrelName,
-      logger
-    );
-
-    // Create the barrels.
-    const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
-    const semicolonCharacter = getSemicolonCharacter(
-      args.noSemicolon as boolean
-    );
-    buildBarrels(
-      destinations,
-      quoteCharacter,
-      semicolonCharacter,
-      barrelName,
-      logger,
-      baseUrl,
-      !!args.exportDefault,
-      args.structure,
-      !!args.local,
-      ([] as string[]).concat(args.include || []),
-      ([] as string[]).concat(args.exclude || [], ["node_modules"])
-    );
-  });
+  // Create the barrels.
+  const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
+  const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
+  buildBarrels(
+    destinations,
+    quoteCharacter,
+    semicolonCharacter,
+    barrelName,
+    logger,
+    baseUrl,
+    !!args.exportDefault,
+    args.structure,
+    !!args.local,
+    ([] as string[]).concat(args.include || []),
+    ([] as string[]).concat(args.exclude || [], ["node_modules"])
+  );
 }
 
 export = main;

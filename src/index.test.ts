@@ -112,14 +112,8 @@ describe("main module", () => {
         args.structure,
         args.local,
         args.include,
-        args.exclude
-      );
-      // tslint:disable-next-line:no-console
-      console.log("build results", buildResults);
-      assert(buildResults);
-    } catch (e) {
-      // tslint:disable-next-line:no-console
-      console.log(e);
-    }
+        [...args.exclude, "node_modules"]
+      )
+    );
   });
 });
