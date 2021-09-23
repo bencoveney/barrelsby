@@ -112,7 +112,7 @@ describe("main module", () => {
         args.structure,
         args.local,
         args.include,
-        args.exclude
+        [...args.exclude, "node_modules"]
       )
     );
   });
