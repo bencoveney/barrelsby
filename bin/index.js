@@ -18,7 +18,9 @@ function main(args) {
     const logger = logger_1.getLogger(args.verbose);
     const barrelName = barrelName_1.getBarrelName(args.name, logger);
     const directories = args.directory || ["./"];
-    directories.forEach((directory) => {
+    // tslint:disable-next-line:no-console
+    console.log("Directory: %s", directories.join(", "));
+    directories.forEach(directory => {
         const rootPath = rootPath_1.resolveRootPath(directory);
         const baseUrl = baseUrl_1.getCombinedBaseUrl(rootPath, args.baseUrl);
         // Build the directory tree.
@@ -30,7 +32,7 @@ function main(args) {
         // Create the barrels.
         const quoteCharacter = quoteCharacter_1.getQuoteCharacter(args.singleQuotes);
         const semicolonCharacter = noSemicolon_1.getSemicolonCharacter(args.noSemicolon);
-        builder_1.buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, !!args.exportDefault, args.structure, !!args.local, [].concat(args.include || []), [].concat(args.exclude || []));
+        builder_1.buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, !!args.exportDefault, args.structure, !!args.local, [].concat(args.include || []), [].concat(args.exclude || [], ["node_modules"]));
     });
 }
 module.exports = main;

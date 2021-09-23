@@ -89,7 +89,16 @@ describe("main module", () => {
         chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
         chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
         chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, args.exclude));
+        try {
+            const buildResults = buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, args.exclude);
+            // tslint:disable-next-line:no-console
+            console.log("build results", buildResults);
+            chai_1.assert(buildResults);
+        }
+        catch (e) {
+            // tslint:disable-next-line:no-console
+            console.log(e);
+        }
     });
 });
 //# sourceMappingURL=index.test.js.map

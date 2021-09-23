@@ -21,8 +21,10 @@ function main(args: Arguments) {
   const logger = getLogger(args.verbose as boolean);
   const barrelName = getBarrelName(args.name as string, logger);
   const directories = args.directory || ["./"];
+  // tslint:disable-next-line:no-console
+  console.log("Directory: %s", directories.join(", "));
 
-  directories.forEach((directory) => {
+  directories.forEach(directory => {
     const rootPath = resolveRootPath(directory);
     const baseUrl = getCombinedBaseUrl(rootPath, args.baseUrl);
 
@@ -38,11 +40,18 @@ function main(args: Arguments) {
     );
 
     // Potentially there are some existing barrels that need removing.
-    purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
+    purge(
+      rootTree,
+      args.delete !== undefined && args.delete,
+      barrelName,
+      logger
+    );
 
     // Create the barrels.
     const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
-    const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
+    const semicolonCharacter = getSemicolonCharacter(
+      args.noSemicolon as boolean
+    );
     buildBarrels(
       destinations,
       quoteCharacter,
@@ -54,7 +63,7 @@ function main(args: Arguments) {
       args.structure,
       !!args.local,
       ([] as string[]).concat(args.include || []),
-      ([] as string[]).concat(args.exclude || [])
+      ([] as string[]).concat(args.exclude || [], ["node_modules"])
     );
   });
 }

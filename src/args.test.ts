@@ -45,10 +45,7 @@ describe("args module", () => {
     // Set up yargs.
     getArgs();
 
-    const args = Yargs.parse([
-      "--config",
-      "./barrelsby-legacy-directory.json"
-    ]);
+    const args = Yargs.parse(["--config", "./barrelsby-legacy-directory.json"]);
 
     assert.isDefined(args.config);
     assert.deepEqual(args.directory, ["test"]);

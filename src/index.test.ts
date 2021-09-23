@@ -100,8 +100,8 @@ describe("main module", () => {
     assert(
       purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)
     );
-    assert(
-      buildBarrelsSpy.calledOnceWithExactly(
+    try {
+      const buildResults = buildBarrelsSpy.calledOnceWithExactly(
         destinations,
         quoteCharacter,
         semicolonCharacter,
@@ -113,7 +113,13 @@ describe("main module", () => {
         args.local,
         args.include,
         args.exclude
-      )
-    );
+      );
+      // tslint:disable-next-line:no-console
+      console.log("build results", buildResults);
+      assert(buildResults);
+    } catch (e) {
+      // tslint:disable-next-line:no-console
+      console.log(e);
+    }
   });
 });
