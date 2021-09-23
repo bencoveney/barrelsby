@@ -44,7 +44,7 @@ describe("destinations module has a", () => {
     testMode("below", () => directory.directories, [
       "Destinations:",
       "directory1/directory2",
-      "directory1/directory3"
+      "directory1/directory3",
     ]);
     testMode(
       "all",
@@ -52,21 +52,21 @@ describe("destinations module has a", () => {
         directory.directories[0].directories[0],
         directory.directories[0],
         directory.directories[1],
-        directory
+        directory,
       ],
       [
         "Destinations:",
         "directory1/directory2/directory4",
         "directory1/directory2",
         "directory1/directory3",
-        "./directory1"
+        "./directory1",
       ]
     );
     testMode("replace", () => [directory], ["Destinations:", "./directory1"]);
     testMode("branch", () => [directory.directories[0], directory], [
       "Destinations:",
       "directory1/directory2",
-      "./directory1"
+      "./directory1",
     ]);
   });
 });

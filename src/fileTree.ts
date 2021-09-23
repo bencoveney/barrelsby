@@ -16,7 +16,7 @@ export function buildTree(
     directories: [],
     files: [],
     name: path.basename(directory),
-    path: convertPathSeparator(directory)
+    path: convertPathSeparator(directory),
   };
   names.forEach((name: string) => {
     const fullPath = path.join(directory, name);
@@ -26,7 +26,7 @@ export function buildTree(
       const convertedPath = convertPathSeparator(fullPath);
       const file = {
         name,
-        path: convertedPath
+        path: convertedPath,
       };
       result.files.push(file);
       if (file.name === barrelName) {
@@ -44,7 +44,7 @@ export function walkTree(
   callback: (directory: Directory) => void
 ) {
   callback(directory);
-  directory.directories.forEach(childDirectory =>
+  directory.directories.forEach((childDirectory) =>
     walkTree(childDirectory, callback)
   );
 }

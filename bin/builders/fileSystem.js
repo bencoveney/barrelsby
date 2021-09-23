@@ -3,6 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.buildFileSystemBarrel = void 0;
 const path_1 = __importDefault(require("path"));
 const builder_1 = require("../builder");
 const utilities_1 = require("../utilities");
@@ -50,7 +51,7 @@ baseUrl) {
     modules
         .map((module) => ({
         module,
-        path: builder_1.buildImportPath(directory, module, baseUrl)
+        path: (0, builder_1.buildImportPath)(directory, module, baseUrl),
     }))
         .sort(compareImports)
         .forEach((imported) => {

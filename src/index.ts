@@ -20,7 +20,13 @@ function main(args: Arguments) {
   // TODO: These casts could be fixed if all the options weren't ?optional.
   const logger = getLogger(args.verbose as boolean);
   const barrelName = getBarrelName(args.name as string, logger);
-  const rootPath = resolveRootPath(args.directory as string);
+  const dir =
+    (Array.isArray(args.directory)
+      ? args.directory?.shift()
+      : args.directory) ?? "";
+  // tslint:disable-next-line:no-console
+  console.log("dir: ", dir);
+  const rootPath = resolveRootPath(dir);
   const baseUrl = getCombinedBaseUrl(rootPath, args.baseUrl);
 
   // Build the directory tree.

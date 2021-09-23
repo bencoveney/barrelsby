@@ -1,13 +1,25 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
+};
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const chai_1 = require("chai");
@@ -45,7 +57,7 @@ describe("main module", () => {
             noSemicolon: true,
             singleQuotes: true,
             structure: "flat",
-            verbose: true
+            verbose: true,
         };
         const builtTree = { mock: "built tree" };
         const buildTreeSpy = spySandbox
@@ -79,17 +91,17 @@ describe("main module", () => {
         const getCombinedBaseUrlSpy = spySandbox
             .stub(BaseUrl, "getCombinedBaseUrl")
             .returns(baseUrl);
-        index_1.default(args);
-        chai_1.assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
-        chai_1.assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
-        chai_1.assert(getLoggerSpy.calledOnceWithExactly(true));
-        chai_1.assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
-        chai_1.assert(resolveRootPathSpy.calledWithExactly(args.directory[0]));
-        chai_1.assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
-        chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
-        chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
-        chai_1.assert(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        chai_1.assert(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"]));
+        (0, index_1.default)(args);
+        (0, chai_1.assert)(getQuoteCharacterSpy.calledOnceWithExactly(true));
+        (0, chai_1.assert)(getSemicolonCharacterSpy.calledOnceWithExactly(true));
+        (0, chai_1.assert)(getLoggerSpy.calledOnceWithExactly(true));
+        (0, chai_1.assert)(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
+        (0, chai_1.assert)(resolveRootPathSpy.calledWithExactly("testRootPath"));
+        (0, chai_1.assert)(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
+        (0, chai_1.assert)(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
+        (0, chai_1.assert)(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
+        (0, chai_1.assert)(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
+        buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"]);
     });
 });
 //# sourceMappingURL=index.test.js.map

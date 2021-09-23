@@ -13,7 +13,7 @@
     "unit-test_html_coverage": "istanbul report html",
     "integration-test_tsc": "tsc --project test/",
     "integration-test_run": "node test/src.js",
-    "test": "run-s clean typescript-format typescript-build unit-test_run unit-test_remap-coverage unit-test_html_coverage integration-test_tsc integration-test_run typescript-lint"
+    "test": "run-s clean typescript-format typescript-build unit-test_run unit-test_remap-coverage unit-test_html_coverage integration-test_tsc integration-test_run"
   },
   "repository": {
     "type": "git",
@@ -51,14 +51,14 @@
     "mocha": "^6.2.1",
     "mock-fs": "^4.10.1",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.18.2",
+    "prettier": "^2.4.1",
     "remap-istanbul": "^0.13.0",
     "rimraf": "^3.0.0",
     "sinon": "^7.5.0",
     "sinon-chai": "^3.3.0",
-    "tslint": "^5.20.0",
+    "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.6.4"
+    "typescript": "^4.4.3"
   },
   "bin": {
     "barrelsby": "bin/cli.js"

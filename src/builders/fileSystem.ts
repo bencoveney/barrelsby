@@ -9,7 +9,7 @@ import {
   Directory,
   indentation,
   Location,
-  nonAlphaNumeric
+  nonAlphaNumeric,
 } from "../utilities";
 
 function stringify(
@@ -82,7 +82,7 @@ export function buildFileSystemBarrel(
     .map(
       (module: Location): Import => ({
         module,
-        path: buildImportPath(directory, module, baseUrl)
+        path: buildImportPath(directory, module, baseUrl),
       })
     )
     .sort(compareImports)

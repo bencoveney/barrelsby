@@ -23,7 +23,7 @@ describe("args module", () => {
       "barrel",
       "--structure",
       "filesystem",
-      "--verbose"
+      "--verbose",
     ]);
 
     assert.isUndefined(args.config);

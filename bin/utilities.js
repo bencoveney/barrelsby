@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.indentation = exports.thisDirectory = exports.nonAlphaNumeric = exports.isTypeScriptFile = exports.convertPathSeparator = void 0;
 /** Convert path separator from windows to unix */
 function convertPathSeparator(path) {
     return path.replace(/\\+/g, "/");

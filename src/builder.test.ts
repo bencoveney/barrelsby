@@ -14,7 +14,7 @@ import { Directory, Location } from "./utilities";
 
 // Gets a location from a list by name.
 function getLocationByName(locations: Location[], name: string): Location {
-  return locations.filter(location => location.name === name)[0];
+  return locations.filter((location) => location.name === name)[0];
 }
 
 describe("builder/builder module has a", () => {
@@ -105,7 +105,7 @@ describe("builder/builder module has a", () => {
         "Building barrel @ directory1/directory2",
         "Updating model barrel @ directory1/directory2/barrel.ts",
         "Building barrel @ directory1/directory3",
-        "Updating model barrel @ directory1/directory3/barrel.ts"
+        "Updating model barrel @ directory1/directory3/barrel.ts",
       ];
       assert.equal(logger.callCount, messages.length);
       messages.forEach((message: string, barrel: number) => {

@@ -9,7 +9,7 @@ const args_1 = require("./args");
 describe("args module", () => {
     it("should load the get the configuration options from yargs", () => {
         // Set up yargs.
-        args_1.getArgs();
+        (0, args_1.getArgs)();
         const args = yargs_1.default.parse([
             "--delete",
             "--directory",
@@ -25,7 +25,7 @@ describe("args module", () => {
             "barrel",
             "--structure",
             "filesystem",
-            "--verbose"
+            "--verbose",
         ]);
         chai_1.assert.isUndefined(args.config);
         chai_1.assert.equal(args.delete, true);
@@ -43,7 +43,7 @@ describe("args module", () => {
 describe("args module", () => {
     it("should handle legacy directory configuration options from yargs", () => {
         // Set up yargs.
-        args_1.getArgs();
+        (0, args_1.getArgs)();
         const args = yargs_1.default.parse(["--config", "./barrelsby-legacy-directory.json"]);
         chai_1.assert.isDefined(args.config);
         chai_1.assert.deepEqual(args.directory, ["test"]);

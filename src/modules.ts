@@ -36,7 +36,7 @@ function buildFilters(include: string[], exclude: string[]): Filters {
   }
   return {
     blacklists: buildRegexList(exclude),
-    whitelists: buildRegexList(include)
+    whitelists: buildRegexList(include),
   };
 }
 

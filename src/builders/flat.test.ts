@@ -44,7 +44,7 @@ export * from "./directory3/program";
           "Including path ./index",
           "Including path ./directory2/script",
           "Including path ./directory2/directory4/deeplyNested",
-          "Including path ./directory3/program"
+          "Including path ./directory3/program",
         ];
         assert.equal(logger.callCount, messages.length);
         messages.forEach((message: string, index: number) => {
@@ -94,7 +94,7 @@ export * from './directory3/program';
           "Including path ./index",
           "Including path ./directory2/script",
           "Including path ./directory2/directory4/deeplyNested",
-          "Including path ./directory3/program"
+          "Including path ./directory3/program",
         ];
         assert.equal(logger.callCount, messages.length);
         messages.forEach((message: string, index: number) => {
@@ -144,7 +144,7 @@ export * from "./directory3/program"
           "Including path ./index",
           "Including path ./directory2/script",
           "Including path ./directory2/directory4/deeplyNested",
-          "Including path ./directory3/program"
+          "Including path ./directory3/program",
         ];
         assert.equal(logger.callCount, messages.length);
         messages.forEach((message: string, index: number) => {

@@ -14,7 +14,7 @@ import {
   convertPathSeparator,
   Directory,
   Location,
-  thisDirectory
+  thisDirectory,
 } from "./utilities";
 
 export function buildBarrels(
@@ -95,7 +95,7 @@ function buildBarrel(
     const convertedPath = convertPathSeparator(destination);
     const barrel = {
       name: barrelName,
-      path: convertedPath
+      path: convertedPath,
     };
     logger(`Updating model barrel @ ${convertedPath}`);
     directory.files.push(barrel);
@@ -143,7 +143,7 @@ function stripThisDirectory(location: string, baseUrl: BaseUrl) {
 export function getBasename(relativePath: string) {
   const mayBeSuffix = [".ts", ".tsx", ".d.ts"];
   let mayBePath = relativePath;
-  mayBeSuffix.map(suffix => {
+  mayBeSuffix.map((suffix) => {
     const tmpPath = path.basename(relativePath, suffix);
     if (tmpPath.length < mayBePath.length) {
       mayBePath = tmpPath;
