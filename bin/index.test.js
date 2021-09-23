@@ -35,7 +35,7 @@ describe("main module", () => {
         const args = {
             baseUrl: "https://base-url.com",
             delete: true,
-            directory: "testRootPath",
+            directory: ["testRootPath"],
             exclude: ["directory4"],
             exportDefault: false,
             include: ["directory2"],
@@ -84,7 +84,7 @@ describe("main module", () => {
         chai_1.assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
         chai_1.assert(getLoggerSpy.calledOnceWithExactly(true));
         chai_1.assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
-        chai_1.assert(resolveRootPathSpy.calledWithExactly(args.directory));
+        chai_1.assert(resolveRootPathSpy.calledWithExactly(args.directory[0]));
         chai_1.assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
         chai_1.assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
         chai_1.assert(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));

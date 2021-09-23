@@ -20,7 +20,8 @@ Promise.all(fs_1.readdirSync(location)
     .filter(path => fs_1.lstatSync(path).isDirectory())
     .map(directory => {
     const args = yargs_1.default.parse(["--config", path_1.join(directory, "barrelsby.json")]);
-    args.directory = path_1.join(directory, args.directory);
+    console.log('directory', directory, args.directory);
+    args.directory = typeof args.directory !== "string" ? path_1.join(directory, args.directory.shift()) : path_1.join(directory, args.directory);
     return fs_extra_1.copy(path_1.join(directory, "input"), path_1.join(directory, "output")).then(() => {
         bin_1.default(args);
         console.log(`Running integration test in directory ${directory}`);

@@ -25,7 +25,7 @@ describe("main module", () => {
     const args: any = {
       baseUrl: "https://base-url.com",
       delete: true,
-      directory: "testRootPath",
+      directory: ["testRootPath"],
       exclude: ["directory4"],
       exportDefault: false,
       include: ["directory2"],
@@ -86,7 +86,7 @@ describe("main module", () => {
     assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
     assert(getLoggerSpy.calledOnceWithExactly(true));
     assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
-    assert(resolveRootPathSpy.calledWithExactly(args.directory));
+    assert(resolveRootPathSpy.calledWithExactly(args.directory[0]));
     assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
     assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
     assert(
@@ -100,8 +100,8 @@ describe("main module", () => {
     assert(
       purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)
     );
-    assert(
-      buildBarrelsSpy.calledOnceWithExactly(
+    try {
+      const buildResults = buildBarrelsSpy.calledOnceWithExactly(
         destinations,
         quoteCharacter,
         semicolonCharacter,

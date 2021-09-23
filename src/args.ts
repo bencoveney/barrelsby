@@ -1,4 +1,16 @@
+import fs from "fs";
 import Yargs from "yargs";
+
+const configParser = (configPath: string): any => {
+  const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
+
+  // Backwards compatibility for directory string, as opposed to an array
+  if (config.directory && typeof config.directory === "string") {
+    config.directory = [config.directory];
+  }
+
+  return config;
+};
 
 export function getArgs(): Yargs.Argv {
   // @ts-ignore Work around deep types.
@@ -7,21 +19,20 @@ export function getArgs(): Yargs.Argv {
 
     .string("b")
     .alias("b", "baseUrl")
-    .nargs("d", 1)
+    .nargs("b", 1)
     .describe(
       "b",
       "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl)."
     )
 
-    .config("c")
+    .config("c", configParser)
     .alias("c", "config")
     .describe("c", "The location of the config file.")
 
-    .string("d")
+    .array("d")
     .alias("d", "directory")
-    .nargs("d", 1)
-    .describe("d", "The directory to create barrels for.")
-    .default("d", "./")
+    .describe("d", "A list of directories to create barrels for.")
+    .default("d", ["./"])
 
     .boolean("D")
     .alias("D", "delete")

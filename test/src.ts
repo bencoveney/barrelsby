@@ -20,8 +20,9 @@ Promise.all(
     .filter(path => lstatSync(path).isDirectory())
     .map(directory => {
       const args = Yargs.parse(["--config", join(directory, "barrelsby.json")]);
-      args.directory = join(directory, args.directory as string);
-      return copy(join(directory, "input"), join(directory, "output")).then(
+        console.log('directory', directory, args.directory);
+        args.directory = typeof args.directory !== "string" ? join(directory, (args.directory as string[]).shift() as string) : join(directory, args.directory as string);
+        return copy(join(directory, "input"), join(directory, "output")).then(
         () => {
           Barrelsby(args as any);
           console.log(`Running integration test in directory ${directory}`);
