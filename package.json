@@ -1,5 +1,5 @@
 {
-  "name": "barrelsby",
+  "name": "@bitforger/barrelsby",
   "version": "2.2.0",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
