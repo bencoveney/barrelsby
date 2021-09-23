@@ -1,6 +1,6 @@
 {
   "name": "@bitforger/barrelsby",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bencoveney/barrelsby.git"
+    "url": "git+https://github.com/bitforger/barrelsby.git"
   },
   "keywords": [
     "TypeScript",
@@ -25,16 +25,11 @@
     "Module",
     "Barrelsby"
   ],
-  "author": {
-    "name": "Ben Coveney",
-    "email": "bencoveney@gmail.com",
-    "url": "https://github.com/bencoveney"
-  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bencoveney/barrelsby/issues"
+    "url": "https://github.com/bitforger/barrelsby/issues"
   },
-  "homepage": "https://github.com/bencoveney/barrelsby#readme",
+  "homepage": "https://github.com/bitforger/barrelsby#readme",
   "devDependencies": {
     "@types/chai": "^4.2.3",
     "@types/fs-extra": "^8.0.0",
@@ -71,11 +66,6 @@
     "yargs": "^14.2.0"
   },
   "contributors": [
-    {
-      "name": "Ben Coveney",
-      "email": "bencoveney@gmail.com",
-      "url": "https://github.com/bencoveney"
-    }
   ],
   "engines": {
     "node": ">=6.0.0"
