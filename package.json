@@ -1,6 +1,6 @@
 {
-  "name": "@bitforger/barrelsby",
-  "version": "2.2.3",
+  "name": "barrelsby",
+  "version": "2.2.0",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
@@ -13,11 +13,11 @@
     "unit-test_html_coverage": "istanbul report html",
     "integration-test_tsc": "tsc --project test/",
     "integration-test_run": "node test/src.js",
-    "test": "run-s clean typescript-format typescript-build unit-test_run unit-test_remap-coverage unit-test_html_coverage integration-test_tsc integration-test_run"
+    "test": "run-s clean typescript-format typescript-build unit-test_run unit-test_remap-coverage unit-test_html_coverage integration-test_tsc integration-test_run typescript-lint"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bitforger/barrelsby.git"
+    "url": "git+https://github.com/bencoveney/barrelsby.git"
   },
   "keywords": [
     "TypeScript",
@@ -25,11 +25,16 @@
     "Module",
     "Barrelsby"
   ],
+  "author": {
+    "name": "Ben Coveney",
+    "email": "bencoveney@gmail.com",
+    "url": "https://github.com/bencoveney"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bitforger/barrelsby/issues"
+    "url": "https://github.com/bencoveney/barrelsby/issues"
   },
-  "homepage": "https://github.com/bitforger/barrelsby#readme",
+  "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
     "@types/chai": "^4.2.3",
     "@types/fs-extra": "^8.0.0",
@@ -66,6 +71,11 @@
     "yargs": "^14.2.0"
   },
   "contributors": [
+    {
+      "name": "Ben Coveney",
+      "email": "bencoveney@gmail.com",
+      "url": "https://github.com/bencoveney"
+    }
   ],
   "engines": {
     "node": ">=6.0.0"
