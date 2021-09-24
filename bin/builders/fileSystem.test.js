@@ -28,7 +28,7 @@ describe("builder/fileSystem module has a", () => {
             const logger = () => void 0;
             beforeEach(() => {
                 const rootDirectory = TestUtilities.mockDirectoryTree();
-                output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', ";", logger, undefined);
+                output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', ";", logger, undefined, false);
             });
             it("should produce the correct output", () => {
                 TestUtilities.assertMultiLine(output, `import * as barrelts from "./barrel";
@@ -59,7 +59,7 @@ export {indexts as index};
         const logger = () => void 0;
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
-            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), "'", ";", logger, undefined);
+            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), "'", ";", logger, undefined, false);
         });
         it("should produce the correct output", () => {
             TestUtilities.assertMultiLine(output, `import * as barrelts from './barrel';
@@ -89,7 +89,7 @@ export {indexts as index};
         const logger = () => void 0;
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
-            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', "", logger, undefined);
+            output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', "", logger, undefined, false);
         });
         it("should produce the correct output", () => {
             TestUtilities.assertMultiLine(output, `import * as barrelts from "./barrel"

@@ -43,7 +43,7 @@ describe("builder/builder module has a", () => {
         let logger;
         const runBuilder = (structure) => {
             logger = spySandbox.spy();
-            Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, false, structure, false, [], []);
+            Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, false, structure, false, [], [], false);
         };
         beforeEach(() => {
             (0, mock_fs_1.default)(TestUtilities.mockFsConfiguration());
@@ -120,7 +120,7 @@ describe("builder/builder module has a", () => {
         let logger;
         const runBuilder = () => {
             logger = spySandbox.spy();
-            Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, false, "flat", false, [], []);
+            Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, false, "flat", false, [], [], false);
         };
         beforeEach(() => {
             (0, mock_fs_1.default)(TestUtilities.mockFsConfiguration());
@@ -149,13 +149,13 @@ describe("builder/builder module has a", () => {
         });
         it("should correctly build a path to a file in the same directory", () => {
             const target = getLocationByName(directory.files, "index.ts");
-            const result = Builder.buildImportPath(directory, target, undefined);
+            const result = Builder.buildImportPath(directory, target, undefined, false);
             chai_1.assert.equal(result, "./index");
         });
         it("should correctly build a path to a file in a child directory", () => {
             const childDirectory = getLocationByName(directory.directories, "directory2");
             const target = getLocationByName(childDirectory.files, "script.ts");
-            const result = Builder.buildImportPath(directory, target, undefined);
+            const result = Builder.buildImportPath(directory, target, undefined, false);
             chai_1.assert.equal(result, "./directory2/script");
         });
     });

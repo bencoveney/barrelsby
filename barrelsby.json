@@ -7,5 +7,6 @@
 	"structure": "filesystem",
 	"verbose": true,
 	"include": [".ts$"],
-	"exclude": ["zeta.ts$"]
+	"exclude": ["zeta.ts$"],
+	"extension": false
 }

@@ -21,6 +21,7 @@ describe("builder/flat module has a", () => {
           ";",
           logger,
           undefined,
+          false,
           false
         );
       });
@@ -71,6 +72,7 @@ export * from "./directory3/program";
           ";",
           logger,
           undefined,
+          false,
           false
         );
       });
@@ -121,6 +123,7 @@ export * from './directory3/program';
           "",
           logger,
           undefined,
+          false,
           false
         );
       });
@@ -168,7 +171,8 @@ export * from "./directory3/program"
           ";",
           logger,
           undefined,
-          true
+          true,
+          false
         );
       });
       afterEach(() => {

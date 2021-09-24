@@ -12,10 +12,11 @@ export function buildFlatBarrel(
   semicolonCharacter: SemicolonCharacter,
   logger: Logger,
   baseUrl: BaseUrl,
-  exportDefault: boolean
+  exportDefault: boolean,
+  extension: boolean
 ): string {
   return modules.reduce((previous: string, current: Location) => {
-    const importPath = buildImportPath(directory, current, baseUrl);
+    const importPath = buildImportPath(directory, current, baseUrl, extension);
     logger(`Including path ${importPath}`);
     if (exportDefault) {
       const filename = getBasename(current.path);

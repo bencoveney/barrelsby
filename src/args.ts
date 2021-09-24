@@ -25,5 +25,10 @@ export function getArgs(): Yargs.Argv<Arguments> {
     .default("v", false)
     .help("h")
     .alias("h", "help")
-    .default("h", false);
+    .default("h", false)
+
+    .boolean("x")
+    .alias("x", "extension")
+    .describe("x", "add .js extension to exports.")
+    .default("x", false);
 }

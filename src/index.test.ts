@@ -36,6 +36,7 @@ describe("main module", () => {
       singleQuotes: true,
       structure: "flat",
       verbose: true,
+      extension: false,
     };
 
     const builtTree: any = { mock: "built tree" };
@@ -112,7 +113,8 @@ describe("main module", () => {
         args.structure,
         args.local,
         args.include,
-        [...args.exclude, "node_modules"]
+        [...args.exclude, "node_modules"],
+        args.extension
       )
     );
   });

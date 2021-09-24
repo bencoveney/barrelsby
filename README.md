@@ -154,7 +154,7 @@ than recursively searching child directories.
 
 ### `-n [name]` or `--name [name]`
 
-Specifies the name to use for creating new barrels (and identifying old ones). `.ts` wil be
+Specifies the name to use for creating new barrels (and identifying old ones). `.ts` will be
 appended if not included in the name. Barrels names will be defaulted to `index.ts`.
 
 ### `-s [mode]` or `--structure [mode]`
@@ -211,6 +211,10 @@ Display the barrelsby version number.
 ### `-V` or `--verbose`
 
 Display additional debug information.
+
+### `-x`or `--extension`
+
+Add .js extension to the exports. Useful for ESM modules.
 
 ## Requirements
 

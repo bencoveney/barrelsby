@@ -28,7 +28,8 @@ export function buildBarrels(
   structure: StructureOption | undefined,
   local: boolean,
   include: string[],
-  exclude: string[]
+  exclude: string[],
+  extension: boolean
 ): void {
   let builder: BarrelBuilder;
   switch (structure) {
@@ -53,7 +54,8 @@ export function buildBarrels(
       exportDefault,
       local,
       include,
-      exclude
+      exclude,
+      extension
     )
   );
 }
@@ -70,7 +72,8 @@ function buildBarrel(
   exportDefault: boolean,
   local: boolean,
   include: string[],
-  exclude: string[]
+  exclude: string[],
+  extension: boolean
 ) {
   logger(`Building barrel @ ${directory.path}`);
   const content = builder(
@@ -80,7 +83,8 @@ function buildBarrel(
     semicolonCharacter,
     logger,
     baseUrl,
-    exportDefault
+    exportDefault,
+    extension
   );
   const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
@@ -110,14 +114,16 @@ export type BarrelBuilder = (
   semicolonCharacter: SemicolonCharacter,
   logger: Logger,
   baseUrl: BaseUrl,
-  exportDefault: boolean
+  exportDefault: boolean,
+  extension: boolean
 ) => string;
 
 /** Builds the TypeScript */
 export function buildImportPath(
   directory: Directory,
   target: Location,
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  extension: boolean
 ): string {
   // If the base URL option is set then imports should be relative to there.
   const startLocation = baseUrl ? baseUrl : directory.path;
@@ -127,8 +133,13 @@ export function buildImportPath(
   if (directoryPath !== ".") {
     directoryPath = `.${path.sep}${directoryPath}`;
   }
-  // Strip off the .ts or .tsx from the file name.
-  const fileName = getBasename(relativePath);
+
+  // Strip off the .ts or .tsx from the file name, unless configured otherwise.
+  const baseName = getBasename(relativePath);
+
+  // Add .js extensions for esm compatibility
+  const fileName = extension ? baseName + ".js" : baseName;
+
   // Build the final path string. Use posix-style seperators.
   const location = `${directoryPath}${path.sep}${fileName}`;
   const convertedLocation = convertPathSeparator(location);

@@ -4,4 +4,4 @@ import { SemicolonCharacter } from "../options/noSemicolon";
 import { QuoteCharacter } from "../options/quoteCharacter";
 import { Directory, Location } from "../utilities";
 export declare function buildFileSystemBarrel(directory: Directory, modules: Location[], quoteCharacter: QuoteCharacter, semicolonCharacter: SemicolonCharacter, _: Logger, // Not used
-baseUrl: BaseUrl): string;
+baseUrl: BaseUrl, extension: boolean): string;

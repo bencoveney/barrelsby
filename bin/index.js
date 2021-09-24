@@ -32,7 +32,7 @@ function main(args) {
     // Create the barrels.
     const quoteCharacter = (0, quoteCharacter_1.getQuoteCharacter)(args.singleQuotes);
     const semicolonCharacter = (0, noSemicolon_1.getSemicolonCharacter)(args.noSemicolon);
-    (0, builder_1.buildBarrels)(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, !!args.exportDefault, args.structure, !!args.local, [].concat(args.include || []), [].concat(args.exclude || [], ["node_modules"]));
+    (0, builder_1.buildBarrels)(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, !!args.exportDefault, args.structure, !!args.local, [].concat(args.include || []), [].concat(args.exclude || [], ["node_modules"]), !!args.extension);
 }
 module.exports = main;
 //# sourceMappingURL=index.js.map

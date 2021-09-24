@@ -14,7 +14,8 @@ describe("builder/fileSystem module has a", () => {
           '"',
           ";",
           logger,
-          undefined
+          undefined,
+          false
         );
       });
       it("should produce the correct output", () => {
@@ -56,7 +57,8 @@ export {indexts as index};
         "'",
         ";",
         logger,
-        undefined
+        undefined,
+        false
       );
     });
     it("should produce the correct output", () => {
@@ -97,7 +99,8 @@ export {indexts as index};
         '"',
         "",
         logger,
-        undefined
+        undefined,
+        false
       );
     });
     it("should produce the correct output", () => {

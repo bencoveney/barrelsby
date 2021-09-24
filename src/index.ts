@@ -55,7 +55,8 @@ function main(args: Arguments) {
     args.structure,
     !!args.local,
     ([] as string[]).concat(args.include || []),
-    ([] as string[]).concat(args.exclude || [], ["node_modules"])
+    ([] as string[]).concat(args.exclude || [], ["node_modules"]),
+    !!args.extension
   );
 }
 

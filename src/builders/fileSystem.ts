@@ -74,7 +74,8 @@ export function buildFileSystemBarrel(
   quoteCharacter: QuoteCharacter,
   semicolonCharacter: SemicolonCharacter,
   _: Logger, // Not used
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  extension: boolean
 ): string {
   const structure: ExportStructure = {};
   let content = "";
@@ -82,7 +83,7 @@ export function buildFileSystemBarrel(
     .map(
       (module: Location): Import => ({
         module,
-        path: buildImportPath(directory, module, baseUrl),
+        path: buildImportPath(directory, module, baseUrl, extension),
       })
     )
     .sort(compareImports)
