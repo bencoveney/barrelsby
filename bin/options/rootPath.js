@@ -6,12 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.resolveRootPath = void 0;
 const path_1 = __importDefault(require("path"));
 function resolveRootPath(directory) {
-    // tslint:disable-next-line:no-console
-    console.log("dir: ", directory);
-    const resolved = path_1.default.resolve(directory);
-    // tslint:disable-next-line:no-console
-    console.log("resolved ", resolved);
-    return resolved;
+    return path_1.default.resolve(directory);
 }
 exports.resolveRootPath = resolveRootPath;
 //# sourceMappingURL=rootPath.js.map

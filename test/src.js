@@ -20,7 +20,6 @@ Promise.all((0, fs_1.readdirSync)(location)
     .filter(path => (0, fs_1.lstatSync)(path).isDirectory())
     .map(directory => {
     const args = yargs_1.default.parse(["--config", (0, path_1.join)(directory, "barrelsby.json")]);
-    console.log('directory', directory, args.directory);
     args.directory = typeof args.directory !== "string" ? (0, path_1.join)(directory, args.directory.shift()) : (0, path_1.join)(directory, args.directory);
     return (0, fs_extra_1.copy)((0, path_1.join)(directory, "input"), (0, path_1.join)(directory, "output")).then(() => {
         (0, bin_1.default)(args);

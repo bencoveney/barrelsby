@@ -24,8 +24,6 @@ function main(args: Arguments) {
     (Array.isArray(args.directory)
       ? args.directory?.shift()
       : args.directory) ?? "";
-  // tslint:disable-next-line:no-console
-  console.log("dir: ", dir);
   const rootPath = resolveRootPath(dir);
   const baseUrl = getCombinedBaseUrl(rootPath, args.baseUrl);
 

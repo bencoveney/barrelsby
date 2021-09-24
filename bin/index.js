@@ -21,8 +21,6 @@ function main(args) {
     const dir = (_b = (Array.isArray(args.directory)
         ? (_a = args.directory) === null || _a === void 0 ? void 0 : _a.shift()
         : args.directory)) !== null && _b !== void 0 ? _b : "";
-    // tslint:disable-next-line:no-console
-    console.log("dir: ", dir);
     const rootPath = (0, rootPath_1.resolveRootPath)(dir);
     const baseUrl = (0, baseUrl_1.getCombinedBaseUrl)(rootPath, args.baseUrl);
     // Build the directory tree.
