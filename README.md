@@ -2,9 +2,10 @@
 
 Automatically create TypeScript barrels for your entire code base.
 
-[![npm version](https://badge.fury.io/js/@bitforger%2Fbarrelsby.svg)](https://badge.fury.io/js/@bitforger%2Fbarrelsby)
-[![Node.js CI](https://github.com/BitForger/barrelsby/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/BitForger/barrelsby/actions/workflows/node.js.yml)
-[![CodeQL](https://github.com/BitForger/barrelsby/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/BitForger/barrelsby/actions/workflows/codeql-analysis.yml)
+[![npm version](https://badge.fury.io/js/barrelsby.svg)](https://badge.fury.io/js/barrelsby)
+[![CircleCI](https://circleci.com/gh/bencoveney/barrelsby.svg?style=shield)](https://circleci.com/gh/bencoveney/barrelsby)
+[![codecov](https://codecov.io/gh/bencoveney/barrelsby/branch/master/graph/badge.svg)](https://codecov.io/gh/bencoveney/barrelsby)
+[![Greenkeeper badge](https://badges.greenkeeper.io/bencoveney/barrelsby.svg)](https://greenkeeper.io/)
 
 ## About Barrels
 
