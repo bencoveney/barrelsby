@@ -26,11 +26,11 @@ describe("builder/modules module has a", () => {
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], {
         name: "script.ts",
-        path: "directory1/directory2/script.ts"
+        path: "directory1/directory2/script.ts",
       });
       assert.deepEqual(result[1], {
         name: "deeplyNested.ts",
-        path: "directory1/directory2/directory4/deeplyNested.ts"
+        path: "directory1/directory2/directory4/deeplyNested.ts",
       });
     });
     it("should not identify modules recursively if the local flag is set", () => {
@@ -44,7 +44,7 @@ describe("builder/modules module has a", () => {
       assert.lengthOf(result, 1);
       assert.deepEqual(result[0], {
         name: "script.ts",
-        path: "directory1/directory2/script.ts"
+        path: "directory1/directory2/script.ts",
       });
     });
     it("should identify directories that already contain a barrel", () => {
@@ -62,7 +62,7 @@ describe("builder/modules module has a", () => {
       assert.lengthOf(result, 1);
       assert.deepEqual(result[0], {
         name: "script.ts",
-        path: "directory1/directory2/script.ts"
+        path: "directory1/directory2/script.ts",
       });
     });
     it("should only include TypeScript files", () => {
@@ -73,7 +73,9 @@ describe("builder/modules module has a", () => {
         [],
         false
       );
-      result.forEach(location => assert.notEqual(location.name, "ignore.txt"));
+      result.forEach((location) =>
+        assert.notEqual(location.name, "ignore.txt")
+      );
     });
     it("should only include files matching a whitelist option when specified", () => {
       const result = Modules.loadDirectoryModules(
@@ -86,11 +88,11 @@ describe("builder/modules module has a", () => {
       assert.lengthOf(result, 2);
       assert.deepEqual(result[0], {
         name: "script.ts",
-        path: "directory1/directory2/script.ts"
+        path: "directory1/directory2/script.ts",
       });
       assert.deepEqual(result[1], {
         name: "deeplyNested.ts",
-        path: "directory1/directory2/directory4/deeplyNested.ts"
+        path: "directory1/directory2/directory4/deeplyNested.ts",
       });
     });
     it("should exclude files matching a blacklist option when specified", () => {
@@ -104,15 +106,15 @@ describe("builder/modules module has a", () => {
       assert.lengthOf(result, 3);
       assert.deepEqual(result[0], {
         name: "barrel.ts",
-        path: "directory1/barrel.ts"
+        path: "directory1/barrel.ts",
       });
       assert.deepEqual(result[1], {
         name: "index.ts",
-        path: "directory1/index.ts"
+        path: "directory1/index.ts",
       });
       assert.deepEqual(result[2], {
         name: "program.ts",
-        path: "directory1/directory3/program.ts"
+        path: "directory1/directory3/program.ts",
       });
     });
     it("should correctly handle both whitelist and blacklist options being set", () => {
@@ -126,7 +128,7 @@ describe("builder/modules module has a", () => {
       assert.lengthOf(result, 1);
       assert.deepEqual(result[0], {
         name: "script.ts",
-        path: "directory1/directory2/script.ts"
+        path: "directory1/directory2/script.ts",
       });
     });
     it("should log useful information to the logger", () => {
@@ -139,7 +141,7 @@ describe("builder/modules module has a", () => {
         "Getting modules @ ./directory1",
         "Getting modules @ directory1/directory2",
         "Found existing barrel @ directory1/directory2/script.ts",
-        "Getting modules @ directory1/directory3"
+        "Getting modules @ directory1/directory3",
       ]);
     });
   });

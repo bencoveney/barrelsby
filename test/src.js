@@ -13,19 +13,19 @@ const args_1 = require("../bin/args");
 // tslint:disable-next-line:no-var-requires
 const console = require("better-console");
 // tslint:disable:no-console
-args_1.getArgs();
-const location = path_1.join(__dirname, "./");
-Promise.all(fs_1.readdirSync(location)
-    .map(name => path_1.join(location, name))
-    .filter(path => fs_1.lstatSync(path).isDirectory())
+(0, args_1.getArgs)();
+const location = (0, path_1.join)(__dirname, "./");
+Promise.all((0, fs_1.readdirSync)(location)
+    .map(name => (0, path_1.join)(location, name))
+    .filter(path => (0, fs_1.lstatSync)(path).isDirectory())
     .map(directory => {
-    const args = yargs_1.default.parse(["--config", path_1.join(directory, "barrelsby.json")]);
-    args.directory = path_1.join(directory, args.directory);
-    return fs_extra_1.copy(path_1.join(directory, "input"), path_1.join(directory, "output")).then(() => {
-        bin_1.default(args);
+    const args = yargs_1.default.parse(["--config", (0, path_1.join)(directory, "barrelsby.json")]);
+    args.directory = typeof args.directory !== "string" ? (0, path_1.join)(directory, args.directory.shift()) : (0, path_1.join)(directory, args.directory);
+    return (0, fs_extra_1.copy)((0, path_1.join)(directory, "input"), (0, path_1.join)(directory, "output")).then(() => {
+        (0, bin_1.default)(args);
         console.log(`Running integration test in directory ${directory}`);
-        const outputDirectory = path_1.join(directory, "output");
-        const expectedDirectory = path_1.join(directory, "expected");
+        const outputDirectory = (0, path_1.join)(directory, "output");
+        const expectedDirectory = (0, path_1.join)(directory, "expected");
         console.log("Output directory:", outputDirectory);
         console.log("Expected directory:", expectedDirectory);
         const comparison = dir_compare_1.default.compareSync(outputDirectory, expectedDirectory, {

@@ -28,7 +28,7 @@ describe("purge module has a", () => {
       // Check directory has been manipulated.
       assert.lengthOf(directory.files, 2);
       assert.lengthOf(
-        directory.files.filter(file => file.name === "barrel.ts"),
+        directory.files.filter((file) => file.name === "barrel.ts"),
         0
       );
 
@@ -41,7 +41,7 @@ describe("purge module has a", () => {
       // Check directory has not been manipulated.
       assert.lengthOf(directory.files, 3);
       assert.lengthOf(
-        directory.files.filter(file => file.name === "barrel.ts"),
+        directory.files.filter((file) => file.name === "barrel.ts"),
         1
       );
 
@@ -52,7 +52,7 @@ describe("purge module has a", () => {
       Purge.purge(directory, true, barrelName, logger);
 
       assert.sameMembers(logged, [
-        "Deleting existing barrel @ directory1/barrel.ts"
+        "Deleting existing barrel @ directory1/barrel.ts",
       ]);
     });
   });

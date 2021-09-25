@@ -5,10 +5,10 @@ const noSemicolon_1 = require("./noSemicolon");
 describe("options/noSemicolon module has a", () => {
     describe("getSemicolonCharacter function that", () => {
         it("should correctly return the semicolon", () => {
-            chai_1.assert.equal(noSemicolon_1.getSemicolonCharacter(false), ";");
+            chai_1.assert.equal((0, noSemicolon_1.getSemicolonCharacter)(false), ";");
         });
         it("should correctly return the empty string", () => {
-            chai_1.assert.equal(noSemicolon_1.getSemicolonCharacter(true), "");
+            chai_1.assert.equal((0, noSemicolon_1.getSemicolonCharacter)(true), "");
         });
     });
 });

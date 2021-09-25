@@ -1,9 +1,21 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result["default"] = mod;
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -25,11 +37,11 @@ describe("builder/modules module has a", () => {
             chai_1.assert.lengthOf(result, 2);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
-                path: "directory1/directory2/script.ts"
+                path: "directory1/directory2/script.ts",
             });
             chai_1.assert.deepEqual(result[1], {
                 name: "deeplyNested.ts",
-                path: "directory1/directory2/directory4/deeplyNested.ts"
+                path: "directory1/directory2/directory4/deeplyNested.ts",
             });
         });
         it("should not identify modules recursively if the local flag is set", () => {
@@ -37,7 +49,7 @@ describe("builder/modules module has a", () => {
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
-                path: "directory1/directory2/script.ts"
+                path: "directory1/directory2/script.ts",
             });
         });
         it("should identify directories that already contain a barrel", () => {
@@ -48,23 +60,23 @@ describe("builder/modules module has a", () => {
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
-                path: "directory1/directory2/script.ts"
+                path: "directory1/directory2/script.ts",
             });
         });
         it("should only include TypeScript files", () => {
             const result = Modules.loadDirectoryModules(directory, logger, [], [], false);
-            result.forEach(location => chai_1.assert.notEqual(location.name, "ignore.txt"));
+            result.forEach((location) => chai_1.assert.notEqual(location.name, "ignore.txt"));
         });
         it("should only include files matching a whitelist option when specified", () => {
             const result = Modules.loadDirectoryModules(directory, logger, ["directory2"], [], false);
             chai_1.assert.lengthOf(result, 2);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
-                path: "directory1/directory2/script.ts"
+                path: "directory1/directory2/script.ts",
             });
             chai_1.assert.deepEqual(result[1], {
                 name: "deeplyNested.ts",
-                path: "directory1/directory2/directory4/deeplyNested.ts"
+                path: "directory1/directory2/directory4/deeplyNested.ts",
             });
         });
         it("should exclude files matching a blacklist option when specified", () => {
@@ -72,15 +84,15 @@ describe("builder/modules module has a", () => {
             chai_1.assert.lengthOf(result, 3);
             chai_1.assert.deepEqual(result[0], {
                 name: "barrel.ts",
-                path: "directory1/barrel.ts"
+                path: "directory1/barrel.ts",
             });
             chai_1.assert.deepEqual(result[1], {
                 name: "index.ts",
-                path: "directory1/index.ts"
+                path: "directory1/index.ts",
             });
             chai_1.assert.deepEqual(result[2], {
                 name: "program.ts",
-                path: "directory1/directory3/program.ts"
+                path: "directory1/directory3/program.ts",
             });
         });
         it("should correctly handle both whitelist and blacklist options being set", () => {
@@ -88,7 +100,7 @@ describe("builder/modules module has a", () => {
             chai_1.assert.lengthOf(result, 1);
             chai_1.assert.deepEqual(result[0], {
                 name: "script.ts",
-                path: "directory1/directory2/script.ts"
+                path: "directory1/directory2/script.ts",
             });
         });
         it("should log useful information to the logger", () => {
@@ -100,7 +112,7 @@ describe("builder/modules module has a", () => {
                 "Getting modules @ ./directory1",
                 "Getting modules @ directory1/directory2",
                 "Found existing barrel @ directory1/directory2/script.ts",
-                "Getting modules @ directory1/directory3"
+                "Getting modules @ directory1/directory3",
             ]);
         });
     });

@@ -35,7 +35,7 @@ describe("main module", () => {
       noSemicolon: true,
       singleQuotes: true,
       structure: "flat",
-      verbose: true
+      verbose: true,
     };
 
     const builtTree: any = { mock: "built tree" };
@@ -86,7 +86,7 @@ describe("main module", () => {
     assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
     assert(getLoggerSpy.calledOnceWithExactly(true));
     assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
-    assert(resolveRootPathSpy.calledWithExactly(args.directory[0]));
+    assert(resolveRootPathSpy.calledWithExactly("testRootPath"));
     assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
     assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
     assert(
@@ -112,7 +112,7 @@ describe("main module", () => {
         args.structure,
         args.local,
         args.include,
-        args.exclude
+        [...args.exclude, "node_modules"]
       )
     );
   });

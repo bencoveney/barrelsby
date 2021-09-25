@@ -18,12 +18,12 @@ describe("options/barrelName module has a", () => {
             spySandbox.restore();
         });
         it("should ensure the name has .ts attached", () => {
-            chai_1.assert.equal(barrelName_1.getBarrelName("barrel.ts", logger), "barrel.ts");
-            chai_1.assert.equal(barrelName_1.getBarrelName("barrel", logger), "barrel.ts");
+            chai_1.assert.equal((0, barrelName_1.getBarrelName)("barrel.ts", logger), "barrel.ts");
+            chai_1.assert.equal((0, barrelName_1.getBarrelName)("barrel", logger), "barrel.ts");
         });
         it("should log the barrel name", () => {
-            barrelName_1.getBarrelName("barrel.ts", logger);
-            chai_1.assert(logger.calledOnceWithExactly("Using name barrel.ts"));
+            (0, barrelName_1.getBarrelName)("barrel.ts", logger);
+            (0, chai_1.assert)(logger.calledOnceWithExactly("Using name barrel.ts"));
         });
     });
 });

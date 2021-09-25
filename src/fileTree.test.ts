@@ -35,7 +35,7 @@ describe("fileTree module has a", () => {
     it("should enumerate each file in a directory", () => {
       assert.lengthOf(result.files, 3);
       const testFile = (name: string) => {
-        const files = result.files.filter(file => file.name === name);
+        const files = result.files.filter((file) => file.name === name);
         assert.lengthOf(files, 1);
         const firstFile = files[0];
         assert.equal(firstFile.path, `directory1/${name}`);
@@ -70,7 +70,7 @@ describe("fileTree module has a", () => {
         "Found existing barrel @ directory1/barrel.ts",
         "Building directory tree for directory1/directory2",
         "Building directory tree for directory1/directory2/directory4",
-        "Building directory tree for directory1/directory3"
+        "Building directory tree for directory1/directory3",
       ]);
     });
   });
@@ -80,7 +80,7 @@ describe("fileTree module has a", () => {
 
       // Build a collection all all directories.
       let allDirectories: Directory[] = [fakeTree];
-      fakeTree.directories.forEach(directory => {
+      fakeTree.directories.forEach((directory) => {
         // Child/grandchild directories.
         allDirectories = allDirectories
           .concat([directory])

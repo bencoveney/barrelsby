@@ -53,7 +53,7 @@ export function getDestinations(
   });
 
   logger("Destinations:");
-  destinations.forEach(destination => logger(destination.path));
+  destinations.forEach((destination) => logger(destination.path));
 
   return destinations;
 }

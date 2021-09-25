@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.tslint = exports.assertMultiLine = exports.mockLogger = exports.mockModules = exports.mockDirectoryTree = exports.mockFsConfiguration = void 0;
 const chai_1 = require("chai");
 const tslint_1 = require("tslint");
 function mockFsConfiguration() {
@@ -9,16 +10,16 @@ function mockFsConfiguration() {
             "barrel.ts": "export const code = 'Hello Graham!'",
             directory2: {
                 directory4: {
-                    "deeplyNested.ts": "export const code = 'Heya Wurrl"
+                    "deeplyNested.ts": "export const code = 'Heya Wurrl",
                 },
-                "script.ts": "export const code = 'Hello Detroit!'"
+                "script.ts": "export const code = 'Hello Detroit!'",
             },
             directory3: {
-                "program.ts": "export const code = 'Hello Detroit!'"
+                "program.ts": "export const code = 'Hello Detroit!'",
             },
             "ignore.txt": "export const code = 'Goodbye World!'",
-            "index.ts": "export const code = 'Hello World!'"
-        }
+            "index.ts": "export const code = 'Hello World!'",
+        },
     };
 }
 exports.mockFsConfiguration = mockFsConfiguration;
@@ -32,50 +33,50 @@ function mockDirectoryTree() {
                         files: [
                             {
                                 name: "deeplyNested.ts",
-                                path: "directory1/directory2/directory4/deeplyNested.ts"
-                            }
+                                path: "directory1/directory2/directory4/deeplyNested.ts",
+                            },
                         ],
                         name: "directory4",
-                        path: "directory1/directory2/directory4"
-                    }
+                        path: "directory1/directory2/directory4",
+                    },
                 ],
                 files: [
                     {
                         name: "script.ts",
-                        path: "directory1/directory2/script.ts"
-                    }
+                        path: "directory1/directory2/script.ts",
+                    },
                 ],
                 name: "directory2",
-                path: "directory1/directory2"
+                path: "directory1/directory2",
             },
             {
                 directories: [],
                 files: [
                     {
                         name: "program.ts",
-                        path: "directory1/directory3/program.ts"
-                    }
+                        path: "directory1/directory3/program.ts",
+                    },
                 ],
                 name: "directory3",
-                path: "directory1/directory3"
-            }
+                path: "directory1/directory3",
+            },
         ],
         files: [
             {
                 name: "barrel.ts",
-                path: "directory1/barrel.ts"
+                path: "directory1/barrel.ts",
             },
             {
                 name: "ignore.txt",
-                path: "directory1/ignore.txt"
+                path: "directory1/ignore.txt",
             },
             {
                 name: "index.ts",
-                path: "directory1/index.ts"
-            }
+                path: "directory1/index.ts",
+            },
         ],
         name: "directory1",
-        path: "./directory1"
+        path: "./directory1",
     };
 }
 exports.mockDirectoryTree = mockDirectoryTree;
@@ -83,7 +84,7 @@ function mockModules(rootDirectory) {
     const getModules = (directory) => directory.directories.reduce((previous, current) => {
         return previous.concat(getModules(current));
     }, directory.files);
-    return getModules(rootDirectory).filter(module => module.name.indexOf(".ts") >= 0);
+    return getModules(rootDirectory).filter((module) => module.name.indexOf(".ts") >= 0);
 }
 exports.mockModules = mockModules;
 // Gets a mock Options object.
@@ -107,14 +108,14 @@ function tslint(content, quoteCharacter) {
     const configuration = tslint_1.Configuration.loadConfigurationFromPath("./tslint.json");
     if (quoteCharacter === "'") {
         configuration.rules.set("quotemark", {
-            ruleArguments: ["single", "avoid-escape"]
+            ruleArguments: ["single", "avoid-escape"],
         });
     }
     linter.lint("test_output.ts", content, configuration);
     /* istanbul ignore next: Should not be hit during successful test execution. */
     const failures = linter
         .getResult()
-        .failures.map(failure => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
+        .failures.map((failure) => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
     chai_1.assert.deepEqual(failures, []);
 }
 exports.tslint = tslint;
