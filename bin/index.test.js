@@ -101,7 +101,7 @@ describe("main module", () => {
         (0, chai_1.assert)(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
         (0, chai_1.assert)(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
         (0, chai_1.assert)(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"]);
+        (0, chai_1.assert)(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"]));
     });
 });
 //# sourceMappingURL=index.test.js.map

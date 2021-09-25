@@ -100,18 +100,20 @@ describe("main module", () => {
     assert(
       purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)
     );
-    buildBarrelsSpy.calledOnceWithExactly(
-      destinations,
-      quoteCharacter,
-      semicolonCharacter,
-      barrelName,
-      logger,
-      baseUrl,
-      args.exportDefault,
-      args.structure,
-      args.local,
-      args.include,
-      [...args.exclude, "node_modules"]
+    assert(
+      buildBarrelsSpy.calledOnceWithExactly(
+        destinations,
+        quoteCharacter,
+        semicolonCharacter,
+        barrelName,
+        logger,
+        baseUrl,
+        args.exportDefault,
+        args.structure,
+        args.local,
+        args.include,
+        [...args.exclude, "node_modules"]
+      )
     );
   });
 });
