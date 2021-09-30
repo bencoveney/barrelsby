@@ -1,9 +1,11 @@
+import { Options } from "yargs";
 export declare type LocationOption = "top" | "below" | "all" | "replace" | "branch";
 export declare type StructureOption = "flat" | "filesystem";
 export interface Arguments {
+    [x: string]: unknown;
     baseUrl?: string;
     config?: string;
-    directory?: string[];
+    directory?: string[] | string;
     delete?: boolean;
     exclude?: string[];
     exportDefault?: boolean;
@@ -18,3 +20,6 @@ export interface Arguments {
     version?: boolean;
     verbose?: boolean;
 }
+export declare function getOptionsConfig(configParser: any): {
+    [key: string]: Options;
+};

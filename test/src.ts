@@ -1,11 +1,12 @@
 import dirCompare from "dir-compare";
-import { lstatSync, readdirSync } from "fs";
-import { copy } from "fs-extra";
-import { join } from "path";
+import {lstatSync, readdirSync} from "fs";
+import {copy} from "fs-extra";
+import {join} from "path";
 import Yargs from "yargs";
 
 import Barrelsby from "../bin";
-import { getArgs } from "../bin/args";
+import {getArgs} from "../bin/args";
+import {Arguments} from "../bin/options/options";
 
 // tslint:disable-next-line:no-var-requires
 const console = require("better-console");
@@ -18,8 +19,8 @@ Promise.all(
   readdirSync(location)
     .map(name => join(location, name))
     .filter(path => lstatSync(path).isDirectory())
-    .map(directory => {
-      const args = Yargs.parse(["--config", join(directory, "barrelsby.json")]);
+    .map(async directory => {
+      const args: Arguments = await Yargs.parse(["--config", join(directory, "barrelsby.json")]);
         args.directory = typeof args.directory !== "string" ? join(directory, (args.directory as string[]).shift() as string) : join(directory, args.directory as string);
         return copy(join(directory, "input"), join(directory, "output")).then(
         () => {

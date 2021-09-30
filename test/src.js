@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -18,8 +27,8 @@ const location = (0, path_1.join)(__dirname, "./");
 Promise.all((0, fs_1.readdirSync)(location)
     .map(name => (0, path_1.join)(location, name))
     .filter(path => (0, fs_1.lstatSync)(path).isDirectory())
-    .map(directory => {
-    const args = yargs_1.default.parse(["--config", (0, path_1.join)(directory, "barrelsby.json")]);
+    .map((directory) => __awaiter(void 0, void 0, void 0, function* () {
+    const args = yield yargs_1.default.parse(["--config", (0, path_1.join)(directory, "barrelsby.json")]);
     args.directory = typeof args.directory !== "string" ? (0, path_1.join)(directory, args.directory.shift()) : (0, path_1.join)(directory, args.directory);
     return (0, fs_extra_1.copy)((0, path_1.join)(directory, "input"), (0, path_1.join)(directory, "output")).then(() => {
         (0, bin_1.default)(args);
@@ -59,4 +68,4 @@ Promise.all((0, fs_1.readdirSync)(location)
         console.log();
         return comparison.differences;
     });
-})).then(differences => process.exit(differences.filter(differenceCount => differenceCount > 0).length));
+}))).then(differences => process.exit(differences.filter(differenceCount => differenceCount > 0).length));

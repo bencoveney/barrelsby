@@ -1,14 +1,13 @@
 import { assert } from "chai";
+import { getArgs } from "./args";
 import Yargs from "yargs";
 
-import { getArgs } from "./args";
-
 describe("args module", () => {
-  it("should load the get the configuration options from yargs", () => {
+  it("should load the get the configuration options from yargs", async () => {
     // Set up yargs.
     getArgs();
 
-    const args = Yargs.parse([
+    const args = await Yargs.parse([
       "--delete",
       "--directory",
       "./test",
@@ -26,8 +25,8 @@ describe("args module", () => {
       "--verbose",
     ]);
 
-    assert.isUndefined(args.config);
-    assert.equal(args.delete, true);
+    assert.isUndefined(args?.config);
+    assert.equal(args?.delete, true);
     assert.sameMembers(args.directory as string[], ["./test"]);
     assert.sameMembers(args.include as string[], ["a.ts$"]);
     assert.sameMembers(args.exclude as string[], ["zeta.ts$"]);
@@ -41,13 +40,16 @@ describe("args module", () => {
 });
 
 describe("args module", () => {
-  it("should handle legacy directory configuration options from yargs", () => {
+  it("should handle legacy directory configuration options from yargs", async () => {
     // Set up yargs.
     getArgs();
 
-    const args = Yargs.parse(["--config", "./barrelsby-legacy-directory.json"]);
+    const args = await Yargs.parse([
+      "--config",
+      "./barrelsby-legacy-directory.json",
+    ]);
 
-    assert.isDefined(args.config);
-    assert.deepEqual(args.directory, ["test"]);
+    assert.isDefined(args?.config);
+    assert.deepEqual(args?.directory, ["test"]);
   });
 });

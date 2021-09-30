@@ -1,2 +1,3 @@
 import Yargs from "yargs";
-export declare function getArgs(): Yargs.Argv;
+import { Arguments } from "./options/options";
+export declare function getArgs(): Yargs.Argv<Arguments>;

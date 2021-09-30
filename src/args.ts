@@ -1,5 +1,6 @@
 import fs from "fs";
 import Yargs from "yargs";
+import { Arguments } from "./options/options";
 
 const configParser = (configPath: string): any => {
   const config = JSON.parse(fs.readFileSync(configPath, "utf-8"));
@@ -12,7 +13,7 @@ const configParser = (configPath: string): any => {
   return config;
 };
 
-export function getArgs(): Yargs.Argv {
+export function getArgs(): Yargs.Argv<Arguments> {
   // @ts-ignore Work around deep types.
   return Yargs.usage("Usage: barrelsby [options]")
     .example("barrelsby", "Run barrelsby")
