@@ -2,6 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOptionsConfig = void 0;
 function getOptionsConfig(configParser) {
+    // tslint:disable-next-line:no-console
+    console.log(configParser);
     return {
         b: {
             type: "string",
@@ -10,6 +12,7 @@ function getOptionsConfig(configParser) {
             description: "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).",
         },
         c: {
+            config: true,
             configParser,
             alias: "config",
             description: "The location of the config file.",
