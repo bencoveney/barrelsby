@@ -37,6 +37,7 @@ export function getOptionsConfig(configParser: any): {
         "The base url relative to 'directory' for non-relative imports (with tsconfig's baseUrl).",
     },
     c: {
+      config: true,
       configParser,
       alias: "config",
       description: "The location of the config file.",
