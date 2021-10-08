@@ -58,6 +58,7 @@ describe("main module", () => {
             singleQuotes: true,
             structure: "flat",
             verbose: true,
+            extension: false,
         };
         const builtTree = { mock: "built tree" };
         const buildTreeSpy = spySandbox
@@ -101,7 +102,7 @@ describe("main module", () => {
         (0, chai_1.assert)(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
         (0, chai_1.assert)(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
         (0, chai_1.assert)(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        (0, chai_1.assert)(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"]));
+        (0, chai_1.assert)(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"], args.extension));
     });
 });
 //# sourceMappingURL=index.test.js.map

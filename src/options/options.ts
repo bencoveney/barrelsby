@@ -23,6 +23,7 @@ export interface Arguments {
   structure?: StructureOption;
   version?: boolean;
   verbose?: boolean;
+  extension?: boolean;
 }
 
 export function getOptionsConfig(configParser: any): {
@@ -116,6 +117,12 @@ export function getOptionsConfig(configParser: any): {
       type: "boolean",
       alias: "verbose",
       description: "Display additional logging information",
+      default: false,
+    },
+    x: {
+      type: "boolean",
+      alias: "extension",
+      description: "Keep suffix on exports (e.g. '.js' or '.jsx')",
       default: false,
     },
   };

@@ -35,7 +35,8 @@ describe("builder/builder module has a", () => {
         structure,
         false,
         [],
-        []
+        [],
+        false
       );
     };
     beforeEach(() => {
@@ -130,7 +131,8 @@ describe("builder/builder module has a", () => {
         "flat",
         false,
         [],
-        []
+        [],
+        false
       );
     };
     beforeEach(() => {
@@ -160,7 +162,12 @@ describe("builder/builder module has a", () => {
     });
     it("should correctly build a path to a file in the same directory", () => {
       const target = getLocationByName(directory.files, "index.ts");
-      const result = Builder.buildImportPath(directory, target, undefined);
+      const result = Builder.buildImportPath(
+        directory,
+        target,
+        undefined,
+        false
+      );
       assert.equal(result, "./index");
     });
     it("should correctly build a path to a file in a child directory", () => {
@@ -169,29 +176,34 @@ describe("builder/builder module has a", () => {
         "directory2"
       ) as Directory;
       const target = getLocationByName(childDirectory.files, "script.ts");
-      const result = Builder.buildImportPath(directory, target, undefined);
+      const result = Builder.buildImportPath(
+        directory,
+        target,
+        undefined,
+        false
+      );
       assert.equal(result, "./directory2/script");
     });
   });
   describe("getBasename function that", () => {
     it("should correctly strip .ts from the filename", () => {
       const fileName = "./random/path/file.ts";
-      const result = Builder.getBasename(fileName);
+      const result = Builder.getBaseNameWithoutExtension(fileName);
       assert.equal(result, "file");
     });
     it("should correctly strip .d.ts from the filename", () => {
       const fileName = "./random/path/file.d.ts";
-      const result = Builder.getBasename(fileName);
+      const result = Builder.getBaseNameWithoutExtension(fileName);
       assert.equal(result, "file");
     });
     it("should correctly strip .tsx from the filename", () => {
       const fileName = "./random/path/file.tsx";
-      const result = Builder.getBasename(fileName);
+      const result = Builder.getBaseNameWithoutExtension(fileName);
       assert.equal(result, "file");
     });
     it("should not strip extensions from non-typescript filenames", () => {
       const fileName = "./random/path/file.cs";
-      const result = Builder.getBasename(fileName);
+      const result = Builder.getBaseNameWithoutExtension(fileName);
       assert.equal(result, "file.cs");
     });
   });

@@ -14,7 +14,9 @@ describe("builder/fileSystem module has a", () => {
           '"',
           ";",
           logger,
-          undefined
+          undefined,
+          false,
+          false
         );
       });
       it("should produce the correct output", () => {
@@ -56,7 +58,9 @@ export {indexts as index};
         "'",
         ";",
         logger,
-        undefined
+        undefined,
+        false,
+        false
       );
     });
     it("should produce the correct output", () => {
@@ -97,7 +101,9 @@ export {indexts as index};
         '"',
         "",
         logger,
-        undefined
+        undefined,
+        false,
+        false
       );
     });
     it("should produce the correct output", () => {
@@ -108,6 +114,46 @@ import * as directory2directory4deeplyNestedts from "./directory2/directory4/dee
 import * as directory2scriptts from "./directory2/script"
 import * as directory3programts from "./directory3/program"
 import * as indexts from "./index"
+export {barrelts as barrel}
+export const directory2 = {
+  directory4: {
+    deeplyNested: directory2directory4deeplyNestedts,
+  },
+  script: directory2scriptts,
+}
+export const directory3 = {
+  program: directory3programts,
+}
+export {indexts as index}
+`
+      );
+    });
+  });
+
+  describe("when using extension suffix", () => {
+    let output: string;
+    const logger = () => void 0;
+    beforeEach(() => {
+      const rootDirectory = TestUtilities.mockDirectoryTree();
+      output = FileSystem.buildFileSystemBarrel(
+        rootDirectory,
+        TestUtilities.mockModules(rootDirectory),
+        '"',
+        "",
+        logger,
+        undefined,
+        false,
+        true
+      );
+    });
+    it("should produce the correct output", () => {
+      TestUtilities.assertMultiLine(
+        output,
+        `import * as barrelts from "./barrel.js"
+import * as directory2directory4deeplyNestedts from "./directory2/directory4/deeplyNested.js"
+import * as directory2scriptts from "./directory2/script.js"
+import * as directory3programts from "./directory3/program.js"
+import * as indexts from "./index.js"
 export {barrelts as barrel}
 export const directory2 = {
   directory4: {

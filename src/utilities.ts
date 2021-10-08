@@ -25,3 +25,14 @@ export const isTypeScriptFile = /\.tsx?$/m;
 export const nonAlphaNumeric = /\W+/g;
 export const thisDirectory = /^\.[\\\/]/g;
 export const indentation = "  ";
+
+export interface CompiledExtensions {
+  [key: string]: string;
+}
+
+export const compiledExtensions: CompiledExtensions = {
+  ".ts": ".js",
+  ".tsx": ".jsx",
+  // ".mts": ".mjs", // Not supported yet. Added with Typescript 4.5
+  // ".cts": ".cjs", // Not supported yet. Added with Typescript 4.5
+} as const;

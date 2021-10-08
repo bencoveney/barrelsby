@@ -45,13 +45,14 @@ function compareImports(a, b) {
     return a.path < b.path ? -1 : 1;
 }
 function buildFileSystemBarrel(directory, modules, quoteCharacter, semicolonCharacter, _, // Not used
-baseUrl) {
+baseUrl, __, // exportDefault only in flat mode
+extension) {
     const structure = {};
     let content = "";
     modules
         .map((module) => ({
         module,
-        path: (0, builder_1.buildImportPath)(directory, module, baseUrl),
+        path: (0, builder_1.buildImportPath)(directory, module, baseUrl, extension),
     }))
         .sort(compareImports)
         .forEach((imported) => {

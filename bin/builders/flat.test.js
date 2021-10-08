@@ -36,7 +36,7 @@ describe("builder/flat module has a", () => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, false);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, false, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -74,7 +74,7 @@ export * from "./directory3/program";
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", ";", logger, undefined, false);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", ";", logger, undefined, false, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -112,7 +112,7 @@ export * from './directory3/program';
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', "", logger, undefined, false);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', "", logger, undefined, false, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -147,7 +147,7 @@ export * from "./directory3/program"
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
                 logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, true);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, true, false);
             });
             afterEach(() => {
                 spySandbox.restore();

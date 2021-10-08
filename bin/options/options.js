@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOptionsConfig = void 0;
 function getOptionsConfig(configParser) {
-    // tslint:disable-next-line:no-console
-    console.log(configParser);
     return {
         b: {
             type: "string",
@@ -86,6 +84,12 @@ function getOptionsConfig(configParser) {
             type: "boolean",
             alias: "verbose",
             description: "Display additional logging information",
+            default: false,
+        },
+        x: {
+            type: "boolean",
+            alias: "extension",
+            description: "Keep suffix on exports (e.g. '.js' or '.jsx')",
             default: false,
         },
     };

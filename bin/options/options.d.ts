@@ -19,6 +19,7 @@ export interface Arguments {
     structure?: StructureOption;
     version?: boolean;
     verbose?: boolean;
+    extension?: boolean;
 }
 export declare function getOptionsConfig(configParser: any): {
     [key: string]: Options;

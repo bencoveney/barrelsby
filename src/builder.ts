@@ -11,6 +11,7 @@ import { SemicolonCharacter } from "./options/noSemicolon";
 import { StructureOption } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import {
+  compiledExtensions,
   convertPathSeparator,
   Directory,
   Location,
@@ -28,7 +29,8 @@ export function buildBarrels(
   structure: StructureOption | undefined,
   local: boolean,
   include: string[],
-  exclude: string[]
+  exclude: string[],
+  extension: boolean
 ): void {
   let builder: BarrelBuilder;
   switch (structure) {
@@ -53,7 +55,8 @@ export function buildBarrels(
       exportDefault,
       local,
       include,
-      exclude
+      exclude,
+      extension
     )
   );
 }
@@ -70,7 +73,8 @@ function buildBarrel(
   exportDefault: boolean,
   local: boolean,
   include: string[],
-  exclude: string[]
+  exclude: string[],
+  extension: boolean
 ) {
   logger(`Building barrel @ ${directory.path}`);
   const content = builder(
@@ -80,7 +84,8 @@ function buildBarrel(
     semicolonCharacter,
     logger,
     baseUrl,
-    exportDefault
+    exportDefault,
+    extension
   );
   const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
@@ -110,14 +115,16 @@ export type BarrelBuilder = (
   semicolonCharacter: SemicolonCharacter,
   logger: Logger,
   baseUrl: BaseUrl,
-  exportDefault: boolean
+  exportDefault: boolean,
+  extension: boolean
 ) => string;
 
 /** Builds the TypeScript */
 export function buildImportPath(
   directory: Directory,
   target: Location,
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  extension: boolean
 ): string {
   // If the base URL option is set then imports should be relative to there.
   const startLocation = baseUrl ? baseUrl : directory.path;
@@ -127,8 +134,19 @@ export function buildImportPath(
   if (directoryPath !== ".") {
     directoryPath = `.${path.sep}${directoryPath}`;
   }
-  // Strip off the .ts or .tsx from the file name.
-  const fileName = getBasename(relativePath);
+
+  let fileName;
+
+  if (extension) {
+    // Replace extension with compiled version if possible, or leave extension.
+    fileName =
+      getBaseNameWithCompiledExtension(relativePath) ??
+      path.basename(relativePath);
+  } else {
+    // Strip off the .ts or .tsx from the file name.
+    fileName = getBaseNameWithoutExtension(relativePath);
+  }
+
   // Build the final path string. Use posix-style seperators.
   const location = `${directoryPath}${path.sep}${fileName}`;
   const convertedLocation = convertPathSeparator(location);
@@ -140,10 +158,10 @@ function stripThisDirectory(location: string, baseUrl: BaseUrl) {
 }
 
 /** Strips the .ts or .tsx file extension from a path and returns the base filename. */
-export function getBasename(relativePath: string) {
+export function getBaseNameWithoutExtension(relativePath: string) {
   const mayBeSuffix = [".ts", ".tsx", ".d.ts"];
   let mayBePath = relativePath;
-  mayBeSuffix.map((suffix) => {
+  mayBeSuffix.forEach((suffix) => {
     const tmpPath = path.basename(relativePath, suffix);
     if (tmpPath.length < mayBePath.length) {
       mayBePath = tmpPath;
@@ -151,4 +169,20 @@ export function getBasename(relativePath: string) {
   });
   // Return whichever path is shorter. If they're the same length then nothing was stripped.
   return mayBePath;
+}
+
+/** Keep extension or replace with with js compatible suffix if possible. */
+function getBaseNameWithCompiledExtension(
+  suffixedPath: string
+): string | undefined {
+  let fileName;
+
+  Object.keys(compiledExtensions).forEach((suffix) => {
+    if (path.basename(suffixedPath, suffix) < path.basename(suffixedPath)) {
+      // Remove and append the associated compiled file extension
+      fileName =
+        path.basename(suffixedPath, suffix) + compiledExtensions[suffix];
+    }
+  });
+  return fileName;
 }
