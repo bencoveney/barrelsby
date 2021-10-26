@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { buildBarrels } from "./builder";
+import { Builder } from "./builder";
 import { getDestinations } from "./destinations";
 import { buildTree } from "./fileTree";
 import { getBarrelName } from "./options/barrelName";
@@ -20,43 +20,53 @@ function main(args: Arguments) {
   // TODO: These casts could be fixed if all the options weren't ?optional.
   const logger = getLogger(args.verbose as boolean);
   const barrelName = getBarrelName(args.name as string, logger);
-  const dir =
-    (Array.isArray(args.directory)
-      ? args.directory?.shift()
-      : args.directory) ?? "";
-  const rootPath = resolveRootPath(dir);
-  const baseUrl = getCombinedBaseUrl(rootPath, args.baseUrl);
+  const directories = !Array.isArray(args.directory)
+    ? [args.directory ?? "./"]
+    : args.directory ?? ["./"];
 
-  // Build the directory tree.
-  const rootTree = buildTree(rootPath, barrelName, logger);
+  const resolvedDirectories = directories.map(directory => {
+    const rootPath = resolveRootPath(directory)
+    return {
+      dir: directory,
+      rootPath,
+      baseUrl: getCombinedBaseUrl(rootPath, args.baseUrl)
+    };
+  });
 
-  // Work out which directories should have barrels.
-  const destinations: Directory[] = getDestinations(
-    rootTree,
-    args.location as LocationOption,
-    barrelName,
-    logger
-  );
+  resolvedDirectories.forEach(async ({ rootPath, baseUrl }) => {
+    // Build the directory tree.
+    const rootTree = buildTree(rootPath, barrelName, logger);
 
-  // Potentially there are some existing barrels that need removing.
-  purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
+    // Work out which directories should have barrels.
+    const destinations: Directory[] = getDestinations(
+        rootTree,
+        args.location as LocationOption,
+        barrelName,
+        logger
+    );
 
-  // Create the barrels.
-  const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
-  const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
-  buildBarrels(
-    destinations,
-    quoteCharacter,
-    semicolonCharacter,
-    barrelName,
-    logger,
-    baseUrl,
-    !!args.exportDefault,
-    args.structure,
-    !!args.local,
-    ([] as string[]).concat(args.include || []),
-    ([] as string[]).concat(args.exclude || [], ["node_modules"])
-  );
+    // Potentially there are some existing barrels that need removing.
+    purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
+
+    // Create the barrels.
+    const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
+    const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
+    const builder = new Builder({
+      destinations,
+      quoteCharacter,
+      semicolonCharacter,
+      barrelName,
+      logger,
+      baseUrl,
+      exportDefault: !!args.exportDefault,
+      structure: args.structure,
+      local: !!args.local,
+      include: ([] as string[]).concat(args.include || []),
+      exclude: ([] as string[]).concat(args.exclude || [], ["node_modules"])
+    })
+
+    await builder.build()
+  })
 }
 
 export = main;

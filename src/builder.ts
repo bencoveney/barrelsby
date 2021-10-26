@@ -17,6 +17,54 @@ import {
   thisDirectory,
 } from "./utilities";
 
+export class Builder {
+  private readonly params;
+  constructor(params: {
+    destinations: Directory[];
+    quoteCharacter: QuoteCharacter;
+    semicolonCharacter: SemicolonCharacter;
+    barrelName: string;
+    logger: Logger;
+    baseUrl: BaseUrl;
+    exportDefault: boolean;
+    structure: StructureOption | undefined;
+    local: boolean;
+    include: string[];
+    exclude: string[];
+  }) {
+    this.params = params;
+  }
+
+  async build(): Promise<void> {
+    let builder: BarrelBuilder;
+    switch (this.params.structure) {
+      default:
+      case "flat":
+        builder = buildFlatBarrel;
+        break;
+      case "filesystem":
+        builder = buildFileSystemBarrel;
+        break;
+    }
+    // Build the barrels.
+    this.params.destinations.forEach((destination: Directory) =>
+        buildBarrel(
+            destination,
+            builder,
+            this.params.quoteCharacter,
+            this.params.semicolonCharacter,
+            this.params.barrelName,
+            this.params.logger,
+            this.params.baseUrl,
+            this.params.exportDefault,
+            this.params.local,
+            this.params.include,
+            this.params.exclude
+        )
+    );
+  }
+}
+
 export function buildBarrels(
   destinations: Directory[],
   quoteCharacter: QuoteCharacter,
