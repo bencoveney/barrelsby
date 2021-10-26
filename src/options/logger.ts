@@ -1,6 +1,31 @@
-export type Logger = (logged: string) => void;
+import { Signale } from "signale";
 
-export function getLogger(isVerbose: boolean): Logger {
-  // tslint:disable-next-line:no-console
-  return isVerbose ? console.log : () => void 0;
+export type Logger = Signale;
+
+let logger: Logger;
+
+export function getLogger({ isVerbose }: {isVerbose: boolean} = {isVerbose: false}): Logger {
+  if (!logger) {
+    logger = new Signale({
+      disabled: false,
+      interactive: false,
+      logLevel: isVerbose ? "info" : "error",
+      stream: process.stdout,
+      /*types: {
+        remind: {
+          badge: '**',
+          color: 'yellow',
+          label: 'reminder',
+          logLevel: 'info'
+        },
+        santa: {
+          badge: '🎅',
+          color: 'red',
+          label: 'santa',
+          logLevel: 'info'
+        }
+      }*/
+    });
+  }
+  return logger;
 }

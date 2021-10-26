@@ -46,22 +46,29 @@ export class Builder {
         builder = buildFileSystemBarrel;
         break;
     }
-    // Build the barrels.
-    this.params.destinations.forEach((destination: Directory) =>
-        buildBarrel(
-            destination,
-            builder,
-            this.params.quoteCharacter,
-            this.params.semicolonCharacter,
-            this.params.barrelName,
-            this.params.logger,
-            this.params.baseUrl,
-            this.params.exportDefault,
-            this.params.local,
-            this.params.include,
-            this.params.exclude
-        )
-    );
+
+    try {
+      // Build the barrels.
+      this.params?.destinations?.forEach((destination: Directory) =>
+          buildBarrel(
+              destination,
+              builder,
+              this.params.quoteCharacter,
+              this.params.semicolonCharacter,
+              this.params.barrelName,
+              this.params.logger,
+              this.params.baseUrl,
+              this.params.exportDefault,
+              this.params.local,
+              this.params.include,
+              this.params.exclude
+          )
+      );
+    } catch (e) {
+      // tslint:disable-next-line:no-console
+      console.error(e);
+    }
+
   }
 }
 
@@ -120,7 +127,7 @@ function buildBarrel(
   include: string[],
   exclude: string[]
 ) {
-  logger(`Building barrel @ ${directory.path}`);
+  logger.debug(`Building barrel @ ${directory.path}`);
   const content = builder(
     directory,
     loadDirectoryModules(directory, logger, include, exclude, local),
@@ -145,7 +152,7 @@ function buildBarrel(
       name: barrelName,
       path: convertedPath,
     };
-    logger(`Updating model barrel @ ${convertedPath}`);
+    logger.debug(`Updating model barrel @ ${convertedPath}`);
     directory.files.push(barrel);
     directory.barrel = barrel;
   }

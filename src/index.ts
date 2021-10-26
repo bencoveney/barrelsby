@@ -15,11 +15,10 @@ import { Directory } from "./utilities";
 
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.
-function main(args: Arguments) {
+export function main(args: Arguments) {
   // Get the launch options/arguments.
-  // TODO: These casts could be fixed if all the options weren't ?optional.
-  const logger = getLogger(args.verbose as boolean);
-  const barrelName = getBarrelName(args.name as string, logger);
+  const logger = getLogger({ isVerbose: args.verbose ?? false});
+  const barrelName = getBarrelName(args.name ?? "", logger);
   const directories = !Array.isArray(args.directory)
     ? [args.directory ?? "./"]
     : args.directory ?? ["./"];
@@ -68,5 +67,3 @@ function main(args: Arguments) {
     await builder.build()
   })
 }
-
-export = main;
