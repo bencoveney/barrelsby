@@ -1,5 +1,3 @@
-import { assert } from "chai";
-
 import { getLogger } from "./logger";
 
 describe("options/logger module has a", () => {
@@ -7,11 +5,11 @@ describe("options/logger module has a", () => {
     it("should get the correct logger", () => {
       // tslint:disable:no-console
       const verboseLogger = getLogger(true);
-      assert.equal(verboseLogger, console.log);
+      expect(verboseLogger).toEqual(console.log);
 
       const silentLogger = getLogger(false);
-      assert.notEqual(silentLogger, console.log);
-      assert.isUndefined(silentLogger("test"));
+      expect(silentLogger).not.toEqual(console.log);
+      expect(silentLogger("test")).not.toBeDefined();
       // tslint:enable:no-console
     });
   });

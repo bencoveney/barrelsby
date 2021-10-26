@@ -1,8 +1,9 @@
 import { isTypeScriptFile } from "../utilities";
+import {Logger} from "./logger";
 
 export function getBarrelName(
   name: string,
-  logger: (message: string) => void
+  logger: Logger
 ): string {
   // Resolve barrel name.
   const nameArgument: string = name;
@@ -10,7 +11,7 @@ export function getBarrelName(
     ? nameArgument
     : `${nameArgument}.ts`;
 
-  logger(`Using name ${barrelName}`);
+  logger.info(`Using name ${barrelName}`);
 
   return barrelName;
 }

@@ -1,5 +1,3 @@
-import { assert } from "chai";
-
 import * as Modules from "./modules";
 import { Logger } from "./options/logger";
 import * as TestUtilities from "./testUtilities";
@@ -23,12 +21,12 @@ describe("builder/modules module has a", () => {
         [],
         false
       );
-      assert.lengthOf(result, 2);
-      assert.deepEqual(result[0], {
+      expect(result.length).toBe(2);
+      expect(result[0]).toEqual({
         name: "script.ts",
         path: "directory1/directory2/script.ts",
       });
-      assert.deepEqual(result[1], {
+      expect(result[1]).toEqual({
         name: "deeplyNested.ts",
         path: "directory1/directory2/directory4/deeplyNested.ts",
       });
@@ -41,8 +39,8 @@ describe("builder/modules module has a", () => {
         [],
         true
       );
-      assert.lengthOf(result, 1);
-      assert.deepEqual(result[0], {
+      expect(result.length).toBe(1);
+      expect(result[0]).toEqual({
         name: "script.ts",
         path: "directory1/directory2/script.ts",
       });
@@ -59,8 +57,8 @@ describe("builder/modules module has a", () => {
         [],
         false
       );
-      assert.lengthOf(result, 1);
-      assert.deepEqual(result[0], {
+      expect(result.length).toBe(1);
+      expect(result[0]).toEqual({
         name: "script.ts",
         path: "directory1/directory2/script.ts",
       });
@@ -74,7 +72,7 @@ describe("builder/modules module has a", () => {
         false
       );
       result.forEach((location) =>
-        assert.notEqual(location.name, "ignore.txt")
+        expect(location.name).not.toEqual("ignore.txt")
       );
     });
     it("should only include files matching a whitelist option when specified", () => {
@@ -85,12 +83,12 @@ describe("builder/modules module has a", () => {
         [],
         false
       );
-      assert.lengthOf(result, 2);
-      assert.deepEqual(result[0], {
+      expect(result.length).toBe(2);
+      expect(result[0]).toEqual({
         name: "script.ts",
         path: "directory1/directory2/script.ts",
       });
-      assert.deepEqual(result[1], {
+      expect(result[1]).toEqual({
         name: "deeplyNested.ts",
         path: "directory1/directory2/directory4/deeplyNested.ts",
       });
@@ -103,16 +101,16 @@ describe("builder/modules module has a", () => {
         ["directory2"],
         false
       );
-      assert.lengthOf(result, 3);
-      assert.deepEqual(result[0], {
+      expect(result.length).toBe(3);
+      expect(result[0]).toEqual({
         name: "barrel.ts",
         path: "directory1/barrel.ts",
       });
-      assert.deepEqual(result[1], {
+      expect(result[1]).toEqual({
         name: "index.ts",
         path: "directory1/index.ts",
       });
-      assert.deepEqual(result[2], {
+      expect(result[2]).toEqual({
         name: "program.ts",
         path: "directory1/directory3/program.ts",
       });
@@ -125,8 +123,8 @@ describe("builder/modules module has a", () => {
         ["directory4"],
         false
       );
-      assert.lengthOf(result, 1);
-      assert.deepEqual(result[0], {
+      expect(result.length).toBe(1);
+      expect(result[0]).toEqual({
         name: "script.ts",
         path: "directory1/directory2/script.ts",
       });
@@ -137,7 +135,7 @@ describe("builder/modules module has a", () => {
       indexedDirectory.barrel = indexedDirectory.files[0];
 
       Modules.loadDirectoryModules(directory, logger, [], [], false);
-      assert.deepEqual(logged, [
+      expect(logged).toEqual([
         "Getting modules @ ./directory1",
         "Getting modules @ directory1/directory2",
         "Found existing barrel @ directory1/directory2/script.ts",

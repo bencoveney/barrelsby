@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import Sinon from "sinon";
 
 import * as Builder from "./builder";
@@ -82,38 +81,32 @@ describe("main module", () => {
 
     Main(args);
 
-    assert(getQuoteCharacterSpy.calledOnceWithExactly(true));
-    assert(getSemicolonCharacterSpy.calledOnceWithExactly(true));
-    assert(getLoggerSpy.calledOnceWithExactly(true));
-    assert(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
-    assert(resolveRootPathSpy.calledWithExactly("testRootPath"));
-    assert(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
-    assert(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
-    assert(
-      getDestinationsSpy.calledOnceWithExactly(
-        builtTree,
-        args.location,
-        barrelName,
-        logger
-      )
-    );
-    assert(
-      purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)
-    );
-    assert(
-      buildBarrelsSpy.calledOnceWithExactly(
-        destinations,
-        quoteCharacter,
-        semicolonCharacter,
-        barrelName,
-        logger,
-        baseUrl,
-        args.exportDefault,
-        args.structure,
-        args.local,
-        args.include,
-        [...args.exclude, "node_modules"]
-      )
-    );
+    expect(getQuoteCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
+    expect(getSemicolonCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
+    expect(getLoggerSpy.calledOnceWithExactly(true)).toBeTruthy();
+    expect(getBarrelNameSpy.calledOnceWithExactly(args.name, logger)).toBeTruthy();
+    expect(resolveRootPathSpy.calledWithExactly("testRootPath")).toBeTruthy();
+    expect(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl)).toBeTruthy();
+    expect(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger)).toBeTruthy();
+    expect(getDestinationsSpy.calledOnceWithExactly(
+      builtTree,
+      args.location,
+      barrelName,
+      logger
+    )).toBeTruthy();
+    expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)).toBeTruthy();
+    expect(buildBarrelsSpy.calledOnceWithExactly(
+      destinations,
+      quoteCharacter,
+      semicolonCharacter,
+      barrelName,
+      logger,
+      baseUrl,
+      args.exportDefault,
+      args.structure,
+      args.local,
+      args.include,
+      [...args.exclude, "node_modules"]
+    )).toBeTruthy();
   });
 });

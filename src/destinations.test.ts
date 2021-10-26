@@ -1,5 +1,3 @@
-import { assert } from "chai";
-
 import * as Destinations from "./destinations";
 import { Logger } from "./options/logger";
 import { LocationOption } from "./options/options";
@@ -30,10 +28,10 @@ describe("destinations module has a", () => {
           );
         });
         it("should select the correct destinations", () => {
-          assert.deepEqual(destinations, getExpectedDestinations());
+          expect(destinations).toEqual(getExpectedDestinations());
         });
         it("should log useful information to the logger", () => {
-          assert.deepEqual(logged, expectedLogs);
+          expect(logged).toEqual(expectedLogs);
         });
       });
     };

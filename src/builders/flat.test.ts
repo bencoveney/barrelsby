@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import Sinon from "sinon";
 
 import * as TestUtilities from "../testUtilities";
@@ -46,9 +45,9 @@ export * from "./directory3/program";
           "Including path ./directory2/directory4/deeplyNested",
           "Including path ./directory3/program",
         ];
-        assert.equal(logger.callCount, messages.length);
+        expect(logger.callCount).toEqual(messages.length);
         messages.forEach((message: string, index: number) => {
-          assert.equal(logger.getCall(index).args[0], message);
+          expect(logger.getCall(index).args[0]).toEqual(message);
         });
       });
       it("should produce output compatible with the recommended tslint ruleset", () => {
@@ -96,9 +95,9 @@ export * from './directory3/program';
           "Including path ./directory2/directory4/deeplyNested",
           "Including path ./directory3/program",
         ];
-        assert.equal(logger.callCount, messages.length);
+        expect(logger.callCount).toEqual(messages.length);
         messages.forEach((message: string, index: number) => {
-          assert.equal(logger.getCall(index).args[0], message);
+          expect(logger.getCall(index).args[0]).toEqual(message);
         });
       });
       it("should produce output compatible with the recommended tslint ruleset", () => {
@@ -146,9 +145,9 @@ export * from "./directory3/program"
           "Including path ./directory2/directory4/deeplyNested",
           "Including path ./directory3/program",
         ];
-        assert.equal(logger.callCount, messages.length);
+        expect(logger.callCount).toEqual(messages.length);
         messages.forEach((message: string, index: number) => {
-          assert.equal(logger.getCall(index).args[0], message);
+          expect(logger.getCall(index).args[0]).toEqual(message);
         });
       });
     });

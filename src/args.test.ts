@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import { getArgs } from "./args";
 import Yargs from "yargs";
 
@@ -25,16 +24,16 @@ describe("args module", () => {
       "--verbose",
     ]);
 
-    assert.isUndefined(args?.config);
-    assert.equal(args?.delete, true);
-    assert.sameMembers(args.directory as string[], ["./test"]);
-    assert.sameMembers(args.include as string[], ["a.ts$"]);
-    assert.sameMembers(args.exclude as string[], ["zeta.ts$"]);
-    assert.equal(args.location, "top");
-    assert.equal(args.local, true);
-    assert.equal(args.name, "barrel");
-    assert.equal(args.structure, "filesystem");
-    assert.equal(args.verbose, true);
+    expect(args?.config).not.toBeDefined();
+    expect(args?.delete).toEqual(true);
+    expect(args.directory as string[]).toEqual(["./test"]);
+    expect(args.include as string[]).toEqual(["a.ts$"]);
+    expect(args.exclude as string[]).toEqual(["zeta.ts$"]);
+    expect(args.location).toEqual("top");
+    expect(args.local).toEqual(true);
+    expect(args.name).toEqual("barrel");
+    expect(args.structure).toEqual("filesystem");
+    expect(args.verbose).toEqual(true);
   });
   // TODO: Check things are defaulted correctly.
 });
@@ -49,7 +48,7 @@ describe("args module", () => {
       "./barrelsby-legacy-directory.json",
     ]);
 
-    assert.isDefined(args?.config);
-    assert.deepEqual(args?.directory, ["test"]);
+    expect(args?.config).toBeDefined();
+    expect(args?.directory).toEqual(["test"]);
   });
 });

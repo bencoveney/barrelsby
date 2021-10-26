@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import fs from "fs";
 import MockFs from "mock-fs";
 import Sinon from "sinon";
@@ -88,7 +87,7 @@ describe("builder/builder module has a", () => {
       runBuilder("flat");
       const checkContent = (address: string) => {
         const result = fs.readFileSync(address, "utf8");
-        assert.equal(result, "header: flatContent");
+        expect(result).toEqual("header: flatContent");
       };
       checkContent("directory1/directory2/barrel.ts");
       checkContent("directory1/directory3/barrel.ts");
@@ -96,7 +95,7 @@ describe("builder/builder module has a", () => {
     it("should update the directory structure with the new barrel", () => {
       runBuilder("flat");
       directory.directories.forEach((subDirectory: Directory) => {
-        assert.equal((subDirectory.barrel as Location).name, "barrel.ts");
+        expect((subDirectory.barrel as Location).name).toEqual("barrel.ts");
       });
     });
     it("should log useful information to the logger", () => {
@@ -107,9 +106,9 @@ describe("builder/builder module has a", () => {
         "Building barrel @ directory1/directory3",
         "Updating model barrel @ directory1/directory3/barrel.ts",
       ];
-      assert.equal(logger.callCount, messages.length);
+      expect(logger.callCount).toEqual(messages.length);
       messages.forEach((message: string, barrel: number) => {
-        assert.equal(logger.getCall(barrel).args[0], message);
+        expect(logger.getCall(barrel).args[0]).toEqual(message);
       });
     });
   });
@@ -147,7 +146,7 @@ describe("builder/builder module has a", () => {
     it("does not create an empty barrel", () => {
       runBuilder();
       const checkDoesNotExist = (address: string) => {
-        assert.isFalse(fs.existsSync(address));
+        expect(fs.existsSync(address)).toBe(false);
       };
       checkDoesNotExist("directory1/directory2/barrel.ts");
       checkDoesNotExist("directory1/directory3/barrel.ts");
@@ -161,7 +160,7 @@ describe("builder/builder module has a", () => {
     it("should correctly build a path to a file in the same directory", () => {
       const target = getLocationByName(directory.files, "index.ts");
       const result = Builder.buildImportPath(directory, target, undefined);
-      assert.equal(result, "./index");
+      expect(result).toEqual("./index");
     });
     it("should correctly build a path to a file in a child directory", () => {
       const childDirectory = getLocationByName(
@@ -170,29 +169,29 @@ describe("builder/builder module has a", () => {
       ) as Directory;
       const target = getLocationByName(childDirectory.files, "script.ts");
       const result = Builder.buildImportPath(directory, target, undefined);
-      assert.equal(result, "./directory2/script");
+      expect(result).toEqual("./directory2/script");
     });
   });
   describe("getBasename function that", () => {
     it("should correctly strip .ts from the filename", () => {
       const fileName = "./random/path/file.ts";
       const result = Builder.getBasename(fileName);
-      assert.equal(result, "file");
+      expect(result).toEqual("file");
     });
     it("should correctly strip .d.ts from the filename", () => {
       const fileName = "./random/path/file.d.ts";
       const result = Builder.getBasename(fileName);
-      assert.equal(result, "file");
+      expect(result).toEqual("file");
     });
     it("should correctly strip .tsx from the filename", () => {
       const fileName = "./random/path/file.tsx";
       const result = Builder.getBasename(fileName);
-      assert.equal(result, "file");
+      expect(result).toEqual("file");
     });
     it("should not strip extensions from non-typescript filenames", () => {
       const fileName = "./random/path/file.cs";
       const result = Builder.getBasename(fileName);
-      assert.equal(result, "file.cs");
+      expect(result).toEqual("file.cs");
     });
   });
 });
