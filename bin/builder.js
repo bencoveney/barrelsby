@@ -1,9 +1,18 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBasename = exports.buildImportPath = exports.buildBarrels = void 0;
+exports.getBasename = exports.buildImportPath = exports.buildBarrels = exports.Builder = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const fileSystem_1 = require("./builders/fileSystem");
@@ -11,6 +20,36 @@ const flat_1 = require("./builders/flat");
 const header_1 = require("./builders/header");
 const modules_1 = require("./modules");
 const utilities_1 = require("./utilities");
+class Builder {
+    constructor(params) {
+        this.params = params;
+    }
+    build() {
+        var _a, _b;
+        return __awaiter(this, void 0, void 0, function* () {
+            let builder;
+            switch (this.params.structure) {
+                default:
+                case "flat":
+                    builder = flat_1.buildFlatBarrel;
+                    break;
+                case "filesystem":
+                    builder = fileSystem_1.buildFileSystemBarrel;
+                    break;
+            }
+            try {
+                // Build the barrels.
+                (_b = (_a = this.params) === null || _a === void 0 ? void 0 : _a.destinations) === null || _b === void 0 ? void 0 : _b.forEach((destination) => buildBarrel(destination, builder, this.params.quoteCharacter, this.params.semicolonCharacter, this.params.barrelName, this.params.logger, this.params.baseUrl, this.params.exportDefault, this.params.local, this.params.include, this.params.exclude));
+            }
+            catch (e) {
+                // tslint:disable-next-line:no-console
+                console.error(e);
+            }
+        });
+    }
+}
+exports.Builder = Builder;
+// orchestrates "buildBarrel"
 function buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, exportDefault, structure, local, include, exclude) {
     let builder;
     switch (structure) {
@@ -28,7 +67,7 @@ function buildBarrels(destinations, quoteCharacter, semicolonCharacter, barrelNa
 exports.buildBarrels = buildBarrels;
 // Build a barrel for the specified directory.
 function buildBarrel(directory, builder, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, exportDefault, local, include, exclude) {
-    logger(`Building barrel @ ${directory.path}`);
+    logger.debug(`Building barrel @ ${directory.path}`);
     const content = builder(directory, (0, modules_1.loadDirectoryModules)(directory, logger, include, exclude, local), quoteCharacter, semicolonCharacter, logger, baseUrl, exportDefault);
     const destination = path_1.default.join(directory.path, barrelName);
     if (content.length === 0) {
@@ -45,7 +84,7 @@ function buildBarrel(directory, builder, quoteCharacter, semicolonCharacter, bar
             name: barrelName,
             path: convertedPath,
         };
-        logger(`Updating model barrel @ ${convertedPath}`);
+        logger.debug(`Updating model barrel @ ${convertedPath}`);
         directory.files.push(barrel);
         directory.barrel = barrel;
     }

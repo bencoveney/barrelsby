@@ -9,7 +9,7 @@ const path_1 = __importDefault(require("path"));
 const utilities_1 = require("./utilities");
 /** Build directory information recursively. */
 function buildTree(directory, barrelName, logger) {
-    logger(`Building directory tree for ${(0, utilities_1.convertPathSeparator)(directory)}`);
+    logger.debug(`Building directory tree for ${(0, utilities_1.convertPathSeparator)(directory)}`);
     const names = fs_1.default.readdirSync(directory);
     const result = {
         directories: [],
@@ -30,7 +30,7 @@ function buildTree(directory, barrelName, logger) {
             };
             result.files.push(file);
             if (file.name === barrelName) {
-                logger(`Found existing barrel @ ${convertedPath}`);
+                logger.debug(`Found existing barrel @ ${convertedPath}`);
                 result.barrel = file;
             }
         }

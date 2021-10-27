@@ -22,7 +22,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const fs_1 = __importDefault(require("fs"));
 const mock_fs_1 = __importDefault(require("mock-fs"));
 const sinon_1 = __importDefault(require("sinon"));
@@ -32,6 +31,7 @@ const Flat = __importStar(require("./builders/flat"));
 const Header = __importStar(require("./builders/header"));
 const Modules = __importStar(require("./modules"));
 const TestUtilities = __importStar(require("./testUtilities"));
+const signale_1 = require("signale");
 // Gets a location from a list by name.
 function getLocationByName(locations, name) {
     return locations.filter((location) => location.name === name)[0];
@@ -40,9 +40,10 @@ describe("builder/builder module has a", () => {
     describe("buildBarrels function that", () => {
         let directory;
         let spySandbox;
-        let logger;
+        let loggerSpy;
+        const logger = new signale_1.Signale();
         const runBuilder = (structure) => {
-            logger = spySandbox.spy();
+            loggerSpy = spySandbox.spy(logger, "debug");
             Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, false, structure, false, [], []);
         };
         beforeEach(() => {
@@ -89,7 +90,7 @@ describe("builder/builder module has a", () => {
             runBuilder("flat");
             const checkContent = (address) => {
                 const result = fs_1.default.readFileSync(address, "utf8");
-                chai_1.assert.equal(result, "header: flatContent");
+                expect(result).toEqual("header: flatContent");
             };
             checkContent("directory1/directory2/barrel.ts");
             checkContent("directory1/directory3/barrel.ts");
@@ -97,7 +98,7 @@ describe("builder/builder module has a", () => {
         it("should update the directory structure with the new barrel", () => {
             runBuilder("flat");
             directory.directories.forEach((subDirectory) => {
-                chai_1.assert.equal(subDirectory.barrel.name, "barrel.ts");
+                expect(subDirectory.barrel.name).toEqual("barrel.ts");
             });
         });
         it("should log useful information to the logger", () => {
@@ -108,18 +109,17 @@ describe("builder/builder module has a", () => {
                 "Building barrel @ directory1/directory3",
                 "Updating model barrel @ directory1/directory3/barrel.ts",
             ];
-            chai_1.assert.equal(logger.callCount, messages.length);
+            expect(loggerSpy.callCount).toEqual(messages.length);
             messages.forEach((message, barrel) => {
-                chai_1.assert.equal(logger.getCall(barrel).args[0], message);
+                expect(loggerSpy.getCall(barrel).args[0]).toEqual(message);
             });
         });
     });
     describe("buildBarrels function with empty barrel content that", () => {
         let directory;
         let spySandbox;
-        let logger;
+        const logger = new signale_1.Signale();
         const runBuilder = () => {
-            logger = spySandbox.spy();
             Builder.buildBarrels(directory.directories, '"', ";", "barrel.ts", logger, undefined, false, "flat", false, [], []);
         };
         beforeEach(() => {
@@ -136,7 +136,7 @@ describe("builder/builder module has a", () => {
         it("does not create an empty barrel", () => {
             runBuilder();
             const checkDoesNotExist = (address) => {
-                chai_1.assert.isFalse(fs_1.default.existsSync(address));
+                expect(fs_1.default.existsSync(address)).toBe(false);
             };
             checkDoesNotExist("directory1/directory2/barrel.ts");
             checkDoesNotExist("directory1/directory3/barrel.ts");
@@ -150,35 +150,35 @@ describe("builder/builder module has a", () => {
         it("should correctly build a path to a file in the same directory", () => {
             const target = getLocationByName(directory.files, "index.ts");
             const result = Builder.buildImportPath(directory, target, undefined);
-            chai_1.assert.equal(result, "./index");
+            expect(result).toEqual("./index");
         });
         it("should correctly build a path to a file in a child directory", () => {
             const childDirectory = getLocationByName(directory.directories, "directory2");
             const target = getLocationByName(childDirectory.files, "script.ts");
             const result = Builder.buildImportPath(directory, target, undefined);
-            chai_1.assert.equal(result, "./directory2/script");
+            expect(result).toEqual("./directory2/script");
         });
     });
     describe("getBasename function that", () => {
         it("should correctly strip .ts from the filename", () => {
             const fileName = "./random/path/file.ts";
             const result = Builder.getBasename(fileName);
-            chai_1.assert.equal(result, "file");
+            expect(result).toEqual("file");
         });
         it("should correctly strip .d.ts from the filename", () => {
             const fileName = "./random/path/file.d.ts";
             const result = Builder.getBasename(fileName);
-            chai_1.assert.equal(result, "file");
+            expect(result).toEqual("file");
         });
         it("should correctly strip .tsx from the filename", () => {
             const fileName = "./random/path/file.tsx";
             const result = Builder.getBasename(fileName);
-            chai_1.assert.equal(result, "file");
+            expect(result).toEqual("file");
         });
         it("should not strip extensions from non-typescript filenames", () => {
             const fileName = "./random/path/file.cs";
             const result = Builder.getBasename(fileName);
-            chai_1.assert.equal(result, "file.cs");
+            expect(result).toEqual("file.cs");
         });
     });
 });

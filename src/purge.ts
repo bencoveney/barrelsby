@@ -18,7 +18,7 @@ export function purge(
           return file.name === barrelName;
         })
         .forEach((file: Location) => {
-          logger(`Deleting existing barrel @ ${file.path}`);
+          logger.debug(`Deleting existing barrel @ ${file.path}`);
           // Delete barrel file and clean up tree model.
           fs.unlinkSync(file.path);
           directory.files.splice(directory.files.indexOf(file), 1);

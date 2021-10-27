@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.tslint = exports.assertMultiLine = exports.mockLogger = exports.mockModules = exports.mockDirectoryTree = exports.mockFsConfiguration = void 0;
 const chai_1 = require("chai");
 const tslint_1 = require("tslint");
+const signale_1 = require("signale");
 function mockFsConfiguration() {
     return {
         "code.ts": "export const code = 'Hello Saturn!'",
@@ -88,8 +89,8 @@ function mockModules(rootDirectory) {
 }
 exports.mockModules = mockModules;
 // Gets a mock Options object.
-function mockLogger(loggerTarget) {
-    return (message) => loggerTarget.push(message);
+function mockLogger(_) {
+    return new signale_1.Signale();
 }
 exports.mockLogger = mockLogger;
 // Multiline string assertion to give more useful output messages.

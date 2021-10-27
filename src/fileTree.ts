@@ -10,7 +10,9 @@ export function buildTree(
   barrelName: string,
   logger: Logger
 ): Directory {
-  logger(`Building directory tree for ${convertPathSeparator(directory)}`);
+  logger.debug(
+    `Building directory tree for ${convertPathSeparator(directory)}`
+  );
   const names = fs.readdirSync(directory);
   const result: Directory = {
     directories: [],
@@ -30,7 +32,7 @@ export function buildTree(
       };
       result.files.push(file);
       if (file.name === barrelName) {
-        logger(`Found existing barrel @ ${convertedPath}`);
+        logger.debug(`Found existing barrel @ ${convertedPath}`);
         result.barrel = file;
       }
     }

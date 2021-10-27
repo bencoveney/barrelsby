@@ -39,7 +39,6 @@
     "@types/chai": "^4.2.3",
     "@types/fs-extra": "^8.0.0",
     "@types/jest": "^27.0.2",
-    "@types/mocha": "^5.2.7",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^12.7.12",
     "@types/sinon": "^7.5.0",

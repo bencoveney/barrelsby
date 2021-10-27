@@ -21,11 +21,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const TestUtilities = __importStar(require("../testUtilities"));
 const FileSystem = __importStar(require("./fileSystem"));
+const signale_1 = require("signale");
 describe("builder/fileSystem module has a", () => {
     describe("buildFileSystemBarrel function that", () => {
         describe("when using the default settings", () => {
             let output;
-            const logger = () => void 0;
+            const logger = new signale_1.Signale();
             beforeEach(() => {
                 const rootDirectory = TestUtilities.mockDirectoryTree();
                 output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', ";", logger, undefined);
@@ -56,7 +57,7 @@ export {indexts as index};
     });
     describe("when using single quotes", () => {
         let output;
-        const logger = () => void 0;
+        const logger = new signale_1.Signale();
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
             output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), "'", ";", logger, undefined);
@@ -86,7 +87,7 @@ export {indexts as index};
     });
     describe("when using no semicolon", () => {
         let output;
-        const logger = () => void 0;
+        const logger = new signale_1.Signale();
         beforeEach(() => {
             const rootDirectory = TestUtilities.mockDirectoryTree();
             output = FileSystem.buildFileSystemBarrel(rootDirectory, TestUtilities.mockModules(rootDirectory), '"', "", logger, undefined);

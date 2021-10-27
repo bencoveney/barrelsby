@@ -22,21 +22,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const sinon_1 = __importDefault(require("sinon"));
 const TestUtilities = __importStar(require("../testUtilities"));
 const Flat = __importStar(require("./flat"));
+const signale_1 = require("signale");
 describe("builder/flat module has a", () => {
     describe("buildFlatBarrel function that", () => {
         describe("when using the default settings", () => {
             let output;
             let spySandbox;
+            const signale = new signale_1.Signale();
             let logger;
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
-                logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, false);
+                logger = spySandbox.spy(signale, "debug");
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", signale, undefined, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -57,9 +58,9 @@ export * from "./directory3/program";
                     "Including path ./directory2/directory4/deeplyNested",
                     "Including path ./directory3/program",
                 ];
-                chai_1.assert.equal(logger.callCount, messages.length);
+                expect(logger.callCount).toEqual(messages.length);
                 messages.forEach((message, index) => {
-                    chai_1.assert.equal(logger.getCall(index).args[0], message);
+                    expect(logger.getCall(index).args[0]).toEqual(message);
                 });
             });
             it("should produce output compatible with the recommended tslint ruleset", () => {
@@ -70,11 +71,12 @@ export * from "./directory3/program";
             let output;
             let spySandbox;
             let logger;
+            const signale = new signale_1.Signale();
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
-                logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", ";", logger, undefined, false);
+                logger = spySandbox.spy(signale, "debug");
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), "'", ";", signale, undefined, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -95,9 +97,9 @@ export * from './directory3/program';
                     "Including path ./directory2/directory4/deeplyNested",
                     "Including path ./directory3/program",
                 ];
-                chai_1.assert.equal(logger.callCount, messages.length);
+                expect(logger.callCount).toEqual(messages.length);
                 messages.forEach((message, index) => {
-                    chai_1.assert.equal(logger.getCall(index).args[0], message);
+                    expect(logger.getCall(index).args[0]).toEqual(message);
                 });
             });
             it("should produce output compatible with the recommended tslint ruleset", () => {
@@ -108,11 +110,12 @@ export * from './directory3/program';
             let output;
             let spySandbox;
             let logger;
+            const signale = new signale_1.Signale();
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
-                logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', "", logger, undefined, false);
+                logger = spySandbox.spy(signale, "debug");
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', "", signale, undefined, false);
             });
             afterEach(() => {
                 spySandbox.restore();
@@ -133,21 +136,20 @@ export * from "./directory3/program"
                     "Including path ./directory2/directory4/deeplyNested",
                     "Including path ./directory3/program",
                 ];
-                chai_1.assert.equal(logger.callCount, messages.length);
+                expect(logger.callCount).toEqual(messages.length);
                 messages.forEach((message, index) => {
-                    chai_1.assert.equal(logger.getCall(index).args[0], message);
+                    expect(logger.getCall(index).args[0]).toEqual(message);
                 });
             });
         });
         describe("when using the exportDefault setting", () => {
             let output;
             let spySandbox;
-            let logger;
+            const signale = new signale_1.Signale();
             beforeEach(() => {
                 const directory = TestUtilities.mockDirectoryTree();
                 spySandbox = sinon_1.default.createSandbox();
-                logger = spySandbox.spy();
-                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", logger, undefined, true);
+                output = Flat.buildFlatBarrel(directory, TestUtilities.mockModules(directory), '"', ";", signale, undefined, true);
             });
             afterEach(() => {
                 spySandbox.restore();

@@ -8,7 +8,7 @@ function getBarrelName(name, logger) {
     const barrelName = nameArgument.match(utilities_1.isTypeScriptFile)
         ? nameArgument
         : `${nameArgument}.ts`;
-    logger(`Using name ${barrelName}`);
+    logger.info(`Using name ${barrelName}`);
     return barrelName;
 }
 exports.getBarrelName = getBarrelName;

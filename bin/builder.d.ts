@@ -4,6 +4,23 @@ import { SemicolonCharacter } from "./options/noSemicolon";
 import { StructureOption } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
+export declare class Builder {
+    private readonly params;
+    constructor(params: {
+        destinations: Directory[];
+        quoteCharacter: QuoteCharacter;
+        semicolonCharacter: SemicolonCharacter;
+        barrelName: string;
+        logger: Logger;
+        baseUrl: BaseUrl;
+        exportDefault: boolean;
+        structure: StructureOption | undefined;
+        local: boolean;
+        include: string[];
+        exclude: string[];
+    });
+    build(): Promise<void>;
+}
 export declare function buildBarrels(destinations: Directory[], quoteCharacter: QuoteCharacter, semicolonCharacter: SemicolonCharacter, barrelName: string, logger: Logger, baseUrl: BaseUrl, exportDefault: boolean, structure: StructureOption | undefined, local: boolean, include: string[], exclude: string[]): void;
 export declare type BarrelBuilder = (directory: Directory, modules: Location[], quoteCharacter: QuoteCharacter, semicolonCharacter: SemicolonCharacter, logger: Logger, baseUrl: BaseUrl, exportDefault: boolean) => string;
 /** Builds the TypeScript */

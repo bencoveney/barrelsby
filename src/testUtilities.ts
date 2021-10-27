@@ -4,6 +4,7 @@ import { Configuration, Linter } from "tslint";
 import { Logger } from "./options/logger";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import { Directory, Location } from "./utilities";
+import { Signale } from "signale";
 
 export function mockFsConfiguration() {
   return {
@@ -93,8 +94,8 @@ export function mockModules(rootDirectory: Directory): Location[] {
 }
 
 // Gets a mock Options object.
-export function mockLogger(loggerTarget: string[]): Logger {
-  return (message: string) => loggerTarget.push(message);
+export function mockLogger(_: string[]): Logger {
+  return new Signale();
 }
 
 // Multiline string assertion to give more useful output messages.

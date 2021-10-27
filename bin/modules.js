@@ -4,10 +4,10 @@ exports.loadDirectoryModules = void 0;
 const utilities_1 = require("./utilities");
 // Get any typescript modules contained at any depth in the current directory.
 function getModules(directory, logger, local) {
-    logger(`Getting modules @ ${directory.path}`);
+    logger.debug(`Getting modules @ ${directory.path}`);
     if (directory.barrel) {
         // If theres a barrel then use that as it *should* contain descendant modules.
-        logger(`Found existing barrel @ ${directory.barrel.path}`);
+        logger.debug(`Found existing barrel @ ${directory.barrel.path}`);
         return [directory.barrel];
     }
     const files = [].concat(directory.files);
@@ -37,7 +37,7 @@ function filterModules(filters, locations, logger) {
             return filters.whitelists.some((test) => {
                 const isMatch = !!location.path.match(test);
                 if (isMatch) {
-                    logger(`${location.path} is included by ${test}`);
+                    logger.debug(`${location.path} is included by ${test}`);
                 }
                 return isMatch;
             });
@@ -48,7 +48,7 @@ function filterModules(filters, locations, logger) {
             return !filters.blacklists.some((test) => {
                 const isMatch = !!location.path.match(test);
                 if (isMatch) {
-                    logger(`${location.path} is excluded by ${test}`);
+                    logger.debug(`${location.path} is excluded by ${test}`);
                 }
                 return isMatch;
             });

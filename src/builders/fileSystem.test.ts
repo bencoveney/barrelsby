@@ -1,11 +1,12 @@
 import * as TestUtilities from "../testUtilities";
 import * as FileSystem from "./fileSystem";
+import { Signale } from "signale";
 
 describe("builder/fileSystem module has a", () => {
   describe("buildFileSystemBarrel function that", () => {
     describe("when using the default settings", () => {
       let output: string;
-      const logger = () => void 0;
+      const logger = new Signale();
       beforeEach(() => {
         const rootDirectory = TestUtilities.mockDirectoryTree();
         output = FileSystem.buildFileSystemBarrel(
@@ -47,7 +48,7 @@ export {indexts as index};
 
   describe("when using single quotes", () => {
     let output: string;
-    const logger = () => void 0;
+    const logger = new Signale();
     beforeEach(() => {
       const rootDirectory = TestUtilities.mockDirectoryTree();
       output = FileSystem.buildFileSystemBarrel(
@@ -88,7 +89,7 @@ export {indexts as index};
 
   describe("when using no semicolon", () => {
     let output: string;
-    const logger = () => void 0;
+    const logger = new Signale();
     beforeEach(() => {
       const rootDirectory = TestUtilities.mockDirectoryTree();
       output = FileSystem.buildFileSystemBarrel(

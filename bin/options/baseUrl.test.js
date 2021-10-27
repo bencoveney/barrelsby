@@ -1,12 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const baseUrl_1 = require("./baseUrl");
 describe("options/baseUrl module has a", () => {
     describe("getCombinedBaseUrl function that", () => {
         it("should resolve the correct baseUrl", () => {
-            chai_1.assert.match((0, baseUrl_1.getCombinedBaseUrl)(".", "base/url"), /base[\\/]url$/);
-            chai_1.assert.isUndefined((0, baseUrl_1.getCombinedBaseUrl)(".", undefined));
+            expect((0, baseUrl_1.getCombinedBaseUrl)(".", "base/url")).toMatch(/base[\\/]url$/);
+            expect((0, baseUrl_1.getCombinedBaseUrl)(".", undefined)).not.toBeDefined();
         });
     });
 });

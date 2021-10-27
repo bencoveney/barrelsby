@@ -2,8 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getOptionsConfig = void 0;
 function getOptionsConfig(configParser) {
-    // tslint:disable-next-line:no-console
-    console.log(configParser);
     return {
         b: {
             type: "string",

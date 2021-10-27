@@ -15,20 +15,20 @@ import { Directory } from "./utilities";
 
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.
-export function main(args: Arguments) {
+export function Barrelsby(args: Arguments) {
   // Get the launch options/arguments.
-  const logger = getLogger({ isVerbose: args.verbose ?? false});
+  const logger = getLogger({ isVerbose: args.verbose ?? false });
   const barrelName = getBarrelName(args.name ?? "", logger);
   const directories = !Array.isArray(args.directory)
     ? [args.directory ?? "./"]
     : args.directory ?? ["./"];
 
-  const resolvedDirectories = directories.map(directory => {
-    const rootPath = resolveRootPath(directory)
+  const resolvedDirectories = directories.map((directory) => {
+    const rootPath = resolveRootPath(directory);
     return {
       dir: directory,
       rootPath,
-      baseUrl: getCombinedBaseUrl(rootPath, args.baseUrl)
+      baseUrl: getCombinedBaseUrl(rootPath, args.baseUrl),
     };
   });
 
@@ -38,18 +38,25 @@ export function main(args: Arguments) {
 
     // Work out which directories should have barrels.
     const destinations: Directory[] = getDestinations(
-        rootTree,
-        args.location as LocationOption,
-        barrelName,
-        logger
+      rootTree,
+      args.location as LocationOption,
+      barrelName,
+      logger
     );
 
     // Potentially there are some existing barrels that need removing.
-    purge(rootTree, args.delete !== undefined && args.delete, barrelName, logger);
+    purge(
+      rootTree,
+      args.delete !== undefined && args.delete,
+      barrelName,
+      logger
+    );
 
     // Create the barrels.
     const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
-    const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
+    const semicolonCharacter = getSemicolonCharacter(
+      args.noSemicolon as boolean
+    );
     const builder = new Builder({
       destinations,
       quoteCharacter,
@@ -61,9 +68,9 @@ export function main(args: Arguments) {
       structure: args.structure,
       local: !!args.local,
       include: ([] as string[]).concat(args.include || []),
-      exclude: ([] as string[]).concat(args.exclude || [], ["node_modules"])
-    })
+      exclude: ([] as string[]).concat(args.exclude || [], ["node_modules"]),
+    });
 
-    await builder.build()
-  })
+    await builder.build();
+  });
 }

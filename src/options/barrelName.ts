@@ -1,10 +1,7 @@
 import { isTypeScriptFile } from "../utilities";
-import {Logger} from "./logger";
+import { Logger } from "./logger";
 
-export function getBarrelName(
-  name: string,
-  logger: Logger
-): string {
+export function getBarrelName(name: string, logger: Logger): string {
   // Resolve barrel name.
   const nameArgument: string = name;
   const barrelName = nameArgument.match(isTypeScriptFile)

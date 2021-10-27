@@ -3,13 +3,19 @@ import * as Utilities from "./utilities";
 describe("utilities module has a", () => {
   describe("isTypeScriptFile regular expression that", () => {
     it("should match a typescript file", () => {
-      expect("instructions.ts".search(Utilities.isTypeScriptFile)).not.toEqual(-1);
+      expect("instructions.ts".search(Utilities.isTypeScriptFile)).not.toEqual(
+        -1
+      );
     });
     it("should match a typescript file in a directory", () => {
-      expect("src/code/scripts/instructions.ts".search(Utilities.isTypeScriptFile)).not.toEqual(-1);
+      expect(
+        "src/code/scripts/instructions.ts".search(Utilities.isTypeScriptFile)
+      ).not.toEqual(-1);
     });
     it("should match a typescript definition file", () => {
-      expect("definitions.d.ts".search(Utilities.isTypeScriptFile)).not.toEqual(-1);
+      expect("definitions.d.ts".search(Utilities.isTypeScriptFile)).not.toEqual(
+        -1
+      );
     });
     it("should match a typescript jsx (.tsx) file", () => {
       expect("other.tsx".search(Utilities.isTypeScriptFile)).not.toEqual(-1);

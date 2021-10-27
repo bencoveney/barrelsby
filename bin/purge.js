@@ -15,7 +15,7 @@ function purge(rootTree, shouldPurge, barrelName, logger) {
                 return file.name === barrelName;
             })
                 .forEach((file) => {
-                logger(`Deleting existing barrel @ ${file.path}`);
+                logger.debug(`Deleting existing barrel @ ${file.path}`);
                 // Delete barrel file and clean up tree model.
                 fs_1.default.unlinkSync(file.path);
                 directory.files.splice(directory.files.indexOf(file), 1);

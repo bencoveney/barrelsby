@@ -4,7 +4,7 @@ import {copy} from "fs-extra";
 import {join} from "path";
 import Yargs from "yargs";
 
-import Barrelsby from "../bin";
+import { Barrelsby } from "../bin";
 import {getArgs} from "../bin/args";
 import {Arguments} from "../bin/options/options";
 

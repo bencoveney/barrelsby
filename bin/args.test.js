@@ -12,7 +12,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const args_1 = require("./args");
 const yargs_1 = __importDefault(require("yargs"));
 describe("args module", () => {
@@ -36,16 +35,16 @@ describe("args module", () => {
             "filesystem",
             "--verbose",
         ]);
-        chai_1.assert.isUndefined(args === null || args === void 0 ? void 0 : args.config);
-        chai_1.assert.equal(args === null || args === void 0 ? void 0 : args.delete, true);
-        chai_1.assert.sameMembers(args.directory, ["./test"]);
-        chai_1.assert.sameMembers(args.include, ["a.ts$"]);
-        chai_1.assert.sameMembers(args.exclude, ["zeta.ts$"]);
-        chai_1.assert.equal(args.location, "top");
-        chai_1.assert.equal(args.local, true);
-        chai_1.assert.equal(args.name, "barrel");
-        chai_1.assert.equal(args.structure, "filesystem");
-        chai_1.assert.equal(args.verbose, true);
+        expect(args === null || args === void 0 ? void 0 : args.config).not.toBeDefined();
+        expect(args === null || args === void 0 ? void 0 : args.delete).toEqual(true);
+        expect(args.directory).toEqual(["./test"]);
+        expect(args.include).toEqual(["a.ts$"]);
+        expect(args.exclude).toEqual(["zeta.ts$"]);
+        expect(args.location).toEqual("top");
+        expect(args.local).toEqual(true);
+        expect(args.name).toEqual("barrel");
+        expect(args.structure).toEqual("filesystem");
+        expect(args.verbose).toEqual(true);
     }));
     // TODO: Check things are defaulted correctly.
 });
@@ -57,8 +56,8 @@ describe("args module", () => {
             "--config",
             "./barrelsby-legacy-directory.json",
         ]);
-        chai_1.assert.isDefined(args === null || args === void 0 ? void 0 : args.config);
-        chai_1.assert.deepEqual(args === null || args === void 0 ? void 0 : args.directory, ["test"]);
+        expect(args === null || args === void 0 ? void 0 : args.config).toBeDefined();
+        expect(args === null || args === void 0 ? void 0 : args.directory).toEqual(["test"]);
     }));
 });
 //# sourceMappingURL=args.test.js.map

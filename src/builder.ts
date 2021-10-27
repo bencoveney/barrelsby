@@ -50,28 +50,28 @@ export class Builder {
     try {
       // Build the barrels.
       this.params?.destinations?.forEach((destination: Directory) =>
-          buildBarrel(
-              destination,
-              builder,
-              this.params.quoteCharacter,
-              this.params.semicolonCharacter,
-              this.params.barrelName,
-              this.params.logger,
-              this.params.baseUrl,
-              this.params.exportDefault,
-              this.params.local,
-              this.params.include,
-              this.params.exclude
-          )
+        buildBarrel(
+          destination,
+          builder,
+          this.params.quoteCharacter,
+          this.params.semicolonCharacter,
+          this.params.barrelName,
+          this.params.logger,
+          this.params.baseUrl,
+          this.params.exportDefault,
+          this.params.local,
+          this.params.include,
+          this.params.exclude
+        )
       );
     } catch (e) {
       // tslint:disable-next-line:no-console
       console.error(e);
     }
-
   }
 }
 
+// orchestrates "buildBarrel"
 export function buildBarrels(
   destinations: Directory[],
   quoteCharacter: QuoteCharacter,

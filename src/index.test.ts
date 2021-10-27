@@ -3,7 +3,7 @@ import Sinon from "sinon";
 import * as Builder from "./builder";
 import * as Destinations from "./destinations";
 import * as FileTree from "./fileTree";
-import Main from "./index";
+import { Barrelsby } from "./index";
 import * as BarrelName from "./options/barrelName";
 import * as BaseUrl from "./options/baseUrl";
 import * as Logger from "./options/logger";
@@ -11,6 +11,7 @@ import * as NoSemicolon from "./options/noSemicolon";
 import * as QuoteCharacter from "./options/quoteCharacter";
 import * as RootPath from "./options/rootPath";
 import * as Purge from "./purge";
+import { Signale } from "signale";
 
 describe("main module", () => {
   let spySandbox: Sinon.SinonSandbox;
@@ -61,8 +62,8 @@ describe("main module", () => {
       .stub(NoSemicolon, "getSemicolonCharacter")
       .returns(semicolonCharacter);
 
-    const logger = spySandbox.spy();
-    const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(logger);
+    const signale = new Signale();
+    const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(signale);
 
     const barrelName = "barrel.ts";
     const getBarrelNameSpy = spySandbox
@@ -79,34 +80,53 @@ describe("main module", () => {
       .stub(BaseUrl, "getCombinedBaseUrl")
       .returns(baseUrl);
 
-    Main(args);
+    Barrelsby(args);
 
     expect(getQuoteCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
     expect(getSemicolonCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
-    expect(getLoggerSpy.calledOnceWithExactly(true)).toBeTruthy();
-    expect(getBarrelNameSpy.calledOnceWithExactly(args.name, logger)).toBeTruthy();
+    expect(
+      getLoggerSpy.calledOnceWithExactly({ isVerbose: true })
+    ).toBeTruthy();
+    expect(
+      getBarrelNameSpy.calledOnceWithExactly(args.name, signale)
+    ).toBeTruthy();
     expect(resolveRootPathSpy.calledWithExactly("testRootPath")).toBeTruthy();
-    expect(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl)).toBeTruthy();
-    expect(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger)).toBeTruthy();
-    expect(getDestinationsSpy.calledOnceWithExactly(
-      builtTree,
-      args.location,
-      barrelName,
-      logger
-    )).toBeTruthy();
-    expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger)).toBeTruthy();
-    expect(buildBarrelsSpy.calledOnceWithExactly(
-      destinations,
-      quoteCharacter,
-      semicolonCharacter,
-      barrelName,
-      logger,
-      baseUrl,
-      args.exportDefault,
-      args.structure,
-      args.local,
-      args.include,
-      [...args.exclude, "node_modules"]
-    )).toBeTruthy();
+    expect(
+      getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl)
+    ).toBeTruthy();
+    expect(
+      buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, signale)
+    ).toBeTruthy();
+    expect(
+      getDestinationsSpy.calledOnceWithExactly(
+        builtTree,
+        args.location,
+        barrelName,
+        signale
+      )
+    ).toBeTruthy();
+    expect(
+      purgeSpy.calledOnceWithExactly(
+        builtTree,
+        args.delete,
+        barrelName,
+        signale
+      )
+    ).toBeTruthy();
+    expect(
+      buildBarrelsSpy.calledOnceWithExactly(
+        destinations,
+        quoteCharacter,
+        semicolonCharacter,
+        barrelName,
+        signale,
+        baseUrl,
+        args.exportDefault,
+        args.structure,
+        args.local,
+        args.include,
+        [...args.exclude, "node_modules"]
+      )
+    ).toBeTruthy();
   });
 });

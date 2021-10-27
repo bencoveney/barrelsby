@@ -52,8 +52,8 @@ export function getDestinations(
     return b.path.length - a.path.length;
   });
 
-  logger("Destinations:");
-  destinations.forEach((destination) => logger(destination.path));
+  logger.debug("Destinations:");
+  destinations.forEach((destination) => logger.debug(destination.path));
 
   return destinations;
 }

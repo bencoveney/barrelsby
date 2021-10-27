@@ -20,6 +20,6 @@ export declare function mockFsConfiguration(): {
 };
 export declare function mockDirectoryTree(): Directory;
 export declare function mockModules(rootDirectory: Directory): Location[];
-export declare function mockLogger(loggerTarget: string[]): Logger;
+export declare function mockLogger(_: string[]): Logger;
 export declare function assertMultiLine(actual: string, expected: string): void;
 export declare function tslint(content: string, quoteCharacter: QuoteCharacter): void;

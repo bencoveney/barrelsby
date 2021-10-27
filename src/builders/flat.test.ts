@@ -2,23 +2,25 @@ import Sinon from "sinon";
 
 import * as TestUtilities from "../testUtilities";
 import * as Flat from "./flat";
+import { Signale } from "signale";
 
 describe("builder/flat module has a", () => {
   describe("buildFlatBarrel function that", () => {
     describe("when using the default settings", () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
+      const signale = new Signale();
       let logger: Sinon.SinonSpy;
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
+        logger = spySandbox.spy(signale, "debug");
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           '"',
           ";",
-          logger,
+          signale,
           undefined,
           false
         );
@@ -59,16 +61,17 @@ export * from "./directory3/program";
       let output: string;
       let spySandbox: sinon.SinonSandbox;
       let logger: Sinon.SinonSpy;
+      const signale = new Signale();
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
+        logger = spySandbox.spy(signale, "debug");
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           "'",
           ";",
-          logger,
+          signale,
           undefined,
           false
         );
@@ -109,16 +112,17 @@ export * from './directory3/program';
       let output: string;
       let spySandbox: sinon.SinonSandbox;
       let logger: Sinon.SinonSpy;
+      const signale = new Signale();
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
+        logger = spySandbox.spy(signale, "debug");
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           '"',
           "",
-          logger,
+          signale,
           undefined,
           false
         );
@@ -155,17 +159,16 @@ export * from "./directory3/program"
     describe("when using the exportDefault setting", () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
-      let logger: Sinon.SinonSpy;
+      const signale = new Signale();
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           '"',
           ";",
-          logger,
+          signale,
           undefined,
           true
         );

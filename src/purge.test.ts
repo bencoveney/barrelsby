@@ -26,7 +26,9 @@ describe("purge module has a", () => {
 
       // Check directory has been manipulated.
       expect(directory.files.length).toBe(2);
-      expect(directory.files.filter((file) => file.name === "barrel.ts").length).toBe(0);
+      expect(
+        directory.files.filter((file) => file.name === "barrel.ts").length
+      ).toBe(0);
 
       // Check FS has been manipulated.
       expect(fs.existsSync("directory1/barrel.ts")).toBeFalsy();
@@ -36,7 +38,9 @@ describe("purge module has a", () => {
 
       // Check directory has not been manipulated.
       expect(directory.files.length).toBe(3);
-      expect(directory.files.filter((file) => file.name === "barrel.ts").length).toBe(1);
+      expect(
+        directory.files.filter((file) => file.name === "barrel.ts").length
+      ).toBe(1);
 
       // Check FS has not been manipulated.
       expect(fs.existsSync("directory1/barrel.ts")).toBeTruthy();

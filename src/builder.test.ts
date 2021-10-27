@@ -10,6 +10,7 @@ import * as Modules from "./modules";
 import { StructureOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory, Location } from "./utilities";
+import { Signale } from "signale";
 
 // Gets a location from a list by name.
 function getLocationByName(locations: Location[], name: string): Location {
@@ -20,9 +21,13 @@ describe("builder/builder module has a", () => {
   describe("buildBarrels function that", () => {
     let directory: Directory;
     let spySandbox: sinon.SinonSandbox;
-    let logger: Sinon.SinonSpy;
+    let loggerSpy: Sinon.SinonSpy<
+      [message?: any, ...optionalArgs: any[]],
+      void
+    >;
+    const logger = new Signale();
     const runBuilder = (structure: StructureOption | undefined) => {
-      logger = spySandbox.spy();
+      loggerSpy = spySandbox.spy(logger, "debug");
       Builder.buildBarrels(
         directory.directories,
         '"',
@@ -106,18 +111,17 @@ describe("builder/builder module has a", () => {
         "Building barrel @ directory1/directory3",
         "Updating model barrel @ directory1/directory3/barrel.ts",
       ];
-      expect(logger.callCount).toEqual(messages.length);
+      expect(loggerSpy.callCount).toEqual(messages.length);
       messages.forEach((message: string, barrel: number) => {
-        expect(logger.getCall(barrel).args[0]).toEqual(message);
+        expect(loggerSpy.getCall(barrel).args[0]).toEqual(message);
       });
     });
   });
   describe("buildBarrels function with empty barrel content that", () => {
     let directory: Directory;
     let spySandbox: sinon.SinonSandbox;
-    let logger: Sinon.SinonSpy;
+    const logger = new Signale();
     const runBuilder = () => {
-      logger = spySandbox.spy();
       Builder.buildBarrels(
         directory.directories,
         '"',

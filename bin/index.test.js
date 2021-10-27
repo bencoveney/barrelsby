@@ -22,12 +22,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const sinon_1 = __importDefault(require("sinon"));
 const Builder = __importStar(require("./builder"));
 const Destinations = __importStar(require("./destinations"));
 const FileTree = __importStar(require("./fileTree"));
-const index_1 = __importDefault(require("./index"));
+const index_1 = require("./index");
 const BarrelName = __importStar(require("./options/barrelName"));
 const BaseUrl = __importStar(require("./options/baseUrl"));
 const Logger = __importStar(require("./options/logger"));
@@ -35,6 +34,7 @@ const NoSemicolon = __importStar(require("./options/noSemicolon"));
 const QuoteCharacter = __importStar(require("./options/quoteCharacter"));
 const RootPath = __importStar(require("./options/rootPath"));
 const Purge = __importStar(require("./purge"));
+const signale_1 = require("signale");
 describe("main module", () => {
     let spySandbox;
     beforeEach(() => {
@@ -77,8 +77,8 @@ describe("main module", () => {
         const getSemicolonCharacterSpy = spySandbox
             .stub(NoSemicolon, "getSemicolonCharacter")
             .returns(semicolonCharacter);
-        const logger = spySandbox.spy();
-        const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(logger);
+        const signale = new signale_1.Signale();
+        const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(signale);
         const barrelName = "barrel.ts";
         const getBarrelNameSpy = spySandbox
             .stub(BarrelName, "getBarrelName")
@@ -91,17 +91,17 @@ describe("main module", () => {
         const getCombinedBaseUrlSpy = spySandbox
             .stub(BaseUrl, "getCombinedBaseUrl")
             .returns(baseUrl);
-        (0, index_1.default)(args);
-        (0, chai_1.assert)(getQuoteCharacterSpy.calledOnceWithExactly(true));
-        (0, chai_1.assert)(getSemicolonCharacterSpy.calledOnceWithExactly(true));
-        (0, chai_1.assert)(getLoggerSpy.calledOnceWithExactly(true));
-        (0, chai_1.assert)(getBarrelNameSpy.calledOnceWithExactly(args.name, logger));
-        (0, chai_1.assert)(resolveRootPathSpy.calledWithExactly("testRootPath"));
-        (0, chai_1.assert)(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl));
-        (0, chai_1.assert)(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, logger));
-        (0, chai_1.assert)(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, logger));
-        (0, chai_1.assert)(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, logger));
-        (0, chai_1.assert)(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, logger, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"]));
+        (0, index_1.Barrelsby)(args);
+        expect(getQuoteCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
+        expect(getSemicolonCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
+        expect(getLoggerSpy.calledOnceWithExactly({ isVerbose: true })).toBeTruthy();
+        expect(getBarrelNameSpy.calledOnceWithExactly(args.name, signale)).toBeTruthy();
+        expect(resolveRootPathSpy.calledWithExactly("testRootPath")).toBeTruthy();
+        expect(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl)).toBeTruthy();
+        expect(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, signale)).toBeTruthy();
+        expect(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, signale)).toBeTruthy();
+        expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, signale)).toBeTruthy();
+        expect(buildBarrelsSpy.calledOnceWithExactly(destinations, quoteCharacter, semicolonCharacter, barrelName, signale, baseUrl, args.exportDefault, args.structure, args.local, args.include, [...args.exclude, "node_modules"])).toBeTruthy();
     });
 });
 //# sourceMappingURL=index.test.js.map

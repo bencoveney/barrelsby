@@ -22,7 +22,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const mock_fs_1 = __importDefault(require("mock-fs"));
 const FileTree = __importStar(require("./fileTree"));
 const TestUtilities = __importStar(require("./testUtilities"));
@@ -42,44 +41,44 @@ describe("fileTree module has a", () => {
         });
         it("should build a tree structure matching the file system directories", () => {
             // Check the current directory.
-            chai_1.assert.equal(result.path, "./directory1");
-            chai_1.assert.equal(result.name, "directory1");
+            expect(result.path).toEqual("./directory1");
+            expect(result.name).toEqual("directory1");
             // Check for a child.
-            chai_1.assert.lengthOf(result.directories, 2);
+            expect(result.directories.length).toBe(2);
             const subDirectory = result.directories[0];
             // Check the child directory.
-            chai_1.assert.equal(subDirectory.path, "directory1/directory2");
-            chai_1.assert.equal(subDirectory.name, "directory2");
+            expect(subDirectory.path).toEqual("directory1/directory2");
+            expect(subDirectory.name).toEqual("directory2");
         });
         it("should enumerate each file in a directory", () => {
-            chai_1.assert.lengthOf(result.files, 3);
+            expect(result.files.length).toBe(3);
             const testFile = (name) => {
                 const files = result.files.filter((file) => file.name === name);
-                chai_1.assert.lengthOf(files, 1);
+                expect(files.length).toBe(1);
                 const firstFile = files[0];
-                chai_1.assert.equal(firstFile.path, `directory1/${name}`);
-                chai_1.assert.equal(firstFile.name, name);
+                expect(firstFile.path).toEqual(`directory1/${name}`);
+                expect(firstFile.name).toEqual(name);
             };
             testFile("index.ts");
             testFile("ignore.txt");
             testFile(barrelName);
         });
         it("should identify existing barrels in a directory", () => {
-            chai_1.assert.isNotNull(result.barrel);
+            expect(result.barrel).not.toBeNull();
             const barrel = result.barrel;
             // Test the barrel.
-            chai_1.assert.equal(barrel.name, barrelName);
-            chai_1.assert.equal(barrel.path, "directory1/barrel.ts");
+            expect(barrel.name).toEqual(barrelName);
+            expect(barrel.path).toEqual("directory1/barrel.ts");
             // Test it is in the files list.
-            chai_1.assert.notEqual(result.files.indexOf(barrel), -1);
+            expect(result.files.indexOf(barrel)).not.toEqual(-1);
             // Check for a child.
-            chai_1.assert.lengthOf(result.directories, 2);
+            expect(result.directories.length).toBe(2);
             const subDirectory = result.directories[0];
             // Child shouldn't have a barrel.
-            chai_1.assert.isUndefined(subDirectory.barrel);
+            expect(subDirectory.barrel).not.toBeDefined();
         });
         it("should log useful information to the logger", () => {
-            chai_1.assert.sameMembers(logged, [
+            expect(logged).toEqual([
                 "Building directory tree for ./directory1",
                 "Found existing barrel @ directory1/barrel.ts",
                 "Building directory tree for directory1/directory2",
@@ -102,7 +101,7 @@ describe("fileTree module has a", () => {
             const calledDirectories = [];
             const callback = (directory) => calledDirectories.push(directory);
             FileTree.walkTree(fakeTree, callback);
-            chai_1.assert.deepEqual(allDirectories, calledDirectories);
+            expect(allDirectories).toEqual(calledDirectories);
         });
     });
 });

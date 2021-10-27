@@ -12,10 +12,10 @@ function getModules(
   logger: Logger,
   local: boolean
 ): Location[] {
-  logger(`Getting modules @ ${directory.path}`);
+  logger.debug(`Getting modules @ ${directory.path}`);
   if (directory.barrel) {
     // If theres a barrel then use that as it *should* contain descendant modules.
-    logger(`Found existing barrel @ ${directory.barrel.path}`);
+    logger.debug(`Found existing barrel @ ${directory.barrel.path}`);
     return [directory.barrel];
   }
   const files: Location[] = ([] as Location[]).concat(directory.files);
@@ -51,7 +51,7 @@ function filterModules(
       return filters.whitelists.some((test: RegExp) => {
         const isMatch = !!location.path.match(test);
         if (isMatch) {
-          logger(`${location.path} is included by ${test}`);
+          logger.debug(`${location.path} is included by ${test}`);
         }
         return isMatch;
       });
@@ -62,7 +62,7 @@ function filterModules(
       return !filters.blacklists.some((test: RegExp) => {
         const isMatch = !!location.path.match(test);
         if (isMatch) {
-          logger(`${location.path} is excluded by ${test}`);
+          logger.debug(`${location.path} is excluded by ${test}`);
         }
         return isMatch;
       });

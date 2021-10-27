@@ -3,6 +3,7 @@ import { Logger } from "./options/logger";
 import { LocationOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
 import { Directory } from "./utilities";
+import { Signale } from "signale";
 
 describe("destinations module has a", () => {
   describe("getDestinations function that", () => {
@@ -16,7 +17,7 @@ describe("destinations module has a", () => {
     ) => {
       describe(`when in '${mode}' mode`, () => {
         let logged: string[];
-        let logger: Logger = () => void 0;
+        let logger: Logger = new Signale();
         beforeEach(() => {
           logged = [];
           logger = TestUtilities.mockLogger(logged);

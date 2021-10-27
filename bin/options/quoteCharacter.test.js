@@ -1,14 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const quoteCharacter_1 = require("./quoteCharacter");
 describe("options/quoteCharacter module has a", () => {
     describe("getQuoteCharacter function that", () => {
         it("should correctly return the singlequote", () => {
-            chai_1.assert.equal((0, quoteCharacter_1.getQuoteCharacter)(true), "'");
+            expect((0, quoteCharacter_1.getQuoteCharacter)(true)).toEqual("'");
         });
         it("should correctly return the doublequote", () => {
-            chai_1.assert.equal((0, quoteCharacter_1.getQuoteCharacter)(false), '"');
+            expect((0, quoteCharacter_1.getQuoteCharacter)(false)).toEqual('"');
         });
     });
 });

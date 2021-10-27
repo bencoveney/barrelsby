@@ -16,7 +16,7 @@ export function buildFlatBarrel(
 ): string {
   return modules.reduce((previous: string, current: Location) => {
     const importPath = buildImportPath(directory, current, baseUrl);
-    logger(`Including path ${importPath}`);
+    logger.debug(`Including path ${importPath}`);
     if (exportDefault) {
       const filename = getBasename(current.path);
       previous += `export { default as ${filename} } from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}

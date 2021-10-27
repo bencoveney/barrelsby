@@ -4,7 +4,9 @@ export type Logger = Signale;
 
 let logger: Logger;
 
-export function getLogger({ isVerbose }: {isVerbose: boolean} = {isVerbose: false}): Logger {
+export function getLogger(
+  { isVerbose }: { isVerbose: boolean } = { isVerbose: false }
+): Logger {
   if (!logger) {
     logger = new Signale({
       disabled: false,

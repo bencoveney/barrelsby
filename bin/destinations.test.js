@@ -19,9 +19,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const chai_1 = require("chai");
 const Destinations = __importStar(require("./destinations"));
 const TestUtilities = __importStar(require("./testUtilities"));
+const signale_1 = require("signale");
 describe("destinations module has a", () => {
     describe("getDestinations function that", () => {
         let directory;
@@ -30,17 +30,17 @@ describe("destinations module has a", () => {
         const testMode = (mode, getExpectedDestinations, expectedLogs) => {
             describe(`when in '${mode}' mode`, () => {
                 let logged;
-                let logger = () => void 0;
+                let logger = new signale_1.Signale();
                 beforeEach(() => {
                     logged = [];
                     logger = TestUtilities.mockLogger(logged);
                     destinations = Destinations.getDestinations(directory, mode, barrelName, logger);
                 });
                 it("should select the correct destinations", () => {
-                    chai_1.assert.deepEqual(destinations, getExpectedDestinations());
+                    expect(destinations).toEqual(getExpectedDestinations());
                 });
                 it("should log useful information to the logger", () => {
-                    chai_1.assert.deepEqual(logged, expectedLogs);
+                    expect(logged).toEqual(expectedLogs);
                 });
             });
         };

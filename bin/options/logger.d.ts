@@ -1,2 +1,5 @@
-export declare type Logger = (logged: string) => void;
-export declare function getLogger(isVerbose: boolean): Logger;
+import { Signale } from "signale";
+export declare type Logger = Signale;
+export declare function getLogger({ isVerbose }?: {
+    isVerbose: boolean;
+}): Logger;
