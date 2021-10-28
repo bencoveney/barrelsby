@@ -8,11 +8,16 @@ describe("fileTree module has a", () => {
   describe("buildTree function that", () => {
     let result: Directory;
     let logged: string[];
+    let loggerSpy: jest.SpyInstance<
+        void,
+        [message?: any, ...optionalArgs: any[]]
+        >;
     const barrelName = "barrel.ts";
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
       logged = [];
       const logger = TestUtilities.mockLogger(logged);
+      loggerSpy = jest.spyOn(logger, 'debug')
       result = FileTree.buildTree("./directory1", barrelName, logger);
     });
     afterEach(() => {
@@ -64,13 +69,7 @@ describe("fileTree module has a", () => {
       expect(subDirectory.barrel).not.toBeDefined();
     });
     it("should log useful information to the logger", () => {
-      expect(logged).toEqual([
-        "Building directory tree for ./directory1",
-        "Found existing barrel @ directory1/barrel.ts",
-        "Building directory tree for directory1/directory2",
-        "Building directory tree for directory1/directory2/directory4",
-        "Building directory tree for directory1/directory3",
-      ]);
+      expect(loggerSpy).toHaveBeenCalledTimes(5)
     });
   });
   describe("walkTree function that", () => {

@@ -8,7 +8,7 @@ export function getBarrelName(name: string, logger: Logger): string {
     ? nameArgument
     : `${nameArgument}.ts`;
 
-  logger.info(`Using name ${barrelName}`);
+  logger.debug(`Using name ${barrelName}`);
 
   return barrelName;
 }

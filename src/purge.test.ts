@@ -11,12 +11,17 @@ describe("purge module has a", () => {
     let directory: Directory;
     let logged: string[];
     let logger: Logger;
+    let loggerSpy: jest.SpyInstance<
+        void,
+        [message?: any, ...optionalArgs: any[]]
+        >;
     const barrelName = "barrel.ts";
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
       directory = TestUtilities.mockDirectoryTree();
       logged = [];
       logger = TestUtilities.mockLogger(logged);
+      loggerSpy = jest.spyOn(logger, 'debug')
     });
     afterEach(() => {
       MockFs.restore();
@@ -48,9 +53,7 @@ describe("purge module has a", () => {
     it("should log useful information to the logger", () => {
       Purge.purge(directory, true, barrelName, logger);
 
-      expect(logged).toEqual([
-        "Deleting existing barrel @ directory1/barrel.ts",
-      ]);
+      expect(loggerSpy).toHaveBeenCalledTimes(1);
     });
   });
 });

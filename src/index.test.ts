@@ -1,5 +1,3 @@
-import Sinon from "sinon";
-
 import * as Builder from "./builder";
 import * as Destinations from "./destinations";
 import * as FileTree from "./fileTree";
@@ -11,7 +9,7 @@ import * as NoSemicolon from "./options/noSemicolon";
 import * as QuoteCharacter from "./options/quoteCharacter";
 import * as RootPath from "./options/rootPath";
 import * as Purge from "./purge";
-import { Signale } from "signale";
+import Sinon from "sinon";
 
 describe("main module", () => {
   let spySandbox: Sinon.SinonSandbox;
@@ -50,7 +48,7 @@ describe("main module", () => {
 
     const purgeSpy = spySandbox.stub(Purge, "purge");
 
-    const buildBarrelsSpy = spySandbox.stub(Builder, "buildBarrels");
+    const buildBarrelsSpy = jest.spyOn(Builder, "Builder");
 
     const quoteCharacter = "'";
     const getQuoteCharacterSpy = spySandbox
@@ -62,7 +60,7 @@ describe("main module", () => {
       .stub(NoSemicolon, "getSemicolonCharacter")
       .returns(semicolonCharacter);
 
-    const signale = new Signale();
+    const signale = Logger.getLogger();
     const getLoggerSpy = spySandbox.stub(Logger, "getLogger").returns(signale);
 
     const barrelName = "barrel.ts";
@@ -114,19 +112,21 @@ describe("main module", () => {
       )
     ).toBeTruthy();
     expect(
-      buildBarrelsSpy.calledOnceWithExactly(
-        destinations,
-        quoteCharacter,
-        semicolonCharacter,
-        barrelName,
-        signale,
-        baseUrl,
-        args.exportDefault,
-        args.structure,
-        args.local,
-        args.include,
-        [...args.exclude, "node_modules"]
-      )
-    ).toBeTruthy();
+      buildBarrelsSpy
+    ).toHaveBeenCalledWith(
+        {
+          destinations,
+          quoteCharacter,
+          semicolonCharacter,
+          barrelName,
+          logger: signale,
+          baseUrl,
+          exportDefault: args.exportDefault,
+          structure: args.structure,
+          local: args.local,
+          include: args.include,
+          exclude: [...args.exclude, "node_modules"]
+      }
+    );
   });
 });

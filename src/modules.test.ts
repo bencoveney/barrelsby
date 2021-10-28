@@ -8,10 +8,15 @@ describe("builder/modules module has a", () => {
     let directory: Directory;
     let logged: string[];
     let logger: Logger;
+    let loggerSpy: jest.SpyInstance<
+      void,
+      [message?: any, ...optionalArgs: any[]]
+    >;
     beforeEach(() => {
       directory = TestUtilities.mockDirectoryTree();
       logged = [];
       logger = TestUtilities.mockLogger(logged);
+      loggerSpy = jest.spyOn(logger, 'debug')
     });
     it("should identify modules from directories recursively", () => {
       const result = Modules.loadDirectoryModules(
@@ -135,12 +140,7 @@ describe("builder/modules module has a", () => {
       indexedDirectory.barrel = indexedDirectory.files[0];
 
       Modules.loadDirectoryModules(directory, logger, [], [], false);
-      expect(logged).toEqual([
-        "Getting modules @ ./directory1",
-        "Getting modules @ directory1/directory2",
-        "Found existing barrel @ directory1/directory2/script.ts",
-        "Getting modules @ directory1/directory3",
-      ]);
+      expect(loggerSpy).toBeCalledTimes(4)
     });
   });
 });

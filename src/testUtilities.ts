@@ -1,4 +1,3 @@
-import { assert } from "chai";
 import { Configuration, Linter } from "tslint";
 
 import { Logger } from "./options/logger";
@@ -102,13 +101,12 @@ export function mockLogger(_: string[]): Logger {
 export function assertMultiLine(actual: string, expected: string): void {
   const actualParts = actual.split("\n");
   const expectParts = expected.split("\n");
-  assert.equal(
-    actualParts.length,
-    expectParts.length,
-    "Different numbers of lines"
-  );
+  expect(
+    actualParts.length) .toEqual(
+    expectParts.length)
+  ;
   actualParts.forEach((actualPart, index) => {
-    assert.equal(actualPart, expectParts[index]);
+    expect(actualPart).toEqual(expectParts[index]);
   });
 }
 
@@ -132,5 +130,5 @@ export function tslint(content: string, quoteCharacter: QuoteCharacter) {
           failure.getStartPosition().getLineAndCharacter().line
         }`
     );
-  assert.deepEqual(failures, []);
+  expect(failures).toEqual([]);
 }
