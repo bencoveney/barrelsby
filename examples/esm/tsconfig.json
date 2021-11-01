@@ -4,7 +4,8 @@
     "module": "ES2020",
     "strict": true,
     "moduleResolution": "node",
-    "jsx": "react"
+    "jsx": "react",
+    "skipLibCheck": true,
   },
   "include": [
     "./src/**/*"
