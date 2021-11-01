@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "@types/yargs": "^17.0.3",
-    "yargs": "^15.0.1",
+    "yargs": "^17.2.1",
     "signale": "^1.4.0"
   },
   "contributors": [
