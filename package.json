@@ -44,7 +44,7 @@
     "@types/sinon": "^7.5.0",
     "@types/signale": "^1.4.2",
     "better-console": "^1.0.1",
-    "dir-compare": "^1.7.3",
+    "dir-compare": "^3.3.0",
     "fs-extra": "^8.1.0",
     "istanbul": "^0.4.5",
     "jest": "^27.3.1",
