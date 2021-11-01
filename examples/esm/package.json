@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "generate-barrels": "barrelsby --delete --directory ./src",
+    "build": "tsc",
+    "run": "node ./"
+  },
+  "devDependencies": {
+    "barrelsby": "file:../..",
+    "typescript": "^4.4.4"
+  },
+  "main": "./src/index.js",
+  "type": "module"
+}
