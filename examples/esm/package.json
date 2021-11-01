@@ -2,12 +2,17 @@
   "scripts": {
     "generate-barrels": "barrelsby --delete --directory ./src",
     "build": "tsc",
-    "run": "node ./"
+    "run": "node ./",
+    "all": "npm run generate-barrels && npm run build && npm run run"
   },
   "devDependencies": {
+    "@types/react": "^17.0.33",
     "barrelsby": "file:../..",
     "typescript": "^4.4.4"
   },
   "main": "./src/index.js",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "react": "^17.0.2"
+  }
 }
