@@ -23,8 +23,11 @@ export function Barrelsby(args: Arguments) {
     ? [args.directory ?? "./"]
     : args.directory ?? ["./"];
 
+  logger.debug(`Directories passed`, directories)
+
   const resolvedDirectories = directories.map((directory) => {
     const rootPath = resolveRootPath(directory);
+    logger.debug("Resolved root path %s", rootPath)
     return {
       dir: directory,
       rootPath,
@@ -32,9 +35,12 @@ export function Barrelsby(args: Arguments) {
     };
   });
 
+  logger.debug("resolved directories list", resolvedDirectories)
+
   resolvedDirectories.forEach(async ({ rootPath, baseUrl }) => {
     // Build the directory tree.
     const rootTree = buildTree(rootPath, barrelName, logger);
+    logger.debug(`root tree for path: ${rootPath}`, rootTree)
 
     // Work out which directories should have barrels.
     const destinations: Directory[] = getDestinations(
@@ -44,10 +50,12 @@ export function Barrelsby(args: Arguments) {
       logger
     );
 
+    logger.debug("Destinations", destinations)
+
     // Potentially there are some existing barrels that need removing.
     purge(
       rootTree,
-      args.delete !== undefined && args.delete,
+      args.delete ?? false,
       barrelName,
       logger
     );

@@ -21,7 +21,8 @@ Promise.all(
     .filter(path => lstatSync(path).isDirectory())
     .map(async directory => {
       const args: Arguments = await Yargs.parse(["--config", join(directory, "barrelsby.json")]);
-        args.directory = typeof args.directory !== "string" ? join(directory, (args.directory as string[]).shift() as string) : join(directory, args.directory as string);
+        args.directory = Array.isArray(args.directory) ? args.directory.map(dir => join(directory, dir)) : join(directory, args.directory as string);
+        args.verbose = true;
         return copy(join(directory, "input"), join(directory, "output")).then(
         () => {
           Barrelsby(args as any);
@@ -62,7 +63,7 @@ Promise.all(
           }
           if (comparison.differences && comparison.diffSet) {
             console.error(
-              `Error: ${comparison.differences} differences found!`
+              `Error: ${comparison.differences} differences found!`,
             );
           } else {
             console.info(`No differences found in ${comparison.equalFiles}`);

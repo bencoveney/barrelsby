@@ -12,6 +12,7 @@ export function purge(
 ) {
   // Delete any existing barrels.
   if (shouldPurge) {
+    logger.debug(`Purging barrels for ${rootTree}`)
     walkTree(rootTree, (directory: Directory) => {
       directory.files
         .filter((file: Location) => {

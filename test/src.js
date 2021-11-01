@@ -17,7 +17,7 @@ const fs_1 = require("fs");
 const fs_extra_1 = require("fs-extra");
 const path_1 = require("path");
 const yargs_1 = __importDefault(require("yargs"));
-const bin_1 = __importDefault(require("../bin"));
+const bin_1 = require("../bin");
 const args_1 = require("../bin/args");
 // tslint:disable-next-line:no-var-requires
 const console = require("better-console");
@@ -29,9 +29,10 @@ Promise.all((0, fs_1.readdirSync)(location)
     .filter(path => (0, fs_1.lstatSync)(path).isDirectory())
     .map((directory) => __awaiter(void 0, void 0, void 0, function* () {
     const args = yield yargs_1.default.parse(["--config", (0, path_1.join)(directory, "barrelsby.json")]);
-    args.directory = typeof args.directory !== "string" ? (0, path_1.join)(directory, args.directory.shift()) : (0, path_1.join)(directory, args.directory);
+    args.directory = Array.isArray(args.directory) ? args.directory.map(dir => (0, path_1.join)(directory, dir)) : (0, path_1.join)(directory, args.directory);
+    args.verbose = true;
     return (0, fs_extra_1.copy)((0, path_1.join)(directory, "input"), (0, path_1.join)(directory, "output")).then(() => {
-        (0, bin_1.default)(args);
+        (0, bin_1.Barrelsby)(args);
         console.log(`Running integration test in directory ${directory}`);
         const outputDirectory = (0, path_1.join)(directory, "output");
         const expectedDirectory = (0, path_1.join)(directory, "expected");

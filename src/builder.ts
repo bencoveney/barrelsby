@@ -128,6 +128,14 @@ function buildBarrel(
   exclude: string[]
 ) {
   logger.debug(`Building barrel @ ${directory.path}`);
+  logger.debug('Builder parameter', {
+    directory,
+    quoteCharacter,
+    semicolonCharacter,
+    baseUrl,
+    exportDefault,
+    modules: loadDirectoryModules(directory, logger, include, exclude, local)
+  })
   const content = builder(
     directory,
     loadDirectoryModules(directory, logger, include, exclude, local),
