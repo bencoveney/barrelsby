@@ -1,10 +1,7 @@
-import fs from "fs";
 import path from "path";
 
 import { buildFileSystemBarrel } from "./builders/fileSystem";
 import { buildFlatBarrel } from "./builders/flat";
-import { addHeaderPrefix } from "./builders/header";
-import { loadDirectoryModules } from "./modules";
 import { BaseUrl } from "./options/baseUrl";
 import { Logger } from "./options/logger";
 import { SemicolonCharacter } from "./options/noSemicolon";
@@ -16,6 +13,7 @@ import {
   Location,
   thisDirectory,
 } from "./utilities";
+import { BuildBarrel } from "./tasks/BuildBarrel";
 
 export class Builder {
   private readonly params;
@@ -49,120 +47,26 @@ export class Builder {
 
     try {
       // Build the barrels.
-      this.params?.destinations?.forEach((destination: Directory) =>
-        buildBarrel(
-          destination,
-          builder,
-          this.params.quoteCharacter,
-          this.params.semicolonCharacter,
-          this.params.barrelName,
-          this.params.logger,
-          this.params.baseUrl,
-          this.params.exportDefault,
-          this.params.local,
-          this.params.include,
-          this.params.exclude
-        )
+      this.params?.destinations?.forEach(
+        (destination: Directory) =>
+          new BuildBarrel(
+            destination,
+            builder,
+            this.params.quoteCharacter,
+            this.params.semicolonCharacter,
+            this.params.barrelName,
+            this.params.logger,
+            this.params.baseUrl,
+            this.params.exportDefault,
+            this.params.local,
+            this.params.include,
+            this.params.exclude
+          )
       );
     } catch (e) {
       // tslint:disable-next-line:no-console
       console.error(e);
     }
-  }
-}
-
-// orchestrates "buildBarrel"
-export function buildBarrels(
-  destinations: Directory[],
-  quoteCharacter: QuoteCharacter,
-  semicolonCharacter: SemicolonCharacter,
-  barrelName: string,
-  logger: Logger,
-  baseUrl: BaseUrl,
-  exportDefault: boolean,
-  structure: StructureOption | undefined,
-  local: boolean,
-  include: string[],
-  exclude: string[]
-): void {
-  let builder: BarrelBuilder;
-  switch (structure) {
-    default:
-    case "flat":
-      builder = buildFlatBarrel;
-      break;
-    case "filesystem":
-      builder = buildFileSystemBarrel;
-      break;
-  }
-  // Build the barrels.
-  destinations.forEach((destination: Directory) =>
-    buildBarrel(
-      destination,
-      builder,
-      quoteCharacter,
-      semicolonCharacter,
-      barrelName,
-      logger,
-      baseUrl,
-      exportDefault,
-      local,
-      include,
-      exclude
-    )
-  );
-}
-
-// Build a barrel for the specified directory.
-function buildBarrel(
-  directory: Directory,
-  builder: BarrelBuilder,
-  quoteCharacter: QuoteCharacter,
-  semicolonCharacter: SemicolonCharacter,
-  barrelName: string,
-  logger: Logger,
-  baseUrl: BaseUrl,
-  exportDefault: boolean,
-  local: boolean,
-  include: string[],
-  exclude: string[]
-) {
-  logger.debug(`Building barrel @ ${directory.path}`);
-  logger.debug('Builder parameter', {
-    directory,
-    quoteCharacter,
-    semicolonCharacter,
-    baseUrl,
-    exportDefault,
-    modules: loadDirectoryModules(directory, logger, include, exclude, local)
-  })
-  const content = builder(
-    directory,
-    loadDirectoryModules(directory, logger, include, exclude, local),
-    quoteCharacter,
-    semicolonCharacter,
-    logger,
-    baseUrl,
-    exportDefault
-  );
-  const destination = path.join(directory.path, barrelName);
-  if (content.length === 0) {
-    // Skip empty barrels.
-    return;
-  }
-  // Add the header
-  const contentWithHeader = addHeaderPrefix(content);
-  fs.writeFileSync(destination, contentWithHeader);
-  // Update the file tree model with the new barrel.
-  if (!directory.files.some((file: Location) => file.name === barrelName)) {
-    const convertedPath = convertPathSeparator(destination);
-    const barrel = {
-      name: barrelName,
-      path: convertedPath,
-    };
-    logger.debug(`Updating model barrel @ ${convertedPath}`);
-    directory.files.push(barrel);
-    directory.barrel = barrel;
   }
 }
 

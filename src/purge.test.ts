@@ -53,7 +53,7 @@ describe("purge module has a", () => {
     it("should log useful information to the logger", () => {
       Purge.purge(directory, true, barrelName, logger);
 
-      expect(loggerSpy).toHaveBeenCalledTimes(1);
+      expect(loggerSpy).toHaveBeenCalledTimes(2);
     });
   });
 });

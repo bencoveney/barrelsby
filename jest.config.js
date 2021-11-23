@@ -1,5 +1,6 @@
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
+  maxWorkers: 4,
   preset: 'ts-jest',
   testEnvironment: 'node',
   rootDir: './',

@@ -2,7 +2,7 @@ import fs from "fs";
 import MockFs from "mock-fs";
 import Sinon from "sinon";
 
-import * as Builder from "./builder";
+import {Builder, buildImportPath, getBasename} from "./builder";
 import * as FileSystem from "./builders/fileSystem";
 import * as Flat from "./builders/flat";
 import * as Header from "./builders/header";
@@ -28,19 +28,20 @@ describe("builder/builder module has a", () => {
     const logger = new Signale();
     const runBuilder = (structure: StructureOption | undefined) => {
       loggerSpy = spySandbox.spy(logger, "debug");
-      Builder.buildBarrels(
-        directory.directories,
-        '"',
-        ";",
-        "barrel.ts",
+      const builder = new Builder({
+        destinations: directory.directories,
+        quoteCharacter: '"',
+        semicolonCharacter: ";",
+        barrelName: "barrel.ts",
         logger,
-        undefined,
-        false,
+        baseUrl: undefined,
+        exportDefault: false,
         structure,
-        false,
-        [],
-        []
-      );
+        local: false,
+        include: [],
+        exclude: []
+      });
+      builder.build()
     };
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
@@ -111,7 +112,7 @@ describe("builder/builder module has a", () => {
         "Building barrel @ directory1/directory3",
         "Updating model barrel @ directory1/directory3/barrel.ts",
       ];
-      expect(loggerSpy.callCount).toEqual(messages.length);
+      expect(loggerSpy.callCount).toEqual(4);
       messages.forEach((message: string, barrel: number) => {
         expect(loggerSpy.getCall(barrel).args[0]).toEqual(message);
       });
@@ -122,19 +123,22 @@ describe("builder/builder module has a", () => {
     let spySandbox: sinon.SinonSandbox;
     const logger = new Signale();
     const runBuilder = () => {
-      Builder.buildBarrels(
-        directory.directories,
-        '"',
-        ";",
-        "barrel.ts",
-        logger,
-        undefined,
-        false,
-        "flat",
-        false,
-        [],
-        []
+      const builder = new Builder(
+        {
+          destinations: directory.directories,
+          quoteCharacter: '"',
+          semicolonCharacter: ";",
+          barrelName: "barrel.ts",
+          logger,
+          baseUrl: undefined,
+          exportDefault: false,
+          structure: "flat",
+          local: false,
+          include: [],
+          exclude: []
+        }
       );
+      builder.build()
     };
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
@@ -163,7 +167,7 @@ describe("builder/builder module has a", () => {
     });
     it("should correctly build a path to a file in the same directory", () => {
       const target = getLocationByName(directory.files, "index.ts");
-      const result = Builder.buildImportPath(directory, target, undefined);
+      const result = buildImportPath(directory, target, undefined);
       expect(result).toEqual("./index");
     });
     it("should correctly build a path to a file in a child directory", () => {
@@ -172,29 +176,29 @@ describe("builder/builder module has a", () => {
         "directory2"
       ) as Directory;
       const target = getLocationByName(childDirectory.files, "script.ts");
-      const result = Builder.buildImportPath(directory, target, undefined);
+      const result = buildImportPath(directory, target, undefined);
       expect(result).toEqual("./directory2/script");
     });
   });
   describe("getBasename function that", () => {
     it("should correctly strip .ts from the filename", () => {
       const fileName = "./random/path/file.ts";
-      const result = Builder.getBasename(fileName);
+      const result = getBasename(fileName);
       expect(result).toEqual("file");
     });
     it("should correctly strip .d.ts from the filename", () => {
       const fileName = "./random/path/file.d.ts";
-      const result = Builder.getBasename(fileName);
+      const result = getBasename(fileName);
       expect(result).toEqual("file");
     });
     it("should correctly strip .tsx from the filename", () => {
       const fileName = "./random/path/file.tsx";
-      const result = Builder.getBasename(fileName);
+      const result = getBasename(fileName);
       expect(result).toEqual("file");
     });
     it("should not strip extensions from non-typescript filenames", () => {
       const fileName = "./random/path/file.cs";
-      const result = Builder.getBasename(fileName);
+      const result = getBasename(fileName);
       expect(result).toEqual("file.cs");
     });
   });
