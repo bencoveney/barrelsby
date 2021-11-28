@@ -12,59 +12,52 @@ import { BuildBarrel } from './tasks/BuildBarrel';
 import { Directory } from './interfaces/directory.interface';
 import { FileTreeLocation } from './interfaces/location.interface';
 
-export class Builder {
-  private readonly params;
-  constructor(params: {
-    destinations: Directory[];
-    quoteCharacter: QuoteCharacter;
-    semicolonCharacter: SemicolonCharacter;
-    barrelName: string;
-    logger: Logger;
-    baseUrl: BaseUrl;
-    exportDefault: boolean;
-    structure: StructureOption | undefined;
-    local: boolean;
-    include: string[];
-    exclude: string[];
-  }) {
-    this.params = params;
+export const Builder = async (params: {
+  destinations: Directory[];
+  quoteCharacter: QuoteCharacter;
+  semicolonCharacter: SemicolonCharacter;
+  barrelName: string;
+  logger: Logger;
+  baseUrl: BaseUrl;
+  exportDefault: boolean;
+  structure: StructureOption | undefined;
+  local: boolean;
+  include: string[];
+  exclude: string[];
+}): Promise<void> => {
+  let builder: BarrelBuilder;
+  switch (params.structure) {
+    default:
+    case 'flat':
+      builder = buildFlatBarrel;
+      break;
+    case 'filesystem':
+      builder = buildFileSystemBarrel;
+      break;
   }
 
-  async build(): Promise<void> {
-    let builder: BarrelBuilder;
-    switch (this.params.structure) {
-      default:
-      case 'flat':
-        builder = buildFlatBarrel;
-        break;
-      case 'filesystem':
-        builder = buildFileSystemBarrel;
-        break;
-    }
-
-    try {
-      // Build the barrels.
-      this.params?.destinations?.forEach((destination: Directory) =>
-        BuildBarrel({
-          directory: destination,
-          builder,
-          quoteCharacter: this.params.quoteCharacter,
-          semicolonCharacter: this.params.semicolonCharacter,
-          barrelName: this.params.barrelName,
-          logger: this.params.logger,
-          baseUrl: this.params.baseUrl,
-          exportDefault: this.params.exportDefault,
-          local: this.params.local,
-          include: this.params.include,
-          exclude: this.params.exclude,
-        })
-      );
-    } catch (e) {
-      // tslint:disable-next-line:no-console
-      console.error(e);
-    }
+  try {
+    // Build the barrels.
+    params?.destinations?.forEach((destination: Directory) =>
+      BuildBarrel({
+        directory: destination,
+        builder,
+        quoteCharacter: params.quoteCharacter,
+        semicolonCharacter: params.semicolonCharacter,
+        barrelName: params.barrelName,
+        logger: params.logger,
+        baseUrl: params.baseUrl,
+        exportDefault: params.exportDefault,
+        local: params.local,
+        include: params.include,
+        exclude: params.exclude,
+      })
+    );
+  } catch (e) {
+    // tslint:disable-next-line:no-console
+    console.error(e);
   }
-}
+};
 
 export type BarrelBuilder = (
   directory: Directory,
