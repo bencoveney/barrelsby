@@ -9,11 +9,12 @@ import * as Header from "./builders/header";
 import * as Modules from "./modules";
 import { StructureOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
-import { Directory, Location } from "./utilities";
+import { Directory } from "./interfaces/directory.interface";
+import {FileTreeLocation} from "./interfaces/location.interface";
 import { Signale } from "signale";
 
 // Gets a location from a list by name.
-function getLocationByName(locations: Location[], name: string): Location {
+function getLocationByName(locations: FileTreeLocation[], name: string): FileTreeLocation {
   return locations.filter((location) => location.name === name)[0];
 }
 
@@ -101,7 +102,7 @@ describe("builder/builder module has a", () => {
     it("should update the directory structure with the new barrel", () => {
       runBuilder("flat");
       directory.directories.forEach((subDirectory: Directory) => {
-        expect((subDirectory.barrel as Location).name).toEqual("barrel.ts");
+        expect((subDirectory.barrel as FileTreeLocation).name).toEqual("barrel.ts");
       });
     });
     it("should log useful information to the logger", () => {

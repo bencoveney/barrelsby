@@ -2,8 +2,9 @@ import { Configuration, Linter } from "tslint";
 
 import { Logger } from "./options/logger";
 import { QuoteCharacter } from "./options/quoteCharacter";
-import { Directory, Location } from "./utilities";
 import { Signale } from "signale";
+import { Directory } from "./interfaces/directory.interface";
+import {FileTreeLocation} from "./interfaces/location.interface";
 
 export function mockFsConfiguration() {
   return {
@@ -82,9 +83,9 @@ export function mockDirectoryTree(): Directory {
   };
 }
 
-export function mockModules(rootDirectory: Directory): Location[] {
-  const getModules = (directory: Directory): Location[] =>
-    directory.directories.reduce((previous: Location[], current: Directory) => {
+export function mockModules(rootDirectory: Directory): FileTreeLocation[] {
+  const getModules = (directory: Directory): FileTreeLocation[] =>
+    directory.directories.reduce((previous: FileTreeLocation[], current: Directory) => {
       return previous.concat(getModules(current));
     }, directory.files);
   return getModules(rootDirectory).filter(

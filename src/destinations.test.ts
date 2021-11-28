@@ -2,8 +2,8 @@ import * as Destinations from "./destinations";
 import { Logger } from "./options/logger";
 import { LocationOption } from "./options/options";
 import * as TestUtilities from "./testUtilities";
-import { Directory } from "./utilities";
 import { Signale } from "signale";
+import {Directory} from "./interfaces/directory.interface";
 
 describe("destinations module has a", () => {
   describe("getDestinations function that", () => {

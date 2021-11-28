@@ -11,7 +11,7 @@ import { Arguments, LocationOption } from "./options/options";
 import { getQuoteCharacter } from "./options/quoteCharacter";
 import { resolveRootPath } from "./options/rootPath";
 import { purge } from "./purge";
-import { Directory } from "./utilities";
+import { Directory } from "./interfaces/directory.interface";
 
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.

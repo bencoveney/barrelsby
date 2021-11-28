@@ -1,4 +1,4 @@
-import {convertPathSeparator, Directory, Location} from "../utilities";
+import {convertPathSeparator} from "../utilities";
 import {QuoteCharacter} from "../options/quoteCharacter";
 import {SemicolonCharacter} from "../options/noSemicolon";
 import {Logger} from "../options/logger";
@@ -8,6 +8,7 @@ import path from "path";
 import {addHeaderPrefix} from "../builders/header";
 import fs from "fs";
 import {BarrelBuilder} from "../builder";
+import {Directory} from "../interfaces/directory.interface";
 
 export class BuildBarrel {
     constructor (
@@ -42,7 +43,7 @@ export class BuildBarrel {
         const contentWithHeader = addHeaderPrefix(content);
         fs.writeFileSync(destination, contentWithHeader);
         // Update the file tree model with the new barrel.
-        if (!directory.files.some((file: Location) => file.name === barrelName)) {
+        if (!directory.files.some((file) => file.name === barrelName)) {
             const convertedPath = convertPathSeparator(destination);
             const barrel = {
                 name: barrelName,

@@ -6,11 +6,11 @@ import { Logger } from "../options/logger";
 import { SemicolonCharacter } from "../options/noSemicolon";
 import { QuoteCharacter } from "../options/quoteCharacter";
 import {
-  Directory,
   indentation,
-  Location,
   nonAlphaNumeric,
 } from "../utilities";
+import { Directory } from "../interfaces/directory.interface";
+import { FileTreeLocation } from "../interfaces/location.interface";
 
 function stringify(
   structure: ExportStructure,
@@ -58,7 +58,7 @@ function buildStructureSubsection(
 }
 
 interface Import {
-  module: Location;
+  module: FileTreeLocation;
   path: string;
 }
 
@@ -70,7 +70,7 @@ function compareImports(a: Import, b: Import): number {
 
 export function buildFileSystemBarrel(
   directory: Directory,
-  modules: Location[],
+  modules: FileTreeLocation[],
   quoteCharacter: QuoteCharacter,
   semicolonCharacter: SemicolonCharacter,
   _: Logger, // Not used
@@ -80,7 +80,7 @@ export function buildFileSystemBarrel(
   let content = "";
   modules
     .map(
-      (module: Location): Import => ({
+      (module: FileTreeLocation): Import => ({
         module,
         path: buildImportPath(directory, module, baseUrl),
       })

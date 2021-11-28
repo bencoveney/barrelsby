@@ -1,7 +1,8 @@
 import { walkTree } from "./fileTree";
 import { Logger } from "./options/logger";
 import { LocationOption } from "./options/options";
-import { Directory, Location } from "./utilities";
+import {Directory} from "./interfaces/directory.interface";
+import {FileTreeLocation} from "./interfaces/location.interface";
 
 /** Assess which directories in the tree should contain barrels. */
 export function getDestinations(
@@ -30,7 +31,7 @@ export function getDestinations(
       walkTree(rootTree, (directory: Directory) => {
         if (
           directory.files.some(
-            (location: Location) => location.name === barrelName
+            (location: FileTreeLocation) => location.name === barrelName
           )
         ) {
           destinations.push(directory);

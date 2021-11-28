@@ -2,7 +2,8 @@ import fs from "fs";
 import path from "path";
 
 import { Logger } from "./options/logger";
-import { convertPathSeparator, Directory } from "./utilities";
+import { convertPathSeparator } from "./utilities";
+import {Directory} from "./interfaces/directory.interface";
 
 /** Build directory information recursively. */
 export function buildTree(

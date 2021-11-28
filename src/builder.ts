@@ -9,11 +9,11 @@ import { StructureOption } from "./options/options";
 import { QuoteCharacter } from "./options/quoteCharacter";
 import {
   convertPathSeparator,
-  Directory,
-  Location,
   thisDirectory,
 } from "./utilities";
 import { BuildBarrel } from "./tasks/BuildBarrel";
+import {Directory} from "./interfaces/directory.interface";
+import {FileTreeLocation} from "./interfaces/location.interface";
 
 export class Builder {
   private readonly params;
@@ -72,7 +72,7 @@ export class Builder {
 
 export type BarrelBuilder = (
   directory: Directory,
-  modules: Location[],
+  modules: FileTreeLocation[],
   quoteCharacter: QuoteCharacter,
   semicolonCharacter: SemicolonCharacter,
   logger: Logger,
@@ -83,7 +83,7 @@ export type BarrelBuilder = (
 /** Builds the TypeScript */
 export function buildImportPath(
   directory: Directory,
-  target: Location,
+  target: FileTreeLocation,
   baseUrl: BaseUrl
 ): string {
   // If the base URL option is set then imports should be relative to there.

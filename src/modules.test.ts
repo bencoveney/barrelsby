@@ -1,7 +1,7 @@
 import * as Modules from "./modules";
 import { Logger } from "./options/logger";
 import * as TestUtilities from "./testUtilities";
-import { Directory } from "./utilities";
+import {Directory} from "./interfaces/directory.interface";
 
 describe("builder/modules module has a", () => {
   describe("loadDirectoryModules function that", () => {

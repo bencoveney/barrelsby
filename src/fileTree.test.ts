@@ -2,7 +2,8 @@ import MockFs from "mock-fs";
 
 import * as FileTree from "./fileTree";
 import * as TestUtilities from "./testUtilities";
-import { Directory, Location } from "./utilities";
+import {Directory} from "./interfaces/directory.interface";
+import {FileTreeLocation} from "./interfaces/location.interface";
 
 describe("fileTree module has a", () => {
   describe("buildTree function that", () => {
@@ -52,7 +53,7 @@ describe("fileTree module has a", () => {
     it("should identify existing barrels in a directory", () => {
       expect(result.barrel).not.toBeNull();
 
-      const barrel = result.barrel as Location;
+      const barrel = result.barrel as FileTreeLocation;
 
       // Test the barrel.
       expect(barrel.name).toEqual(barrelName);

@@ -13,20 +13,6 @@ export function getLogger(
       interactive: false,
       logLevel: isVerbose ? "info" : "error",
       stream: process.stdout,
-      /*types: {
-        remind: {
-          badge: '**',
-          color: 'yellow',
-          label: 'reminder',
-          logLevel: 'info'
-        },
-        santa: {
-          badge: '🎅',
-          color: 'red',
-          label: 'santa',
-          logLevel: 'info'
-        }
-      }*/
     });
   }
   return logger;

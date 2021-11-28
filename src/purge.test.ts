@@ -4,7 +4,7 @@ import MockFs from "mock-fs";
 import { Logger } from "./options/logger";
 import * as Purge from "./purge";
 import * as TestUtilities from "./testUtilities";
-import { Directory } from "./utilities";
+import {Directory} from "./interfaces/directory.interface";
 
 describe("purge module has a", () => {
   describe("purge function that", () => {
