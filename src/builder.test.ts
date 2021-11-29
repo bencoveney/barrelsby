@@ -2,7 +2,7 @@ import fs from 'fs';
 import MockFs from 'mock-fs';
 import Sinon from 'sinon';
 
-import { Builder, buildImportPath, getBasename } from './builder';
+import { BarrelBuilder, Builder, buildImportPath, getBasename } from './builder';
 import * as FileSystem from './builders/fileSystem';
 import * as Flat from './builders/flat';
 import * as Header from './builders/header';
@@ -12,6 +12,11 @@ import * as TestUtilities from './testUtilities';
 import { Directory } from './interfaces/directory.interface';
 import { FileTreeLocation } from './interfaces/location.interface';
 import { Signale } from 'signale';
+import { BaseUrl } from './options/baseUrl';
+import { Logger } from './options/logger';
+import { SemicolonCharacter } from './options/noSemicolon';
+import { QuoteCharacter } from './options/quoteCharacter';
+import * as BuildBarrelModule from './tasks/BuildBarrel';
 
 // Gets a location from a list by name.
 function getLocationByName(locations: FileTreeLocation[], name: string): FileTreeLocation {
@@ -23,9 +28,29 @@ describe('builder/builder module has a', () => {
     let directory: Directory;
     let spySandbox: sinon.SinonSandbox;
     let loggerSpy: Sinon.SinonSpy<[message?: any, ...optionalArgs: any[]], void>;
+    let builderSpy: Sinon.SinonSpy<
+      [
+        {
+          directory: Directory;
+          builder: BarrelBuilder;
+          quoteCharacter: QuoteCharacter;
+          semicolonCharacter: SemicolonCharacter;
+          barrelName: string;
+          logger: Logger;
+          // Gets a location from a list by name.
+          baseUrl: BaseUrl;
+          exportDefault: boolean;
+          local: boolean;
+          include: string[];
+          exclude: string[];
+        }
+      ],
+      void
+    >;
     const logger = new Signale();
     const runBuilder = (structure: StructureOption | undefined) => {
       loggerSpy = spySandbox.spy(logger, 'debug');
+      builderSpy = spySandbox.spy(BuildBarrelModule, 'BuildBarrel');
       Builder({
         destinations: directory.directories,
         quoteCharacter: '"',
@@ -102,6 +127,10 @@ describe('builder/builder module has a', () => {
       messages.forEach((message: string, barrel: number) => {
         expect(loggerSpy.getCall(barrel).args[0]).toEqual(message);
       });
+    });
+    it('should run the amount of times as the directory options length', () => {
+      runBuilder('flat');
+      expect(builderSpy.callCount).toBe(directory.directories.length);
     });
   });
   describe('buildBarrels function with empty barrel content that', () => {
