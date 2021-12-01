@@ -1,7 +1,4 @@
 import path from 'path';
-
-import { buildFileSystemBarrel } from './builders/fileSystem';
-import { buildFlatBarrel } from './builders/flat';
 import { BaseUrl } from './options/baseUrl';
 import { Logger } from './options/logger';
 import { SemicolonCharacter } from './options/noSemicolon';
@@ -25,23 +22,12 @@ export const Builder = async (params: {
   include: string[];
   exclude: string[];
 }): Promise<void> => {
-  let builder: BarrelBuilder;
-  switch (params.structure) {
-    default:
-    case 'flat':
-      builder = buildFlatBarrel;
-      break;
-    case 'filesystem':
-      builder = buildFileSystemBarrel;
-      break;
-  }
-
   try {
     // Build the barrels.
     params?.destinations?.forEach((destination: Directory) =>
       BuildBarrel({
         directory: destination,
-        builder,
+        barrelType: params.structure ?? StructureOption.FLAT,
         quoteCharacter: params.quoteCharacter,
         semicolonCharacter: params.semicolonCharacter,
         barrelName: params.barrelName,
@@ -55,7 +41,7 @@ export const Builder = async (params: {
     );
   } catch (e) {
     // tslint:disable-next-line:no-console
-    console.error(e);
+    params.logger.error(e);
   }
 };
 

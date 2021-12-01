@@ -2,7 +2,7 @@ import fs from 'fs';
 import MockFs from 'mock-fs';
 import Sinon from 'sinon';
 
-import { BarrelBuilder, Builder, buildImportPath, getBasename } from './builder';
+import { Builder, buildImportPath, getBasename } from './builder';
 import * as FileSystem from './builders/fileSystem';
 import * as Flat from './builders/flat';
 import * as Header from './builders/header';
@@ -32,7 +32,7 @@ describe('builder/builder module has a', () => {
       [
         {
           directory: Directory;
-          builder: BarrelBuilder;
+          barrelType: StructureOption;
           quoteCharacter: QuoteCharacter;
           semicolonCharacter: SemicolonCharacter;
           barrelName: string;
@@ -91,17 +91,17 @@ describe('builder/builder module has a', () => {
         }
       };
       it('should use the flat builder if in flat mode', () => {
-        testStructure('flat', true);
+        testStructure(StructureOption.FLAT, true);
       });
       it('should use the filesystem builder if in filesystem mode', () => {
-        testStructure('filesystem', false);
+        testStructure(StructureOption.FILESYSTEM, false);
       });
       it('should use the flat builder if no mode is specified', () => {
         testStructure(undefined, true);
       });
     });
     it("should write each barrel's header and content to disk", () => {
-      runBuilder('flat');
+      runBuilder(StructureOption.FLAT);
       const checkContent = (address: string) => {
         const result = fs.readFileSync(address, 'utf8');
         expect(result).toEqual('header: flatContent');
@@ -110,13 +110,13 @@ describe('builder/builder module has a', () => {
       checkContent('directory1/directory3/barrel.ts');
     });
     it('should update the directory structure with the new barrel', () => {
-      runBuilder('flat');
+      runBuilder(StructureOption.FLAT);
       directory.directories.forEach((subDirectory: Directory) => {
         expect((subDirectory.barrel as FileTreeLocation).name).toEqual('barrel.ts');
       });
     });
     it('should log useful information to the logger', () => {
-      runBuilder('flat');
+      runBuilder(StructureOption.FLAT);
       const messages = [
         'Building barrel @ directory1/directory2',
         'Updating model barrel @ directory1/directory2/barrel.ts',
@@ -129,7 +129,7 @@ describe('builder/builder module has a', () => {
       });
     });
     it('should run the amount of times as the directory options length', () => {
-      runBuilder('flat');
+      runBuilder(StructureOption.FLAT);
       expect(builderSpy.callCount).toBe(directory.directories.length);
     });
   });
@@ -146,7 +146,7 @@ describe('builder/builder module has a', () => {
         logger,
         baseUrl: undefined,
         exportDefault: false,
-        structure: 'flat',
+        structure: StructureOption.FLAT,
         local: false,
         include: [],
         exclude: [],

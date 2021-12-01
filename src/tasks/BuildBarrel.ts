@@ -7,12 +7,14 @@ import { loadDirectoryModules } from '../modules';
 import path from 'path';
 import { addHeaderPrefix } from '../builders/header';
 import fs from 'fs';
-import { BarrelBuilder } from '../builder';
 import { Directory } from '../interfaces/directory.interface';
+import { buildFileSystemBarrel } from '../builders/fileSystem';
+import { buildFlatBarrel } from '../builders/flat';
+import { StructureOption } from '../options/options';
 
 export const BuildBarrel = ({
   directory,
-  builder,
+  barrelType,
   quoteCharacter,
   semicolonCharacter,
   barrelName,
@@ -24,7 +26,7 @@ export const BuildBarrel = ({
   exclude,
 }: {
   directory: Directory;
-  builder: BarrelBuilder;
+  barrelType: StructureOption;
   quoteCharacter: QuoteCharacter;
   semicolonCharacter: SemicolonCharacter;
   barrelName: string;
@@ -36,15 +38,30 @@ export const BuildBarrel = ({
   exclude: string[];
 }) => {
   logger.debug(`Building barrel @ ${directory.path}`);
-  const content = builder(
-    directory,
-    loadDirectoryModules(directory, logger, include, exclude, local),
-    quoteCharacter,
-    semicolonCharacter,
-    logger,
-    baseUrl,
-    exportDefault
-  );
+  let content: string = '';
+  if (barrelType === StructureOption.FILESYSTEM) {
+    content = buildFileSystemBarrel(
+      directory,
+      loadDirectoryModules(directory, logger, include, exclude, local),
+      quoteCharacter,
+      semicolonCharacter,
+      logger,
+      baseUrl
+    );
+  } else if (barrelType === StructureOption.FLAT) {
+    content = buildFlatBarrel(
+      directory,
+      loadDirectoryModules(directory, logger, include, exclude, local),
+      quoteCharacter,
+      semicolonCharacter,
+      logger,
+      baseUrl,
+      exportDefault
+    );
+  } else {
+    throw new Error('No barrel type provided... this is likely a code error');
+  }
+
   const destination = path.join(directory.path, barrelName);
   if (content.length === 0) {
     // Skip empty barrels.
