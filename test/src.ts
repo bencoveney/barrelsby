@@ -3,16 +3,19 @@ import { lstatSync, readdirSync } from 'fs';
 import { copy } from 'fs-extra';
 import { join } from 'path';
 import Yargs from 'yargs';
+import rimraf from 'rimraf';
 
 import { Barrelsby } from '../src';
 import { getArgs } from '../src/args';
 import { Arguments } from '../src/options/options';
+import { promisify } from 'util';
 
 // tslint:disable-next-line:no-var-requires
 const console = require('better-console');
 
-// tslint:disable:no-console
+const rimrafP = promisify(rimraf);
 
+// tslint:disable:no-console
 getArgs();
 const location = join(__dirname, './');
 Promise.all(
@@ -25,7 +28,9 @@ Promise.all(
         ? args.directory.map((dir: string) => join(directory, dir))
         : join(directory, args.directory as string);
       args.verbose = true;
+      await rimrafP(join(directory, 'output'));
       return copy(join(directory, 'input'), join(directory, 'output')).then(() => {
+        console.log('args', args);
         Barrelsby(args as any);
         console.log(`Running integration test in directory ${directory}`);
         const outputDirectory = join(directory, 'output');

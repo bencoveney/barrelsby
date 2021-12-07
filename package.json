@@ -36,6 +36,7 @@
     "@types/jest": "^27.0.2",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^12.7.12",
+    "@types/rimraf": "^3.0.2",
     "@types/sinon": "^7.5.0",
     "@types/signale": "^1.4.2",
     "better-console": "^1.0.1",
