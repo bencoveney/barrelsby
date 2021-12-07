@@ -4,11 +4,11 @@
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
+    "build": "tsc",
     "clean": "rimraf bin/ && rimraf test/**/output/**",
     "prettier:fix": "prettier --write \"src/**/*.ts\"",
     "lint": "tslint --project tsconfig.json -t stylish",
-    "integration-test_tsc": "tsc --project test/",
-    "integration-test_run": "ts-node test/src.ts",
+    "integration-test": "ts-node test/src.ts",
     "test": "jest"
   },
   "repository": {
@@ -69,6 +69,11 @@
       "name": "Ben Coveney",
       "email": "bencoveney@gmail.com",
       "url": "https://github.com/bencoveney"
+    },
+    {
+      "name": "Noah",
+      "email": "bitforger.huyv0@8shield.net",
+      "url": "https://github.com/bitforger"
     }
   ],
   "engines": {
