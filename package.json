@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
-    "@types/fs-extra": "^8.0.0",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.2",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^12.7.12",
