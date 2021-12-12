@@ -31,6 +31,11 @@
     "url": "https://github.com/bencoveney/barrelsby/issues"
   },
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
+  "dependencies": {
+    "@types/yargs": "^17.0.3",
+    "yargs": "^17.3.0",
+    "signale": "^1.4.0"
+  },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.2",
@@ -58,11 +63,6 @@
   },
   "engine": {
     "node": ">=0.10"
-  },
-  "dependencies": {
-    "@types/yargs": "^17.0.3",
-    "yargs": "^17.3.0",
-    "signale": "^1.4.0"
   },
   "contributors": [
     {

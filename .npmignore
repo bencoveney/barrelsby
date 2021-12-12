@@ -1,0 +1,12 @@
+.github/
+.vscode/
+.idea/
+coverage/
+img/
+test/
+
+.prettierignore
+.prettierrc
+barrelsby*.json
+jest.config.js
+todo.md
