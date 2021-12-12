@@ -1,7 +1,7 @@
-import { Logger } from "./options/logger";
-import { isTypeScriptFile } from "./utilities";
-import {Directory} from "./interfaces/directory.interface";
-import {FileTreeLocation} from "./interfaces/location.interface";
+import { Logger } from './options/logger';
+import { isTypeScriptFile } from './utilities';
+import { Directory } from './interfaces/directory.interface';
+import { FileTreeLocation } from './interfaces/location.interface';
 
 interface Filters {
   blacklists: RegExp[];
@@ -9,11 +9,7 @@ interface Filters {
 }
 
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(
-  directory: Directory,
-  logger: Logger,
-  local: boolean
-): FileTreeLocation[] {
+function getModules(directory: Directory, logger: Logger, local: boolean): FileTreeLocation[] {
   logger.debug(`Getting modules @ ${directory.path}`);
   if (directory.barrel) {
     // If theres a barrel then use that as it *should* contain descendant modules.
@@ -42,11 +38,7 @@ function buildFilters(include: string[], exclude: string[]): Filters {
   };
 }
 
-function filterModules(
-  filters: Filters,
-  locations: FileTreeLocation[],
-  logger: Logger
-): FileTreeLocation[] {
+function filterModules(filters: Filters, locations: FileTreeLocation[], logger: Logger): FileTreeLocation[] {
   let result = locations;
   if (filters.whitelists.length > 0) {
     result = result.filter((location: FileTreeLocation) => {

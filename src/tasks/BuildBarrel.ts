@@ -12,7 +12,7 @@ import { buildFileSystemBarrel } from '../builders/fileSystem';
 import { buildFlatBarrel } from '../builders/flat';
 import { StructureOption } from '../options/options';
 
-export const BuildBarrel = ({
+export const buildBarrel = ({
   directory,
   barrelType,
   quoteCharacter,

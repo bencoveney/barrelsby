@@ -2,7 +2,7 @@ import fs from 'fs';
 import MockFs from 'mock-fs';
 import Sinon from 'sinon';
 
-import { Builder, buildImportPath, getBasename } from './builder';
+import { build, buildImportPath, getBasename } from './builder';
 import * as FileSystem from './builders/fileSystem';
 import * as Flat from './builders/flat';
 import * as Header from './builders/header';
@@ -50,8 +50,8 @@ describe('builder/builder module has a', () => {
     const logger = new Signale();
     const runBuilder = (structure: StructureOption | undefined) => {
       loggerSpy = spySandbox.spy(logger, 'debug');
-      builderSpy = spySandbox.spy(BuildBarrelModule, 'BuildBarrel');
-      Builder({
+      builderSpy = spySandbox.spy(BuildBarrelModule, 'buildBarrel');
+      build({
         destinations: directory.directories,
         quoteCharacter: '"',
         semicolonCharacter: ';',
@@ -138,7 +138,7 @@ describe('builder/builder module has a', () => {
     let spySandbox: sinon.SinonSandbox;
     const logger = new Signale();
     const runBuilder = () => {
-      Builder({
+      build({
         destinations: directory.directories,
         quoteCharacter: '"',
         semicolonCharacter: ';',

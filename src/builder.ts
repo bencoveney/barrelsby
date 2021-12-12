@@ -5,11 +5,11 @@ import { SemicolonCharacter } from './options/noSemicolon';
 import { StructureOption } from './options/options';
 import { QuoteCharacter } from './options/quoteCharacter';
 import { convertPathSeparator, thisDirectory } from './utilities';
-import { BuildBarrel } from './tasks/BuildBarrel';
+import { buildBarrel } from './tasks/BuildBarrel';
 import { Directory } from './interfaces/directory.interface';
 import { FileTreeLocation } from './interfaces/location.interface';
 
-export const Builder = async (params: {
+export const build = (params: {
   destinations: Directory[];
   quoteCharacter: QuoteCharacter;
   semicolonCharacter: SemicolonCharacter;
@@ -21,11 +21,11 @@ export const Builder = async (params: {
   local: boolean;
   include: string[];
   exclude: string[];
-}): Promise<void> => {
+}): void => {
   try {
     // Build the barrels.
     params?.destinations?.forEach((destination: Directory) =>
-      BuildBarrel({
+      buildBarrel({
         directory: destination,
         barrelType: params.structure ?? StructureOption.FLAT,
         quoteCharacter: params.quoteCharacter,

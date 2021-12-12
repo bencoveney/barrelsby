@@ -1,33 +1,27 @@
-import path from "path";
+import path from 'path';
 
-import { buildImportPath } from "../builder";
-import { BaseUrl } from "../options/baseUrl";
-import { Logger } from "../options/logger";
-import { SemicolonCharacter } from "../options/noSemicolon";
-import { QuoteCharacter } from "../options/quoteCharacter";
-import {
-  indentation,
-  nonAlphaNumeric,
-} from "../utilities";
-import { Directory } from "../interfaces/directory.interface";
-import { FileTreeLocation } from "../interfaces/location.interface";
+import { buildImportPath } from '../builder';
+import { BaseUrl } from '../options/baseUrl';
+import { Logger } from '../options/logger';
+import { SemicolonCharacter } from '../options/noSemicolon';
+import { QuoteCharacter } from '../options/quoteCharacter';
+import { indentation, nonAlphaNumeric } from '../utilities';
+import { Directory } from '../interfaces/directory.interface';
+import { FileTreeLocation } from '../interfaces/location.interface';
 
-function stringify(
-  structure: ExportStructure,
-  previousIndentation: string
-): string {
+function stringify(structure: ExportStructure, previousIndentation: string): string {
   const nextIndentation = previousIndentation + indentation;
-  let content = "";
+  let content = '';
   for (const key of Object.keys(structure).sort()) {
     content += `
 ${nextIndentation}${key}: `;
     const exported = structure[key];
-    if (typeof exported === "string") {
+    if (typeof exported === 'string') {
       content += exported;
     } else {
       content += stringify(exported, nextIndentation);
     }
-    content += ",";
+    content += ',';
   }
   return `{${content}
 ${previousIndentation}}`;
@@ -37,15 +31,9 @@ interface ExportStructure {
   [directoryName: string]: ExportStructure | string;
 }
 
-function buildStructureSubsection(
-  structure: ExportStructure,
-  pathParts: string[],
-  name: string,
-  reference: string
-) {
+function buildStructureSubsection(structure: ExportStructure, pathParts: string[], name: string, reference: string) {
   const pathPart = pathParts.shift() as string;
-  let subsection: ExportStructure =
-    pathPart === "." ? structure : (structure[pathPart] as ExportStructure);
+  let subsection: ExportStructure = pathPart === '.' ? structure : (structure[pathPart] as ExportStructure);
   if (!subsection) {
     subsection = {};
     structure[pathPart] = subsection;
@@ -77,7 +65,7 @@ export function buildFileSystemBarrel(
   baseUrl: BaseUrl
 ): string {
   const structure: ExportStructure = {};
-  let content = "";
+  let content = '';
   modules
     .map(
       (module: FileTreeLocation): Import => ({
@@ -90,22 +78,19 @@ export function buildFileSystemBarrel(
       const relativePath = path.relative(directory.path, imported.module.path);
       const directoryPath = path.dirname(relativePath);
       const parts = directoryPath.split(path.sep);
-      const alias = relativePath.replace(nonAlphaNumeric, "");
+      const alias = relativePath.replace(nonAlphaNumeric, '');
       content += `import * as ${alias} from ${quoteCharacter}${imported.path}${quoteCharacter}${semicolonCharacter}
 `;
-      const fileName = path.basename(imported.module.name, ".ts");
+      const fileName = path.basename(imported.module.name, '.ts');
       buildStructureSubsection(structure, parts, fileName, alias);
     });
   for (const key of Object.keys(structure).sort()) {
     const exported = structure[key];
-    if (typeof exported === "string") {
+    if (typeof exported === 'string') {
       content += `export {${exported} as ${key}}${semicolonCharacter}
 `;
     } else {
-      content += `export const ${key} = ${stringify(
-        exported,
-        ""
-      )}${semicolonCharacter}
+      content += `export const ${key} = ${stringify(exported, '')}${semicolonCharacter}
 `;
     }
   }

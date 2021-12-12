@@ -44,7 +44,7 @@ describe('main module', () => {
 
     const purgeSpy = spySandbox.stub(Purge, 'purge');
 
-    const buildBarrelsSpy = jest.spyOn(Builder, 'Builder');
+    const buildBarrelsSpy = jest.spyOn(Builder, 'build');
 
     const quoteCharacter = "'";
     const getQuoteCharacterSpy = spySandbox.stub(QuoteCharacter, 'getQuoteCharacter').returns(quoteCharacter);

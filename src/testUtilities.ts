@@ -1,27 +1,27 @@
-import { Configuration, Linter } from "tslint";
+import { Configuration, Linter } from 'tslint';
 
-import { Logger } from "./options/logger";
-import { QuoteCharacter } from "./options/quoteCharacter";
-import { Signale } from "signale";
-import { Directory } from "./interfaces/directory.interface";
-import {FileTreeLocation} from "./interfaces/location.interface";
+import { Logger } from './options/logger';
+import { QuoteCharacter } from './options/quoteCharacter';
+import { Signale } from 'signale';
+import { Directory } from './interfaces/directory.interface';
+import { FileTreeLocation } from './interfaces/location.interface';
 
 export function mockFsConfiguration() {
   return {
-    "code.ts": "export const code = 'Hello Saturn!'",
+    'code.ts': "export const code = 'Hello Saturn!'",
     directory1: {
-      "barrel.ts": "export const code = 'Hello Graham!'",
+      'barrel.ts': "export const code = 'Hello Graham!'",
       directory2: {
         directory4: {
-          "deeplyNested.ts": "export const code = 'Heya Wurrl",
+          'deeplyNested.ts': "export const code = 'Heya Wurrl",
         },
-        "script.ts": "export const code = 'Hello Detroit!'",
+        'script.ts': "export const code = 'Hello Detroit!'",
       },
       directory3: {
-        "program.ts": "export const code = 'Hello Detroit!'",
+        'program.ts': "export const code = 'Hello Detroit!'",
       },
-      "ignore.txt": "export const code = 'Goodbye World!'",
-      "index.ts": "export const code = 'Hello World!'",
+      'ignore.txt': "export const code = 'Goodbye World!'",
+      'index.ts': "export const code = 'Hello World!'",
     },
   };
 }
@@ -35,51 +35,51 @@ export function mockDirectoryTree(): Directory {
             directories: [],
             files: [
               {
-                name: "deeplyNested.ts",
-                path: "directory1/directory2/directory4/deeplyNested.ts",
+                name: 'deeplyNested.ts',
+                path: 'directory1/directory2/directory4/deeplyNested.ts',
               },
             ],
-            name: "directory4",
-            path: "directory1/directory2/directory4",
+            name: 'directory4',
+            path: 'directory1/directory2/directory4',
           },
         ],
         files: [
           {
-            name: "script.ts",
-            path: "directory1/directory2/script.ts",
+            name: 'script.ts',
+            path: 'directory1/directory2/script.ts',
           },
         ],
-        name: "directory2",
-        path: "directory1/directory2",
+        name: 'directory2',
+        path: 'directory1/directory2',
       },
       {
         directories: [],
         files: [
           {
-            name: "program.ts",
-            path: "directory1/directory3/program.ts",
+            name: 'program.ts',
+            path: 'directory1/directory3/program.ts',
           },
         ],
-        name: "directory3",
-        path: "directory1/directory3",
+        name: 'directory3',
+        path: 'directory1/directory3',
       },
     ],
     files: [
       {
-        name: "barrel.ts",
-        path: "directory1/barrel.ts",
+        name: 'barrel.ts',
+        path: 'directory1/barrel.ts',
       },
       {
-        name: "ignore.txt",
-        path: "directory1/ignore.txt",
+        name: 'ignore.txt',
+        path: 'directory1/ignore.txt',
       },
       {
-        name: "index.ts",
-        path: "directory1/index.ts",
+        name: 'index.ts',
+        path: 'directory1/index.ts',
       },
     ],
-    name: "directory1",
-    path: "./directory1",
+    name: 'directory1',
+    path: './directory1',
   };
 }
 
@@ -88,9 +88,7 @@ export function mockModules(rootDirectory: Directory): FileTreeLocation[] {
     directory.directories.reduce((previous: FileTreeLocation[], current: Directory) => {
       return previous.concat(getModules(current));
     }, directory.files);
-  return getModules(rootDirectory).filter(
-    (module) => module.name.indexOf(".ts") >= 0
-  );
+  return getModules(rootDirectory).filter(module => module.name.indexOf('.ts') >= 0);
 }
 
 // Gets a mock Options object.
@@ -100,12 +98,9 @@ export function mockLogger(_: string[]): Logger {
 
 // Multiline string assertion to give more useful output messages.
 export function assertMultiLine(actual: string, expected: string): void {
-  const actualParts = actual.split("\n");
-  const expectParts = expected.split("\n");
-  expect(
-    actualParts.length) .toEqual(
-    expectParts.length)
-  ;
+  const actualParts = actual.split('\n');
+  const expectParts = expected.split('\n');
+  expect(actualParts.length).toEqual(expectParts.length);
   actualParts.forEach((actualPart, index) => {
     expect(actualPart).toEqual(expectParts[index]);
   });
@@ -113,23 +108,17 @@ export function assertMultiLine(actual: string, expected: string): void {
 
 // Runs tslint against the specified file and checks there are no errors.
 export function tslint(content: string, quoteCharacter: QuoteCharacter) {
-  const linter = new Linter({ fix: false, formatter: "json" });
-  const configuration =
-    Configuration.loadConfigurationFromPath("./tslint.json");
+  const linter = new Linter({ fix: false, formatter: 'json' });
+  const configuration = Configuration.loadConfigurationFromPath('./tslint.json');
   if (quoteCharacter === "'") {
-    configuration.rules.set("quotemark", {
-      ruleArguments: ["single", "avoid-escape"],
+    configuration.rules.set('quotemark', {
+      ruleArguments: ['single', 'avoid-escape'],
     });
   }
-  linter.lint("test_output.ts", content, configuration);
+  linter.lint('test_output.ts', content, configuration);
   /* istanbul ignore next: Should not be hit during successful test execution. */
   const failures = linter
     .getResult()
-    .failures.map(
-      (failure) =>
-        `${failure.getRuleName()} ${
-          failure.getStartPosition().getLineAndCharacter().line
-        }`
-    );
+    .failures.map(failure => `${failure.getRuleName()} ${failure.getStartPosition().getLineAndCharacter().line}`);
   expect(failures).toEqual([]);
 }

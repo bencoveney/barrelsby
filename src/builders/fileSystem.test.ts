@@ -1,10 +1,10 @@
-import * as TestUtilities from "../testUtilities";
-import * as FileSystem from "./fileSystem";
-import { Signale } from "signale";
+import * as TestUtilities from '../testUtilities';
+import * as FileSystem from './fileSystem';
+import { Signale } from 'signale';
 
-describe("builder/fileSystem module has a", () => {
-  describe("buildFileSystemBarrel function that", () => {
-    describe("when using the default settings", () => {
+describe('builder/fileSystem module has a', () => {
+  describe('buildFileSystemBarrel function that', () => {
+    describe('when using the default settings', () => {
       let output: string;
       const logger = new Signale();
       beforeEach(() => {
@@ -13,12 +13,12 @@ describe("builder/fileSystem module has a", () => {
           rootDirectory,
           TestUtilities.mockModules(rootDirectory),
           '"',
-          ";",
+          ';',
           logger,
           undefined
         );
       });
-      it("should produce the correct output", () => {
+      it('should produce the correct output', () => {
         TestUtilities.assertMultiLine(
           output,
           `import * as barrelts from "./barrel";
@@ -40,13 +40,13 @@ export {indexts as index};
 `
         );
       });
-      it("should produce output compatible with the recommended tslint ruleset", () => {
+      it('should produce output compatible with the recommended tslint ruleset', () => {
         TestUtilities.tslint(output, '"');
       });
     });
   });
 
-  describe("when using single quotes", () => {
+  describe('when using single quotes', () => {
     let output: string;
     const logger = new Signale();
     beforeEach(() => {
@@ -55,12 +55,12 @@ export {indexts as index};
         rootDirectory,
         TestUtilities.mockModules(rootDirectory),
         "'",
-        ";",
+        ';',
         logger,
         undefined
       );
     });
-    it("should produce the correct output", () => {
+    it('should produce the correct output', () => {
       TestUtilities.assertMultiLine(
         output,
         `import * as barrelts from './barrel';
@@ -82,12 +82,12 @@ export {indexts as index};
 `
       );
     });
-    it("should produce output compatible with the recommended tslint ruleset", () => {
+    it('should produce output compatible with the recommended tslint ruleset', () => {
       TestUtilities.tslint(output, "'");
     });
   });
 
-  describe("when using no semicolon", () => {
+  describe('when using no semicolon', () => {
     let output: string;
     const logger = new Signale();
     beforeEach(() => {
@@ -96,12 +96,12 @@ export {indexts as index};
         rootDirectory,
         TestUtilities.mockModules(rootDirectory),
         '"',
-        "",
+        '',
         logger,
         undefined
       );
     });
-    it("should produce the correct output", () => {
+    it('should produce the correct output', () => {
       TestUtilities.assertMultiLine(
         output,
         `import * as barrelts from "./barrel"

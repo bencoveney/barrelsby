@@ -1,4 +1,4 @@
-import { FileTreeLocation } from './location.interface'
+import { FileTreeLocation } from './location.interface';
 
 /** A directory in the file tree. */
 export interface Directory extends FileTreeLocation {

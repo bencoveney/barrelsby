@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { Builder } from './builder';
+import { build } from './builder';
 import { getDestinations } from './destinations';
 import { buildTree } from './fileTree';
 import { getBarrelName } from './options/barrelName';
@@ -51,7 +51,7 @@ export function Barrelsby(args: Arguments) {
     // Create the barrels.
     const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
     const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
-    await Builder({
+    await build({
       destinations,
       quoteCharacter,
       semicolonCharacter,
