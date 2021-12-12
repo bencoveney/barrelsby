@@ -10,3 +10,7 @@ test/
 barrelsby*.json
 jest.config.js
 todo.md
+
+**/*.test.js
+**/*.test.d.ts
+**/*.test.js.map
