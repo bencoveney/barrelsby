@@ -1,16 +1,13 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
-import { Logger } from "./options/logger";
-import { convertPathSeparator, Directory } from "./utilities";
+import { Logger } from './options/logger';
+import { convertPathSeparator } from './utilities';
+import { Directory } from './interfaces/directory.interface';
 
 /** Build directory information recursively. */
-export function buildTree(
-  directory: string,
-  barrelName: string,
-  logger: Logger
-): Directory {
-  logger(`Building directory tree for ${convertPathSeparator(directory)}`);
+export function buildTree(directory: string, barrelName: string, logger: Logger): Directory {
+  logger.debug(`Building directory tree for ${convertPathSeparator(directory)}`);
   const names = fs.readdirSync(directory);
   const result: Directory = {
     directories: [],
@@ -30,7 +27,7 @@ export function buildTree(
       };
       result.files.push(file);
       if (file.name === barrelName) {
-        logger(`Found existing barrel @ ${convertedPath}`);
+        logger.debug(`Found existing barrel @ ${convertedPath}`);
         result.barrel = file;
       }
     }
@@ -39,12 +36,7 @@ export function buildTree(
 }
 
 /** Walk an entire directory tree recursively. */
-export function walkTree(
-  directory: Directory,
-  callback: (directory: Directory) => void
-) {
+export function walkTree(directory: Directory, callback: (directory: Directory) => void) {
   callback(directory);
-  directory.directories.forEach((childDirectory) =>
-    walkTree(childDirectory, callback)
-  );
+  directory.directories.forEach(childDirectory => walkTree(childDirectory, callback));
 }

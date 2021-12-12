@@ -1,7 +1,5 @@
-export type SemicolonCharacter = ";" | "";
+export type SemicolonCharacter = ';' | '';
 
-export function getSemicolonCharacter(
-  omitSemicolon: boolean
-): SemicolonCharacter {
-  return omitSemicolon ? "" : ";";
+export function getSemicolonCharacter(omitSemicolon: boolean): SemicolonCharacter {
+  return omitSemicolon ? '' : ';';
 }

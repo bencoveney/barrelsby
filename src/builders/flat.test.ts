@@ -1,25 +1,26 @@
-import { assert } from "chai";
-import Sinon from "sinon";
+import Sinon from 'sinon';
 
-import * as TestUtilities from "../testUtilities";
-import * as Flat from "./flat";
+import * as TestUtilities from '../testUtilities';
+import * as Flat from './flat';
+import { Signale } from 'signale';
 
-describe("builder/flat module has a", () => {
-  describe("buildFlatBarrel function that", () => {
-    describe("when using the default settings", () => {
+describe('builder/flat module has a', () => {
+  describe('buildFlatBarrel function that', () => {
+    describe('when using the default settings', () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
+      const signale = new Signale();
       let logger: Sinon.SinonSpy;
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
+        logger = spySandbox.spy(signale, 'debug');
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           '"',
-          ";",
-          logger,
+          ';',
+          signale,
           undefined,
           false
         );
@@ -27,7 +28,7 @@ describe("builder/flat module has a", () => {
       afterEach(() => {
         spySandbox.restore();
       });
-      it("should produce the correct output", () => {
+      it('should produce the correct output', () => {
         TestUtilities.assertMultiLine(
           output,
           `export * from "./barrel";
@@ -38,38 +39,39 @@ export * from "./directory3/program";
 `
         );
       });
-      it("should log useful information to the logger", () => {
+      it('should log useful information to the logger', () => {
         const messages = [
-          "Including path ./barrel",
-          "Including path ./index",
-          "Including path ./directory2/script",
-          "Including path ./directory2/directory4/deeplyNested",
-          "Including path ./directory3/program",
+          'Including path ./barrel',
+          'Including path ./index',
+          'Including path ./directory2/script',
+          'Including path ./directory2/directory4/deeplyNested',
+          'Including path ./directory3/program',
         ];
-        assert.equal(logger.callCount, messages.length);
+        expect(logger.callCount).toEqual(messages.length);
         messages.forEach((message: string, index: number) => {
-          assert.equal(logger.getCall(index).args[0], message);
+          expect(logger.getCall(index).args[0]).toEqual(message);
         });
       });
-      it("should produce output compatible with the recommended tslint ruleset", () => {
+      it('should produce output compatible with the recommended tslint ruleset', () => {
         TestUtilities.tslint(output, '"');
       });
     });
 
-    describe("when using single quotes", () => {
+    describe('when using single quotes', () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
       let logger: Sinon.SinonSpy;
+      const signale = new Signale();
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
+        logger = spySandbox.spy(signale, 'debug');
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           "'",
-          ";",
-          logger,
+          ';',
+          signale,
           undefined,
           false
         );
@@ -77,7 +79,7 @@ export * from "./directory3/program";
       afterEach(() => {
         spySandbox.restore();
       });
-      it("should produce the correct output", () => {
+      it('should produce the correct output', () => {
         TestUtilities.assertMultiLine(
           output,
           `export * from './barrel';
@@ -88,38 +90,39 @@ export * from './directory3/program';
 `
         );
       });
-      it("should log useful information to the logger", () => {
+      it('should log useful information to the logger', () => {
         const messages = [
-          "Including path ./barrel",
-          "Including path ./index",
-          "Including path ./directory2/script",
-          "Including path ./directory2/directory4/deeplyNested",
-          "Including path ./directory3/program",
+          'Including path ./barrel',
+          'Including path ./index',
+          'Including path ./directory2/script',
+          'Including path ./directory2/directory4/deeplyNested',
+          'Including path ./directory3/program',
         ];
-        assert.equal(logger.callCount, messages.length);
+        expect(logger.callCount).toEqual(messages.length);
         messages.forEach((message: string, index: number) => {
-          assert.equal(logger.getCall(index).args[0], message);
+          expect(logger.getCall(index).args[0]).toEqual(message);
         });
       });
-      it("should produce output compatible with the recommended tslint ruleset", () => {
+      it('should produce output compatible with the recommended tslint ruleset', () => {
         TestUtilities.tslint(output, "'");
       });
     });
 
-    describe("when using no semicolon", () => {
+    describe('when using no semicolon', () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
       let logger: Sinon.SinonSpy;
+      const signale = new Signale();
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
+        logger = spySandbox.spy(signale, 'debug');
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           '"',
-          "",
-          logger,
+          '',
+          signale,
           undefined,
           false
         );
@@ -127,7 +130,7 @@ export * from './directory3/program';
       afterEach(() => {
         spySandbox.restore();
       });
-      it("should produce the correct output", () => {
+      it('should produce the correct output', () => {
         TestUtilities.assertMultiLine(
           output,
           `export * from "./barrel"
@@ -138,35 +141,34 @@ export * from "./directory3/program"
 `
         );
       });
-      it("should log useful information to the logger", () => {
+      it('should log useful information to the logger', () => {
         const messages = [
-          "Including path ./barrel",
-          "Including path ./index",
-          "Including path ./directory2/script",
-          "Including path ./directory2/directory4/deeplyNested",
-          "Including path ./directory3/program",
+          'Including path ./barrel',
+          'Including path ./index',
+          'Including path ./directory2/script',
+          'Including path ./directory2/directory4/deeplyNested',
+          'Including path ./directory3/program',
         ];
-        assert.equal(logger.callCount, messages.length);
+        expect(logger.callCount).toEqual(messages.length);
         messages.forEach((message: string, index: number) => {
-          assert.equal(logger.getCall(index).args[0], message);
+          expect(logger.getCall(index).args[0]).toEqual(message);
         });
       });
     });
 
-    describe("when using the exportDefault setting", () => {
+    describe('when using the exportDefault setting', () => {
       let output: string;
       let spySandbox: sinon.SinonSandbox;
-      let logger: Sinon.SinonSpy;
+      const signale = new Signale();
       beforeEach(() => {
         const directory = TestUtilities.mockDirectoryTree();
         spySandbox = Sinon.createSandbox();
-        logger = spySandbox.spy();
         output = Flat.buildFlatBarrel(
           directory,
           TestUtilities.mockModules(directory),
           '"',
-          ";",
-          logger,
+          ';',
+          signale,
           undefined,
           true
         );
@@ -174,7 +176,7 @@ export * from "./directory3/program"
       afterEach(() => {
         spySandbox.restore();
       });
-      it("should produce the correct output", () => {
+      it('should produce the correct output', () => {
         TestUtilities.assertMultiLine(
           output,
           `export { default as barrel } from "./barrel";
@@ -190,7 +192,7 @@ export * from "./directory3/program";
 `
         );
       });
-      it("should produce output compatible with the recommended tslint ruleset", () => {
+      it('should produce output compatible with the recommended tslint ruleset', () => {
         TestUtilities.tslint(output, '"');
       });
     });

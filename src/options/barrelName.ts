@@ -1,16 +1,12 @@
-import { isTypeScriptFile } from "../utilities";
+import { isTypeScriptFile } from '../utilities';
+import { Logger } from './logger';
 
-export function getBarrelName(
-  name: string,
-  logger: (message: string) => void
-): string {
+export function getBarrelName(name: string, logger: Logger): string {
   // Resolve barrel name.
   const nameArgument: string = name;
-  const barrelName = nameArgument.match(isTypeScriptFile)
-    ? nameArgument
-    : `${nameArgument}.ts`;
+  const barrelName = nameArgument.match(isTypeScriptFile) ? nameArgument : `${nameArgument}.ts`;
 
-  logger(`Using name ${barrelName}`);
+  logger.debug(`Using name ${barrelName}`);
 
   return barrelName;
 }

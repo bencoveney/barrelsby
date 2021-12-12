@@ -1,72 +1,46 @@
-import { assert } from "chai";
+import * as Destinations from './destinations';
+import { Logger } from './options/logger';
+import { LocationOption } from './options/options';
+import * as TestUtilities from './testUtilities';
+import { Signale } from 'signale';
+import { Directory } from './interfaces/directory.interface';
 
-import * as Destinations from "./destinations";
-import { Logger } from "./options/logger";
-import { LocationOption } from "./options/options";
-import * as TestUtilities from "./testUtilities";
-import { Directory } from "./utilities";
-
-describe("destinations module has a", () => {
-  describe("getDestinations function that", () => {
+describe('destinations module has a', () => {
+  describe('getDestinations function that', () => {
     let directory: Directory;
     let destinations: Directory[];
-    const barrelName = "barrel.ts";
-    const testMode = (
-      mode: LocationOption,
-      getExpectedDestinations: () => Directory[],
-      expectedLogs: string[]
-    ) => {
+    const barrelName = 'barrel.ts';
+    const testMode = (mode: LocationOption, getExpectedDestinations: () => Directory[]) => {
       describe(`when in '${mode}' mode`, () => {
         let logged: string[];
-        let logger: Logger = () => void 0;
+        let logger: Logger = new Signale();
+        let loggerSpy: jest.SpyInstance<void, [message?: any, ...optionalArgs: any[]]>;
         beforeEach(() => {
           logged = [];
           logger = TestUtilities.mockLogger(logged);
-          destinations = Destinations.getDestinations(
-            directory,
-            mode,
-            barrelName,
-            logger
-          );
+          loggerSpy = jest.spyOn(logger, 'debug');
+          destinations = Destinations.getDestinations(directory, mode, barrelName, logger);
         });
-        it("should select the correct destinations", () => {
-          assert.deepEqual(destinations, getExpectedDestinations());
+        it('should select the correct destinations', () => {
+          expect(destinations).toEqual(getExpectedDestinations());
         });
-        it("should log useful information to the logger", () => {
-          assert.deepEqual(logged, expectedLogs);
+        it('should log useful information to the logger', () => {
+          expect(loggerSpy).toHaveBeenCalled();
         });
       });
     };
     beforeEach(() => {
       directory = TestUtilities.mockDirectoryTree();
     });
-    testMode("top", () => [directory], ["Destinations:", "./directory1"]);
-    testMode("below", () => directory.directories, [
-      "Destinations:",
-      "directory1/directory2",
-      "directory1/directory3",
+    testMode('top', () => [directory]);
+    testMode('below', () => directory.directories);
+    testMode('all', () => [
+      directory.directories[0].directories[0],
+      directory.directories[0],
+      directory.directories[1],
+      directory,
     ]);
-    testMode(
-      "all",
-      () => [
-        directory.directories[0].directories[0],
-        directory.directories[0],
-        directory.directories[1],
-        directory,
-      ],
-      [
-        "Destinations:",
-        "directory1/directory2/directory4",
-        "directory1/directory2",
-        "directory1/directory3",
-        "./directory1",
-      ]
-    );
-    testMode("replace", () => [directory], ["Destinations:", "./directory1"]);
-    testMode("branch", () => [directory.directories[0], directory], [
-      "Destinations:",
-      "directory1/directory2",
-      "./directory1",
-    ]);
+    testMode('replace', () => [directory]);
+    testMode('branch', () => [directory.directories[0], directory]);
   });
 });

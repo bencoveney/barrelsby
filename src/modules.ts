@@ -1,5 +1,7 @@
-import { Logger } from "./options/logger";
-import { Directory, isTypeScriptFile, Location } from "./utilities";
+import { Logger } from './options/logger';
+import { isTypeScriptFile } from './utilities';
+import { Directory } from './interfaces/directory.interface';
+import { FileTreeLocation } from './interfaces/location.interface';
 
 interface Filters {
   blacklists: RegExp[];
@@ -7,18 +9,14 @@ interface Filters {
 }
 
 // Get any typescript modules contained at any depth in the current directory.
-function getModules(
-  directory: Directory,
-  logger: Logger,
-  local: boolean
-): Location[] {
-  logger(`Getting modules @ ${directory.path}`);
+function getModules(directory: Directory, logger: Logger, local: boolean): FileTreeLocation[] {
+  logger.debug(`Getting modules @ ${directory.path}`);
   if (directory.barrel) {
     // If theres a barrel then use that as it *should* contain descendant modules.
-    logger(`Found existing barrel @ ${directory.barrel.path}`);
+    logger.debug(`Found existing barrel @ ${directory.barrel.path}`);
     return [directory.barrel];
   }
-  const files: Location[] = ([] as Location[]).concat(directory.files);
+  const files: FileTreeLocation[] = ([] as FileTreeLocation[]).concat(directory.files);
   if (!local) {
     directory.directories.forEach((childDirectory: Directory) => {
       // Recurse.
@@ -26,7 +24,7 @@ function getModules(
     });
   }
   // Only return files that look like TypeScript modules.
-  return files.filter((file: Location) => file.name.match(isTypeScriptFile));
+  return files.filter((file: FileTreeLocation) => file.name.match(isTypeScriptFile));
 }
 
 function buildFilters(include: string[], exclude: string[]): Filters {
@@ -40,29 +38,25 @@ function buildFilters(include: string[], exclude: string[]): Filters {
   };
 }
 
-function filterModules(
-  filters: Filters,
-  locations: Location[],
-  logger: Logger
-): Location[] {
+function filterModules(filters: Filters, locations: FileTreeLocation[], logger: Logger): FileTreeLocation[] {
   let result = locations;
   if (filters.whitelists.length > 0) {
-    result = result.filter((location: Location) => {
+    result = result.filter((location: FileTreeLocation) => {
       return filters.whitelists.some((test: RegExp) => {
         const isMatch = !!location.path.match(test);
         if (isMatch) {
-          logger(`${location.path} is included by ${test}`);
+          logger.debug(`${location.path} is included by ${test}`);
         }
         return isMatch;
       });
     });
   }
   if (filters.blacklists.length > 0) {
-    result = result.filter((location: Location) => {
+    result = result.filter((location: FileTreeLocation) => {
       return !filters.blacklists.some((test: RegExp) => {
         const isMatch = !!location.path.match(test);
         if (isMatch) {
-          logger(`${location.path} is excluded by ${test}`);
+          logger.debug(`${location.path} is excluded by ${test}`);
         }
         return isMatch;
       });
@@ -77,7 +71,7 @@ export function loadDirectoryModules(
   include: string[],
   exclude: string[],
   local: boolean
-): Location[] {
+): FileTreeLocation[] {
   const modules = getModules(directory, logger, local);
 
   const filters = buildFilters(include, exclude);
