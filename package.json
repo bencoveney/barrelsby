@@ -32,12 +32,12 @@
   },
   "homepage": "https://github.com/bencoveney/barrelsby#readme",
   "devDependencies": {
-    "@types/fs-extra": "^8.0.0",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.2",
     "@types/mock-fs": "^3.6.30",
     "@types/node": "^12.7.12",
     "@types/rimraf": "^3.0.2",
-    "@types/sinon": "^7.5.0",
+    "@types/sinon": "^10.0.6",
     "@types/signale": "^1.4.2",
     "better-console": "^1.0.1",
     "dir-compare": "^3.3.0",
@@ -61,7 +61,7 @@
   },
   "dependencies": {
     "@types/yargs": "^17.0.3",
-    "yargs": "^15.0.1",
+    "yargs": "^17.3.0",
     "signale": "^1.4.0"
   },
   "contributors": [
