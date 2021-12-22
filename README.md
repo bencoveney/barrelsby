@@ -4,7 +4,6 @@ Automatically create TypeScript barrels for your entire code base.
 
 [![npm version](https://badge.fury.io/js/barrelsby.svg)](https://badge.fury.io/js/barrelsby)
 [![Node.js CI](https://github.com/bencoveney/barrelsby/actions/workflows/node.js.yml/badge.svg?branch=master)](https://github.com/bencoveney/barrelsby/actions/workflows/node.js.yml)
-[![codecov](https://codecov.io/gh/bencoveney/barrelsby/branch/master/graph/badge.svg)](https://codecov.io/gh/bencoveney/barrelsby)
 [![CodeQL](https://github.com/bencoveney/barrelsby/actions/workflows/codeql-analysis.yml/badge.svg?branch=master)](https://github.com/bencoveney/barrelsby/actions/workflows/codeql-analysis.yml)
 
 ## About Barrels
@@ -71,9 +70,9 @@ To run barrelsby first add a script to the `package.json` file:
 
 ```json
 {
-  "scripts": [
+  "scripts": {
     "generate-barrels": "barrelsby --delete"
-  ]
+  }
 }
 ```
 
@@ -101,7 +100,7 @@ by default.
 **Note**: This is backwards compatible with previous versions. Existing configuration files will be
 parsed correctly. The following two json files will behave identically.
 
-```json
+```json lines
 {
   "directory": "./src"
 }
