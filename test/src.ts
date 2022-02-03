@@ -9,6 +9,7 @@ import { Barrelsby } from '../src';
 import { getArgs } from '../src/args';
 import { Arguments } from '../src/options/options';
 import { promisify } from 'util';
+import { getRootConfigKeys } from "../src/builder";
 
 // tslint:disable-next-line:no-var-requires
 const console = require('better-console');
@@ -23,10 +24,17 @@ Promise.all(
     .map(name => join(location, name))
     .filter(path => lstatSync(path).isDirectory())
     .map(async directory => {
+      const formatDirectory = (d: string|string[]|undefined) => Array.isArray(d)
+        ? d.map((dir: string) => join(directory, dir))
+        : join(directory, d as string);
+
       const args: Arguments = await Yargs.parse(['--config', join(directory, 'barrelsby.json')]);
-      args.directory = Array.isArray(args.directory)
-        ? args.directory.map((dir: string) => join(directory, dir))
-        : join(directory, args.directory as string);
+
+
+      const cfgKeys = getRootConfigKeys(args);
+      if(cfgKeys.length) cfgKeys.forEach((key: any) => (args as any)[key].directory = formatDirectory((args as any)[key].directory))
+      else args.directory = formatDirectory(args.directory)
+
       args.verbose = true;
       await rimrafP(join(directory, 'output'));
       return copy(join(directory, 'input'), join(directory, 'output')).then(() => {
@@ -71,3 +79,4 @@ Promise.all(
       });
     })
 ).then(differences => process.exit(differences.filter(differenceCount => differenceCount > 0).length));
+

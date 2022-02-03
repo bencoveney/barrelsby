@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-import { build } from './builder';
+import { build, getRootConfigKeys, getRootConfigs} from './builder';
 import { getDestinations } from './destinations';
 import { buildTree } from './fileTree';
 import { getBarrelName } from './options/barrelName';
@@ -16,6 +16,13 @@ import { Directory } from './interfaces/directory.interface';
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.
 export function Barrelsby(args: Arguments) {
+
+  // Support for multiple configurations
+  if(getRootConfigKeys(args).length) {
+    getRootConfigs(args).forEach((cfg: any) => Barrelsby(cfg));
+    return;
+  }
+
   // Get the launch options/arguments.
   const logger = getLogger({ isVerbose: args.verbose ?? false });
   const barrelName = getBarrelName(args.name ?? '', logger);

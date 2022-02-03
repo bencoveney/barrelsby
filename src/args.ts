@@ -6,19 +6,18 @@ const configParser = (configPath: string): any => {
   const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
 
   // Backwards compatibility for directory string, as opposed to an array
-  if (config.directory && typeof config.directory === 'string') {
-    config.directory = [config.directory];
-  }
+  (Array.isArray(config) ? config : [config])
+      .filter(c => !!c.directory && typeof c.directory === 'string')
+      .forEach(conf => { conf.directory = [conf.directory]; });
 
   return config;
 };
 
-export function getArgs(): Yargs.Argv<Arguments> {
+export function getArgs(loader=configParser): Yargs.Argv<Arguments> {
   // @ts-ignore Work around deep types.
   return Yargs.usage('Usage: barrelsby [options]')
     .example('barrelsby', 'Run barrelsby')
-
-    .options(getOptionsConfig(configParser))
+    .options(getOptionsConfig(loader))
 
     .version()
     .alias('v', 'version')

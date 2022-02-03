@@ -8,6 +8,7 @@ import { convertPathSeparator, thisDirectory } from './utilities';
 import { buildBarrel } from './tasks/BuildBarrel';
 import { Directory } from './interfaces/directory.interface';
 import { FileTreeLocation } from './interfaces/location.interface';
+import {getArgs} from "./args";
 
 export const build = (params: {
   destinations: Directory[];
@@ -89,4 +90,13 @@ export function getBasename(relativePath: string) {
   });
   // Return whichever path is shorter. If they're the same length then nothing was stripped.
   return mayBePath;
+}
+
+/** Get root config keys. */
+export const getRootConfigKeys = (args: any): string[] => Object.keys(args).filter((key) => !isNaN(key as any) && !!args[key] && typeof args[key] === 'object')
+/** Get root configs. */
+export function getRootConfigs(args: any): any[] {
+  const configKeys = getRootConfigKeys(args)
+  if(!configKeys.length) return [args]
+  return configKeys.map((i: string) => getArgs(() => args[`${i}`]).argv as any)
 }
