@@ -1,5 +1,0 @@
-{
-	"directory": ["./output"],
-	"include": ["gamma"],
-	"exclude": ["zeta.ts$"]
-}
