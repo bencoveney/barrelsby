@@ -20,7 +20,7 @@ export function buildTree(directory: string, barrelName: string, logger?: Signal
     name: basename(directory),
     path: convertPathSeparator(directory),
   };
-  names.forEach((name: string) => {
+  for (const name of names) {
     const fullPath = join(directory, name);
     if (statSync(fullPath).isDirectory()) {
       result.directories.push(buildTree(fullPath, barrelName, logger));
@@ -30,13 +30,14 @@ export function buildTree(directory: string, barrelName: string, logger?: Signal
         name,
         path: convertedPath,
       };
-      result.files.push(file);
       if (file.name === barrelName) {
         logger?.debug(`Found existing barrel @ ${convertedPath}`);
         result.barrel = file;
+        continue;
       }
+      result.files.push(file);
     }
-  });
+  }
   return result;
 }
 

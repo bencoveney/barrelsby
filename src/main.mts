@@ -22,6 +22,6 @@ async function createBarrels(options: Arguments) {
   });
 
   for (const { dir, rootPath, baseUrl } of resolvedDirectories) {
-    const rootTree = 
+    // const rootTree =
   }
 }
