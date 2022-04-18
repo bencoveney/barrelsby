@@ -1,6 +1,7 @@
 {
   "name": "barrelsby",
   "version": "3.0.0-0",
+  "type": "module",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
@@ -38,13 +39,18 @@
     "yargs": "^17.4.1"
   },
   "devDependencies": {
+    "@types/eslint": "^8.4.1",
     "@types/fs-extra": "^9.0.13",
     "@types/jest": "^27.0.2",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^16.11.26",
     "@types/signale": "^1.4.2",
     "@types/sinon": "^10.0.6",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
     "dir-compare": "^4.0.0",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
     "fs-extra": "^10.0.0",
     "jest": "^27.4.4",
     "mock-fs": "^5.1.2",
@@ -52,7 +58,7 @@
     "snyk": "^1.858.0",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
-    "typescript": "^4.6.3"
+    "typescript": "next"
   },
   "bin": {
     "barrelsby": "bin/cli.js"

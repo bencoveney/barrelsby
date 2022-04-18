@@ -7,6 +7,6 @@
     "newLine": "LF"
   },
   "include": [
-      "src/**/*.ts"
+      "src/**/*.(c|m)?ts"
   ]
 }

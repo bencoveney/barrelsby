@@ -16,7 +16,7 @@ ij_smart_tabs = false
 ij_visual_guides = none
 ij_wrap_on_typing = false
 
-[{*.ats,*.ts}]
+[{*.ats,*.ts,*.mts.*.cts}]
 ij_continuation_indent_size = 2
 ij_typescript_align_imports = false
 ij_typescript_align_multiline_array_initializer_expression = false

@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
-      "target": "es6",
-      "module": "commonjs",
+      "target": "ES2022",
+      "module": "NodeNext",
       "removeComments": false,
       "strict": true,
       "noUnusedLocals": true,
       "noUnusedParameters": true,
       "noImplicitReturns": true,
       "noFallthroughCasesInSwitch": true,
-      "moduleResolution": "node",
+      "moduleResolution": "NodeNext",
       "esModuleInterop": true,
       "allowUnusedLabels": false,
       "forceConsistentCasingInFileNames": true,
