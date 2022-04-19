@@ -14,5 +14,6 @@ module.exports = {
       "json",
       "text-summary",
       "html",
-  ]
+  ],
+  extensionsToTreatAsEsm: [".mts"]
 };

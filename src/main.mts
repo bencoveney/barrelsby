@@ -5,7 +5,7 @@ import {buildTree, getDestinations, purge} from './utils/directory.mjs';
 import {Directory} from './interfaces/directory.interface.mjs';
 import {build} from "./utils/build-barrel.mjs";
 
-async function createBarrels(options: Arguments) {
+export async function createBarrels(options: Arguments) {
   const logger = getLogger({isVerbose: options.verbose ?? false});
 
   const barrelName = options.barrelName ?? "index"
