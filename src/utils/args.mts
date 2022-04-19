@@ -1,6 +1,5 @@
-import * as Yargs from 'yargs';
-import { Options } from 'yargs';
 import { readFileSync } from 'fs';
+import Yargs, { Argv, Options } from 'yargs';
 
 export type LocationOption = 'top' | 'below' | 'all' | 'replace' | 'branch';
 
@@ -41,10 +40,10 @@ const configParser = (configPath: string): any => {
   return config;
 };
 
-function getArgs(): Yargs.Argv<Arguments> {
+export function getArgs(): Argv<Arguments> {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore Work around deep types.
-  return Yargs.usage('Usage: barrelsby [options]')
+  return Yargs().usage('Usage: barrelsby [options]')
           .example('barrelsby', 'Run barrelsby')
 
           .options(getOptionsConfig(configParser))

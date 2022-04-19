@@ -1,10 +1,10 @@
-import { Signale } from 'signale';
+import { default as signale } from 'signale';
 
-let logger: Signale
+let logger: signale.Signale
 
 export function getLogger({ isVerbose }: { isVerbose: boolean } = { isVerbose: false }) {
   if (!logger) {
-    logger = new Signale({
+    logger = new signale.Signale({
       disabled: false,
       interactive: false,
       logLevel: isVerbose ? 'info' : 'error',
