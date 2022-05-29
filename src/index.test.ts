@@ -10,6 +10,7 @@ import * as RootPath from './options/rootPath';
 import * as Purge from './purge';
 import Sinon from 'sinon';
 import * as Builder from './builder';
+import {StructureOption} from "./options/options";
 
 describe('main module', () => {
   let spySandbox: Sinon.SinonSandbox;
@@ -32,8 +33,8 @@ describe('main module', () => {
       name: 'inputBarrelName',
       noSemicolon: true,
       singleQuotes: true,
-      structure: 'flat',
-      verbose: true,
+      structure: StructureOption.FLAT,
+      verbose: true
     };
 
     const builtTree: any = { mock: 'built tree' };
@@ -82,6 +83,7 @@ describe('main module', () => {
       barrelName,
       logger: signale,
       baseUrl,
+      inputType: args.inputType,
       exportDefault: args.exportDefault,
       structure: args.structure,
       local: args.local,

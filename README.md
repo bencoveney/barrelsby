@@ -203,6 +203,18 @@ Use 'single quotes' in the generated barrel files instead of the default "double
 
 Omit semicolons from the end of lines in the generated barrel files.
 
+### `-m` or `--esm`
+
+Enable ESM mode. Add `.js` extension to imported files.
+
+```typescript
+export * from "./barrel.js";
+export * from "./index.js";
+export * from "./directory2/script.js";
+export * from "./directory2/directory4/deeplyNested.js";
+export * from "./directory3/program.js";
+```
+
 ### `-v` or `--version`
 
 Display the barrelsby version number.

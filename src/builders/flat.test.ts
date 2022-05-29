@@ -2,7 +2,8 @@ import Sinon from 'sinon';
 
 import * as TestUtilities from '../testUtilities';
 import * as Flat from './flat';
-import { Signale } from 'signale';
+import {Signale} from 'signale';
+import {InputTypeOption} from "../options/options";
 
 describe('builder/flat module has a', () => {
   describe('buildFlatBarrel function that', () => {
@@ -22,7 +23,8 @@ describe('builder/flat module has a', () => {
           ';',
           signale,
           undefined,
-          false
+          false,
+          InputTypeOption.MODULE
         );
       });
       afterEach(() => {
@@ -73,7 +75,8 @@ export * from "./directory3/program";
           ';',
           signale,
           undefined,
-          false
+          false,
+          InputTypeOption.COMMONJS
         );
       });
       afterEach(() => {
@@ -124,7 +127,8 @@ export * from './directory3/program';
           '',
           signale,
           undefined,
-          false
+          false,
+          InputTypeOption.COMMONJS
         );
       });
       afterEach(() => {
@@ -170,7 +174,8 @@ export * from "./directory3/program"
           ';',
           signale,
           undefined,
-          true
+          true,
+          InputTypeOption.COMMONJS
         );
       });
       afterEach(() => {

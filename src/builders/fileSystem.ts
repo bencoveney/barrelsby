@@ -8,6 +8,7 @@ import { QuoteCharacter } from '../options/quoteCharacter';
 import { indentation, nonAlphaNumeric } from '../utilities';
 import { Directory } from '../interfaces/directory.interface';
 import { FileTreeLocation } from '../interfaces/location.interface';
+import {InputTypeOption} from "../options/options";
 
 function stringify(structure: ExportStructure, previousIndentation: string): string {
   const nextIndentation = previousIndentation + indentation;
@@ -62,10 +63,13 @@ export function buildFileSystemBarrel(
   quoteCharacter: QuoteCharacter,
   semicolonCharacter: SemicolonCharacter,
   _: Logger, // Not used
-  baseUrl: BaseUrl
+  baseUrl: BaseUrl,
+  inputType: InputTypeOption
 ): string {
   const structure: ExportStructure = {};
   let content = '';
+  const ext = `${inputType === InputTypeOption.MODULE  ? '.js' : ''}`;
+
   modules
     .map(
       (module: FileTreeLocation): Import => ({
@@ -79,7 +83,7 @@ export function buildFileSystemBarrel(
       const directoryPath = path.dirname(relativePath);
       const parts = directoryPath.split(path.sep);
       const alias = relativePath.replace(nonAlphaNumeric, '');
-      content += `import * as ${alias} from ${quoteCharacter}${imported.path}${quoteCharacter}${semicolonCharacter}
+      content += `import * as ${alias} from ${quoteCharacter}${imported.path}${ext}${quoteCharacter}${semicolonCharacter}
 `;
       const fileName = path.basename(imported.module.name, '.ts');
       buildStructureSubsection(structure, parts, fileName, alias);

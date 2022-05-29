@@ -15,7 +15,7 @@ import { Directory } from './interfaces/directory.interface';
 
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.
-export function Barrelsby(args: Arguments) {
+export function Barrelsby(args: Partial<Arguments>) {
   // Get the launch options/arguments.
   const logger = getLogger({ isVerbose: args.verbose ?? false });
   const barrelName = getBarrelName(args.name ?? '', logger);
@@ -55,6 +55,7 @@ export function Barrelsby(args: Arguments) {
       destinations,
       quoteCharacter,
       semicolonCharacter,
+      inputType: args.inputType,
       barrelName,
       logger,
       baseUrl,

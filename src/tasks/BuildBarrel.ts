@@ -10,7 +10,7 @@ import fs from 'fs';
 import { Directory } from '../interfaces/directory.interface';
 import { buildFileSystemBarrel } from '../builders/fileSystem';
 import { buildFlatBarrel } from '../builders/flat';
-import { StructureOption } from '../options/options';
+import {InputTypeOption, StructureOption} from '../options/options';
 
 export const buildBarrel = ({
   directory,
@@ -24,9 +24,11 @@ export const buildBarrel = ({
   local,
   include,
   exclude,
+  inputType
 }: {
   directory: Directory;
   barrelType: StructureOption;
+  inputType: InputTypeOption;
   quoteCharacter: QuoteCharacter;
   semicolonCharacter: SemicolonCharacter;
   barrelName: string;
@@ -46,7 +48,8 @@ export const buildBarrel = ({
       quoteCharacter,
       semicolonCharacter,
       logger,
-      baseUrl
+      baseUrl,
+      inputType
     );
   } else if (barrelType === StructureOption.FLAT) {
     content = buildFlatBarrel(
@@ -56,7 +59,8 @@ export const buildBarrel = ({
       semicolonCharacter,
       logger,
       baseUrl,
-      exportDefault
+      exportDefault,
+      inputType
     );
   } else {
     throw new Error('No barrel type provided... this is likely a code error');

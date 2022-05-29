@@ -7,6 +7,11 @@ export enum StructureOption {
   FILESYSTEM = 'filesystem',
 }
 
+export enum InputTypeOption {
+  COMMONJS = 'commonjs',
+  MODULE = 'module',
+}
+
 // Options provided by yargs.
 export interface Arguments {
   [x: string]: unknown;
@@ -24,6 +29,7 @@ export interface Arguments {
   noSemicolon?: boolean;
   singleQuotes?: boolean;
   structure?: StructureOption;
+  inputType?: InputTypeOption;
   version?: boolean;
   verbose?: boolean;
 }
@@ -94,8 +100,8 @@ export function getOptionsConfig(configParser: any): {
       type: 'string',
       alias: 'structure',
       description: 'The mode for structuring barrel file exports',
-      choices: ['flat', 'filesystem'],
-      default: 'flat',
+      choices: [StructureOption.FLAT, StructureOption.FILESYSTEM],
+      default: StructureOption.FLAT,
     },
     q: {
       type: 'boolean',
@@ -114,6 +120,13 @@ export function getOptionsConfig(configParser: any): {
       alias: 'verbose',
       description: 'Display additional logging information',
       default: false,
+    },
+    t: {
+      type: 'string',
+      alias: 'inputType',
+      description: 'Force Barrelsby to use commonjs or ES module. By default the value is commonjs',
+      choices: [InputTypeOption.COMMONJS, InputTypeOption.MODULE],
+      default: InputTypeOption.COMMONJS,
     },
   };
 }

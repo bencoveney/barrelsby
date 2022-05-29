@@ -1,6 +1,7 @@
 import * as TestUtilities from '../testUtilities';
 import * as FileSystem from './fileSystem';
-import { Signale } from 'signale';
+import {Signale} from 'signale';
+import {InputTypeOption} from "../options/options";
 
 describe('builder/fileSystem module has a', () => {
   describe('buildFileSystemBarrel function that', () => {
@@ -15,7 +16,8 @@ describe('builder/fileSystem module has a', () => {
           '"',
           ';',
           logger,
-          undefined
+          undefined,
+          InputTypeOption.COMMONJS
         );
       });
       it('should produce the correct output', () => {
@@ -57,17 +59,18 @@ export {indexts as index};
         "'",
         ';',
         logger,
-        undefined
+        undefined,
+        InputTypeOption.MODULE
       );
     });
     it('should produce the correct output', () => {
       TestUtilities.assertMultiLine(
         output,
-        `import * as barrelts from './barrel';
-import * as directory2directory4deeplyNestedts from './directory2/directory4/deeplyNested';
-import * as directory2scriptts from './directory2/script';
-import * as directory3programts from './directory3/program';
-import * as indexts from './index';
+        `import * as barrelts from './barrel.js';
+import * as directory2directory4deeplyNestedts from './directory2/directory4/deeplyNested.js';
+import * as directory2scriptts from './directory2/script.js';
+import * as directory3programts from './directory3/program.js';
+import * as indexts from './index.js';
 export {barrelts as barrel};
 export const directory2 = {
   directory4: {
@@ -98,7 +101,8 @@ export {indexts as index};
         '"',
         '',
         logger,
-        undefined
+        undefined,
+        InputTypeOption.COMMONJS
       );
     });
     it('should produce the correct output', () => {

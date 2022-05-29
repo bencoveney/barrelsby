@@ -2,20 +2,20 @@ import fs from 'fs';
 import MockFs from 'mock-fs';
 import Sinon from 'sinon';
 
-import { build, buildImportPath, getBasename } from './builder';
+import {build, buildImportPath, getBasename} from './builder';
 import * as FileSystem from './builders/fileSystem';
 import * as Flat from './builders/flat';
 import * as Header from './builders/header';
 import * as Modules from './modules';
-import { StructureOption } from './options/options';
+import {InputTypeOption, StructureOption} from './options/options';
 import * as TestUtilities from './testUtilities';
-import { Directory } from './interfaces/directory.interface';
-import { FileTreeLocation } from './interfaces/location.interface';
-import { Signale } from 'signale';
-import { BaseUrl } from './options/baseUrl';
-import { Logger } from './options/logger';
-import { SemicolonCharacter } from './options/noSemicolon';
-import { QuoteCharacter } from './options/quoteCharacter';
+import {Directory} from './interfaces/directory.interface';
+import {FileTreeLocation} from './interfaces/location.interface';
+import {Signale} from 'signale';
+import {BaseUrl} from './options/baseUrl';
+import {Logger} from './options/logger';
+import {SemicolonCharacter} from './options/noSemicolon';
+import {QuoteCharacter} from './options/quoteCharacter';
 import * as BuildBarrelModule from './tasks/BuildBarrel';
 
 // Gets a location from a list by name.
@@ -35,6 +35,7 @@ describe('builder/builder module has a', () => {
           barrelType: StructureOption;
           quoteCharacter: QuoteCharacter;
           semicolonCharacter: SemicolonCharacter;
+          inputType: InputTypeOption;
           barrelName: string;
           logger: Logger;
           // Gets a location from a list by name.
@@ -63,6 +64,7 @@ describe('builder/builder module has a', () => {
         local: false,
         include: [],
         exclude: [],
+        inputType: InputTypeOption.COMMONJS,
       });
     };
     beforeEach(() => {
@@ -150,6 +152,7 @@ describe('builder/builder module has a', () => {
         local: false,
         include: [],
         exclude: [],
+        inputType:InputTypeOption.MODULE,
       });
     };
     beforeEach(() => {

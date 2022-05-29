@@ -1,13 +1,13 @@
 import path from 'path';
-import { BaseUrl } from './options/baseUrl';
-import { Logger } from './options/logger';
-import { SemicolonCharacter } from './options/noSemicolon';
-import { StructureOption } from './options/options';
-import { QuoteCharacter } from './options/quoteCharacter';
-import { convertPathSeparator, thisDirectory } from './utilities';
-import { buildBarrel } from './tasks/BuildBarrel';
-import { Directory } from './interfaces/directory.interface';
-import { FileTreeLocation } from './interfaces/location.interface';
+import {BaseUrl} from './options/baseUrl';
+import {Logger} from './options/logger';
+import {SemicolonCharacter} from './options/noSemicolon';
+import {InputTypeOption, StructureOption} from './options/options';
+import {QuoteCharacter} from './options/quoteCharacter';
+import {convertPathSeparator, thisDirectory} from './utilities';
+import {buildBarrel} from './tasks/BuildBarrel';
+import {Directory} from './interfaces/directory.interface';
+import {FileTreeLocation} from './interfaces/location.interface';
 
 export const build = (params: {
   destinations: Directory[];
@@ -21,6 +21,7 @@ export const build = (params: {
   local: boolean;
   include: string[];
   exclude: string[];
+  inputType: InputTypeOption | undefined;
 }): void => {
   try {
     // Build the barrels.
@@ -37,6 +38,7 @@ export const build = (params: {
         local: params.local,
         include: params.include,
         exclude: params.exclude,
+        inputType: params.inputType ?? InputTypeOption.COMMONJS,
       })
     );
   } catch (e) {
