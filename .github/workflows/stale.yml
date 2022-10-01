@@ -25,3 +25,5 @@ jobs:
         stale-pr-message: 'No activity has been seen recently, marking as stale. If this is a mistake please reach out to a collaborator'
         stale-issue-label: 'no-issue-activity'
         stale-pr-label: 'no-pr-activity'
+        days-before-stale: 120
+        days-before-close: 120
