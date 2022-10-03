@@ -21,6 +21,7 @@ describe('main module', () => {
   });
   it('should co-ordinate the main stages of the application', () => {
     const args: any = {
+      noHeader: false,
       baseUrl: './',
       delete: true,
       directory: ['testRootPath'],
