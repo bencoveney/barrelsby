@@ -76,6 +76,7 @@ describe('main module', () => {
     expect(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, signale)).toBeTruthy();
     expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, signale)).toBeTruthy();
     expect(buildBarrelsSpy).toHaveBeenCalledWith({
+      addHeader: true,
       destinations,
       quoteCharacter,
       semicolonCharacter,

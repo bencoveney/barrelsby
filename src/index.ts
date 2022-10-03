@@ -51,7 +51,10 @@ export function Barrelsby(args: Arguments) {
     // Create the barrels.
     const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
     const semicolonCharacter = getSemicolonCharacter(args.noSemicolon as boolean);
+    const addHeader = args.noHeader !== false;
+
     await build({
+      addHeader,
       destinations,
       quoteCharacter,
       semicolonCharacter,

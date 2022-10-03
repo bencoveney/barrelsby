@@ -13,6 +13,7 @@ import { buildFlatBarrel } from '../builders/flat';
 import { StructureOption } from '../options/options';
 
 export const buildBarrel = ({
+  addHeader,
   directory,
   barrelType,
   quoteCharacter,
@@ -25,6 +26,7 @@ export const buildBarrel = ({
   include,
   exclude,
 }: {
+  addHeader: boolean;
   directory: Directory;
   barrelType: StructureOption;
   quoteCharacter: QuoteCharacter;
@@ -68,7 +70,7 @@ export const buildBarrel = ({
     return;
   }
   // Add the header
-  const contentWithHeader = addHeaderPrefix(content);
+  const contentWithHeader = addHeader ? addHeaderPrefix(content) : content;
   fs.writeFileSync(destination, contentWithHeader);
   // Update the file tree model with the new barrel.
   if (!directory.files.some(file => file.name === barrelName)) {

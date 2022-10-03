@@ -10,6 +10,7 @@ import { Directory } from './interfaces/directory.interface';
 import { FileTreeLocation } from './interfaces/location.interface';
 
 export const build = (params: {
+  addHeader: boolean;
   destinations: Directory[];
   quoteCharacter: QuoteCharacter;
   semicolonCharacter: SemicolonCharacter;
@@ -26,6 +27,7 @@ export const build = (params: {
     // Build the barrels.
     params?.destinations?.forEach((destination: Directory) =>
       buildBarrel({
+        addHeader: params.addHeader,
         directory: destination,
         barrelType: params.structure ?? StructureOption.FLAT,
         quoteCharacter: params.quoteCharacter,
