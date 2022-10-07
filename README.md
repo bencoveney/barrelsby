@@ -127,7 +127,7 @@ export * from "./barrel";
 export { default as barrel } from "./barrel";
 ```
 
-### `-H` or `--help`
+### `-h` or `--help`
 
 Displays help information on the command line arguments that barrelsby accepts.
 
@@ -202,6 +202,10 @@ Use 'single quotes' in the generated barrel files instead of the default "double
 ### `-S` or `--noSemicolon`
 
 Omit semicolons from the end of lines in the generated barrel files.
+
+### `-H` or `--noHeader`
+
+Omit adding a header comment to the top of the barrel file.
 
 ### `-v` or `--version`
 
