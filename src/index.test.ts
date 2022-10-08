@@ -21,6 +21,7 @@ describe('main module', () => {
   });
   it('should co-ordinate the main stages of the application', () => {
     const args: any = {
+      noHeader: false,
       baseUrl: './',
       delete: true,
       directory: ['testRootPath'],
@@ -76,6 +77,7 @@ describe('main module', () => {
     expect(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, signale)).toBeTruthy();
     expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, signale)).toBeTruthy();
     expect(buildBarrelsSpy).toHaveBeenCalledWith({
+      addHeader: true,
       destinations,
       quoteCharacter,
       semicolonCharacter,

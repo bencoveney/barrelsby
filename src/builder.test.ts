@@ -31,6 +31,7 @@ describe('builder/builder module has a', () => {
     let builderSpy: Sinon.SinonSpy<
       [
         {
+          addHeader: boolean;
           directory: Directory;
           barrelType: StructureOption;
           quoteCharacter: QuoteCharacter;
@@ -52,6 +53,7 @@ describe('builder/builder module has a', () => {
       loggerSpy = spySandbox.spy(logger, 'debug');
       builderSpy = spySandbox.spy(BuildBarrelModule, 'buildBarrel');
       build({
+        addHeader: true,
         destinations: directory.directories,
         quoteCharacter: '"',
         semicolonCharacter: ';',
@@ -139,6 +141,7 @@ describe('builder/builder module has a', () => {
     const logger = new Signale();
     const runBuilder = () => {
       build({
+        addHeader: true,
         destinations: directory.directories,
         quoteCharacter: '"',
         semicolonCharacter: ';',

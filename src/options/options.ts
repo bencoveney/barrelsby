@@ -16,6 +16,7 @@ export interface Arguments {
   delete?: boolean;
   exclude?: string[];
   exportDefault?: boolean;
+  noHeader?: boolean;
   help?: boolean;
   include?: string[];
   local?: boolean;
@@ -65,6 +66,12 @@ export function getOptionsConfig(configParser: any): {
       type: 'array',
       alias: 'exportDefault',
       description: 'Also export the default export of the file. Currently works only with the `flat` mode.',
+    },
+    H: {
+      type: 'boolean',
+      alias: 'noHeader',
+      description: 'Do not add a header comment to the top of the barrel file.',
+      default: false,
     },
     i: {
       type: 'array',
