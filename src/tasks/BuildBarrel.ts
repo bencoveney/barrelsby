@@ -39,9 +39,13 @@ export const buildBarrel = ({
   include: string[];
   exclude: string[];
 }) => {
+
   logger.debug(`Building barrel @ ${directory.path}`);
+
   let content: string = '';
+
   if (barrelType === StructureOption.FILESYSTEM) {
+
     content = buildFileSystemBarrel(
       directory,
       loadDirectoryModules(directory, logger, include, exclude, local),
@@ -50,7 +54,9 @@ export const buildBarrel = ({
       logger,
       baseUrl
     );
+
   } else if (barrelType === StructureOption.FLAT) {
+
     content = buildFlatBarrel(
       directory,
       loadDirectoryModules(directory, logger, include, exclude, local),
@@ -60,18 +66,27 @@ export const buildBarrel = ({
       baseUrl,
       exportDefault
     );
+
   } else {
+
     throw new Error('No barrel type provided... this is likely a code error');
+
   }
 
   const destination = path.join(directory.path, barrelName);
+
   if (content.length === 0) {
+
     // Skip empty barrels.
     return;
+
   }
+
   // Add the header
   const contentWithHeader = addHeader ? addHeaderPrefix(content) : content;
+
   fs.writeFileSync(destination, contentWithHeader);
+
   // Update the file tree model with the new barrel.
   if (!directory.files.some(file => file.name === barrelName)) {
     const convertedPath = convertPathSeparator(destination);
