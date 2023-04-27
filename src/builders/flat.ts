@@ -6,7 +6,6 @@ import { QuoteCharacter } from '../options/quoteCharacter';
 import { Directory } from '../interfaces/directory.interface';
 import { FileTreeLocation } from '../interfaces/location.interface';
 
-
 function toCamelCase(str: string): string {
   return str.replace(/[-_.]([a-z])/g, (_, group) => group.toUpperCase());
 }
@@ -25,7 +24,9 @@ export function buildFlatBarrel(
     logger.debug(`Including path ${importPath}`);
     if (exportDefault) {
       const filename = getBasename(current.path);
-      previous += `export { default as ${toCamelCase(filename)} } from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}
+      previous += `export { default as ${toCamelCase(
+        filename
+      )} } from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}
 `;
     }
     return (previous += `export * from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}
