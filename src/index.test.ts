@@ -75,7 +75,7 @@ describe('main module', () => {
     expect(getCombinedBaseUrlSpy.calledOnceWithExactly(rootPath, args.baseUrl)).toBeTruthy();
     expect(buildTreeSpy.calledOnceWithExactly(rootPath, barrelName, signale)).toBeTruthy();
     expect(getDestinationsSpy.calledOnceWithExactly(builtTree, args.location, barrelName, signale)).toBeTruthy();
-    expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, barrelName, signale)).toBeTruthy();
+    expect(purgeSpy.calledOnceWithExactly(builtTree, args.delete, args.noHeader, barrelName, signale)).toBeTruthy();
     expect(buildBarrelsSpy).toHaveBeenCalledWith({
       addHeader: true,
       destinations,

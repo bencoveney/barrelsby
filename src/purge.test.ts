@@ -13,6 +13,7 @@ describe('purge module has a', () => {
     let logger: Logger;
     let loggerSpy: jest.SpyInstance<void, [message?: any, ...optionalArgs: any[]]>;
     const barrelName = 'barrel.ts';
+    const barrelNoHeaderName = 'index.ts';
     beforeEach(() => {
       MockFs(TestUtilities.mockFsConfiguration());
       directory = TestUtilities.mockDirectoryTree();
@@ -24,7 +25,7 @@ describe('purge module has a', () => {
       MockFs.restore();
     });
     it('should delete existing barrels if the delete flag is enabled', () => {
-      Purge.purge(directory, true, barrelName, logger);
+      Purge.purge(directory, true, false, barrelName, logger);
 
       // Check directory has been manipulated.
       expect(directory.files.length).toBe(2);
@@ -34,7 +35,7 @@ describe('purge module has a', () => {
       expect(fs.existsSync('directory1/barrel.ts')).toBeFalsy();
     });
     it('should do nothing if the delete flag is disabled', () => {
-      Purge.purge(directory, false, barrelName, logger);
+      Purge.purge(directory, false, false, barrelName, logger);
 
       // Check directory has not been manipulated.
       expect(directory.files.length).toBe(3);
@@ -44,9 +45,19 @@ describe('purge module has a', () => {
       expect(fs.existsSync('directory1/barrel.ts')).toBeTruthy();
     });
     it('should log useful information to the logger', () => {
-      Purge.purge(directory, true, barrelName, logger);
+      Purge.purge(directory, true, false, barrelName, logger);
 
       expect(loggerSpy).toHaveBeenCalledTimes(2);
+    });
+    it('should delete files without header if noHeader flag is enabled', () => {
+      Purge.purge(directory, true, true, barrelNoHeaderName, logger);
+
+      // Check directory has been manipulated.
+      expect(directory.files.length).toBe(2);
+      expect(directory.files.filter(file => file.name === 'index.ts').length).toBe(0);
+
+      // Check FS has been manipulated.
+      expect(fs.existsSync('directory/index.ts')).toBeFalsy();
     });
   });
 });
