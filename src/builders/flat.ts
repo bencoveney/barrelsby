@@ -7,13 +7,14 @@ import { Directory } from '../interfaces/directory.interface';
 import { FileTreeLocation } from '../interfaces/location.interface';
 
 function toCamelCase(str: string): string {
+  // massage any `example.file.name` to `exampleFileName`
   return str.replace(/[-_.]([a-z])/g, (_, group) => group.toUpperCase());
 }
 
 function arrayToCamelCase(arr: string[]) {
   let camelCaseStr = arr[0].toLowerCase();
   for (let i = 1; i < arr.length; i++) {
-    camelCaseStr += arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+    camelCaseStr += toCamelCase(arr[i]).charAt(0).toUpperCase() + toCamelCase(arr[i]).slice(1);
   }
   return camelCaseStr;
 }
