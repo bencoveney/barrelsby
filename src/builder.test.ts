@@ -41,6 +41,7 @@ describe('builder/builder module has a', () => {
           // Gets a location from a list by name.
           baseUrl: BaseUrl;
           exportDefault: boolean;
+          fullPathname: boolean;
           local: boolean;
           include: string[];
           exclude: string[];
@@ -61,6 +62,7 @@ describe('builder/builder module has a', () => {
         logger,
         baseUrl: undefined,
         exportDefault: false,
+        fullPathname: false,
         structure,
         local: false,
         include: [],
@@ -149,6 +151,7 @@ describe('builder/builder module has a', () => {
         logger,
         baseUrl: undefined,
         exportDefault: false,
+        fullPathname: false,
         structure: StructureOption.FLAT,
         local: false,
         include: [],

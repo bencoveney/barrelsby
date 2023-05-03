@@ -67,6 +67,11 @@ export function getOptionsConfig(configParser: any): {
       alias: 'exportDefault',
       description: 'Also export the default export of the file. Currently works only with the `flat` mode.',
     },
+    F: {
+      type: 'boolean',
+      alias: 'fullPathname',
+      description: 'exportDefault with full pathname to create distinct name. Currently works only with the `flat` mode and exportDefault flag.',
+    },
     H: {
       type: 'boolean',
       alias: 'noHeader',

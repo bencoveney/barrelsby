@@ -63,6 +63,7 @@ export function Barrelsby(args: Arguments) {
       logger,
       baseUrl,
       exportDefault: !!args.exportDefault,
+      fullPathname: !!args.fullPathname,
       structure: args.structure,
       local: !!args.local,
       include: ([] as string[]).concat(args.include || []),
