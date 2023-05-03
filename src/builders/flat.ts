@@ -6,7 +6,7 @@ import { QuoteCharacter } from '../options/quoteCharacter';
 import { Directory } from '../interfaces/directory.interface';
 import { FileTreeLocation } from '../interfaces/location.interface';
 
-function toCamelCase(str: string): string {
+function dotOrDashStrToCamelCase(str: string): string {
   // massage any `example.file.name` to `exampleFileName`
   return str.replace(/[-_.]([a-z])/g, (_, group) => group.toUpperCase());
 }
@@ -14,7 +14,7 @@ function toCamelCase(str: string): string {
 function arrayToCamelCase(arr: string[]) {
   let camelCaseStr = arr[0].toLowerCase();
   for (let i = 1; i < arr.length; i++) {
-    camelCaseStr += toCamelCase(arr[i]).charAt(0).toUpperCase() + toCamelCase(arr[i]).slice(1);
+    camelCaseStr += arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
   }
   return camelCaseStr;
 }
@@ -35,12 +35,15 @@ export function buildFlatBarrel(
     if (exportDefault) {
       const filename = getBasename(current.path);
 
-      // expect if `importPath` is './example/of/path/name' and split to ['example', 'of', 'path', 'name']
-      const arryPath = importPath.split('/').slice(1);
+      // expect if `importPath` is './example/of/path/file.full-name' and split to ['example', 'of', 'path', 'fileFullName']
+      const arryPath = importPath
+        .split('/')
+        .slice(1)
+        .map(x => dotOrDashStrToCamelCase(x));
       // expect ['example', 'of', 'path', 'name'] transform to exampleOfPathName
       const camelCaseFullPathname = arrayToCamelCase(arryPath);
 
-      const defaultName = fullPathname ? camelCaseFullPathname : toCamelCase(filename);
+      const defaultName = fullPathname ? camelCaseFullPathname : dotOrDashStrToCamelCase(filename);
 
       logger.debug(`camelCaseFullPathname: ${camelCaseFullPathname}`);
       logger.debug(`Default Name ${defaultName}`);
