@@ -70,7 +70,8 @@ export function getOptionsConfig(configParser: any): {
     F: {
       type: 'boolean',
       alias: 'fullPathname',
-      description: 'exportDefault with full pathname to create distinct name. Currently works only with the `flat` mode and exportDefault flag.',
+      description:
+        'exportDefault with full pathname to create distinct name. Currently works only with the `flat` mode and exportDefault flag.',
     },
     H: {
       type: 'boolean',
