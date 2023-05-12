@@ -215,6 +215,21 @@ Display the barrelsby version number.
 
 Display additional debug information.
 
+## Programmatic usage
+
+Yes! You can use barrelsby programmatically.
+
+```typescript
+import { Barrelsby, type Arguments } from "barrelsby";
+
+const args: Arguments = {
+    config: "path/to/barrelsby.json",
+    structure: "flat"
+}
+
+await Barrelsby(args);
+```
+
 ## Requirements
 
 Requires node v6.0.0 or greater for ES6 syntax.

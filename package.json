@@ -2,7 +2,8 @@
   "name": "barrelsby",
   "version": "2.7.0",
   "description": "Automatic TypeScript barrels for your entire code base",
-  "main": "index.js",
+  "main": "bin/index.js",
+  "types" : "bin/index.d.ts",
   "scripts": {
     "build": "tsc",
     "clean": "rimraf bin/ && rimraf test/**/output/**",

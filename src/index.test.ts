@@ -19,7 +19,7 @@ describe('main module', () => {
   afterEach(() => {
     spySandbox.restore();
   });
-  it('should co-ordinate the main stages of the application', () => {
+  it('should co-ordinate the main stages of the application', async () => {
     const args: any = {
       noHeader: false,
       baseUrl: './',
@@ -65,7 +65,7 @@ describe('main module', () => {
     const baseUrl = 'https://base-url.com/src/directory';
     const getCombinedBaseUrlSpy = spySandbox.stub(BaseUrl, 'getCombinedBaseUrl').returns(baseUrl);
 
-    Barrelsby(args);
+    await Barrelsby(args);
 
     expect(getQuoteCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();
     expect(getSemicolonCharacterSpy.calledOnceWithExactly(true)).toBeTruthy();

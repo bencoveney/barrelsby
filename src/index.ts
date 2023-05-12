@@ -13,9 +13,11 @@ import { resolveRootPath } from './options/rootPath';
 import { purge } from './purge';
 import { Directory } from './interfaces/directory.interface';
 
+export type { Arguments };
+
 // TODO: Document how users can call this from their own code without using the CLI.
 // TODO: We might need to do some parameter validation for that.
-export function Barrelsby(args: Arguments) {
+export async function Barrelsby(args: Arguments): Promise<void> {
   // Get the launch options/arguments.
   const logger = getLogger({ isVerbose: args.verbose ?? false });
   const barrelName = getBarrelName(args.name ?? '', logger);
@@ -35,7 +37,7 @@ export function Barrelsby(args: Arguments) {
 
   logger.debug('resolved directories list', resolvedDirectories);
 
-  resolvedDirectories.forEach(async ({ rootPath, baseUrl }) => {
+  await Promise.all(resolvedDirectories.map(async ({ rootPath, baseUrl }) => {
     // Build the directory tree.
     const rootTree = buildTree(rootPath, barrelName, logger);
     logger.debug(`root tree for path: ${rootPath}`, rootTree);
@@ -68,5 +70,5 @@ export function Barrelsby(args: Arguments) {
       include: ([] as string[]).concat(args.include || []),
       exclude: ([] as string[]).concat(args.exclude || [], ['node_modules']),
     });
-  });
+  }));
 }
