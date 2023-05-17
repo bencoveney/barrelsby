@@ -6,8 +6,17 @@ import { QuoteCharacter } from '../options/quoteCharacter';
 import { Directory } from '../interfaces/directory.interface';
 import { FileTreeLocation } from '../interfaces/location.interface';
 
-function toCamelCase(str: string): string {
+function dotOrDashStrToCamelCase(str: string): string {
+  // massage any `example.file.name` to `exampleFileName`
   return str.replace(/[-_.]([a-z])/g, (_, group) => group.toUpperCase());
+}
+
+function arrayToCamelCase(arr: string[]) {
+  let camelCaseStr = arr[0].toLowerCase();
+  for (let i = 1; i < arr.length; i++) {
+    camelCaseStr += arr[i].charAt(0).toUpperCase() + arr[i].slice(1);
+  }
+  return camelCaseStr;
 }
 
 export function buildFlatBarrel(
@@ -17,16 +26,29 @@ export function buildFlatBarrel(
   semicolonCharacter: SemicolonCharacter,
   logger: Logger,
   baseUrl: BaseUrl,
-  exportDefault: boolean
+  exportDefault: boolean,
+  fullPathname: boolean
 ): string {
   return modules.reduce((previous: string, current: FileTreeLocation) => {
     const importPath = buildImportPath(directory, current, baseUrl);
     logger.debug(`Including path ${importPath}`);
     if (exportDefault) {
       const filename = getBasename(current.path);
-      previous += `export { default as ${toCamelCase(
-        filename
-      )} } from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}
+
+      // expect if `importPath` is './example/of/path/file.full-name' and split to ['example', 'of', 'path', 'fileFullName']
+      const arryPath = importPath
+        .split('/')
+        .slice(1)
+        .map(x => dotOrDashStrToCamelCase(x));
+      // expect ['example', 'of', 'path', 'name'] transform to exampleOfPathName
+      const camelCaseFullPathname = arrayToCamelCase(arryPath);
+
+      const defaultName = fullPathname ? camelCaseFullPathname : dotOrDashStrToCamelCase(filename);
+
+      logger.debug(`camelCaseFullPathname: ${camelCaseFullPathname}`);
+      logger.debug(`Default Name ${defaultName}`);
+
+      previous += `export { default as ${defaultName} } from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}
 `;
     }
     return (previous += `export * from ${quoteCharacter}${importPath}${quoteCharacter}${semicolonCharacter}

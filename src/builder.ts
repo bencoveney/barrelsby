@@ -18,6 +18,7 @@ export const build = (params: {
   logger: Logger;
   baseUrl: BaseUrl;
   exportDefault: boolean;
+  fullPathname: boolean;
   structure: StructureOption | undefined;
   local: boolean;
   include: string[];
@@ -36,6 +37,7 @@ export const build = (params: {
         logger: params.logger,
         baseUrl: params.baseUrl,
         exportDefault: params.exportDefault,
+        fullPathname: params.fullPathname,
         local: params.local,
         include: params.include,
         exclude: params.exclude,
