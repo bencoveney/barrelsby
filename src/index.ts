@@ -46,7 +46,7 @@ export function Barrelsby(args: Arguments) {
     logger.debug('Destinations', destinations);
 
     // Potentially there are some existing barrels that need removing.
-    purge(rootTree, args.delete ?? false, barrelName, logger);
+    purge(rootTree, args.delete ?? false, args.noHeader ?? false, barrelName, logger);
 
     // Create the barrels.
     const quoteCharacter = getQuoteCharacter(args.singleQuotes as boolean);
@@ -63,6 +63,7 @@ export function Barrelsby(args: Arguments) {
       logger,
       baseUrl,
       exportDefault: !!args.exportDefault,
+      fullPathname: !!args.fullPathname,
       structure: args.structure,
       local: !!args.local,
       include: ([] as string[]).concat(args.include || []),

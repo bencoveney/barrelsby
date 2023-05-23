@@ -22,6 +22,7 @@ describe('builder/flat module has a', () => {
           ';',
           signale,
           undefined,
+          false,
           false
         );
       });
@@ -73,6 +74,7 @@ export * from "./directory3/program";
           ';',
           signale,
           undefined,
+          false,
           false
         );
       });
@@ -124,6 +126,7 @@ export * from './directory3/program';
           '',
           signale,
           undefined,
+          false,
           false
         );
       });
@@ -170,7 +173,8 @@ export * from "./directory3/program"
           ';',
           signale,
           undefined,
-          true
+          true,
+          false
         );
       });
       afterEach(() => {
@@ -188,6 +192,48 @@ export * from "./directory2/script";
 export { default as deeplyNested } from "./directory2/directory4/deeplyNested";
 export * from "./directory2/directory4/deeplyNested";
 export { default as program } from "./directory3/program";
+export * from "./directory3/program";
+`
+        );
+      });
+      it('should produce output compatible with the recommended tslint ruleset', () => {
+        TestUtilities.tslint(output, '"');
+      });
+    });
+
+    describe('when using the exportDefault and fullPathname setting', () => {
+      let output: string;
+      let spySandbox: sinon.SinonSandbox;
+      const signale = new Signale();
+      beforeEach(() => {
+        const directory = TestUtilities.mockDirectoryTree();
+        spySandbox = Sinon.createSandbox();
+        output = Flat.buildFlatBarrel(
+          directory,
+          TestUtilities.mockModules(directory),
+          '"',
+          ';',
+          signale,
+          undefined,
+          true,
+          true
+        );
+      });
+      afterEach(() => {
+        spySandbox.restore();
+      });
+      it('should produce the correct output', () => {
+        TestUtilities.assertMultiLine(
+          output,
+          `export { default as barrel } from "./barrel";
+export * from "./barrel";
+export { default as index } from "./index";
+export * from "./index";
+export { default as directory2Script } from "./directory2/script";
+export * from "./directory2/script";
+export { default as directory2Directory4DeeplyNested } from "./directory2/directory4/deeplyNested";
+export * from "./directory2/directory4/deeplyNested";
+export { default as directory3Program } from "./directory3/program";
 export * from "./directory3/program";
 `
         );

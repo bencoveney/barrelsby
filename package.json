@@ -1,6 +1,6 @@
 {
   "name": "barrelsby",
-  "version": "2.5.1",
+  "version": "2.7.0",
   "description": "Automatic TypeScript barrels for your entire code base",
   "main": "index.js",
   "scripts": {
@@ -38,7 +38,7 @@
     "yargs": "^17.4.1"
   },
   "devDependencies": {
-    "@types/fs-extra": "^9.0.13",
+    "@types/fs-extra": "^11.0.1",
     "@types/jest": "^27.0.2",
     "@types/mock-fs": "^4.13.1",
     "@types/node": "^18.0.0",
@@ -47,12 +47,12 @@
     "@types/sinon": "^10.0.6",
     "better-console": "^1.0.1",
     "dir-compare": "^4.0.0",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^11.1.1",
     "jest": "^27.4.4",
     "mock-fs": "^5.1.2",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
-    "sinon": "^14.0.0",
+    "sinon": "^15.0.1",
     "snyk": "^1.858.0",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",

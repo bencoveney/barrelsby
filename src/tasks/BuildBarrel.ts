@@ -22,6 +22,7 @@ export const buildBarrel = ({
   logger,
   baseUrl,
   exportDefault,
+  fullPathname,
   local,
   include,
   exclude,
@@ -35,6 +36,7 @@ export const buildBarrel = ({
   logger: Logger;
   baseUrl: BaseUrl;
   exportDefault: boolean;
+  fullPathname: boolean;
   local: boolean;
   include: string[];
   exclude: string[];
@@ -58,7 +60,8 @@ export const buildBarrel = ({
       semicolonCharacter,
       logger,
       baseUrl,
-      exportDefault
+      exportDefault,
+      fullPathname
     );
   } else {
     throw new Error('No barrel type provided... this is likely a code error');

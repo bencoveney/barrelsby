@@ -127,6 +127,15 @@ export * from "./barrel";
 export { default as barrel } from "./barrel";
 ```
 
+### `-F` or `--fullPathname`
+
+exportDefault with full pathname to create distinct name. Currently works only with the `flat` mode and exportDefault flag.
+
+```TypeScript
+export * from "./example/of/the/path";
+export { default as exampleOfThePath } from "./example/of/the/path";
+```
+
 ### `-h` or `--help`
 
 Displays help information on the command line arguments that barrelsby accepts.
