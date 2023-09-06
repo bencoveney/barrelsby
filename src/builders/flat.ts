@@ -8,7 +8,7 @@ import { FileTreeLocation } from '../interfaces/location.interface';
 
 function dotOrDashStrToCamelCase(str: string): string {
   // massage any `example.file.name` to `exampleFileName`
-  return str.replace(/[-_.]([a-z])/g, (_, group) => group.toUpperCase());
+  return str.replace(/[-_.]([a-z0-9])/g, (_, group) => group.toUpperCase());
 }
 
 function arrayToCamelCase(arr: string[]) {
