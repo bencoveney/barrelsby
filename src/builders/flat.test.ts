@@ -3,6 +3,7 @@ import Sinon from 'sinon';
 import * as TestUtilities from '../testUtilities';
 import * as Flat from './flat';
 import { Signale } from 'signale';
+import { Directory } from '../interfaces/directory.interface';
 
 describe('builder/flat module has a', () => {
   describe('buildFlatBarrel function that', () => {
@@ -196,6 +197,39 @@ export * from "./directory3/program";
 `
         );
       });
+
+      it('should produce the correct output when a part of the filename starts with a number', () => {
+        const directory: Directory = {
+          directories: [],
+          files: [
+            {
+              name: 'file-with-number-1.ts',
+              path: 'directory1/file-with-number-1.ts',
+            },
+          ],
+          name: 'directory1',
+          path: './directory1',
+        };
+
+        const output = Flat.buildFlatBarrel(
+          directory,
+          TestUtilities.mockModules(directory),
+          '"',
+          ';',
+          signale,
+          undefined,
+          true,
+          false
+        );
+
+        TestUtilities.assertMultiLine(
+          output,
+          `export { default as fileWithNumber1 } from "./file-with-number-1";
+export * from "./file-with-number-1";
+`
+        );
+      });
+
       it('should produce output compatible with the recommended tslint ruleset', () => {
         TestUtilities.tslint(output, '"');
       });
