@@ -63,7 +63,7 @@ export function getOptionsConfig(configParser: any): {
       description: 'Excludes any files whose paths match any of the regular expressions.',
     },
     E: {
-      type: 'array',
+      type: 'boolean',
       alias: 'exportDefault',
       description: 'Also export the default export of the file. Currently works only with the `flat` mode.',
     },
