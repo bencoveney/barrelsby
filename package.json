@@ -35,7 +35,7 @@
   "dependencies": {
     "@types/yargs": "^17.0.10",
     "signale": "^1.4.0",
-    "yargs": "^17.4.1"
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
